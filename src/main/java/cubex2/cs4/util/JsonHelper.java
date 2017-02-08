@@ -2,6 +2,7 @@ package cubex2.cs4.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import cubex2.cs4.data.ContentList;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nullable;
@@ -9,12 +10,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.lang.reflect.Type;
 
 public class JsonHelper
 {
-    private static final Gson gson = new GsonBuilder().create();
+    private static final Gson gson = new GsonBuilder().registerTypeAdapter(ContentList.class, ContentList.DESERIALIZER)
+                                                      .create();
 
     public static <T> T deserialize(String input, Class<T> clazz)
+    {
+        return gson.fromJson(input, clazz);
+    }
+
+    public static <T> T deserialize(String input, Type clazz)
     {
         return gson.fromJson(input, clazz);
     }
