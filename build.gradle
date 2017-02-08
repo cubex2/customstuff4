@@ -30,7 +30,7 @@ minecraft {
 }
 
 dependencies {
-
+    testCompile 'junit:junit:4.5'
 }
 
 processResources {
