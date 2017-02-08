@@ -10,7 +10,7 @@ public class ModInfoTests
     @Test
     public void testJsonDeserialization()
     {
-        ModInfo info = JsonHelper.deserialize("{id:\"theid\"}", ModInfo.class);
+        ModInfo info = JsonHelper.deserialize("{\"id\":\"theid\"}", ModInfo.class);
 
         assertEquals("theid", info.id);
         assertNotNull(info.name);
