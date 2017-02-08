@@ -1,0 +1,15 @@
+[
+{
+  "modid": "customstuff4",
+  "name": "Custom Stuff 4",
+  "description": "Add content to Minecraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["CubeX2"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
