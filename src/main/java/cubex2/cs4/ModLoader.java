@@ -76,7 +76,7 @@ public class ModLoader
         if (json == null)
             return Collections.emptyList();
         else
-            return ContentLoader.loadContent(json, ContentLoader.class);
+            return ContentLoader.loadContent(json, ContentLoader.class, CustomStuff4.contentRegistry);
     }
 
     private static void initContents(List<? extends Content> contents, InitPhase phase, ContentHelper helper)

@@ -1,6 +1,9 @@
 package cubex2.cs4.api;
 
+import com.google.gson.JsonDeserializer;
+
 import javax.annotation.Nullable;
+import java.lang.reflect.Type;
 
 public interface ContentRegistry
 {
@@ -14,4 +17,6 @@ public interface ContentRegistry
 
     @Nullable
     Class<? extends Content> getContentClass(String typeName);
+
+    <T> void registerDeserializer(Type type, JsonDeserializer<T> deserializer);
 }

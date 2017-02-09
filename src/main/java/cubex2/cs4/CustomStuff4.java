@@ -35,6 +35,6 @@ public class CustomStuff4
     private void initPlugins(ASMDataTable asmDataTable)
     {
         plugins = PluginHelper.getPluginInstances(asmDataTable);
-        plugins.forEach(plugin -> plugin.registerContentType(contentRegistry));
+        plugins.forEach(plugin -> plugin.registerContent(contentRegistry));
     }
 }

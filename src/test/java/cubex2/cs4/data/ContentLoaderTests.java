@@ -5,6 +5,7 @@ import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import javax.annotation.Nullable;
@@ -17,7 +18,7 @@ public class ContentLoaderTests
     @Test
     public void testLoadContent()
     {
-        List<TestContent> list = ContentLoader.loadContent("{\"list1\": [ {\"name\":\"a\"},{\"name\":\"b\"} ], \"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
+        List<TestContent> list = loadContent("{\"list1\": [ {\"name\":\"a\"},{\"name\":\"b\"} ], \"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
 
         assertEquals(4, list.size());
         assertEquals("a", list.get(0).name);
@@ -29,7 +30,7 @@ public class ContentLoaderTests
     @Test
     public void testLoadContent_empty()
     {
-        List<TestContent> list = ContentLoader.loadContent("{ }", TestContent.class);
+        List<TestContent> list = loadContent("{ }", TestContent.class);
 
         assertEquals(0, list.size());
     }
@@ -37,7 +38,7 @@ public class ContentLoaderTests
     @Test
     public void testLoadContent_emptyList()
     {
-        List<TestContent> list = ContentLoader.loadContent("{\"list\":[] }", TestContent.class);
+        List<TestContent> list = loadContent("{\"list\":[] }", TestContent.class);
 
         assertEquals(0, list.size());
     }
@@ -45,7 +46,7 @@ public class ContentLoaderTests
     @Test
     public void testLoadContent_emptyListAndNonEmptyList()
     {
-        List<TestContent> list = ContentLoader.loadContent("{\"list1\":[],\"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
+        List<TestContent> list = loadContent("{\"list1\":[],\"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
 
         assertEquals(2, list.size());
         assertEquals("c", list.get(0).name);
@@ -55,10 +56,16 @@ public class ContentLoaderTests
     @Test
     public void testLoadContent_objectInsteadOfList()
     {
-        List<TestContent> list = ContentLoader.loadContent("{\"list\": { \"name\":\"a\" } }", TestContent.class);
+        List<TestContent> list = loadContent("{\"list\": { \"name\":\"a\" } }", TestContent.class);
 
         assertEquals(1, list.size());
         assertEquals("a", list.get(0).name);
+    }
+
+    private <T extends Content> List<T> loadContent(String json, Class<T> contentClass)
+    {
+        DeserializationRegistry registry = () -> Lists.newArrayList(Pair.of(InitPhase.class, new InitPhaseDeserializer()));
+        return ContentLoader.loadContent(json, contentClass, registry);
     }
 
     @Test
