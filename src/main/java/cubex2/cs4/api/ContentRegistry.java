@@ -19,4 +19,11 @@ public interface ContentRegistry
     Class<? extends Content> getContentClass(String typeName);
 
     <T> void registerDeserializer(Type type, JsonDeserializer<T> deserializer);
+
+    /**
+     * Register a loader predicate. The predicate is used to determine whether specific content should be loaded.
+     *
+     * @param name The name of the predicate. This is the name used in the json file.
+     */
+    void registerLoaderPredicate(String name, LoaderPredicate predicate);
 }

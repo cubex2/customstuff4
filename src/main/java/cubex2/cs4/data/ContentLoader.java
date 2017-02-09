@@ -1,15 +1,14 @@
 package cubex2.cs4.data;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializer;
+import com.google.gson.*;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
+import cubex2.cs4.api.LoaderPredicate;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Type;
@@ -21,6 +20,7 @@ public final class ContentLoader implements Content
     public String type = "";
     public String file = "";
     public InitPhase initPhase = null;
+    public Map<String, List<String>> predicateMap = Maps.newHashMap();
 
     @Override
     public void init(InitPhase phase, ContentHelper helper)
@@ -42,7 +42,21 @@ public final class ContentLoader implements Content
         if (type == null || file == null)
             return false;
 
-        return initPhase == null || initPhase == phase;
+        if (initPhase != null && initPhase != phase)
+            return false;
+
+        return checkPredicates(CustomStuff4.contentRegistry);
+    }
+
+    boolean checkPredicates(LoaderPredicateRegistry registry)
+    {
+        return predicateMap.entrySet().stream()
+                           .allMatch(e ->
+                                     {
+                                         LoaderPredicate predicate = registry.getPredicate(e.getKey());
+                                         return predicate != null && predicate.getResult(e.getValue());
+                                     });
+
     }
 
     public static <T extends Content> List<T> loadContent(String json, Class<T> contentClass, DeserializationRegistry registry)
@@ -60,7 +74,7 @@ public final class ContentLoader implements Content
         return result;
     }
 
-    private static GsonBuilder registerAdapters(GsonBuilder builder, DeserializationRegistry registry)
+    static GsonBuilder registerAdapters(GsonBuilder builder, DeserializationRegistry registry)
     {
         for (Pair<Type, JsonDeserializer<?>> pair : registry.getDeserializers())
         {
@@ -90,4 +104,43 @@ public final class ContentLoader implements Content
             return result;
         };
     }
+
+    public static final JsonDeserializer<ContentLoader> DESERIALIZER = (json, typeOfT, context) ->
+    {
+        ContentLoader loader = new ContentLoader();
+
+        JsonObject jsonObject = json.getAsJsonObject();
+        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet())
+        {
+            String key = entry.getKey();
+            JsonElement value = entry.getValue();
+
+            if (key.equals("type"))
+            {
+                loader.type = value.getAsString();
+            } else if (key.equals("file"))
+            {
+                loader.type = value.getAsString();
+            } else if (key.equals("initPhase"))
+            {
+                loader.initPhase = context.deserialize(value, InitPhase.class);
+            } else
+            {
+                List<String> predicateValues = Lists.newArrayList();
+
+                if (value.isJsonArray())
+                {
+                    JsonArray jsonArray = value.getAsJsonArray();
+                    jsonArray.forEach(element -> predicateValues.add(element.getAsString()));
+                } else
+                {
+                    predicateValues.add(value.getAsString());
+                }
+
+                loader.predicateMap.put(key, predicateValues);
+            }
+        }
+
+        return loader;
+    };
 }

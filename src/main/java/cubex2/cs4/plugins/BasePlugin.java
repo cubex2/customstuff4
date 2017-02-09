@@ -14,6 +14,7 @@ public class BasePlugin implements CustomStuffPlugin
     public void registerContent(ContentRegistry registry)
     {
         registry.registerDeserializer(InitPhase.class, new InitPhaseDeserializer());
+        registry.registerDeserializer(ContentLoader.class, ContentLoader.DESERIALIZER);
 
         registry.registerContentType("contentLoader", ContentLoader.class);
     }

@@ -1,6 +1,8 @@
 package cubex2.cs4.data;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
@@ -15,6 +17,9 @@ import static org.junit.Assert.*;
 
 public class ContentLoaderTests
 {
+    private DeserializationRegistry deserializationRegistry = () -> Lists.newArrayList(Pair.of(InitPhase.class, new InitPhaseDeserializer()),
+                                                                                       Pair.of(ContentLoader.class, ContentLoader.DESERIALIZER));
+
     @Test
     public void testLoadContent()
     {
@@ -64,8 +69,23 @@ public class ContentLoaderTests
 
     private <T extends Content> List<T> loadContent(String json, Class<T> contentClass)
     {
-        DeserializationRegistry registry = () -> Lists.newArrayList(Pair.of(InitPhase.class, new InitPhaseDeserializer()));
-        return ContentLoader.loadContent(json, contentClass, registry);
+        return ContentLoader.loadContent(json, contentClass, deserializationRegistry);
+    }
+
+    @Test
+    public void testPredicateDeserialization()
+    {
+        Gson gson = ContentLoader.registerAdapters(new GsonBuilder(), deserializationRegistry).create();
+        ContentLoader loader = gson.fromJson("{\"singleValue\":\"theValue\",\"multiValue\":[\"value1\",\"value2\"]}", ContentLoader.class);
+
+        List<String> singleValue = loader.predicateMap.get("singleValue");
+        List<String> multiValue = loader.predicateMap.get("multiValue");
+        assertEquals(2, loader.predicateMap.size());
+        assertEquals(1, singleValue.size());
+        assertEquals("theValue", singleValue.get(0));
+        assertEquals(2, multiValue.size());
+        assertEquals("value1", multiValue.get(0));
+        assertEquals("value2", multiValue.get(1));
     }
 
     @Test
@@ -115,6 +135,34 @@ public class ContentLoaderTests
         {
             assertFalse(loader.shouldInit(phase));
         }
+    }
+
+    @Test
+    public void testCheckPredicates_falsePredicate()
+    {
+        ContentLoader loader = new ContentLoader();
+        loader.predicateMap.put("thePredicate", Lists.newArrayList("theValue"));
+
+        assertFalse(loader.checkPredicates(name -> (arguments -> false)));
+    }
+
+    @Test
+    public void testCheckPredicates_truePredicate()
+    {
+        ContentLoader loader = new ContentLoader();
+        loader.predicateMap.put("thePredicate", Lists.newArrayList("theValue"));
+
+        assertTrue(loader.checkPredicates(name -> (arguments -> true)));
+    }
+
+    @Test
+    public void testCheckPredicates_trueAndFalsePredicates()
+    {
+        ContentLoader loader = new ContentLoader();
+        loader.predicateMap.put("true", Lists.newArrayList("true"));
+        loader.predicateMap.put("false", Lists.newArrayList("false"));
+
+        assertFalse(loader.checkPredicates(name -> (arguments -> arguments.contains("true"))));
     }
 
     private static List<TestContent> initializedContent;

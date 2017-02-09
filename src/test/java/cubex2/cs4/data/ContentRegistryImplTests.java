@@ -31,6 +31,14 @@ public class ContentRegistryImplTests
         assertSame(class1, class2);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testRegisterPredicate_duplicateType_shouldThrow()
+    {
+        ContentRegistryImpl registry = new ContentRegistryImpl();
+        registry.registerLoaderPredicate("type", arguments -> false);
+        registry.registerLoaderPredicate("type", arguments -> true);
+    }
+
     public static class TestContent extends BlankContent
     {
 
