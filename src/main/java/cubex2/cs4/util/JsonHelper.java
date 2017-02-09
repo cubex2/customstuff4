@@ -2,7 +2,6 @@ package cubex2.cs4.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import cubex2.cs4.data.ContentList;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nullable;
@@ -14,8 +13,7 @@ import java.lang.reflect.Type;
 
 public class JsonHelper
 {
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(ContentList.class, ContentList.DESERIALIZER)
-                                                      .create();
+    private static final Gson gson = new GsonBuilder().create();
 
     public static <T> T deserialize(String input, Class<T> clazz)
     {

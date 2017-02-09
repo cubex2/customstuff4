@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ContentRegistryImpl implements ContentRegistry
+public class ContentRegistryImpl implements ContentRegistry, ContentFactory
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
 
@@ -38,5 +38,12 @@ public class ContentRegistryImpl implements ContentRegistry
         }
 
         return instance;
+    }
+
+    @Nullable
+    @Override
+    public Class<? extends Content> getContentClass(String typeName)
+    {
+        return types.get(typeName);
     }
 }
