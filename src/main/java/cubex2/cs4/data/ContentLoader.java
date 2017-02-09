@@ -7,35 +7,45 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializer;
 import cubex2.cs4.api.Content;
-import cubex2.cs4.util.IOHelper;
+import cubex2.cs4.api.ContentHelper;
+import cubex2.cs4.api.InitPhase;
 
-import java.io.File;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public final class ContentLoader implements Content
 {
-    public String type;
-    public String file;
+    public String type = "";
+    public String file = "";
+    public InitPhase initPhase = null;
 
-    public List<? extends Content> loadContent(File modDirectory, ContentFactory factory)
+    @Override
+    public void init(InitPhase phase, ContentHelper helper)
     {
-        String json = IOHelper.readStringFromModFile(modDirectory, file);
-        Class<? extends Content> contentClass = factory.getContentClass(type);
-        if (json != null && contentClass != null)
+        if (shouldInit(phase))
         {
-            return loadContent(json, contentClass);
-        } else
-        {
-            return Collections.emptyList();
+            String json = helper.readJson(file);
+            Class<? extends Content> contentClass = helper.getContentClass(type);
+            if (json != null && contentClass != null)
+            {
+                List<? extends Content> contents = loadContent(json, contentClass);
+                contents.forEach(content -> content.init(phase, helper));
+            }
         }
     }
 
-    static <T extends Content> List<T> loadContent(String json, Class<T> contentClass)
+    boolean shouldInit(InitPhase phase)
     {
-        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<List<T>>() {}.getType(), deserializer(contentClass))
-                                     .create();
+        if (type == null || file == null)
+            return false;
+
+        return initPhase == null || initPhase == phase;
+    }
+
+    public static <T extends Content> List<T> loadContent(String json, Class<T> contentClass)
+    {
+        Gson gson = registerAdapters(new GsonBuilder()).registerTypeAdapter(new TypeToken<List<T>>() {}.getType(), deserializer(contentClass))
+                                                       .create();
 
         List<T> result = Lists.newArrayList();
 
@@ -44,6 +54,11 @@ public final class ContentLoader implements Content
         map.values().forEach(result::addAll);
 
         return result;
+    }
+
+    private static GsonBuilder registerAdapters(GsonBuilder builder)
+    {
+        return builder.registerTypeAdapter(InitPhase.class, new InitPhaseDeserializer());
     }
 
     private static <T extends Content> JsonDeserializer<List<T>> deserializer(Class<T> contentClass)

@@ -1,5 +1,7 @@
 package cubex2.cs4.api;
 
+import javax.annotation.Nullable;
+
 public interface ContentRegistry
 {
     /**
@@ -9,4 +11,7 @@ public interface ContentRegistry
      * @param clazz    The clazz to register. The class MUST be public and have a default constructor.
      */
     <T extends Content> void registerContentType(String typeName, Class<T> clazz);
+
+    @Nullable
+    Class<? extends Content> getContentClass(String typeName);
 }

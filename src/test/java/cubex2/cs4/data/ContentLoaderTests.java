@@ -1,11 +1,16 @@
 package cubex2.cs4.data;
 
+import com.google.common.collect.Lists;
+import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
+import cubex2.cs4.api.ContentHelper;
+import cubex2.cs4.api.InitPhase;
 import org.junit.Test;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class ContentLoaderTests
 {
@@ -40,7 +45,7 @@ public class ContentLoaderTests
     @Test
     public void testLoadContent_emptyListAndNonEmptyList()
     {
-        List<TestContent> list = ContentLoader.loadContent("{\"list\":[],\"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
+        List<TestContent> list = ContentLoader.loadContent("{\"list1\":[],\"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
 
         assertEquals(2, list.size());
         assertEquals("c", list.get(0).name);
@@ -56,8 +61,112 @@ public class ContentLoaderTests
         assertEquals("a", list.get(0).name);
     }
 
-    public static class TestContent implements Content
+    @Test
+    public void testShouldInit()
+    {
+        ContentLoader loader = new ContentLoader();
+        loader.initPhase = InitPhase.INIT;
+
+        assertFalse(loader.shouldInit(InitPhase.PRE_INIT));
+        assertTrue(loader.shouldInit(InitPhase.INIT));
+        assertFalse(loader.shouldInit(InitPhase.POST_INIT));
+    }
+
+    @Test
+    public void testShouldInit_nullPhase()
+    {
+        ContentLoader loader = new ContentLoader();
+        loader.initPhase = null;
+
+        for (InitPhase phase : InitPhase.values())
+        {
+            assertTrue(loader.shouldInit(phase));
+        }
+    }
+
+    @Test
+    public void testShouldInit_nullType()
+    {
+        ContentLoader loader = new ContentLoader();
+        loader.type = null;
+        loader.file = "";
+
+        for (InitPhase phase : InitPhase.values())
+        {
+            assertFalse(loader.shouldInit(phase));
+        }
+    }
+
+    @Test
+    public void testShouldInit_nullFile()
+    {
+        ContentLoader loader = new ContentLoader();
+        loader.type = "";
+        loader.file = null;
+
+        for (InitPhase phase : InitPhase.values())
+        {
+            assertFalse(loader.shouldInit(phase));
+        }
+    }
+
+    private static List<TestContent> initializedContent;
+
+    @Test
+    public void testInit()
+    {
+        initializedContent = Lists.newArrayList();
+
+        ContentLoader loader = new ContentLoader();
+        loader.init(InitPhase.INIT, new TestContentHelper());
+
+        assertEquals(2, initializedContent.size());
+    }
+
+    @Test
+    public void testInit_loaderLoadsLoader()
+    {
+        initializedContent = Lists.newArrayList();
+
+        ContentLoader loader = new ContentLoader();
+        loader.file = "loader";
+        loader.type = "contentLoader";
+        loader.init(InitPhase.INIT, new TestContentHelper());
+
+        assertEquals(2, initializedContent.size());
+    }
+
+    private static class TestContentHelper implements ContentHelper
+    {
+
+        @Nullable
+        @Override
+        public String readJson(String path)
+        {
+            if (path.equals("loader"))
+                return "{\"list1\": [ {\"type\":\"test\", \"file\":\"someFile.json\"} ] }";
+            else
+                return "{\"list1\": [ {\"name\":\"a\"},{\"name\":\"b\"} ] }";
+        }
+
+        @Nullable
+        @Override
+        public Class<? extends Content> getContentClass(String typeName)
+        {
+            if (typeName.equals("contentLoader"))
+                return ContentLoader.class;
+            return TestContent.class;
+        }
+    }
+
+    public static class TestContent extends BlankContent
     {
         public String name;
+
+        @Override
+        public void init(InitPhase phase, ContentHelper helper)
+        {
+            initializedContent.add(this);
+        }
     }
 }

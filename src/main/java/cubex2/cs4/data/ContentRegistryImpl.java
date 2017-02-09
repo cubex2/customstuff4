@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ContentRegistryImpl implements ContentRegistry, ContentFactory
+public class ContentRegistryImpl implements ContentRegistry
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
 
@@ -19,25 +19,6 @@ public class ContentRegistryImpl implements ContentRegistry, ContentFactory
         checkArgument(!types.containsKey(typeName), "Duplicate typeName: %s", typeName);
 
         types.put(typeName, clazz);
-    }
-
-    @Nullable
-    public Content createInstance(String typeName)
-    {
-        Content instance = null;
-        try
-        {
-            Class<? extends Content> clazz = types.get(typeName);
-            if (clazz != null)
-            {
-                instance = clazz.newInstance();
-            }
-        } catch (IllegalAccessException | InstantiationException e)
-        {
-            e.printStackTrace();
-        }
-
-        return instance;
     }
 
     @Nullable

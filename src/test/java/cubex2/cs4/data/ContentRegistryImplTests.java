@@ -1,9 +1,11 @@
 package cubex2.cs4.data;
 
+import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 public class ContentRegistryImplTests
 {
@@ -22,11 +24,14 @@ public class ContentRegistryImplTests
         registry.registerContentType("type1", TestContent.class);
         registry.registerContentType("type2", TestContent.class);
 
-        assertNotNull(registry.createInstance("type1"));
-        assertNotNull(registry.createInstance("type2"));
+        Class<? extends Content> class1 = registry.getContentClass("type1");
+        Class<? extends Content> class2 = registry.getContentClass("type2");
+        assertNotNull(class1);
+        assertNotNull(class2);
+        assertSame(class1, class2);
     }
 
-    public static class TestContent implements Content
+    public static class TestContent extends BlankContent
     {
 
     }
