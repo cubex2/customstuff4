@@ -19,13 +19,12 @@ public final class ContentLoader implements Content
 {
     public String type = "";
     public String file = "";
-    public InitPhase initPhase = null;
     public Map<String, List<String>> predicateMap = Maps.newHashMap();
 
     @Override
     public void init(InitPhase phase, ContentHelper helper)
     {
-        if (shouldInit(phase))
+        if (shouldInit())
         {
             String json = helper.readJson(file);
             Class<? extends Content> contentClass = helper.getContentClass(type);
@@ -37,12 +36,9 @@ public final class ContentLoader implements Content
         }
     }
 
-    boolean shouldInit(InitPhase phase)
+    boolean shouldInit()
     {
         if (type == null || file == null)
-            return false;
-
-        if (initPhase != null && initPhase != phase)
             return false;
 
         return checkPredicates(CustomStuff4.contentRegistry);
@@ -121,9 +117,6 @@ public final class ContentLoader implements Content
             } else if (key.equals("file"))
             {
                 loader.type = value.getAsString();
-            } else if (key.equals("initPhase"))
-            {
-                loader.initPhase = context.deserialize(value, InitPhase.class);
             } else
             {
                 List<String> predicateValues = Lists.newArrayList();

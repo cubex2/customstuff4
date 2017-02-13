@@ -89,39 +89,13 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testShouldInit()
-    {
-        ContentLoader loader = new ContentLoader();
-        loader.initPhase = InitPhase.INIT;
-
-        assertFalse(loader.shouldInit(InitPhase.PRE_INIT));
-        assertTrue(loader.shouldInit(InitPhase.INIT));
-        assertFalse(loader.shouldInit(InitPhase.POST_INIT));
-    }
-
-    @Test
-    public void testShouldInit_nullPhase()
-    {
-        ContentLoader loader = new ContentLoader();
-        loader.initPhase = null;
-
-        for (InitPhase phase : InitPhase.values())
-        {
-            assertTrue(loader.shouldInit(phase));
-        }
-    }
-
-    @Test
     public void testShouldInit_nullType()
     {
         ContentLoader loader = new ContentLoader();
         loader.type = null;
         loader.file = "";
 
-        for (InitPhase phase : InitPhase.values())
-        {
-            assertFalse(loader.shouldInit(phase));
-        }
+        assertFalse(loader.shouldInit());
     }
 
     @Test
@@ -131,10 +105,7 @@ public class ContentLoaderTests
         loader.type = "";
         loader.file = null;
 
-        for (InitPhase phase : InitPhase.values())
-        {
-            assertFalse(loader.shouldInit(phase));
-        }
+        assertFalse(loader.shouldInit());
     }
 
     @Test
