@@ -3,22 +3,29 @@ package cubex2.cs4.data;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import cubex2.cs4.TestContentHelper;
+import cubex2.cs4.TestDeserializationRegistry;
 import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class ContentLoaderTests
 {
-    private DeserializationRegistry deserializationRegistry = () -> Lists.newArrayList(Pair.of(InitPhase.class, new InitPhaseDeserializer()),
-                                                                                       Pair.of(ContentLoader.class, ContentLoader.DESERIALIZER));
+    @Test
+    public void testDeserializer()
+    {
+        Gson gson = ContentLoader.registerAdapters(new GsonBuilder(), new TestDeserializationRegistry()).create();
+        ContentLoader loader = gson.fromJson("{\"type\":\"theType\",\"file\":\"theFile\"}", ContentLoader.class);
+
+        assertEquals("theType", loader.type);
+        assertEquals("theFile", loader.file);
+    }
 
     @Test
     public void testLoadContent()
@@ -69,13 +76,13 @@ public class ContentLoaderTests
 
     private <T extends Content> List<T> loadContent(String json, Class<T> contentClass)
     {
-        return ContentLoader.loadContent(json, contentClass, deserializationRegistry);
+        return ContentLoader.loadContent(json, contentClass, new TestDeserializationRegistry());
     }
 
     @Test
     public void testPredicateDeserialization()
     {
-        Gson gson = ContentLoader.registerAdapters(new GsonBuilder(), deserializationRegistry).create();
+        Gson gson = ContentLoader.registerAdapters(new GsonBuilder(), new TestDeserializationRegistry()).create();
         ContentLoader loader = gson.fromJson("{\"singleValue\":\"theValue\",\"multiValue\":[\"value1\",\"value2\"]}", ContentLoader.class);
 
         List<String> singleValue = loader.predicateMap.get("singleValue");
@@ -144,7 +151,8 @@ public class ContentLoaderTests
         initializedContent = Lists.newArrayList();
 
         ContentLoader loader = new ContentLoader();
-        loader.init(InitPhase.INIT, new TestContentHelper());
+        loader.deserializeContent(createHelper());
+        loader.init(InitPhase.INIT, createHelper());
 
         assertEquals(2, initializedContent.size());
     }
@@ -157,32 +165,32 @@ public class ContentLoaderTests
         ContentLoader loader = new ContentLoader();
         loader.file = "loader";
         loader.type = "contentLoader";
-        loader.init(InitPhase.INIT, new TestContentHelper());
+        loader.deserializeContent(createHelper());
+        loader.init(InitPhase.INIT, createHelper());
 
         assertEquals(2, initializedContent.size());
     }
 
-    private static class TestContentHelper implements ContentHelper
+    @Test
+    public void testDeserializeContent()
     {
+        ContentLoader loader = new ContentLoader();
+        loader.file = "loader";
+        loader.type = "contentLoader";
+        loader.deserializeContent(createHelper());
 
-        @Nullable
-        @Override
-        public String readJson(String path)
-        {
-            if (path.equals("loader"))
-                return "{\"list1\": [ {\"type\":\"test\", \"file\":\"someFile.json\"} ] }";
-            else
-                return "{\"list1\": [ {\"name\":\"a\"},{\"name\":\"b\"} ] }";
-        }
+        List<Content> contents = loader.getContents();
+        assertEquals(1, contents.size());
 
-        @Nullable
-        @Override
-        public Class<? extends Content> getContentClass(String typeName)
-        {
-            if (typeName.equals("contentLoader"))
-                return ContentLoader.class;
-            return TestContent.class;
-        }
+        ContentLoader nestedLoader = (ContentLoader) contents.get(0);
+        assertEquals(2, nestedLoader.getContents().size());
+    }
+
+    private static ContentHelper createHelper()
+    {
+        return new TestContentHelper("{\"list1\": [ {\"name\":\"a\"},{\"name\":\"b\"} ] }", TestContent.class)
+                .withJson("loader", "{\"list1\": [ {\"type\":\"test\", \"file\":\"someFile.json\"} ] }")
+                .withClass("contentLoader", ContentLoader.class);
     }
 
     public static class TestContent extends BlankContent

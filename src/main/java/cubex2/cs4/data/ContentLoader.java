@@ -21,8 +21,20 @@ public final class ContentLoader implements Content
     public String file = "";
     public Map<String, List<String>> predicateMap = Maps.newHashMap();
 
+    private final List<Content> contents = Lists.newArrayList();
+
+    List<Content> getContents()
+    {
+        return contents;
+    }
+
     @Override
     public void init(InitPhase phase, ContentHelper helper)
+    {
+        contents.forEach(content -> content.init(phase, helper));
+    }
+
+    public void deserializeContent(ContentHelper helper)
     {
         if (shouldInit())
         {
@@ -31,7 +43,14 @@ public final class ContentLoader implements Content
             if (json != null && contentClass != null)
             {
                 List<? extends Content> contents = loadContent(json, contentClass, CustomStuff4.contentRegistry);
-                contents.forEach(content -> content.init(phase, helper));
+                this.contents.addAll(contents);
+                for (Content content : this.contents)
+                {
+                    if (content instanceof ContentLoader)
+                    {
+                        ((ContentLoader) content).deserializeContent(helper);
+                    }
+                }
             }
         }
     }
@@ -116,7 +135,7 @@ public final class ContentLoader implements Content
                 loader.type = value.getAsString();
             } else if (key.equals("file"))
             {
-                loader.type = value.getAsString();
+                loader.file = value.getAsString();
             } else
             {
                 List<String> predicateValues = Lists.newArrayList();
