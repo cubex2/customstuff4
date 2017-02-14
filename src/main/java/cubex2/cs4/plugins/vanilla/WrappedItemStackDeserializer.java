@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.*;
 import cubex2.cs4.api.WrappedItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import java.lang.reflect.Type;
 
@@ -16,7 +17,7 @@ class WrappedItemStackDeserializer implements JsonDeserializer<WrappedItemStack>
             if (primitive.isString())
             {
                 WrappedItemStackImpl stack = new WrappedItemStackImpl();
-                stack.item = primitive.getAsString();
+                stack.item = context.deserialize(json, ResourceLocation.class);
                 return stack;
             } else
             {

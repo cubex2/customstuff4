@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 class WrappedItemStackImpl implements WrappedItemStack
 {
-    public String item;
+    public ResourceLocation item;
     public int metadata = 0;
     public int amount = 1;
 
@@ -17,7 +17,7 @@ class WrappedItemStackImpl implements WrappedItemStack
     @Override
     public ItemStack createItemStack()
     {
-        Item object = Item.REGISTRY.getObject(new ResourceLocation(item));
+        Item object = Item.REGISTRY.getObject(item);
         if (object == null)
         {
             return null;
