@@ -40,7 +40,7 @@ public class ShapedRecipe implements Content
         return items.values().stream().allMatch(input -> input.isOreClass() || (input.isItemStack() && input.getStack().isItemLoaded()));
     }
 
-    private Object[] getInputForRecipe()
+    Object[] getInputForRecipe()
     {
         Object[] result = new Object[shape.length + items.size() * 2];
 

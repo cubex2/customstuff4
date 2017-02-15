@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Bootstrap;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +26,8 @@ public class ShapedRecipeTests
                                 .registerTypeAdapter(ResourceLocation.class, new ResourceLocationDeserializer())
                                 .registerTypeAdapter(ShapedRecipe.class, ShapedRecipe.DESERIALIZER)
                                 .create();
+
+        Bootstrap.register();
     }
 
     @Test
@@ -50,4 +56,22 @@ public class ShapedRecipeTests
         assertArrayEquals(new String[] {"BB"}, recipe.shape);
     }
 
+    @Test
+    public void testGetInputForRecipe()
+    {
+        ShapedRecipe recipe = gson.fromJson("{ \"shape\": [ \"AA\", \"BB\" ]," +
+                                            "\"items\": { \"A\":\"minecraft:stone\", \"B\": { \"item\":\"minecraft:log\" } }," +
+                                            "\"result\": \"mincraft:obsidian\"," +
+                                            "\"mirrored\": false }", ShapedRecipe.class);
+
+        Object[] input = recipe.getInputForRecipe();
+
+        assertEquals(6, input.length);
+        assertEquals("AA", input[0]);
+        assertEquals("BB", input[1]);
+        assertEquals('A', input[2]);
+        assertSame(Item.getItemFromBlock(Blocks.STONE), ((ItemStack) input[3]).getItem());
+        assertEquals('B', input[4]);
+        assertSame(Item.getItemFromBlock(Blocks.LOG), ((ItemStack) input[5]).getItem());
+    }
 }
