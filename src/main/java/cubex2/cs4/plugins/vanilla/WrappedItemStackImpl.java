@@ -5,22 +5,19 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
-
 class WrappedItemStackImpl implements WrappedItemStack
 {
     public ResourceLocation item;
     public int metadata = 0;
     public int amount = 1;
 
-    @Nullable
     @Override
     public ItemStack createItemStack()
     {
         Item object = Item.REGISTRY.getObject(item);
         if (object == null)
         {
-            return null;
+            return ItemStack.EMPTY;
         } else
         {
             return new ItemStack(object, amount, metadata);
