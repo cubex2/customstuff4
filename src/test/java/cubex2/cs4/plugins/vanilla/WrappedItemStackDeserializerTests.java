@@ -39,6 +39,28 @@ public class WrappedItemStackDeserializerTests
     }
 
     @Test
+    public void test_fromStringWithMeta()
+    {
+        Map<String, WrappedItemStack> map = gson.fromJson("{ \"stack\":\"minecraft:stone@13\" }", new TypeToken<Map<String, WrappedItemStack>>() {}.getType());
+
+        assertTrue(map.get("stack") instanceof WrappedItemStackImpl);
+        WrappedItemStackImpl stack = (WrappedItemStackImpl) map.get("stack");
+        assertEquals(new ResourceLocation("minecraft:stone"), stack.item);
+        assertEquals(13, stack.metadata);
+    }
+
+    @Test
+    public void test_fromStringWithWildcardMeta()
+    {
+        Map<String, WrappedItemStack> map = gson.fromJson("{ \"stack\":\"minecraft:stone@all\" }", new TypeToken<Map<String, WrappedItemStack>>() {}.getType());
+
+        assertTrue(map.get("stack") instanceof WrappedItemStackImpl);
+        WrappedItemStackImpl stack = (WrappedItemStackImpl) map.get("stack");
+        assertEquals(new ResourceLocation("minecraft:stone"), stack.item);
+        assertEquals(OreDictionary.WILDCARD_VALUE, stack.metadata);
+    }
+
+    @Test
     public void test_fromObject()
     {
         WrappedItemStackImpl stack = (WrappedItemStackImpl) gson.fromJson("{ \"item\":\"minecraft:stone\",\"amount\":42,\"metadata\":10 }", WrappedItemStack.class);
