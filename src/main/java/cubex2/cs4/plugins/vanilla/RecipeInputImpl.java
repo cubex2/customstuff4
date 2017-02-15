@@ -3,6 +3,8 @@ package cubex2.cs4.plugins.vanilla;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 
+import static com.google.common.base.Preconditions.checkState;
+
 class RecipeInputImpl implements RecipeInput
 {
     public String oreClass = null;
@@ -21,11 +23,18 @@ class RecipeInputImpl implements RecipeInput
     }
 
     @Override
-    public Object getInput()
+    public String getOreClass() throws IllegalStateException
     {
-        if (isOreClass())
-            return oreClass;
-        else
-            return stack.createItemStack();
+        checkState(isOreClass(), "Input is not a ore class");
+
+        return oreClass;
+    }
+
+    @Override
+    public WrappedItemStack getStack() throws IllegalStateException
+    {
+        checkState(isItemStack(), "Input is not a stack");
+
+        return stack;
     }
 }

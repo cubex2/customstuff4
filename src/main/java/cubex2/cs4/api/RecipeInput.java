@@ -7,9 +7,12 @@ public interface RecipeInput
     boolean isItemStack();
 
     /**
-     * If isOreClass returns true, this will return a String representing the ore class. If isItemStack return true,
-     * this will return either null or the ItemStack. Null is returned if the item doesn't exist or hasn't been loaded
-     * yet.
+     * Gets the ore class. Throws exception if isOreClass() returns false.
      */
-    Object getInput();
+    String getOreClass() throws IllegalStateException;
+
+    /**
+     * Gets the stack. Throws exception if isItemStack() returns false.
+     */
+    WrappedItemStack getStack() throws IllegalStateException;
 }

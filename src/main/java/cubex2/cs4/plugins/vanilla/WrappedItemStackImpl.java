@@ -23,4 +23,12 @@ class WrappedItemStackImpl implements WrappedItemStack
             return new ItemStack(object, amount, metadata);
         }
     }
+
+    @Override
+    public boolean isItemLoaded()
+    {
+        Item object = Item.REGISTRY.getObject(item);
+
+        return object != null;
+    }
 }

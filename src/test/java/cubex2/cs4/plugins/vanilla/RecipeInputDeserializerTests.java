@@ -43,7 +43,7 @@ public class RecipeInputDeserializerTests
 
         RecipeInput input = map.get("input");
         assertTrue(input.isOreClass());
-        assertEquals("air", input.getInput());
+        assertEquals("air", input.getOreClass());
     }
 
     @Test
@@ -52,5 +52,23 @@ public class RecipeInputDeserializerTests
         RecipeInput input = gson.fromJson("{\"item\":\"minecraft:air\"}", RecipeInput.class);
 
         assertTrue(input.isItemStack());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void test_getOreClassWhenIsStack_ShouldThrow()
+    {
+        RecipeInput input = gson.fromJson("{\"item\":\"minecraft:air\"}", RecipeInput.class);
+
+        input.getOreClass();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void test_getStackWhenIsoreClass_ShouldThrow()
+    {
+        Map<String, RecipeInput> map = gson.fromJson("{\"input\":\"oreclass:air\"}", new TypeToken<Map<String, RecipeInput>>() {}.getType());
+
+        RecipeInput input = map.get("input");
+
+        input.getStack();
     }
 }

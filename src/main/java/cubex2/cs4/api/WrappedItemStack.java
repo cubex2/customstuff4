@@ -13,4 +13,10 @@ public interface WrappedItemStack
      * yet.
      */
     ItemStack createItemStack();
+
+    /**
+     * Returns true if the item for stack has been loaded. Allows to distinguish between empty stacks due to missing items
+     * or due to an explicit empty stack defined in json.
+     */
+    boolean isItemLoaded();
 }
