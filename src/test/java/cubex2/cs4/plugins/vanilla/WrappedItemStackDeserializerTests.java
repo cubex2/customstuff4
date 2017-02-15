@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -45,5 +46,15 @@ public class WrappedItemStackDeserializerTests
         assertEquals(new ResourceLocation("minecraft:stone"), stack.item);
         assertEquals(42, stack.amount);
         assertEquals(10, stack.metadata);
+    }
+
+    @Test
+    public void test_wildcard_meta()
+    {
+        WrappedItemStackImpl stack = (WrappedItemStackImpl) gson.fromJson("{ \"item\":\"minecraft:stone\",\"amount\":42,\"metadata\":\"all\" }", WrappedItemStack.class);
+
+        assertEquals(new ResourceLocation("minecraft:stone"), stack.item);
+        assertEquals(42, stack.amount);
+        assertEquals(OreDictionary.WILDCARD_VALUE, stack.metadata);
     }
 }
