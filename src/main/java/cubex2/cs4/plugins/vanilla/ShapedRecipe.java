@@ -11,7 +11,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.Map;
 
-public class ShapedRecipe implements Content
+class ShapedRecipe implements Content
 {
     String[] shape;
     Map<Character, RecipeInput> items;
@@ -60,7 +60,7 @@ public class ShapedRecipe implements Content
         return result;
     }
 
-    public static final JsonDeserializer<ShapedRecipe> DESERIALIZER = (json, typeOfT, context) ->
+    static final JsonDeserializer<ShapedRecipe> DESERIALIZER = (json, typeOfT, context) ->
     {
         JsonObject jsonObject = json.getAsJsonObject();
         ShapedRecipe recipe = new ShapedRecipe();
