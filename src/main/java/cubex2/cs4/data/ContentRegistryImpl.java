@@ -30,8 +30,7 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     }
 
     @Nullable
-    @Override
-    public Class<? extends Content> getContentClass(String typeName)
+    Class<? extends Content> getContentClass(String typeName)
     {
         return types.get(typeName);
     }

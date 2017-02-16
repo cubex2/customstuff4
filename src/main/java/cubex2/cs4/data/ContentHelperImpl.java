@@ -1,8 +1,8 @@
 package cubex2.cs4.data;
 
+import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
-import cubex2.cs4.api.ContentRegistry;
 import cubex2.cs4.util.IOHelper;
 
 import javax.annotation.Nullable;
@@ -11,12 +11,10 @@ import java.io.File;
 public class ContentHelperImpl implements ContentHelper
 {
     private final File modDirectory;
-    private final ContentRegistry registry;
 
-    public ContentHelperImpl(File modDirectory, ContentRegistry registry)
+    public ContentHelperImpl(File modDirectory)
     {
         this.modDirectory = modDirectory;
-        this.registry = registry;
     }
 
     @Nullable
@@ -31,6 +29,6 @@ public class ContentHelperImpl implements ContentHelper
     @Override
     public Class<? extends Content> getContentClass(String typeName)
     {
-        return registry.getContentClass(typeName);
+        return CustomStuff4.contentRegistry.getContentClass(typeName);
     }
 }

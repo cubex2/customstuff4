@@ -65,7 +65,7 @@ public class ModLoader
         ModContainer container = FMLCommonHandler.instance().findContainerFor(mod);
         File modDirectory = container.getSource();
 
-        return new ContentHelperImpl(modDirectory, CustomStuff4.contentRegistry);
+        return new ContentHelperImpl(modDirectory);
     }
 
     @SuppressWarnings("unused")
