@@ -15,5 +15,8 @@ public class VanillaPlugin implements CustomStuffPlugin
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
+
+        registry.registerDeserializer(ShapelessRecipe.class, ShapelessRecipe.DESERIALIZER);
+        registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);
     }
 }
