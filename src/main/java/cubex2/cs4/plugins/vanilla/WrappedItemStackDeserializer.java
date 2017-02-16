@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.*;
 import cubex2.cs4.api.WrappedItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -82,6 +83,11 @@ class WrappedItemStackDeserializer implements JsonDeserializer<WrappedItemStack>
             {
                 stack.metadata = metadata.getAsInt();
             }
+        }
+
+        if (jsonObject.has("nbt"))
+        {
+            stack.nbt = context.deserialize(jsonObject.get("nbt"), NBTTagCompound.class);
         }
 
         return stack;

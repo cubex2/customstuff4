@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla;
 import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 class WrappedItemStackImpl implements WrappedItemStack
@@ -10,6 +11,7 @@ class WrappedItemStackImpl implements WrappedItemStack
     public ResourceLocation item;
     public int metadata = 0;
     public int amount = 1;
+    public NBTTagCompound nbt;
 
     @Override
     public ItemStack createItemStack()
@@ -20,7 +22,12 @@ class WrappedItemStackImpl implements WrappedItemStack
             return ItemStack.EMPTY;
         } else
         {
-            return new ItemStack(object, amount, metadata);
+            ItemStack stack = new ItemStack(object, amount, metadata);
+            if (nbt != null)
+            {
+                stack.setTagCompound(nbt.copy());
+            }
+            return stack;
         }
     }
 
