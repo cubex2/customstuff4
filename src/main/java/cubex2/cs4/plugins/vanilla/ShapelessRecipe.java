@@ -4,32 +4,30 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import cubex2.cs4.api.*;
+import cubex2.cs4.api.ContentHelper;
+import cubex2.cs4.api.InitPhase;
+import cubex2.cs4.api.RecipeInput;
+import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.data.SimpleContent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.List;
 
-class ShapelessRecipe implements Content
+class ShapelessRecipe extends SimpleContent
 {
     List<RecipeInput> items = Lists.newArrayList();
     WrappedItemStack result;
 
-    private boolean initialized = false;
-
     @Override
-    public void init(InitPhase phase, ContentHelper helper)
+    protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        if (!initialized && isReady())
-        {
-            ShapelessOreRecipe recipe = new ShapelessOreRecipe(result.createItemStack(), getInputForRecipe());
-            GameRegistry.addRecipe(recipe);
-
-            initialized = true;
-        }
+        ShapelessOreRecipe recipe = new ShapelessOreRecipe(result.createItemStack(), getInputForRecipe());
+        GameRegistry.addRecipe(recipe);
     }
 
-    private boolean isReady()
+    @Override
+    protected boolean isReady()
     {
         if (!result.isItemLoaded())
             return false;

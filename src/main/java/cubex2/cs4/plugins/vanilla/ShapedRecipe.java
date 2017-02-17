@@ -4,35 +4,33 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import cubex2.cs4.api.*;
+import cubex2.cs4.api.ContentHelper;
+import cubex2.cs4.api.InitPhase;
+import cubex2.cs4.api.RecipeInput;
+import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.util.JsonHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.Map;
 
-class ShapedRecipe implements Content
+class ShapedRecipe extends SimpleContent
 {
     String[] shape;
     Map<Character, RecipeInput> items;
     WrappedItemStack result;
     boolean mirrored = true;
 
-    private boolean initialized = false;
-
     @Override
-    public void init(InitPhase phase, ContentHelper helper)
+    protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        if (!initialized && isReady())
-        {
-            ShapedOreRecipe recipe = new ShapedOreRecipe(result.createItemStack(), getInputForRecipe()).setMirrored(mirrored);
-            GameRegistry.addRecipe(recipe);
-
-            initialized = true;
-        }
+        ShapedOreRecipe recipe = new ShapedOreRecipe(result.createItemStack(), getInputForRecipe()).setMirrored(mirrored);
+        GameRegistry.addRecipe(recipe);
     }
 
-    private boolean isReady()
+    @Override
+    protected boolean isReady()
     {
         if (!result.isItemLoaded())
             return false;

@@ -1,15 +1,15 @@
 package cubex2.cs4.plugins.vanilla;
 
-import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.data.SimpleContent;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-class Fuel implements IFuelHandler, Content
+class Fuel extends SimpleContent implements IFuelHandler
 {
     WrappedItemStack item;
     int burnTime;
@@ -30,21 +30,15 @@ class Fuel implements IFuelHandler, Content
                : 0;
     }
 
-    private boolean initialized = false;
-
     @Override
-    public void init(InitPhase phase, ContentHelper helper)
+    protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        if (!initialized && isReady())
-        {
-            fuelStack = item.createItemStack();
-            GameRegistry.registerFuelHandler(this);
-
-            initialized = true;
-        }
+        fuelStack = item.createItemStack();
+        GameRegistry.registerFuelHandler(this);
     }
 
-    private boolean isReady()
+    @Override
+    protected boolean isReady()
     {
         return item.isItemLoaded();
     }

@@ -1,31 +1,25 @@
 package cubex2.cs4.plugins.vanilla;
 
-import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.data.SimpleContent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-class SmeltingRecipe implements Content
+class SmeltingRecipe extends SimpleContent
 {
     WrappedItemStack input;
     WrappedItemStack result;
     float xp;
 
-    private boolean initialized = false;
-
     @Override
-    public void init(InitPhase phase, ContentHelper helper)
+    protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        if (!initialized && isReady())
-        {
-            GameRegistry.addSmelting(input.createItemStack(), result.createItemStack(), xp);
-
-            initialized = true;
-        }
+        GameRegistry.addSmelting(input.createItemStack(), result.createItemStack(), xp);
     }
 
-    private boolean isReady()
+    @Override
+    protected boolean isReady()
     {
         return input.isItemLoaded() && result.isItemLoaded();
     }
