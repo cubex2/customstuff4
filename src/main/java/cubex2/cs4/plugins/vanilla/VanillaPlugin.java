@@ -22,5 +22,6 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);
 
         registry.registerContentType("smeltingRecipe", SmeltingRecipe.class);
+        registry.registerContentType("fuel", Fuel.class);
     }
 }
