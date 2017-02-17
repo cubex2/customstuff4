@@ -11,6 +11,7 @@ import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.LoaderPredicate;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ public final class ContentLoader implements Content
 {
     public String type = "";
     public String file = "";
+    String entries = null;
     public Map<String, List<String>> predicateMap = Maps.newHashMap();
 
     private final List<Content> contents = Lists.newArrayList();
@@ -38,18 +40,24 @@ public final class ContentLoader implements Content
     {
         if (shouldInit())
         {
-            String json = helper.readJson(file);
-            Class<? extends Content> contentClass = helper.getContentClass(type);
-            if (json != null && contentClass != null)
+            String json = entries != null ? entries : helper.readJson(file);
+            deserializeContent(json, helper);
+        }
+    }
+
+    private void deserializeContent(@Nullable String json, ContentHelper helper)
+    {
+        Class<? extends Content> contentClass = helper.getContentClass(type);
+
+        if (json != null && contentClass != null)
+        {
+            List<? extends Content> contents = loadContent(json, contentClass, CustomStuff4.contentRegistry);
+            this.contents.addAll(contents);
+            for (Content content : this.contents)
             {
-                List<? extends Content> contents = loadContent(json, contentClass, CustomStuff4.contentRegistry);
-                this.contents.addAll(contents);
-                for (Content content : this.contents)
+                if (content instanceof ContentLoader)
                 {
-                    if (content instanceof ContentLoader)
-                    {
-                        ((ContentLoader) content).deserializeContent(helper);
-                    }
+                    ((ContentLoader) content).deserializeContent(helper);
                 }
             }
         }
@@ -136,6 +144,9 @@ public final class ContentLoader implements Content
             } else if (key.equals("file"))
             {
                 loader.file = value.getAsString();
+            } else if (key.equals("entries"))
+            {
+                loader.entries = "{ \"list\": " + value.toString() + "}";
             } else
             {
                 List<String> predicateValues = Lists.newArrayList();

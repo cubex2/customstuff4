@@ -9,6 +9,7 @@ import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,10 +18,17 @@ import static org.junit.Assert.*;
 
 public class ContentLoaderTests
 {
+    private static Gson gson;
+
+    @BeforeClass
+    public static void setUp() throws Exception
+    {
+        gson = ContentLoader.registerAdapters(new GsonBuilder(), new TestDeserializationRegistry()).create();
+    }
+
     @Test
     public void testDeserializer()
     {
-        Gson gson = ContentLoader.registerAdapters(new GsonBuilder(), new TestDeserializationRegistry()).create();
         ContentLoader loader = gson.fromJson("{\"type\":\"theType\",\"file\":\"theFile\"}", ContentLoader.class);
 
         assertEquals("theType", loader.type);
@@ -184,6 +192,19 @@ public class ContentLoaderTests
 
         ContentLoader nestedLoader = (ContentLoader) contents.get(0);
         assertEquals(2, nestedLoader.getContents().size());
+    }
+
+    @Test
+    public void testDeserializeWithEntries()
+    {
+        ContentLoader loader = gson.fromJson("{ \"type\":\"test\", \"entries\": [ {\"name\":\"AA\" },{\"name\":\"BB\" } ] }", ContentLoader.class);
+        loader.deserializeContent(createHelper());
+
+        List<Content> contents = loader.getContents();
+        assertEquals(2, contents.size());
+        assertTrue(contents.get(0) instanceof TestContent);
+        assertEquals("AA", ((TestContent) contents.get(0)).name);
+        assertEquals("BB", ((TestContent) contents.get(1)).name);
     }
 
     private static ContentHelper createHelper()
