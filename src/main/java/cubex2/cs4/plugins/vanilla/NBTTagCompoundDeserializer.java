@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import java.lang.reflect.Type;
 
-public class NBTTagCompoundDeserializer implements JsonDeserializer<NBTTagCompound>
+class NBTTagCompoundDeserializer implements JsonDeserializer<NBTTagCompound>
 {
     @Override
     public NBTTagCompound deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
