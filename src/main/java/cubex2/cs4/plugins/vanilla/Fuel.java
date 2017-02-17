@@ -23,7 +23,9 @@ class Fuel implements IFuelHandler, Content
                             ? fuel.isItemEqualIgnoreDurability(fuelStack)
                             : fuel.isItemEqual(fuelStack);
 
-        return itemEqual && ItemStack.areItemStackTagsEqual(fuelStack, fuel)
+        boolean nbtEqual = !fuelStack.hasTagCompound() || ItemStack.areItemStackTagsEqual(fuelStack, fuel);
+
+        return itemEqual && nbtEqual
                ? burnTime
                : 0;
     }
