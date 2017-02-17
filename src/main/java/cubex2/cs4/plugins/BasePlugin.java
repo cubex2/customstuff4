@@ -17,5 +17,8 @@ public class BasePlugin implements CustomStuffPlugin
         registry.registerDeserializer(ContentLoader.class, ContentLoader.DESERIALIZER);
 
         registry.registerContentType("contentLoader", ContentLoader.class);
+
+        registry.registerLoaderPredicate("requireModsLoaded", new ModLoadedPredicate());
+        registry.registerLoaderPredicate("requireModsNotLoaded", new ModNotLoadedPredicate());
     }
 }
