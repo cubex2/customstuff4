@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -21,10 +22,7 @@ public class RecipeInputDeserializerTests
     @BeforeClass
     public static void setup()
     {
-        gson = new GsonBuilder().registerTypeAdapter(WrappedItemStack.class, new WrappedItemStackDeserializer())
-                                .registerTypeAdapter(RecipeInput.class, new RecipeInputDeserializer())
-                                .registerTypeAdapter(ResourceLocation.class, new ResourceLocationDeserializer())
-                                .create();
+        gson = TestUtil.createGsonBuilder().create();
     }
 
     @Test

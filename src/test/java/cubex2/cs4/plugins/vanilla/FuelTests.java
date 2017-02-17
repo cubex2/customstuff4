@@ -1,16 +1,14 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import cubex2.cs4.TestContentHelper;
+import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.InitPhase;
-import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,10 +21,7 @@ public class FuelTests
     @BeforeClass
     public static void setup()
     {
-        gson = new GsonBuilder().registerTypeAdapter(WrappedItemStack.class, new WrappedItemStackDeserializer())
-                                .registerTypeAdapter(ResourceLocation.class, new ResourceLocationDeserializer())
-                                .registerTypeAdapter(NBTTagCompound.class, new NBTTagCompoundDeserializer())
-                                .create();
+        gson = TestUtil.createGsonBuilder().create();
 
         Bootstrap.register();
     }

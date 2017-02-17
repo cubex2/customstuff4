@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.item.ItemStack;
@@ -24,10 +25,7 @@ public class WrappedItemStackDeserializerTests
     @BeforeClass
     public static void setup()
     {
-        gson = new GsonBuilder().registerTypeAdapter(WrappedItemStack.class, new WrappedItemStackDeserializer())
-                                .registerTypeAdapter(ResourceLocation.class, new ResourceLocationDeserializer())
-                                .registerTypeAdapter(NBTTagCompound.class, new NBTTagCompoundDeserializer())
-                                .create();
+        gson = TestUtil.createGsonBuilder().create();
 
         Bootstrap.register();
     }
