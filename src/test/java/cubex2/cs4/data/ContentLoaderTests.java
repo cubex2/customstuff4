@@ -159,6 +159,7 @@ public class ContentLoaderTests
         initializedContent = Lists.newArrayList();
 
         ContentLoader loader = new ContentLoader();
+        loader.type = "test";
         loader.deserializeContent(createHelper());
         loader.init(InitPhase.INIT, createHelper());
 

@@ -18,7 +18,7 @@ import java.util.Map;
 
 public final class ContentLoader implements Content
 {
-    public String type = "";
+    public String type = "contentLoader";
     public String file = "";
     String entries = null;
     public Map<String, List<String>> predicateMap = Maps.newHashMap();
