@@ -25,5 +25,6 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("fuel", Fuel.class);
         registry.registerContentType("oreDict", OreDictionaryEntry.class);
         registry.registerContentType("toolTip", ToolTip.class);
+        registry.registerContentType("guiModifier", GuiModifier.class);
     }
 }
