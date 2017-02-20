@@ -26,7 +26,7 @@ class ToolTip extends SimpleContent
 
     WrappedItemStack item;
     String[] text;
-    String displayMode = MODE_ALL;
+    String mode = MODE_ALL;
     boolean clearExisting = false;
 
     private transient ItemStack stack;
@@ -73,7 +73,7 @@ class ToolTip extends SimpleContent
 
     private boolean isCorrectModeActive()
     {
-        switch (displayMode.toLowerCase())
+        switch (mode.toLowerCase())
         {
             case MODE_SHIFT:
                 return GuiScreen.isShiftKeyDown();
