@@ -72,18 +72,14 @@ class GuiModifier extends SimpleContent
         int offsetX;
         int offsetY;
 
-        int getLeft(GuiScreen gui)
+        int getLeft(GuiScreen gui, int elemWidth)
         {
-            FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
-
-            return GuiHelper.calculateLeft(alignX, offsetX, font.getStringWidth("text"), gui.width);
+            return GuiHelper.calculateLeft(alignX, offsetX, elemWidth, gui.width);
         }
 
-        int getTop(GuiScreen gui)
+        int getTop(GuiScreen gui, int elemHeight)
         {
-            FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
-
-            return GuiHelper.calculateTop(alignY, offsetY, font.FONT_HEIGHT, gui.height);
+            return GuiHelper.calculateTop(alignY, offsetY, elemHeight, gui.height);
         }
     }
 
@@ -95,10 +91,12 @@ class GuiModifier extends SimpleContent
         @Override
         public void render(GuiScreenEvent.DrawScreenEvent.Post event)
         {
-            int left = getLeft(event.getGui());
-            int top = getTop(event.getGui());
+            FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
 
-            Minecraft.getMinecraft().fontRendererObj.drawString(text, left, top, 0xFFFFFFFF, dropShadow);
+            int left = getLeft(event.getGui(), font.getStringWidth(text));
+            int top = getTop(event.getGui(), font.FONT_HEIGHT);
+
+            font.drawString(text, left, top, 0xFFFFFFFF, dropShadow);
         }
     }
 
@@ -128,16 +126,6 @@ class GuiModifier extends SimpleContent
                 button.displayString = text;
             }
 
-            if (offsetX != Integer.MIN_VALUE)
-            {
-                button.xPosition = getLeft(gui);
-            }
-
-            if (offsetY != Integer.MIN_VALUE)
-            {
-                button.yPosition = getTop(gui);
-            }
-
             if (width >= 0)
             {
                 button.width = width;
@@ -146,6 +134,16 @@ class GuiModifier extends SimpleContent
             if (height >= 0)
             {
                 button.height = height;
+            }
+
+            if (offsetX != Integer.MIN_VALUE)
+            {
+                button.xPosition = getLeft(gui, button.width);
+            }
+
+            if (offsetY != Integer.MIN_VALUE)
+            {
+                button.yPosition = getTop(gui, button.height);
             }
         }
     }
