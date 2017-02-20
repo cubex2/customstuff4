@@ -4,6 +4,7 @@ import cubex2.cs4.api.CustomStuffPlugin;
 import cubex2.cs4.data.ContentRegistryImpl;
 import cubex2.cs4.util.PluginHelper;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -18,6 +19,9 @@ public class CustomStuff4
     public static final String VERSION = "0.0.1";
 
     public static final ContentRegistryImpl contentRegistry = new ContentRegistryImpl();
+
+    @SidedProxy(clientSide = "cubex2.cs4.ClientProxy", serverSide = "cubex2.cs4.CommonProxy")
+    public static CommonProxy proxy;
 
     private List<CustomStuffPlugin> plugins;
 
