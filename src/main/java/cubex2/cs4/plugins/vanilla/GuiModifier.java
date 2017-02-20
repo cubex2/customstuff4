@@ -6,19 +6,22 @@ import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.util.GuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 class GuiModifier extends SimpleContent
 {
-    private static final String GUI_MAIN_MENU = "mainmenu";
-
     String gui;
-    List<Label> labels;
+    List<Label> labels = Collections.emptyList();
+    List<Integer> removeButtons = Collections.emptyList();
+    List<EditButton> editButtons = Collections.emptyList();
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
@@ -33,7 +36,17 @@ class GuiModifier extends SimpleContent
     }
 
     @SubscribeEvent
-    void onRenderGui(GuiScreenEvent.DrawScreenEvent event)
+    void onPostInitGui(GuiScreenEvent.InitGuiEvent.Post event)
+    {
+        if (isCorrectGui(event.getGui()))
+        {
+            event.getButtonList().removeIf(button -> removeButtons.contains(button.id));
+            editButtons.forEach(b -> b.postInit(event));
+        }
+    }
+
+    @SubscribeEvent
+    void onRenderGui(GuiScreenEvent.DrawScreenEvent.Post event)
     {
         if (isCorrectGui(event.getGui()))
         {
@@ -49,7 +62,7 @@ class GuiModifier extends SimpleContent
 
     interface Modifier
     {
-        void render(GuiScreenEvent.DrawScreenEvent event);
+        default void render(GuiScreenEvent.DrawScreenEvent.Post event) {}
     }
 
     abstract static class PositionedModifier implements Modifier
@@ -59,14 +72,14 @@ class GuiModifier extends SimpleContent
         int offsetX;
         int offsetY;
 
-        protected int getLeft(GuiScreen gui)
+        int getLeft(GuiScreen gui)
         {
             FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
 
             return GuiHelper.calculateLeft(alignX, offsetX, font.getStringWidth("text"), gui.width);
         }
 
-        protected int getTop(GuiScreen gui)
+        int getTop(GuiScreen gui)
         {
             FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
 
@@ -80,12 +93,60 @@ class GuiModifier extends SimpleContent
         boolean dropShadow = true;
 
         @Override
-        public void render(GuiScreenEvent.DrawScreenEvent event)
+        public void render(GuiScreenEvent.DrawScreenEvent.Post event)
         {
             int left = getLeft(event.getGui());
             int top = getTop(event.getGui());
 
             Minecraft.getMinecraft().fontRendererObj.drawString(text, left, top, 0xFFFFFFFF, dropShadow);
+        }
+    }
+
+    static class EditButton extends PositionedModifier
+    {
+        int buttonId;
+        String text = null;
+        int width = -1;
+        int height = -1;
+
+        public EditButton()
+        {
+            offsetX = Integer.MIN_VALUE;
+            offsetY = Integer.MIN_VALUE;
+        }
+
+        void postInit(GuiScreenEvent.InitGuiEvent.Post event)
+        {
+            Optional<GuiButton> button = event.getButtonList().stream().filter(b -> b.id == buttonId).findFirst();
+            button.ifPresent(b -> modifyButton(event.getGui(), b));
+        }
+
+        private void modifyButton(GuiScreen gui, GuiButton button)
+        {
+            if (text != null)
+            {
+                button.displayString = text;
+            }
+
+            if (offsetX != Integer.MIN_VALUE)
+            {
+                button.xPosition = getLeft(gui);
+            }
+
+            if (offsetY != Integer.MIN_VALUE)
+            {
+                button.yPosition = getTop(gui);
+            }
+
+            if (width >= 0)
+            {
+                button.width = width;
+            }
+
+            if (height >= 0)
+            {
+                button.height = height;
+            }
         }
     }
 }
