@@ -14,7 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.Collections;
 import java.util.List;
 
-public class ToolTip extends SimpleContent
+class ToolTip extends SimpleContent
 {
     private static final String MODE_ALL = "all";
     private static final String MODE_CTRL = "ctrl";
