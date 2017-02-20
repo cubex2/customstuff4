@@ -37,4 +37,13 @@ public class LengthDeserializerTests
 
         assertEquals(555, length.getLength(1000));
     }
+
+    @Test
+    public void test_absoluteAndRelativeDeserialization()
+    {
+        Map<String, Length> map = gson.fromJson("{ \"length\" : [\"55.5%\", 100] }", new TypeToken<Map<String, Length>>() {}.getType());
+        Length length = map.get("length");
+
+        assertEquals(655, length.getLength(1000));
+    }
 }

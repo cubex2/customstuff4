@@ -74,12 +74,14 @@ class GuiModifier extends SimpleContent
 
         int getLeft(GuiScreen gui, int elemWidth)
         {
-            return GuiHelper.calculateLeft(alignX, offsetX.getLength(gui.width), elemWidth, gui.width);
+            int offset = offsetX.getLength(gui.width);
+            return GuiHelper.calculateLeft(alignX, offset, elemWidth, gui.width);
         }
 
         int getTop(GuiScreen gui, int elemHeight)
         {
-            return GuiHelper.calculateTop(alignY, offsetY.getLength(gui.height), elemHeight, gui.height);
+            int offset = offsetY.getLength(gui.height);
+            return GuiHelper.calculateTop(alignY, offset, elemHeight, gui.height);
         }
     }
 
