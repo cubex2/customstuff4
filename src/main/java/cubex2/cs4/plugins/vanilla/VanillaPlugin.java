@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla;
 
+import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.api.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -15,6 +16,8 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(RecipeInput.class, new RecipeInputDeserializer());
         registry.registerDeserializer(NBTTagCompound.class, new NBTTagCompoundDeserializer());
         registry.registerDeserializer(Length.class, new LengthDeserializer());
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType(), MetadataAttribute.deserializer(ResourceLocation.class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<String>>() {}.getType(), MetadataAttribute.deserializer(String.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
