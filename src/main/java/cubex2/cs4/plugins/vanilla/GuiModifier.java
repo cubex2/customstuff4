@@ -69,17 +69,17 @@ class GuiModifier extends SimpleContent
     {
         String alignX = "left";
         String alignY = "top";
-        int offsetX;
-        int offsetY;
+        Length offsetX = Length.ZERO;
+        Length offsetY = Length.ZERO;
 
         int getLeft(GuiScreen gui, int elemWidth)
         {
-            return GuiHelper.calculateLeft(alignX, offsetX, elemWidth, gui.width);
+            return GuiHelper.calculateLeft(alignX, offsetX.getLength(gui.width), elemWidth, gui.width);
         }
 
         int getTop(GuiScreen gui, int elemHeight)
         {
-            return GuiHelper.calculateTop(alignY, offsetY, elemHeight, gui.height);
+            return GuiHelper.calculateTop(alignY, offsetY.getLength(gui.height), elemHeight, gui.height);
         }
     }
 
@@ -104,14 +104,8 @@ class GuiModifier extends SimpleContent
     {
         int buttonId;
         String text = null;
-        int width = -1;
-        int height = -1;
-
-        public EditButton()
-        {
-            offsetX = Integer.MIN_VALUE;
-            offsetY = Integer.MIN_VALUE;
-        }
+        Length width = Length.ZERO;
+        Length height = Length.ZERO;
 
         void postInit(GuiScreenEvent.InitGuiEvent.Post event)
         {
@@ -126,22 +120,22 @@ class GuiModifier extends SimpleContent
                 button.displayString = text;
             }
 
-            if (width >= 0)
+            if (width != Length.ZERO)
             {
-                button.width = width;
+                button.width = width.getLength(gui.width);
             }
 
-            if (height >= 0)
+            if (height != Length.ZERO)
             {
-                button.height = height;
+                button.height = height.getLength(gui.height);
             }
 
-            if (offsetX != Integer.MIN_VALUE)
+            if (offsetX != Length.ZERO)
             {
                 button.xPosition = getLeft(gui, button.width);
             }
 
-            if (offsetY != Integer.MIN_VALUE)
+            if (offsetY != Length.ZERO)
             {
                 button.yPosition = getTop(gui, button.height);
             }
