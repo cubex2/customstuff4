@@ -5,7 +5,7 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class LengthDeserializer implements JsonDeserializer<Length>
+class LengthDeserializer implements JsonDeserializer<Length>
 {
     @Override
     public Length deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
