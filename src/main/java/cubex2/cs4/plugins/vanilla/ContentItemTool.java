@@ -11,6 +11,7 @@ public abstract class ContentItemTool<T extends Item & ItemTool> extends Content
 {
     Float damage = null;
     Float attackSpeed = null;
+    Integer durability = null;
     String creativeTab = "tools";
 
     WrappedToolMaterial material = WrappedToolMaterial.of(Item.ToolMaterial.WOOD);
@@ -25,6 +26,8 @@ public abstract class ContentItemTool<T extends Item & ItemTool> extends Content
             item.setDamage(damage);
         if (attackSpeed != null)
             item.setAttackSpeed(attackSpeed);
+        if (durability != null)
+            item.setMaxDamage(durability);
 
         CustomStuff4.proxy.registerItemModel(item, 0, model);
     }
