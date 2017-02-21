@@ -16,6 +16,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(RecipeInput.class, new RecipeInputDeserializer());
         registry.registerDeserializer(NBTTagCompound.class, new NBTTagCompoundDeserializer());
         registry.registerDeserializer(Length.class, new LengthDeserializer());
+        registry.registerDeserializer(WrappedToolMaterial.class, new ToolMaterialDeserializer());
         registry.registerDeserializer(new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType(), MetadataAttribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<String>>() {}.getType(), MetadataAttribute.deserializer(String.class));
 
@@ -30,6 +31,8 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("oreDict", OreDictionaryEntry.class);
         registry.registerContentType("toolTip", ToolTip.class);
         registry.registerContentType("guiModifier", GuiModifier.class);
+
         registry.registerContentType("item:simple", ContentItemSimple.class);
+        registry.registerContentType("item:axe", ContentItemAxe.class);
     }
 }
