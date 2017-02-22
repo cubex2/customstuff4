@@ -4,10 +4,13 @@ import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class BlockSimple extends Block
 {
@@ -18,6 +21,12 @@ public class BlockSimple extends Block
         super(material);
 
         this.content = content;
+    }
+
+    @Override
+    public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
+    {
+        return content.hardness.get(getMetaFromState(blockState)).orElse(1f);
     }
 
     @Override

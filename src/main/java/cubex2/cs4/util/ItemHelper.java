@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ItemHelper
@@ -22,7 +21,8 @@ public class ItemHelper
     public static CreativeTabs[] createCreativeTabs(MetadataAttribute<String> tabLabels, int[] subtypes)
     {
         return Arrays.stream(subtypes).mapToObj(tabLabels::get)
-                     .filter(Objects::nonNull)
+                     .filter(Optional::isPresent)
+                     .map(Optional::get)
                      .map(ItemHelper::findCreativeTab)
                      .filter(Optional::isPresent)
                      .map(Optional::get)
@@ -38,11 +38,14 @@ public class ItemHelper
         {
             for (int meta : subtypes)
             {
-                String tabLabel = tabLabels.get(meta);
-                if (tabLabel != null && tabLabel.equals(creativeTab.getTabLabel()))
-                {
-                    list.add(new ItemStack(item, 1, meta));
-                }
+                tabLabels.get(meta)
+                         .ifPresent(tabLabel ->
+                                    {
+                                        if (tabLabel.equals(creativeTab.getTabLabel()))
+                                        {
+                                            list.add(new ItemStack(item, 1, meta));
+                                        }
+                                    });
             }
         } else
         {

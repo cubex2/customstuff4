@@ -29,8 +29,8 @@ public class MetadataAttributeTests
         assertTrue(map.hasEntry(0));
         assertTrue(map.hasEntry(5));
         assertFalse(map.hasEntry(3));
-        assertEquals(new ResourceLocation("minecraft:coal"), map.get(0));
-        assertEquals(new ResourceLocation("minecraft:stone"), map.get(5));
+        assertEquals(new ResourceLocation("minecraft:coal"), map.get(0).get());
+        assertEquals(new ResourceLocation("minecraft:stone"), map.get(5).get());
     }
 
     @Test
@@ -43,6 +43,6 @@ public class MetadataAttributeTests
         assertTrue(metaMap.hasEntry(0));
         assertTrue(metaMap.hasEntry(7));
         assertTrue(metaMap.hasEntry(56));
-        assertEquals(new ResourceLocation("minecraft:coal"), metaMap.get(0));
+        assertEquals(new ResourceLocation("minecraft:coal"), metaMap.get(0).get());
     }
 }

@@ -4,14 +4,13 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Type;
 import java.util.Map;
+import java.util.Optional;
 
 public interface MetadataAttribute<T>
 {
-    @Nullable
-    T get(int meta);
+    Optional<T> get(int meta);
 
     boolean hasEntry(int meta);
 
@@ -29,10 +28,9 @@ public interface MetadataAttribute<T>
             this.map = map;
         }
 
-        @Nullable
-        public T get(int meta)
+        public Optional<T> get(int meta)
         {
-            return map.get(meta);
+            return Optional.ofNullable(map.get(meta));
         }
 
         public boolean hasEntry(int meta)
@@ -52,11 +50,10 @@ public interface MetadataAttribute<T>
 
         Constant(T value) {this.value = value;}
 
-        @Nullable
         @Override
-        public T get(int meta)
+        public Optional<T> get(int meta)
         {
-            return value;
+            return Optional.of(value);
         }
 
         @Override

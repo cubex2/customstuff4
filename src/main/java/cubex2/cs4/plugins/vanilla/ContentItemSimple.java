@@ -20,7 +20,7 @@ public class ContentItemSimple extends ContentItemBase<ItemSimple>
         if (subtypes.length == 0)
             subtypes = new int[] {0};
 
-        Arrays.stream(subtypes).forEach(meta -> CustomStuff4.proxy.registerItemModel(item, meta, model.get(meta)));
+        Arrays.stream(subtypes).forEach(meta -> model.get(meta).ifPresent(model -> CustomStuff4.proxy.registerItemModel(item, meta, model)));
     }
 
     @Override

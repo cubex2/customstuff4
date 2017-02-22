@@ -21,6 +21,8 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(Material.class, new MaterialDeserializer());
         registry.registerDeserializer(new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType(), MetadataAttribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<String>>() {}.getType(), MetadataAttribute.deserializer(String.class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<Float>>() {}.getType(), MetadataAttribute.deserializer(Float.class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<Integer>>() {}.getType(), MetadataAttribute.deserializer(Integer.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);

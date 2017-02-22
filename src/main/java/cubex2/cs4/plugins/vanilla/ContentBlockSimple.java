@@ -15,6 +15,7 @@ public class ContentBlockSimple extends ContentBlockBase<BlockSimple>
     public int[] subtypes = new int[0];
     public MetadataAttribute<String> creativeTab = MetadataAttribute.constant("anonexistingtabtoreturnnull");
     MetadataAttribute<ResourceLocation> itemModel = MetadataAttribute.constant(new ResourceLocation("minecraft:stick"));
+    public MetadataAttribute<Float> hardness = MetadataAttribute.constant(1f);
 
     private transient boolean hasSubtypes;
 
@@ -44,7 +45,7 @@ public class ContentBlockSimple extends ContentBlockBase<BlockSimple>
         ItemBlock item = new ItemBlock(block, this);
 
         item.setHasSubtypes(hasSubtypes);
-        Arrays.stream(subtypes).forEach(meta -> CustomStuff4.proxy.registerItemModel(item, meta, itemModel.get(meta)));
+        Arrays.stream(subtypes).forEach(meta -> itemModel.get(meta).ifPresent(model -> CustomStuff4.proxy.registerItemModel(item, meta, model)));
 
         return Optional.of(item);
     }
