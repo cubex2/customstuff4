@@ -20,12 +20,6 @@ public class ContentBlockSimple extends ContentBlockBase<BlockSimple>
     private transient boolean hasSubtypes;
 
     @Override
-    protected void initBlock()
-    {
-
-    }
-
-    @Override
     protected BlockSimple createBlock()
     {
         hasSubtypes = subtypes.length > 0;

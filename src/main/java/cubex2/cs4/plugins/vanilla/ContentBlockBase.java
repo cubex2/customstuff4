@@ -42,7 +42,10 @@ public abstract class ContentBlockBase<T extends Block> implements Content
         GameRegistry.register(item);
     }
 
-    protected abstract void initBlock();
+    protected void initBlock()
+    {
+        
+    }
 
     protected abstract T createBlock();
 
