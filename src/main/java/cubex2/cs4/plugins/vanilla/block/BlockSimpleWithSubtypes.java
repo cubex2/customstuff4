@@ -42,6 +42,12 @@ public class BlockSimpleWithSubtypes extends BlockSimple
     }
 
     @Override
+    public int damageDropped(IBlockState state)
+    {
+        return getMetaFromState(state);
+    }
+
+    @Override
     public IBlockState getStateFromMeta(int meta)
     {
         return getDefaultState().withProperty(subtype, EnumSubtype.values()[meta]);
