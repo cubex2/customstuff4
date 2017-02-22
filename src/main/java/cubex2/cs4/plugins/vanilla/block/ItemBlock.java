@@ -1,20 +1,27 @@
-package cubex2.cs4.plugins.vanilla.item;
+package cubex2.cs4.plugins.vanilla.block;
 
-import cubex2.cs4.plugins.vanilla.ContentItemSimple;
+import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
 import cubex2.cs4.util.ItemHelper;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 
-public class ItemSimple extends Item
+public class ItemBlock extends net.minecraft.item.ItemBlock
 {
-    private final ContentItemSimple content;
+    private final ContentBlockSimple content;
     private CreativeTabs[] tabs;
 
-    public ItemSimple(ContentItemSimple content)
+    public ItemBlock(Block block, ContentBlockSimple content)
     {
+        super(block);
+
         this.content = content;
+    }
+
+    @Override
+    public int getMetadata(int damage)
+    {
+        return damage;
     }
 
     @Override
@@ -38,11 +45,5 @@ public class ItemSimple extends Item
         }
 
         return tabs;
-    }
-
-    @Override
-    public void getSubItems(Item itemIn, CreativeTabs creativeTab, NonNullList<ItemStack> subItems)
-    {
-        subItems.addAll(ItemHelper.createSubItems(itemIn, creativeTab, content.creativeTab, content.subtypes));
     }
 }

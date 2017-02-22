@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.api.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -17,6 +18,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(NBTTagCompound.class, new NBTTagCompoundDeserializer());
         registry.registerDeserializer(Length.class, new LengthDeserializer());
         registry.registerDeserializer(WrappedToolMaterial.class, new ToolMaterialDeserializer());
+        registry.registerDeserializer(Material.class, new MaterialDeserializer());
         registry.registerDeserializer(new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType(), MetadataAttribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<String>>() {}.getType(), MetadataAttribute.deserializer(String.class));
 
@@ -36,5 +38,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:axe", ContentItemAxe.class);
         registry.registerContentType("item:pickaxe", ContentItemPickaxe.class);
         registry.registerContentType("item:shovel", ContentItemShovel.class);
+
+        registry.registerContentType("block:simple", ContentBlockSimple.class);
     }
 }

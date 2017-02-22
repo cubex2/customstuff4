@@ -17,7 +17,17 @@ public interface MetadataAttribute<T>
 
     class FromMap<T> implements MetadataAttribute<T>
     {
-        private Map<Integer, T> map = Maps.newHashMap();
+        private final Map<Integer, T> map;
+
+        FromMap()
+        {
+            this(Maps.newHashMap());
+        }
+
+        FromMap(Map<Integer, T> map)
+        {
+            this.map = map;
+        }
 
         @Nullable
         public T get(int meta)
@@ -59,6 +69,11 @@ public interface MetadataAttribute<T>
     static <T> MetadataAttribute<T> map()
     {
         return new FromMap<>();
+    }
+
+    static <T> MetadataAttribute<T> map(Map<Integer, T> map)
+    {
+        return new FromMap<>(map);
     }
 
     static <T> MetadataAttribute<T> constant(T value)
