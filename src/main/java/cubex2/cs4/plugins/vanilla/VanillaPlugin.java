@@ -42,5 +42,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:shovel", ContentItemShovel.class);
 
         registry.registerContentType("block:simple", ContentBlockSimple.class);
+
+        registry.registerContentType("worldGen:ore", WorldGenOre.class);
     }
 }
