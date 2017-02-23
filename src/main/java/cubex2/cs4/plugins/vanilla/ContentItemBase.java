@@ -4,6 +4,7 @@ import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public abstract class ContentItemBase<T extends Item> implements Content
@@ -19,7 +20,7 @@ public abstract class ContentItemBase<T extends Item> implements Content
             return;
 
         item = createItem();
-        item.setUnlocalizedName(id);
+        item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         item.setRegistryName(id);
 
         initItem();

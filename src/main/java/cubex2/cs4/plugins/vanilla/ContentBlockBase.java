@@ -6,6 +6,7 @@ import cubex2.cs4.api.InitPhase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.Optional;
@@ -24,7 +25,7 @@ public abstract class ContentBlockBase<T extends Block> implements Content
             return;
 
         block = createBlock();
-        block.setUnlocalizedName(id);
+        block.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         block.setRegistryName(id);
 
         initBlock();
@@ -36,7 +37,7 @@ public abstract class ContentBlockBase<T extends Block> implements Content
 
     private void initItem(Item item)
     {
-        item.setUnlocalizedName(id);
+        item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         item.setRegistryName(id);
 
         GameRegistry.register(item);
