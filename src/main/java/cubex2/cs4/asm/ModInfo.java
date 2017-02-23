@@ -14,4 +14,9 @@ public class ModInfo
                version != null &&
                dependencies != null;
     }
+
+    public String getId()
+    {
+        return id;
+    }
 }

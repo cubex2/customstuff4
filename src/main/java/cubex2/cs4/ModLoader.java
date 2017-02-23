@@ -32,19 +32,34 @@ public class ModLoader
                 File infoJsonFile = new File(folder, "cs4mod.json");
                 if (infoJsonFile.exists() && infoJsonFile.isFile())
                 {
-                    createMod(infoJsonFile);
+                    ModInfo info = JsonHelper.deserialize(infoJsonFile, ModInfo.class);
+                    if (info != null)
+                    {
+                        ModClassGenerator.createModClass(folder, info);
+                        createDirectories(folder, info);
+                    }
                 }
             }
         }
     }
 
-    private static void createMod(File infoJsonFile)
+    private static void createDirectories(File mainDir, ModInfo info)
     {
-        ModInfo info = JsonHelper.deserialize(infoJsonFile, ModInfo.class);
-        if (info != null)
-        {
-            ModClassGenerator.createModClass(infoJsonFile.getParentFile(), info);
-        }
+        File assets = createDir(new File(mainDir, "assets"));
+        File modid = createDir(new File(assets, info.getId()));
+        createDir(new File(modid, "blockstates"));
+        createDir(new File(modid, "lang"));
+        File models = createDir(new File(modid, "models"));
+        createDir(new File(modid, "textures"));
+        createDir(new File(models, "item"));
+        createDir(new File(models, "block"));
+    }
+
+    private static File createDir(File dir)
+    {
+        if (!dir.exists())
+            dir.mkdir();
+        return dir;
     }
 
     @SuppressWarnings("unused")
