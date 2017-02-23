@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class WorldGenOre extends SimpleContent implements IWorldGenerator
+class WorldGenOre extends SimpleContent implements IWorldGenerator
 {
     ResourceLocation block;
     int meta;
