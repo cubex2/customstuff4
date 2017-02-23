@@ -1,0 +1,23 @@
+{
+	"blocks" : [
+		{
+			"type" : "block:simple",
+			"entries" : [
+				{
+					"id" : "someblock",
+					"creativeTab" : "redstone",
+					"material" : "iron",
+					"subtypes" : [ 0, 1 ],
+					"itemModel" : {
+						"0" : "cs4examplemod:sensor_iron",
+						"1" : "cs4examplemod:sensor_gold"						
+					},
+					"hardness" : {
+						"0" : 1,
+						"1" : 4
+					}
+				}
+			]
+		}
+	]
+}

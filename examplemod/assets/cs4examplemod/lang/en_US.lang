@@ -1,0 +1,5 @@
+item.cs4examplemod.someitem.0.name=Useless Scrap
+item.cs4examplemod.someitem.1.name=More Useless Scrap
+item.cs4examplemod.someitem1.name=Useful Scrap
+tile.cs4examplemod.someblock.0.name=Iron Sensor
+tile.cs4examplemod.someblock.1.name=Golden Sensor

@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "cs4examplemod:blocks/sensor_gold",
+    "front": "cs4examplemod:blocks/sensor_gold",
+    "side": "cs4examplemod:blocks/sensor_gold",
+    "down": "cs4examplemod:blocks/sensor_gold"
+  }
+}

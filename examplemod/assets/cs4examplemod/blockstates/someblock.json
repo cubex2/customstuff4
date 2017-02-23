@@ -1,0 +1,6 @@
+{
+  "variants": {
+	"subtype=subtype0": {"model": "cs4examplemod:sensor_iron"},
+	"subtype=subtype1": {"model": "cs4examplemod:sensor_gold"}
+  }
+}

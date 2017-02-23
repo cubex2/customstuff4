@@ -1,0 +1,133 @@
+{
+	"content": [
+		{
+			"type":"shapedRecipe",
+			"entries": [
+				{
+					"shape": [ "XX", "Y " ],
+					"items" : {
+						"X": "minecraft:stone@all",
+						"Y": "minecraft:diamond_block"
+					},
+					"result" : {
+						"item": "minecraft:obsidian",
+						"amount": 3
+					},
+					"mirrored" : false
+				}
+			]
+		},
+		{
+			"type":"shapelessRecipe",
+			"entries":  [
+				{
+					"items" : [
+						"minecraft:stone@all",
+						"minecraft:coal"
+					],
+					"result" : {
+						"item": "minecraft:obsidian",
+						"nbt": "{display:{Name:\"Some Obsidian\"}}"
+					}
+				},
+				{
+					"items" : [
+						{
+							"item": "minecraft:obsidian",
+							"nbt": "{display:{Name:\"Some Obsidian\"}}"
+						},
+						"minecraft:stone@all"
+					],
+					"result" : "minecraft:coal"
+				}
+			]
+		},
+		{
+			"type":"smeltingRecipe",
+			"entries": [
+				{
+					"input": "minecraft:stone",
+					"result": "minecraft:obsidian"
+				}
+			]
+		},
+		{
+			"type": "fuel",
+			"entries": [ { "item":"minecraft:obsidian", "burnTime":800 } ],
+			"requireModsNotLoaded": "somemod"
+		},
+		{
+			"type": "toolTip",
+			"entries" : [ 
+				{
+					"item": "minecraft:coal",
+					"text": [ "Hold SHIFT for more" ],
+					"mode" : "noShift"
+				},
+				{
+					"item": "minecraft:coal",
+					"text": [ "This is just coal.", "Or not?"],
+					"mode" : "shift"
+				}			
+			]
+		},
+		{
+			"type" : "guiModifier",
+			"entries" : [
+				{
+					"gui" : "ingameMenu",
+					"labels" : [
+						{
+							"offsetX" : 2,
+							"offsetY" : -2,
+							"alignX" : "left",
+							"alignY" : "bottom",
+							"text" : "Custom Stuff 4"
+						}
+					],
+					"editButtons" : [
+						{
+							"buttonId" : 4,
+							"text" : "Close this GUI",
+							"offsetY":  ["25%", 8 ]
+						}
+					],
+					"removeButtons" : [
+						7
+					]
+				}
+			]
+		},
+		{
+			"file" : "items.json"
+		},
+		{
+			"file" : "blocks.json"
+		},
+		{
+			"type" : "worldGen:ore",
+			"entries" : [
+				{
+					"block" : "cs4examplemod:someblock",
+					"meta" : 1,
+					"size" : 10,
+					"count" : 10,
+					"minHeight": 64,
+					"maxHeight": 90,
+					"target" : "minecraft:air"
+				}
+			]
+		}
+	]
+}
+
+
+
+
+
+
+
+
+
+
+
