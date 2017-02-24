@@ -9,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class ContentItemTool<T extends Item & ItemTool> extends ContentItemBase<T>
 {
+    public String[] information = new String[0];
+
     Float damage = null;
     Float attackSpeed = null;
     Integer durability = null;
@@ -16,6 +18,7 @@ public abstract class ContentItemTool<T extends Item & ItemTool> extends Content
 
     WrappedToolMaterial material = WrappedToolMaterial.of(Item.ToolMaterial.WOOD);
     ResourceLocation model = new ResourceLocation("minecraft:stick");
+
 
     @Override
     protected void initItem()

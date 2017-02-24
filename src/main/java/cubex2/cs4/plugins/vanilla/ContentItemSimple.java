@@ -9,7 +9,11 @@ import java.util.Arrays;
 public class ContentItemSimple extends ContentItemBase<ItemSimple>
 {
     public int[] subtypes = new int[0];
+
     public MetadataAttribute<String> creativeTab = MetadataAttribute.constant("anonexistingtabtoreturnnull");
+    public MetadataAttribute<Integer> maxStack = MetadataAttribute.constant(64);
+    public MetadataAttribute<String[]> information = MetadataAttribute.constant(new String[0]);
+
     MetadataAttribute<ResourceLocation> model = MetadataAttribute.constant(new ResourceLocation("minecraft:stick"));
 
     @Override

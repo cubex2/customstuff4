@@ -3,9 +3,13 @@ package cubex2.cs4.plugins.vanilla.item;
 import cubex2.cs4.plugins.vanilla.ContentItemSimple;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ItemSimple extends Item
 {
@@ -38,6 +42,19 @@ public class ItemSimple extends Item
         }
 
         return tabs;
+    }
+
+    @Override
+    public int getItemStackLimit(ItemStack stack)
+    {
+        return content.maxStack.get(stack.getMetadata()).orElse(64);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
+    {
+        String[] lines = content.information.get(stack.getMetadata()).orElse(new String[0]);
+        tooltip.addAll(Arrays.asList(lines));
     }
 
     @Override
