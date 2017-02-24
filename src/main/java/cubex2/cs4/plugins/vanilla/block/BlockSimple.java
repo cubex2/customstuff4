@@ -71,7 +71,7 @@ public class BlockSimple extends Block
     public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
     {
         IBlockState state = world.getBlockState(pos);
-        return content.flammability.get(getMetaFromState(state)).orElse(0);
+        return content.flammability.get(getMetaFromState(state)).orElse(0) * 3; // 300 is 100%
     }
 
     @Override
