@@ -1,15 +1,11 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.RecipeInput;
-import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Bootstrap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,8 +19,6 @@ public class ShapedRecipeTests
     public static void setup()
     {
         gson = TestUtil.createGsonBuilder().create();
-
-        Bootstrap.register();
     }
 
     @Test

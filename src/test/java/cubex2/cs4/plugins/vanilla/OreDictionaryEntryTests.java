@@ -5,7 +5,6 @@ import cubex2.cs4.TestContentHelper;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.InitPhase;
-import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -22,8 +21,6 @@ public class OreDictionaryEntryTests
     public static void setup()
     {
         gson = TestUtil.createGsonBuilder().create();
-
-        Bootstrap.register();
     }
 
     @Test

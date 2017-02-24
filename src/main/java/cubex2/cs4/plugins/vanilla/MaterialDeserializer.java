@@ -10,7 +10,7 @@ import net.minecraft.block.material.Material;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class MaterialDeserializer implements JsonDeserializer<Material>
+class MaterialDeserializer implements JsonDeserializer<Material>
 {
     private static Map<String, Material> materialMap = Maps.newHashMap();
 

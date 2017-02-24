@@ -1,12 +1,8 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import cubex2.cs4.TestUtil;
-import cubex2.cs4.api.WrappedItemStack;
-import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
-import net.minecraft.util.ResourceLocation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,8 +17,6 @@ public class SmeltingRecipeTests
     public static void setup()
     {
         gson = TestUtil.createGsonBuilder().create();
-
-        Bootstrap.register();
     }
 
     @Test

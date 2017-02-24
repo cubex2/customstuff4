@@ -7,6 +7,7 @@ import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentRegistry;
 import cubex2.cs4.api.LoaderPredicate;
 import cubex2.cs4.plugins.vanilla.VanillaPlugin;
+import net.minecraft.init.Bootstrap;
 
 import java.lang.reflect.Type;
 
@@ -14,6 +15,8 @@ public class TestUtil
 {
     public static GsonBuilder createGsonBuilder()
     {
+        Bootstrap.register();
+
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         new VanillaPlugin().registerContent(new ContentRegistry()

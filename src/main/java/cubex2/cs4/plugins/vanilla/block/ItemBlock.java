@@ -46,4 +46,10 @@ public class ItemBlock extends net.minecraft.item.ItemBlock
 
         return tabs;
     }
+
+    @Override
+    public int getItemStackLimit(ItemStack stack)
+    {
+        return content.maxStack.get(stack.getMetadata()).orElse(64);
+    }
 }

@@ -15,6 +15,7 @@ public abstract class ContentBlockBase<T extends Block> implements Content
 {
     String id;
     Material material = Material.GROUND;
+    float slipperiness = 0.6f;
 
     protected transient T block;
 
@@ -27,6 +28,7 @@ public abstract class ContentBlockBase<T extends Block> implements Content
         block = createBlock();
         block.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         block.setRegistryName(id);
+        block.slipperiness = slipperiness;
 
         initBlock();
 
@@ -45,7 +47,7 @@ public abstract class ContentBlockBase<T extends Block> implements Content
 
     protected void initBlock()
     {
-        
+
     }
 
     protected abstract T createBlock();

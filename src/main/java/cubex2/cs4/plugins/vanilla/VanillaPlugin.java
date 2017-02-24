@@ -2,6 +2,8 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.api.*;
+import cubex2.cs4.util.IntRange;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -19,10 +21,15 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(Length.class, new LengthDeserializer());
         registry.registerDeserializer(WrappedToolMaterial.class, new ToolMaterialDeserializer());
         registry.registerDeserializer(Material.class, new MaterialDeserializer());
+        registry.registerDeserializer(SoundType.class, new SoundTypeDeserializer());
+        registry.registerDeserializer(IntRange.class, new IntRangeDeserializer());
         registry.registerDeserializer(new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType(), MetadataAttribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<String>>() {}.getType(), MetadataAttribute.deserializer(String.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<Float>>() {}.getType(), MetadataAttribute.deserializer(Float.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<Integer>>() {}.getType(), MetadataAttribute.deserializer(Integer.class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<SoundType>>() {}.getType(), MetadataAttribute.deserializer(SoundType.class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<IntRange>>() {}.getType(), MetadataAttribute.deserializer(IntRange.class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<String[]>>() {}.getType(), MetadataAttribute.deserializer(String[].class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
