@@ -52,7 +52,7 @@ public class BlockSimple extends Block
     @Override
     public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity)
     {
-        return content.stepSound.get(getMetaFromState(state)).orElse(SoundType.STONE);
+        return content.soundType.get(getMetaFromState(state)).orElse(SoundType.STONE);
     }
 
     @Override

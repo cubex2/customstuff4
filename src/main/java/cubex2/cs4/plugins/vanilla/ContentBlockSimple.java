@@ -18,7 +18,7 @@ public class ContentBlockSimple extends ContentBlockBase<BlockSimple>
     public MetadataAttribute<String> creativeTab = MetadataAttribute.constant("anonexistingtabtoreturnnull");
     public MetadataAttribute<Float> hardness = MetadataAttribute.constant(1f);
     public MetadataAttribute<Float> resistance = MetadataAttribute.constant(0f);
-    public MetadataAttribute<SoundType> stepSound = MetadataAttribute.constant(SoundType.STONE);
+    public MetadataAttribute<SoundType> soundType = MetadataAttribute.constant(SoundType.STONE);
     public MetadataAttribute<Integer> maxStack = MetadataAttribute.constant(64);
     public MetadataAttribute<Integer> opacity = MetadataAttribute.constant(255);
     public MetadataAttribute<Integer> light = MetadataAttribute.constant(0);
