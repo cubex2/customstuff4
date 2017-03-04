@@ -6,10 +6,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
 public class BlockSimpleWithSubtypes extends BlockSimple
 {
     private PropertyEnum<EnumSubtype> subtype;
@@ -29,16 +25,9 @@ public class BlockSimpleWithSubtypes extends BlockSimple
     private static Material setTmpSubtype(Material material, ContentBlockSimple content)
     {
         // Hacky, but it's the only way to have a non-static property
-        subtypeTmp = PropertyEnum.create("subtype", EnumSubtype.class, getUsedSubtypes(content));
+        subtypeTmp = PropertyEnum.create("subtype", EnumSubtype.class, EnumSubtype.getValues(content.subtypes));
 
         return material;
-    }
-
-    private static Collection<EnumSubtype> getUsedSubtypes(ContentBlockSimple content)
-    {
-        return Arrays.stream(content.subtypes)
-                     .mapToObj(meta -> EnumSubtype.values()[meta])
-                     .collect(Collectors.toList());
     }
 
     @Override
