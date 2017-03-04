@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends ContentBlockBase<T>
 {
+    private static ContentBlockBaseWithSubtypes<?> activeContent;
+
     public int[] subtypes = new int[0];
     public MetadataAttribute<String> creativeTab = MetadataAttribute.constant("anonexistingtabtoreturnnull");
     public MetadataAttribute<Float> hardness = MetadataAttribute.constant(1f);
@@ -42,10 +44,17 @@ public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends Cont
         if (subtypes.length == 0)
             subtypes = new int[] {0};
 
+        activeContent = this;
+
+        T block;
         if (hasSubtypes)
-            return createBlockWithSubtypes();
+            block = createBlockWithSubtypes();
         else
-            return createBlockWithoutSubtypes();
+            block = createBlockWithoutSubtypes();
+
+        activeContent = null;
+
+        return block;
     }
 
     protected abstract T createBlockWithSubtypes();
@@ -69,4 +78,12 @@ public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends Cont
     }
 
     protected abstract Optional<Item> createItem(boolean hasSubtypes);
+
+    /**
+     * Gets the current active content. This is only present in the constructor of the block.
+     */
+    public static Optional<ContentBlockBaseWithSubtypes<?>> getActiveContent()
+    {
+        return Optional.ofNullable(activeContent);
+    }
 }

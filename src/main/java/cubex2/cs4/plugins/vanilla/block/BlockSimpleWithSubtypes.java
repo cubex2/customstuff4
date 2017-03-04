@@ -1,6 +1,8 @@
 package cubex2.cs4.plugins.vanilla.block;
 
+import cubex2.cs4.plugins.vanilla.ContentBlockBaseWithSubtypes;
 import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
+import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -9,25 +11,15 @@ import net.minecraft.block.state.IBlockState;
 public class BlockSimpleWithSubtypes extends BlockSimple
 {
     private PropertyEnum<EnumSubtype> subtype;
-    private static PropertyEnum<EnumSubtype> subtypeTmp;
 
     public BlockSimpleWithSubtypes(Material material, ContentBlockSimple content)
     {
-        super(setTmpSubtype(material, content), content);
+        super(material, content);
 
-        subtype = subtypeTmp;
-        subtypeTmp = null;
+        subtype = BlockHelper.getSubtypeProperty(content.subtypes);
 
         setDefaultState(blockState.getBaseState()
                                   .withProperty(subtype, EnumSubtype.SUBTYPE0));
-    }
-
-    private static Material setTmpSubtype(Material material, ContentBlockSimple content)
-    {
-        // Hacky, but it's the only way to have a non-static property
-        subtypeTmp = PropertyEnum.create("subtype", EnumSubtype.class, EnumSubtype.getValues(content.subtypes));
-
-        return material;
     }
 
     @Override
@@ -51,6 +43,9 @@ public class BlockSimpleWithSubtypes extends BlockSimple
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, subtype == null ? subtypeTmp : subtype);
+        ContentBlockBaseWithSubtypes.getActiveContent()
+                                    .ifPresent(c -> subtype = BlockHelper.getSubtypeProperty(c.subtypes));
+
+        return new BlockStateContainer(this, subtype);
     }
 }
