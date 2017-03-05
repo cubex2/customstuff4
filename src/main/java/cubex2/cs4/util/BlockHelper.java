@@ -3,6 +3,9 @@ package cubex2.cs4.util;
 import com.google.common.collect.Maps;
 import cubex2.cs4.plugins.vanilla.block.EnumSubtype;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -24,6 +27,16 @@ public class BlockHelper
     private static PropertyEnum<EnumSubtype> createSubtypeProperty(IntArray subtypes)
     {
         return PropertyEnum.create("subtype", EnumSubtype.class, EnumSubtype.getValues(subtypes.array));
+    }
+
+    public static EnumFacing getVerticalFacingFromEntity(BlockPos pos, EntityLivingBase living)
+    {
+        double d = living.posY + living.getEyeHeight();
+
+        if (d - pos.getY() > 2.0D)
+            return EnumFacing.UP;
+        else
+            return EnumFacing.DOWN;
     }
 
     private static class IntArray

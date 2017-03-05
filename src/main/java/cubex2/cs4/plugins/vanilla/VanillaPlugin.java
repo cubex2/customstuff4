@@ -30,6 +30,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<MetadataAttribute<SoundType>>() {}.getType(), MetadataAttribute.deserializer(SoundType.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<IntRange>>() {}.getType(), MetadataAttribute.deserializer(IntRange.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<String[]>>() {}.getType(), MetadataAttribute.deserializer(String[].class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<Boolean>>() {}.getType(), MetadataAttribute.deserializer(Boolean.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
@@ -50,6 +51,9 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:sword", ContentItemSword.class);
 
         registry.registerContentType("block:simple", ContentBlockSimple.class);
+        registry.registerContentType("block:orientable:vertical", ContentBlockOrientableVertical.class);
+        registry.registerContentType("block:orientable:horizontal", ContentBlockOrientableHorizontal.class);
+        registry.registerContentType("block:orientable:directional", ContentBlockOrientableDirectional.class);
 
         registry.registerContentType("worldGen:ore", WorldGenOre.class);
     }

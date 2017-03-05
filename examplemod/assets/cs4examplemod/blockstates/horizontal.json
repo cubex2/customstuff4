@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,subtype=subtype0": {"model": "cs4examplemod:horizontal_0", "y": 0},
+    "facing=east,subtype=subtype0": {"model": "cs4examplemod:horizontal_0", "y": 90},
+    "facing=south,subtype=subtype0": {"model": "cs4examplemod:horizontal_0", "y": 180},
+    "facing=west,subtype=subtype0": {"model": "cs4examplemod:horizontal_0", "y": 270},
+    "facing=north,subtype=subtype1": {"model": "cs4examplemod:horizontal_1", "y": 0},
+    "facing=east,subtype=subtype1": {"model": "cs4examplemod:horizontal_1", "y": 90},
+    "facing=south,subtype=subtype1": {"model": "cs4examplemod:horizontal_1", "y": 180},
+    "facing=west,subtype=subtype1": {"model": "cs4examplemod:horizontal_1", "y": 270}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/orientable_vertical",
+  "textures": {
+    "front": "cs4examplemod:blocks/sensor_emerald",
+    "side": "cs4examplemod:blocks/sensor_iron"
+  }
+}

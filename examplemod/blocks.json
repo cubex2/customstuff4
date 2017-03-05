@@ -18,6 +18,64 @@
 					}
 				}
 			]
+		},
+		{
+			"type" : "block:orientable:vertical",
+			"entries" : [
+				{
+					"id" : "vertical",
+					"creativeTab" : "redstone",
+					"material" : "iron",
+					"subtypes" : [ 0, 1 ],
+					"itemModel" : {
+						"0" : "cs4examplemod:vertical_0",
+						"1" : "cs4examplemod:vertical_1"						
+					},
+					"hardness" : {
+						"0" : 1,
+						"1" : 4
+					}
+				}
+			]
+		},
+		{
+			"type" : "block:orientable:horizontal",
+			"entries" : [
+				{
+					"id" : "horizontal",
+					"creativeTab" : "redstone",
+					"material" : "iron",
+					"subtypes" : [ 0, 1 ],
+					"itemModel" : {
+						"0" : "cs4examplemod:horizontal_0",
+						"1" : "cs4examplemod:horizontal_1"						
+					},
+					"hardness" : {
+						"0" : 1,
+						"1" : 4
+					}
+				}
+			]
+		},
+		{
+			"type" : "block:orientable:directional",
+			"entries" : [
+				{
+					"id" : "directional",
+					"faceBySide" : true,
+					"creativeTab" : "redstone",
+					"material" : "iron",
+					"subtypes" : [ 0, 1 ],
+					"itemModel" : {
+						"0" : "cs4examplemod:horizontal_0",
+						"1" : "cs4examplemod:horizontal_1"						
+					},
+					"hardness" : {
+						"0" : 1,
+						"1" : 4
+					}
+				}
+			]
 		}
 	]
 }

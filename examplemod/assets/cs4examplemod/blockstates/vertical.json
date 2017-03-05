@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=up,subtype=subtype0": {"model": "cs4examplemod:vertical_0"},
+    "facing=down,subtype=subtype0": {"model": "cs4examplemod:vertical_0", "x": 180},
+    "facing=up,subtype=subtype1": {"model": "cs4examplemod:vertical_1"},
+    "facing=down,subtype=subtype1": {"model": "cs4examplemod:vertical_1", "x": 180}
+  }
+}
