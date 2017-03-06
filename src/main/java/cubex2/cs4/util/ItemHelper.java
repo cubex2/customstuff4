@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ItemHelper
@@ -41,7 +42,7 @@ public class ItemHelper
                 tabLabels.get(meta)
                          .ifPresent(tabLabel ->
                                     {
-                                        if (tabLabel.equals(creativeTab.getTabLabel()))
+                                        if (creativeTab == null || Objects.equals(tabLabel, creativeTab.getTabLabel()))
                                         {
                                             list.add(new ItemStack(item, 1, meta));
                                         }

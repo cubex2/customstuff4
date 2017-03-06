@@ -1,59 +1,88 @@
 {
-	"items" : [
-		{
-			"type" : "item:simple",
-			"entries" : [
-				{
-					"id" : "someitem",
-					"subtypes": [0, 1],
-					"model" : {
-						"0" : "cs4examplemod:mobile_sensor_0",
-						"1" : "cs4examplemod:mobile_sensor_1"
-					},
-					"creativeTab" : {
-						"0" : "tools",
-						"1" : "redstone"
-					}
-				},
-				{
-					"id" : "someitem1",
-					"model" : "cs4examplemod:mobile_sensor_0",
-					"creativeTab" : "tools"
-				}
-			]
-		},
-		{
-			"type" : "item:axe",
-			"entries" : [
-				{
-					"id" : "someaxe",
-					"creativeTab" : "tools",
-					"attackSpeed" : 7.35,
-					"material" : "diamond"
-				}
-			]
-		},
-		{
-			"type" : "item:pickaxe",
-			"entries" : [
-				{
-					"id" : "somepickaxe",
-					"creativeTab" : "tools",
-					"attackSpeed" : 7.35,
-					"material" : "diamond"
-				}
-			]
-		},
-		{
-			"type" : "item:shovel",
-			"entries" : [
-				{
-					"id" : "someshovel",
-					"creativeTab" : "tools",
-					"attackSpeed" : 7.35,
-					"material" : "diamond"
-				}
-			]
-		}
-	]
+  "items": [
+    {
+      "type": "item:simple",
+      "entries": [
+        {
+          "id": "someitem",
+          "subtypes": [0, 1],
+          "model": {
+            "0": "cs4examplemod:mobile_sensor_0",
+            "1": "cs4examplemod:mobile_sensor_1"
+          },
+          "creativeTab": {
+            "0": "tools",
+            "1": "redstone"
+          }
+        },
+        {
+          "id": "someitem1",
+          "model": "cs4examplemod:mobile_sensor_0",
+          "creativeTab": "tools"
+        }
+      ]
+    },
+    {
+      "type": "item:axe",
+      "entries": [
+        {
+          "id": "someaxe",
+          "creativeTab": "tools",
+          "attackSpeed": 7.35,
+          "material": "diamond",
+          "model" : "minecraft:diamond_axe"
+        }
+      ]
+    },
+    {
+      "type": "item:pickaxe",
+      "entries": [
+        {
+          "id": "somepickaxe",
+          "creativeTab": "tools",
+          "attackSpeed": 7.35,
+          "material": "diamond",
+          "model" : "minecraft:diamond_pickaxe"
+        }
+      ]
+    },
+    {
+      "type": "item:shovel",
+      "entries": [
+        {
+          "id": "someshovel",
+          "creativeTab": "tools",
+          "attackSpeed": 7.35,
+          "material": "diamond",
+          "model" : "minecraft:diamond_shovel"
+        }
+      ]
+    },
+    {
+      "type": "item:food",
+      "entries": [
+        {
+          "id": "somefood",
+          "subtypes": [0, 1],
+          "creativeTab": "food",
+          "healAmount": {
+            "0": 2,
+            "1": 4
+          },
+          "saturation": 1.0,
+          "alwaysEdible": {
+            "0": false,
+            "1": true
+          },
+          "potionEffect": {
+            "1": {
+              "id": "minecraft:speed",
+              "duration": 120
+            }
+          },
+          "potionEffectProbability": 0.5
+        }
+      ]
+    }
+  ]
 }

@@ -23,6 +23,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(Material.class, new MaterialDeserializer());
         registry.registerDeserializer(SoundType.class, new SoundTypeDeserializer());
         registry.registerDeserializer(IntRange.class, new IntRangeDeserializer());
+        registry.registerDeserializer(WrappedPotionEffect.class, new PotionEffectDeserializer());
         registry.registerDeserializer(new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType(), MetadataAttribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<String>>() {}.getType(), MetadataAttribute.deserializer(String.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<Float>>() {}.getType(), MetadataAttribute.deserializer(Float.class));
@@ -31,6 +32,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<MetadataAttribute<IntRange>>() {}.getType(), MetadataAttribute.deserializer(IntRange.class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<String[]>>() {}.getType(), MetadataAttribute.deserializer(String[].class));
         registry.registerDeserializer(new TypeToken<MetadataAttribute<Boolean>>() {}.getType(), MetadataAttribute.deserializer(Boolean.class));
+        registry.registerDeserializer(new TypeToken<MetadataAttribute<WrappedPotionEffect>>() {}.getType(), MetadataAttribute.deserializer(WrappedPotionEffect.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
@@ -49,6 +51,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:pickaxe", ContentItemPickaxe.class);
         registry.registerContentType("item:shovel", ContentItemShovel.class);
         registry.registerContentType("item:sword", ContentItemSword.class);
+        registry.registerContentType("item:food", ContentItemFood.class);
 
         registry.registerContentType("block:simple", ContentBlockSimple.class);
         registry.registerContentType("block:orientable:vertical", ContentBlockOrientableVertical.class);
