@@ -1,12 +1,13 @@
 package cubex2.cs4.plugins.vanilla;
 
-import cubex2.cs4.plugins.vanilla.item.ItemSimple;
+import cubex2.cs4.plugins.vanilla.item.ItemFactory;
+import net.minecraft.item.Item;
 
-public class ContentItemSimple extends ContentItemWithSubtypes<ItemSimple>
+public class ContentItemSimple extends ContentItemWithSubtypes<Item>
 {
     @Override
-    protected ItemSimple createItem()
+    protected Item createItem()
     {
-        return new ItemSimple(this);
+        return ItemFactory.createSimple(this);
     }
 }

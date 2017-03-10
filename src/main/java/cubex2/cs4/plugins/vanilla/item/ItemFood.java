@@ -2,25 +2,18 @@ package cubex2.cs4.plugins.vanilla.item;
 
 import cubex2.cs4.api.WrappedPotionEffect;
 import cubex2.cs4.plugins.vanilla.ContentItemFood;
-import cubex2.cs4.util.ItemHelper;
-import net.minecraft.creativetab.CreativeTabs;
+import cubex2.cs4.plugins.vanilla.ContentItemWithSubtypes;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class ItemFood extends net.minecraft.item.ItemFood
+public class ItemFood extends net.minecraft.item.ItemFood implements ItemWithSubtypes
 {
     private final ContentItemFood content;
-    private CreativeTabs[] tabs;
 
     public ItemFood(ContentItemFood content)
     {
@@ -72,44 +65,8 @@ public class ItemFood extends net.minecraft.item.ItemFood
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
+    public ContentItemWithSubtypes<?> getContent()
     {
-        if (hasSubtypes)
-        {
-            return super.getUnlocalizedName(stack) + "." + stack.getMetadata();
-        } else
-        {
-            return super.getUnlocalizedName(stack);
-        }
-    }
-
-    @Override
-    public CreativeTabs[] getCreativeTabs()
-    {
-        if (tabs == null)
-        {
-            tabs = ItemHelper.createCreativeTabs(content.creativeTab, content.subtypes);
-        }
-
-        return tabs;
-    }
-
-    @Override
-    public int getItemStackLimit(ItemStack stack)
-    {
-        return content.maxStack.get(stack.getMetadata()).orElse(64);
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
-    {
-        String[] lines = content.information.get(stack.getMetadata()).orElse(new String[0]);
-        tooltip.addAll(Arrays.asList(lines));
-    }
-
-    @Override
-    public void getSubItems(Item itemIn, CreativeTabs creativeTab, NonNullList<ItemStack> subItems)
-    {
-        subItems.addAll(ItemHelper.createSubItems(itemIn, creativeTab, content.creativeTab, content.subtypes));
+        return content;
     }
 }

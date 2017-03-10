@@ -1,9 +1,10 @@
 package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.api.WrappedPotionEffect;
-import cubex2.cs4.plugins.vanilla.item.ItemFood;
+import cubex2.cs4.plugins.vanilla.item.ItemFactory;
+import net.minecraft.item.Item;
 
-public class ContentItemFood extends ContentItemWithSubtypes<ItemFood>
+public class ContentItemFood extends ContentItemWithSubtypes<Item>
 {
     public MetadataAttribute<Integer> healAmount = MetadataAttribute.constant(2);
     public MetadataAttribute<Float> saturation = MetadataAttribute.constant(0.6F);
@@ -14,8 +15,8 @@ public class ContentItemFood extends ContentItemWithSubtypes<ItemFood>
     public boolean isWolfFood = false;
 
     @Override
-    protected ItemFood createItem()
+    protected Item createItem()
     {
-        return new ItemFood(this);
+        return ItemFactory.createFood(this);
     }
 }
