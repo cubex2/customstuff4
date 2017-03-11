@@ -10,7 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockOrientableHorizontal extends BlockOrientable
+public abstract class BlockOrientableHorizontal extends BlockOrientable
 {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
 

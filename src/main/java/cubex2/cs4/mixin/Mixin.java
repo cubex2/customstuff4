@@ -25,14 +25,24 @@ public class Mixin implements Opcodes
         ClassNode baseNode = createClassNode(baseClass);
         List<ClassNode> mixinNodes = Arrays.stream(mixins).map(Mixin::createClassNode).collect(Collectors.toList());
 
+        baseNode.access &= ~ACC_ABSTRACT;
+
         String oldName = baseNode.name;
         baseNode.name = name;
+
+        removeStaticFieldsAndMethods(baseNode);
 
         baseNode.methods.forEach(m -> fixMethodInstructions(oldName, name, m));
 
         mixinNodes.forEach(mixin -> mixin(baseNode, mixin));
 
         return createClass(baseNode);
+    }
+
+    private static void removeStaticFieldsAndMethods(ClassNode node)
+    {
+        node.methods.removeIf(m -> (m.access & ACC_STATIC) != 0);
+        node.fields.removeIf(f -> (f.access & ACC_STATIC) != 0);
     }
 
     static void mixin(ClassNode baseNode, ClassNode mixin)
@@ -45,7 +55,7 @@ public class Mixin implements Opcodes
     {
         for (FieldNode field : mixin.fields)
         {
-            if (!hasField(base, field.name))
+            if (canMixinField(base, field))
             {
                 mixinField(base, field);
             }
@@ -55,6 +65,16 @@ public class Mixin implements Opcodes
     private static void mixinField(ClassNode base, FieldNode field)
     {
         base.fields.add(new FieldNode(field.access, field.name, field.desc, field.signature, field.value));
+    }
+
+    private static boolean canMixinField(ClassNode node, FieldNode field)
+    {
+        if (hasField(node, field.name))
+            return false;
+        if ((field.access & Opcodes.ACC_STATIC) != 0)
+            return false;
+
+        return true;
     }
 
     static boolean hasField(ClassNode node, String name)
@@ -122,6 +142,8 @@ public class Mixin implements Opcodes
         if ((method.access & Opcodes.ACC_STATIC) != 0)
             return false;
         if (method.name.equals("<init>"))
+            return false;
+        if (method.name.equals("<clinit>"))
             return false;
 
         return true;

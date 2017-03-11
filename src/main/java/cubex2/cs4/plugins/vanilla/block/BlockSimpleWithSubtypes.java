@@ -1,14 +1,12 @@
 package cubex2.cs4.plugins.vanilla.block;
 
-import cubex2.cs4.plugins.vanilla.ContentBlockBaseWithSubtypes;
 import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
 import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 
-public class BlockSimpleWithSubtypes extends BlockSimple
+public abstract class BlockSimpleWithSubtypes extends BlockSimple
 {
     private PropertyEnum<EnumSubtype> subtype;
 
@@ -23,12 +21,6 @@ public class BlockSimpleWithSubtypes extends BlockSimple
     }
 
     @Override
-    public int damageDropped(IBlockState state)
-    {
-        return getMetaFromState(state);
-    }
-
-    @Override
     public IBlockState getStateFromMeta(int meta)
     {
         return getDefaultState().withProperty(subtype, EnumSubtype.values()[meta]);
@@ -38,14 +30,5 @@ public class BlockSimpleWithSubtypes extends BlockSimple
     public int getMetaFromState(IBlockState state)
     {
         return state.getValue(subtype).ordinal();
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState()
-    {
-        ContentBlockBaseWithSubtypes.getActiveContent()
-                                    .ifPresent(c -> subtype = BlockHelper.getSubtypeProperty(c.subtypes));
-
-        return new BlockStateContainer(this, subtype);
     }
 }

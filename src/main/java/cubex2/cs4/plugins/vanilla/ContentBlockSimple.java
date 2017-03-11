@@ -1,24 +1,24 @@
 package cubex2.cs4.plugins.vanilla;
 
-import cubex2.cs4.plugins.vanilla.block.BlockSimple;
-import cubex2.cs4.plugins.vanilla.block.BlockSimpleWithSubtypes;
+import cubex2.cs4.plugins.vanilla.block.BlockFactory;
 import cubex2.cs4.plugins.vanilla.block.ItemBlock;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
 import java.util.Optional;
 
-public class ContentBlockSimple extends ContentBlockBaseWithSubtypes<BlockSimple>
+public class ContentBlockSimple extends ContentBlockBaseWithSubtypes
 {
     @Override
-    protected BlockSimple createBlockWithSubtypes()
+    protected Block createBlockWithSubtypes()
     {
-        return new BlockSimpleWithSubtypes(material, this);
+        return BlockFactory.createSimpleSubtype(this);
     }
 
     @Override
-    protected BlockSimple createBlockWithoutSubtypes()
+    protected Block createBlockWithoutSubtypes()
     {
-        return new BlockSimple(material, this);
+        return BlockFactory.createSimple(this);
     }
 
     @Override

@@ -1,17 +1,19 @@
 package cubex2.cs4.plugins.vanilla.block;
 
 import cubex2.cs4.plugins.vanilla.ContentBlockOrientable;
+import cubex2.cs4.plugins.vanilla.ContentBlockOrientableDirectional;
+import cubex2.cs4.plugins.vanilla.ContentBlockOrientableVertical;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public class BlockOrientableDirectionalWithSubtypes extends BlockOrientableWithSubtypes
+public abstract class BlockOrientableDirectionalWithSubtypes extends BlockOrientableWithSubtypes
 {
     public static final PropertyDirection FACING = BlockOrientableDirectional.FACING;
 
-    public BlockOrientableDirectionalWithSubtypes(Material material, ContentBlockOrientable content)
+    public BlockOrientableDirectionalWithSubtypes(Material material, ContentBlockOrientableDirectional content)
     {
         super(material, content);
 

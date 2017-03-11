@@ -12,7 +12,7 @@ public abstract class IntRange
 
     public abstract int getMax();
 
-    public abstract int getRandomValue(Random random);
+    public abstract int getRandomValue();
 
     public static IntRange create(int min, int max)
     {
@@ -41,7 +41,7 @@ public abstract class IntRange
         }
 
         @Override
-        public int getRandomValue(Random random)
+        public int getRandomValue()
         {
             return value;
         }
@@ -49,6 +49,8 @@ public abstract class IntRange
 
     private static class RealRange extends IntRange
     {
+        private static final Random RANDOM = new Random();
+
         private final int min;
         private final int max;
 
@@ -73,9 +75,9 @@ public abstract class IntRange
         }
 
         @Override
-        public int getRandomValue(Random random)
+        public int getRandomValue()
         {
-            return random.nextInt(max - min + 1) + min;
+            return RANDOM.nextInt(max - min + 1) + min;
         }
     }
 }

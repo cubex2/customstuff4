@@ -14,10 +14,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.Optional;
 
-public abstract class ContentBlockBase<T extends Block> implements Content
+public abstract class ContentBlockBase implements Content
 {
     String id;
-    Material material = Material.GROUND;
+    public Material material = Material.GROUND;
     float slipperiness = 0.6f;
 
     public Attribute<String> creativeTab = Attribute.constant("anonexistingtabtoreturnnull");
@@ -39,7 +39,7 @@ public abstract class ContentBlockBase<T extends Block> implements Content
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(new ResourceLocation("minecraft:stick"));
 
-    protected transient T block;
+    protected transient Block block;
 
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
@@ -72,7 +72,7 @@ public abstract class ContentBlockBase<T extends Block> implements Content
 
     }
 
-    protected abstract T createBlock();
+    protected abstract Block createBlock();
 
     protected Optional<Item> createItem()
     {

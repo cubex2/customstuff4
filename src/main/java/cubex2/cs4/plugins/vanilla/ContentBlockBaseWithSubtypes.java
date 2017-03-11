@@ -1,24 +1,23 @@
 package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.CustomStuff4;
-import cubex2.cs4.util.IntRange;
+import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends ContentBlockBase<T>
+public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
 {
-    private static ContentBlockBaseWithSubtypes<?> activeContent;
+    private static ContentBlockBaseWithSubtypes activeContent;
 
     public int[] subtypes = new int[0];
     private transient boolean hasSubtypes;
 
     @Override
-    protected final T createBlock()
+    protected final Block createBlock()
     {
         hasSubtypes = subtypes.length > 0;
 
@@ -27,7 +26,7 @@ public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends Cont
 
         activeContent = this;
 
-        T block;
+        Block block;
         if (hasSubtypes)
             block = createBlockWithSubtypes();
         else
@@ -38,9 +37,9 @@ public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends Cont
         return block;
     }
 
-    protected abstract T createBlockWithSubtypes();
+    protected abstract Block createBlockWithSubtypes();
 
-    protected abstract T createBlockWithoutSubtypes();
+    protected abstract Block createBlockWithoutSubtypes();
 
     @Override
     protected final Optional<Item> createItem()
@@ -60,11 +59,17 @@ public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends Cont
 
     protected abstract Optional<Item> createItem(boolean hasSubtypes);
 
-    /**
-     * Gets the current active content. This is only present in the constructor of the block.
-     */
-    public static Optional<ContentBlockBaseWithSubtypes<?>> getActiveContent()
+    public static IProperty[] insertSubtype(IProperty... properties)
     {
-        return Optional.ofNullable(activeContent);
+        if (activeContent != null)
+        {
+            IProperty[] newPropertires = new IProperty[properties.length + 1];
+            newPropertires[0] = BlockHelper.getSubtypeProperty(activeContent.subtypes);
+            System.arraycopy(properties, 0, newPropertires, 1, properties.length);
+            return newPropertires;
+        } else
+        {
+            return properties;
+        }
     }
 }

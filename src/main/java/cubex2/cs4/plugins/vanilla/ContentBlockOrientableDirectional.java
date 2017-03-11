@@ -1,20 +1,19 @@
 package cubex2.cs4.plugins.vanilla;
 
-import cubex2.cs4.plugins.vanilla.block.BlockOrientable;
-import cubex2.cs4.plugins.vanilla.block.BlockOrientableDirectional;
-import cubex2.cs4.plugins.vanilla.block.BlockOrientableDirectionalWithSubtypes;
+import cubex2.cs4.plugins.vanilla.block.BlockFactory;
+import net.minecraft.block.Block;
 
 public class ContentBlockOrientableDirectional extends ContentBlockOrientable
 {
     @Override
-    protected BlockOrientable createBlockWithSubtypes()
+    protected Block createBlockWithSubtypes()
     {
-        return new BlockOrientableDirectionalWithSubtypes(material, this);
+        return BlockFactory.createDirectionalSubtype(this);
     }
 
     @Override
-    protected BlockOrientable createBlockWithoutSubtypes()
+    protected Block createBlockWithoutSubtypes()
     {
-        return new BlockOrientableDirectional(material, this);
+        return BlockFactory.createDirectional(this);
     }
 }

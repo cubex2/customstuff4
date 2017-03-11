@@ -4,6 +4,7 @@ import cubex2.cs4.plugins.vanilla.ContentBlockBaseWithSubtypes;
 import cubex2.cs4.plugins.vanilla.ContentBlockOrientable;
 import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -19,6 +20,8 @@ abstract class BlockOrientableWithSubtypes extends BlockOrientable
     BlockOrientableWithSubtypes(Material material, ContentBlockOrientable content)
     {
         super(material, content);
+
+        subtype = BlockHelper.getSubtypeProperty(content.subtypes);
     }
 
     @Override
@@ -71,11 +74,8 @@ abstract class BlockOrientableWithSubtypes extends BlockOrientable
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
+    public IProperty[] getProperties()
     {
-        ContentBlockBaseWithSubtypes.getActiveContent()
-                                    .ifPresent(c -> subtype = BlockHelper.getSubtypeProperty(c.subtypes));
-
-        return new BlockStateContainer(this, subtype, getFacingProperty());
+        return new IProperty[] {getFacingProperty()};
     }
 }
