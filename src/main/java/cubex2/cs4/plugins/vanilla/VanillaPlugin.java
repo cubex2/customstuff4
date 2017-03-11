@@ -24,15 +24,15 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(SoundType.class, new SoundTypeDeserializer());
         registry.registerDeserializer(IntRange.class, new IntRangeDeserializer());
         registry.registerDeserializer(WrappedPotionEffect.class, new PotionEffectDeserializer());
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType(), MetadataAttribute.deserializer(ResourceLocation.class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<String>>() {}.getType(), MetadataAttribute.deserializer(String.class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<Float>>() {}.getType(), MetadataAttribute.deserializer(Float.class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<Integer>>() {}.getType(), MetadataAttribute.deserializer(Integer.class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<SoundType>>() {}.getType(), MetadataAttribute.deserializer(SoundType.class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<IntRange>>() {}.getType(), MetadataAttribute.deserializer(IntRange.class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<String[]>>() {}.getType(), MetadataAttribute.deserializer(String[].class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<Boolean>>() {}.getType(), MetadataAttribute.deserializer(Boolean.class));
-        registry.registerDeserializer(new TypeToken<MetadataAttribute<WrappedPotionEffect>>() {}.getType(), MetadataAttribute.deserializer(WrappedPotionEffect.class));
+        registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
+        registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
+        registry.registerDeserializer(new TypeToken<Attribute<Float>>() {}.getType(), Attribute.deserializer(Float.class));
+        registry.registerDeserializer(new TypeToken<Attribute<Integer>>() {}.getType(), Attribute.deserializer(Integer.class));
+        registry.registerDeserializer(new TypeToken<Attribute<SoundType>>() {}.getType(), Attribute.deserializer(SoundType.class));
+        registry.registerDeserializer(new TypeToken<Attribute<IntRange>>() {}.getType(), Attribute.deserializer(IntRange.class));
+        registry.registerDeserializer(new TypeToken<Attribute<String[]>>() {}.getType(), Attribute.deserializer(String[].class));
+        registry.registerDeserializer(new TypeToken<Attribute<Boolean>>() {}.getType(), Attribute.deserializer(Boolean.class));
+        registry.registerDeserializer(new TypeToken<Attribute<WrappedPotionEffect>>() {}.getType(), Attribute.deserializer(WrappedPotionEffect.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);

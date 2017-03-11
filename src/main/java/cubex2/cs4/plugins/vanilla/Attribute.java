@@ -8,13 +8,13 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Optional;
 
-public interface MetadataAttribute<T>
+public interface Attribute<T>
 {
     Optional<T> get(int meta);
 
     boolean hasEntry(int meta);
 
-    class FromMap<T> implements MetadataAttribute<T>
+    class FromMap<T> implements Attribute<T>
     {
         private final Map<Integer, T> map;
 
@@ -44,7 +44,7 @@ public interface MetadataAttribute<T>
         }
     }
 
-    class Constant<T> implements MetadataAttribute<T>
+    class Constant<T> implements Attribute<T>
     {
         private final T value;
 
@@ -63,22 +63,22 @@ public interface MetadataAttribute<T>
         }
     }
 
-    static <T> MetadataAttribute<T> map()
+    static <T> Attribute<T> map()
     {
         return new FromMap<>();
     }
 
-    static <T> MetadataAttribute<T> map(Map<Integer, T> map)
+    static <T> Attribute<T> map(Map<Integer, T> map)
     {
         return new FromMap<>(map);
     }
 
-    static <T> MetadataAttribute<T> constant(T value)
+    static <T> Attribute<T> constant(T value)
     {
         return new Constant<>(value);
     }
 
-    static <T> JsonDeserializer<MetadataAttribute<T>> deserializer(Type elementType)
+    static <T> JsonDeserializer<Attribute<T>> deserializer(Type elementType)
     {
         return (json, typeOfT, context) ->
         {

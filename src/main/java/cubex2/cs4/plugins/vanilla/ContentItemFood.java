@@ -6,11 +6,11 @@ import net.minecraft.item.Item;
 
 public class ContentItemFood extends ContentItemWithSubtypes<Item>
 {
-    public MetadataAttribute<Integer> healAmount = MetadataAttribute.constant(2);
-    public MetadataAttribute<Float> saturation = MetadataAttribute.constant(0.6F);
-    public MetadataAttribute<Boolean> alwaysEdible = MetadataAttribute.constant(false);
-    public MetadataAttribute<WrappedPotionEffect> potionEffect = MetadataAttribute.constant(WrappedPotionEffect.of(null));
-    public MetadataAttribute<Float> potionEffectProbability = MetadataAttribute.constant(1f);
+    public Attribute<Integer> healAmount = Attribute.constant(2);
+    public Attribute<Float> saturation = Attribute.constant(0.6F);
+    public Attribute<Boolean> alwaysEdible = Attribute.constant(false);
+    public Attribute<WrappedPotionEffect> potionEffect = Attribute.constant(WrappedPotionEffect.of(null));
+    public Attribute<Float> potionEffectProbability = Attribute.constant(1f);
 
     public boolean isWolfFood = false;
 

@@ -1,6 +1,6 @@
 package cubex2.cs4.util;
 
-import cubex2.cs4.plugins.vanilla.MetadataAttribute;
+import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,7 @@ public class ItemHelper
                      .findFirst();
     }
 
-    public static CreativeTabs[] createCreativeTabs(MetadataAttribute<String> tabLabels, int[] subtypes)
+    public static CreativeTabs[] createCreativeTabs(Attribute<String> tabLabels, int[] subtypes)
     {
         return Arrays.stream(subtypes).mapToObj(tabLabels::get)
                      .filter(Optional::isPresent)
@@ -31,7 +31,7 @@ public class ItemHelper
                      .toArray(CreativeTabs[]::new);
     }
 
-    public static NonNullList<ItemStack> createSubItems(Item item, CreativeTabs creativeTab, MetadataAttribute<String> tabLabels, int[] subtypes)
+    public static NonNullList<ItemStack> createSubItems(Item item, CreativeTabs creativeTab, Attribute<String> tabLabels, int[] subtypes)
     {
         NonNullList<ItemStack> list = NonNullList.create();
 

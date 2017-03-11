@@ -15,24 +15,24 @@ public abstract class ContentBlockBaseWithSubtypes<T extends Block> extends Cont
     private static ContentBlockBaseWithSubtypes<?> activeContent;
 
     public int[] subtypes = new int[0];
-    public MetadataAttribute<String> creativeTab = MetadataAttribute.constant("anonexistingtabtoreturnnull");
-    public MetadataAttribute<Float> hardness = MetadataAttribute.constant(1f);
-    public MetadataAttribute<Float> resistance = MetadataAttribute.constant(0f);
-    public MetadataAttribute<SoundType> soundType = MetadataAttribute.constant(SoundType.STONE);
-    public MetadataAttribute<Integer> maxStack = MetadataAttribute.constant(64);
-    public MetadataAttribute<Integer> opacity = MetadataAttribute.constant(255);
-    public MetadataAttribute<Integer> light = MetadataAttribute.constant(0);
-    public MetadataAttribute<Integer> flammability = MetadataAttribute.constant(0);
-    public MetadataAttribute<Integer> fireSpreadSpeed = MetadataAttribute.constant(0);
-    public MetadataAttribute<Boolean> isFireSource = MetadataAttribute.constant(false);
-    public MetadataAttribute<Boolean> isWood = MetadataAttribute.constant(false);
-    public MetadataAttribute<Boolean> canSustainLeaves = MetadataAttribute.constant(false);
-    public MetadataAttribute<Boolean> isBeaconBase = MetadataAttribute.constant(false);
-    public MetadataAttribute<Float> enchantPowerBonus = MetadataAttribute.constant(0f);
-    public MetadataAttribute<IntRange> expDrop = MetadataAttribute.constant(IntRange.create(0, 0));
-    public MetadataAttribute<String[]> information = MetadataAttribute.constant(new String[0]);
+    public Attribute<String> creativeTab = Attribute.constant("anonexistingtabtoreturnnull");
+    public Attribute<Float> hardness = Attribute.constant(1f);
+    public Attribute<Float> resistance = Attribute.constant(0f);
+    public Attribute<SoundType> soundType = Attribute.constant(SoundType.STONE);
+    public Attribute<Integer> maxStack = Attribute.constant(64);
+    public Attribute<Integer> opacity = Attribute.constant(255);
+    public Attribute<Integer> light = Attribute.constant(0);
+    public Attribute<Integer> flammability = Attribute.constant(0);
+    public Attribute<Integer> fireSpreadSpeed = Attribute.constant(0);
+    public Attribute<Boolean> isFireSource = Attribute.constant(false);
+    public Attribute<Boolean> isWood = Attribute.constant(false);
+    public Attribute<Boolean> canSustainLeaves = Attribute.constant(false);
+    public Attribute<Boolean> isBeaconBase = Attribute.constant(false);
+    public Attribute<Float> enchantPowerBonus = Attribute.constant(0f);
+    public Attribute<IntRange> expDrop = Attribute.constant(IntRange.create(0, 0));
+    public Attribute<String[]> information = Attribute.constant(new String[0]);
 
-    MetadataAttribute<ResourceLocation> itemModel = MetadataAttribute.constant(new ResourceLocation("minecraft:stick"));
+    Attribute<ResourceLocation> itemModel = Attribute.constant(new ResourceLocation("minecraft:stick"));
 
     private transient boolean hasSubtypes;
 

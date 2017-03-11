@@ -1,7 +1,7 @@
 package cubex2.cs4.util;
 
 import com.google.common.collect.Maps;
-import cubex2.cs4.plugins.vanilla.MetadataAttribute;
+import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.item.Item;
@@ -48,7 +48,7 @@ public class ItemHelperTests
         map.put(1, "invalidtab");
         map.put(2, "redstone");
 
-        CreativeTabs[] tabs = ItemHelper.createCreativeTabs(MetadataAttribute.map(map), new int[] {0, 1, 2});
+        CreativeTabs[] tabs = ItemHelper.createCreativeTabs(Attribute.map(map), new int[] {0, 1, 2});
 
         assertEquals(2, tabs.length);
         assertSame(CreativeTabs.TOOLS, tabs[0]);
@@ -62,7 +62,7 @@ public class ItemHelperTests
         map.put(0, "tools");
         map.put(1, "tools");
 
-        CreativeTabs[] tabs = ItemHelper.createCreativeTabs(MetadataAttribute.map(map), new int[] {0, 1});
+        CreativeTabs[] tabs = ItemHelper.createCreativeTabs(Attribute.map(map), new int[] {0, 1});
 
         assertEquals(1, tabs.length);
         assertSame(CreativeTabs.TOOLS, tabs[0]);
@@ -75,7 +75,7 @@ public class ItemHelperTests
         map.put(0, "tools");
         map.put(1, "redstone");
 
-        MetadataAttribute<String> tabLabels = MetadataAttribute.map(map);
+        Attribute<String> tabLabels = Attribute.map(map);
         int[] subtypes = new int[] {0, 1};
 
         Item item = new Item();
@@ -94,7 +94,7 @@ public class ItemHelperTests
         map.put(0, "tools");
         map.put(1, "tools");
 
-        MetadataAttribute<String> tabLabels = MetadataAttribute.map(map);
+        Attribute<String> tabLabels = Attribute.map(map);
         int[] subtypes = new int[] {0, 1};
 
         Item item = new Item();
@@ -114,7 +114,7 @@ public class ItemHelperTests
         map.put(0, "tools");
         map.put(1, "tools");
 
-        MetadataAttribute<String> tabLabels = MetadataAttribute.map(map);
+        Attribute<String> tabLabels = Attribute.map(map);
         int[] subtypes = new int[] {0, 1};
 
         Item item = new Item();

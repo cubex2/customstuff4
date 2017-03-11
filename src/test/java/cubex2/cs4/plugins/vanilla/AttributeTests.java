@@ -11,7 +11,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class MetadataAttributeTests
+public class AttributeTests
 {
     private static Gson gson;
 
@@ -24,7 +24,7 @@ public class MetadataAttributeTests
     @Test
     public void testDeserializer_fromMap()
     {
-        MetadataAttribute<ResourceLocation> map = gson.fromJson("{ \"0\": \"minecraft:coal\", \"5\": \"minecraft:stone\" }", new TypeToken<MetadataAttribute<ResourceLocation>>() {}.getType());
+        Attribute<ResourceLocation> map = gson.fromJson("{ \"0\": \"minecraft:coal\", \"5\": \"minecraft:stone\" }", new TypeToken<Attribute<ResourceLocation>>() {}.getType());
 
         assertTrue(map.hasEntry(0));
         assertTrue(map.hasEntry(5));
@@ -36,9 +36,9 @@ public class MetadataAttributeTests
     @Test
     public void testDeserializer_fromSingleValue()
     {
-        Map<String, MetadataAttribute<ResourceLocation>> map = gson.fromJson("{ \"map\": \"minecraft:coal\" }", new TypeToken<Map<String, MetadataAttribute<ResourceLocation>>>() {}.getType());
+        Map<String, Attribute<ResourceLocation>> map = gson.fromJson("{ \"map\": \"minecraft:coal\" }", new TypeToken<Map<String, Attribute<ResourceLocation>>>() {}.getType());
 
-        MetadataAttribute<ResourceLocation> metaMap = map.get("map");
+        Attribute<ResourceLocation> metaMap = map.get("map");
 
         assertTrue(metaMap.hasEntry(0));
         assertTrue(metaMap.hasEntry(7));

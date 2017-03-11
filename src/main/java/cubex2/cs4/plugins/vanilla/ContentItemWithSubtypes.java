@@ -10,11 +10,11 @@ public abstract class ContentItemWithSubtypes<T extends Item> extends ContentIte
 {
     public int[] subtypes = new int[0];
 
-    public MetadataAttribute<String> creativeTab = MetadataAttribute.constant("anonexistingtabtoreturnnull");
-    public MetadataAttribute<Integer> maxStack = MetadataAttribute.constant(64);
-    public MetadataAttribute<String[]> information = MetadataAttribute.constant(new String[0]);
+    public Attribute<String> creativeTab = Attribute.constant("anonexistingtabtoreturnnull");
+    public Attribute<Integer> maxStack = Attribute.constant(64);
+    public Attribute<String[]> information = Attribute.constant(new String[0]);
 
-    MetadataAttribute<ResourceLocation> model = MetadataAttribute.constant(new ResourceLocation("minecraft:stick"));
+    Attribute<ResourceLocation> model = Attribute.constant(new ResourceLocation("minecraft:stick"));
 
     @Override
     protected void initItem()

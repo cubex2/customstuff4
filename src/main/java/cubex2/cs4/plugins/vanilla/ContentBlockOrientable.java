@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public abstract class ContentBlockOrientable extends ContentBlockSimple
 {
-    public MetadataAttribute<Boolean> faceBySide = MetadataAttribute.constant(false);
+    public Attribute<Boolean> faceBySide = Attribute.constant(false);
 
     @Override
     protected Optional<Item> createItem(boolean hasSubtypes)
