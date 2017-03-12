@@ -32,16 +32,4 @@ public abstract class BlockOrientableHorizontal extends BlockOrientable
     {
         return this.getDefaultState().withProperty(FACING, getHorizontalFacingForPlacement(pos, facing, meta, placer));
     }
-
-    @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state)
-    {
-        return state.getValue(FACING).getHorizontalIndex();
-    }
 }

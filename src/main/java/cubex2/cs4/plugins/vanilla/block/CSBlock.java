@@ -15,6 +15,9 @@ public interface CSBlock<T extends ContentBlockBase>
         return new int[] {0};
     }
 
+    /**
+     * Gets all properties that this block is using except for the subtype property.
+     */
     default IProperty[] getProperties()
     {
         return new IProperty[0];

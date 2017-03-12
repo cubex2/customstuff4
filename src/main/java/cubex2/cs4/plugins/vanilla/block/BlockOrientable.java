@@ -3,8 +3,8 @@ package cubex2.cs4.plugins.vanilla.block;
 import cubex2.cs4.plugins.vanilla.ContentBlockOrientable;
 import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
@@ -22,6 +22,12 @@ public abstract class BlockOrientable extends BlockSimple
         this.content = content;
     }
 
+    @Override
+    public IProperty[] getProperties()
+    {
+        return new IProperty[] {getFacingProperty()};
+    }
+
     protected abstract PropertyDirection getFacingProperty();
 
     @Override
@@ -34,12 +40,6 @@ public abstract class BlockOrientable extends BlockSimple
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
         return state.withRotation(mirrorIn.toRotation(state.getValue(getFacingProperty())));
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState()
-    {
-        return new BlockStateContainer(this, getFacingProperty());
     }
 
     protected final EnumFacing getVerticalFacingForPlacement(BlockPos pos, EnumFacing facing, int meta, EntityLivingBase placer)

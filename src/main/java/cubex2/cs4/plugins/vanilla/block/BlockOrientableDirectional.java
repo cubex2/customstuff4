@@ -32,16 +32,4 @@ public abstract class BlockOrientableDirectional extends BlockOrientable
     {
         return this.getDefaultState().withProperty(FACING, getDirectionalFacingForPlacement(pos, facing, meta, placer));
     }
-
-    @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state)
-    {
-        return state.getValue(FACING).getIndex();
-    }
 }

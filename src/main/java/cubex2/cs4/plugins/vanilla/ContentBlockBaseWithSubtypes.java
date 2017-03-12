@@ -24,15 +24,16 @@ public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
         if (subtypes.length == 0)
             subtypes = new int[] {0};
 
-        activeContent = this;
-
         Block block;
         if (hasSubtypes)
+        {
+            activeContent = this;
             block = createBlockWithSubtypes();
-        else
+            activeContent = null;
+        } else
+        {
             block = createBlockWithoutSubtypes();
-
-        activeContent = null;
+        }
 
         return block;
     }

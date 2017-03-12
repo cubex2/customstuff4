@@ -8,12 +8,14 @@ import net.minecraft.block.state.IBlockState;
 public abstract class BlockSimple extends Block implements CSBlock<ContentBlockSimple>
 {
     private final ContentBlockSimple content;
+    private final StateMetaMapper<Block> mapper;
 
     public BlockSimple(Material material, ContentBlockSimple content)
     {
         super(material);
 
         this.content = content;
+        this.mapper = StateMetaMapper.create(blockState.getProperties());
     }
 
     @Override
@@ -29,8 +31,26 @@ public abstract class BlockSimple extends Block implements CSBlock<ContentBlockS
     }
 
     @Override
+    public int[] getSubtypes()
+    {
+        return content.subtypes;
+    }
+
+    @Override
     public ContentBlockSimple getContent()
     {
         return content;
+    }
+
+    @Override
+    public final IBlockState getStateFromMeta(int meta)
+    {
+        return mapper.getStateFromMeta(this, meta);
+    }
+
+    @Override
+    public final int getMetaFromState(IBlockState state)
+    {
+        return mapper.getMetaFromState(state);
     }
 }

@@ -30,14 +30,4 @@ public abstract class BlockOrientableVertical extends BlockOrientable
     {
         return this.getDefaultState().withProperty(FACING, getVerticalFacingForPlacement(pos, facing, meta, placer));
     }
-
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
-    }
-
-    public int getMetaFromState(IBlockState state)
-    {
-        return state.getValue(FACING).getIndex();
-    }
 }
