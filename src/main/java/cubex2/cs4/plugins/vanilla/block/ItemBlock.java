@@ -1,6 +1,6 @@
 package cubex2.cs4.plugins.vanilla.block;
 
-import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
+import cubex2.cs4.plugins.vanilla.ContentBlockBaseWithSubtypes;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBlock extends net.minecraft.item.ItemBlock
 {
-    private final ContentBlockSimple content;
+    private final ContentBlockBaseWithSubtypes content;
     private CreativeTabs[] tabs;
 
-    public ItemBlock(Block block, ContentBlockSimple content)
+    public ItemBlock(Block block, ContentBlockBaseWithSubtypes content)
     {
         super(block);
 

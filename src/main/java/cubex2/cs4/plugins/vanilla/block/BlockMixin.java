@@ -33,6 +33,12 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public int damageDropped(IBlockState state)
+    {
+        return getSubtype(state);
+    }
+
+    @Override
     public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
     {
         return getContent().hardness.get(getSubtype(blockState)).orElse(1f);

@@ -1,0 +1,44 @@
+{
+  "multipart": [
+    {
+      "when": {"subtype": "subtype0"},
+      "apply": {"model": "oak_fence_post"}
+    },
+    {
+      "when": {"north": "true", "subtype": "subtype0"},
+      "apply": {"model": "oak_fence_side", "uvlock": true}
+    },
+    {
+      "when": {"east": "true", "subtype": "subtype0"},
+      "apply": {"model": "oak_fence_side", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"south": "true", "subtype": "subtype0"},
+      "apply": {"model": "oak_fence_side", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"west": "true", "subtype": "subtype0"},
+      "apply": {"model": "oak_fence_side", "y": 270, "uvlock": true}
+    },
+    {
+      "when": {"subtype": "subtype1"},
+      "apply": {"model": "birch_fence_post"}
+    },
+    {
+      "when": {"north": "true", "subtype": "subtype1"},
+      "apply": {"model": "birch_fence_side", "uvlock": true}
+    },
+    {
+      "when": {"east": "true", "subtype": "subtype1"},
+      "apply": {"model": "birch_fence_side", "y": 90, "uvlock": true}
+    },
+    {
+      "when": {"south": "true", "subtype": "subtype1"},
+      "apply": {"model": "birch_fence_side", "y": 180, "uvlock": true}
+    },
+    {
+      "when": {"west": "true", "subtype": "subtype1"},
+      "apply": {"model": "birch_fence_side", "y": 270, "uvlock": true}
+    }
+  ]
+}

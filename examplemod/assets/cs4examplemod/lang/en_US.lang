@@ -11,3 +11,5 @@ tile.cs4examplemod.horizontal.0.name=Horizontal 0
 tile.cs4examplemod.horizontal.1.name=Horizontal 1
 tile.cs4examplemod.directional.0.name=Directional 0
 tile.cs4examplemod.directional.1.name=Directional 1
+tile.cs4examplemod.fence.0.name=Fence 0
+tile.cs4examplemod.fence.1.name=Fence 1
