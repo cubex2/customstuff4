@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.api.*;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -24,6 +25,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(SoundType.class, new SoundTypeDeserializer());
         registry.registerDeserializer(IntRange.class, new IntRangeDeserializer());
         registry.registerDeserializer(WrappedPotionEffect.class, new PotionEffectDeserializer());
+        registry.registerDeserializer(MapColor.class, new MapColorDeserializer());
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
         registry.registerDeserializer(new TypeToken<Attribute<Float>>() {}.getType(), Attribute.deserializer(Float.class));
@@ -33,6 +35,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<String[]>>() {}.getType(), Attribute.deserializer(String[].class));
         registry.registerDeserializer(new TypeToken<Attribute<Boolean>>() {}.getType(), Attribute.deserializer(Boolean.class));
         registry.registerDeserializer(new TypeToken<Attribute<WrappedPotionEffect>>() {}.getType(), Attribute.deserializer(WrappedPotionEffect.class));
+        registry.registerDeserializer(new TypeToken<Attribute<MapColor>>() {}.getType(), Attribute.deserializer(MapColor.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);

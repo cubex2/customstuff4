@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Optional;
@@ -48,12 +49,12 @@ public interface Attribute<T>
     {
         private final T value;
 
-        Constant(T value) {this.value = value;}
+        Constant(@Nullable T value) {this.value = value;}
 
         @Override
         public Optional<T> get(int meta)
         {
-            return Optional.of(value);
+            return Optional.ofNullable(value);
         }
 
         @Override
@@ -73,7 +74,7 @@ public interface Attribute<T>
         return new FromMap<>(map);
     }
 
-    static <T> Attribute<T> constant(T value)
+    static <T> Attribute<T> constant(@Nullable T value)
     {
         return new Constant<>(value);
     }

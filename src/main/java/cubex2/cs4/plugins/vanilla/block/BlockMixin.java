@@ -6,6 +6,7 @@ import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -121,6 +122,12 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
     {
         return getContent().expDrop.get(getSubtype(state)).orElse(IntRange.ZERO).getRandomValue();
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state)
+    {
+        return getContent().mapColor.get(getSubtype(state)).orElse(getMaterial(state).getMaterialMapColor());
     }
 
     @Override

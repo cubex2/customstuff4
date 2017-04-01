@@ -6,6 +6,7 @@ import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -36,6 +37,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<Float> enchantPowerBonus = Attribute.constant(0f);
     public Attribute<IntRange> expDrop = Attribute.constant(IntRange.create(0, 0));
     public Attribute<String[]> information = Attribute.constant(new String[0]);
+    public Attribute<MapColor> mapColor = Attribute.constant(null);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(new ResourceLocation("minecraft:stick"));
 
