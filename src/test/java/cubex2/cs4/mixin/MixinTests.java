@@ -63,7 +63,7 @@ public class MixinTests
         Mixin.mixin(base, mixin);
 
         assertEquals(3, base.methods.size());
-        assertEquals(2, base.fields.size());
+        assertEquals(3, base.fields.size());
     }
 
     @Test
@@ -83,11 +83,13 @@ public class MixinTests
 
         Mixin.mixinFields(base, mixin);
 
-        assertEquals(2, base.fields.size());
-        assertEquals("field", base.fields.get(0).name);
+        assertEquals(3, base.fields.size());
+         assertEquals("baseField", base.fields.get(0).name);
         assertEquals("I", base.fields.get(0).desc);
-        assertEquals("field2", base.fields.get(1).name);
-        assertEquals("Ljava/lang/String;", base.fields.get(1).desc);
+        assertEquals("field", base.fields.get(1).name);
+        assertEquals("I", base.fields.get(1).desc);
+        assertEquals("field2", base.fields.get(2).name);
+        assertEquals("Ljava/lang/String;", base.fields.get(2).desc);
     }
 
     @Test
