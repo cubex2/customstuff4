@@ -26,6 +26,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(IntRange.class, new IntRangeDeserializer());
         registry.registerDeserializer(WrappedPotionEffect.class, new PotionEffectDeserializer());
         registry.registerDeserializer(MapColor.class, new MapColorDeserializer());
+        registry.registerDeserializer(WrappedBlockState.class, new WrappedBlockStateDeserializer());
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
         registry.registerDeserializer(new TypeToken<Attribute<Float>>() {}.getType(), Attribute.deserializer(Float.class));
@@ -36,6 +37,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<Boolean>>() {}.getType(), Attribute.deserializer(Boolean.class));
         registry.registerDeserializer(new TypeToken<Attribute<WrappedPotionEffect>>() {}.getType(), Attribute.deserializer(WrappedPotionEffect.class));
         registry.registerDeserializer(new TypeToken<Attribute<MapColor>>() {}.getType(), Attribute.deserializer(MapColor.class));
+        registry.registerDeserializer(new TypeToken<Attribute<WrappedBlockState>>() {}.getType(), Attribute.deserializer(WrappedBlockState.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
@@ -61,6 +63,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("block:orientable:horizontal", ContentBlockOrientableHorizontal.class);
         registry.registerContentType("block:orientable:directional", ContentBlockOrientableDirectional.class);
         registry.registerContentType("block:fence", ContentBlockFence.class);
+        registry.registerContentType("block:stairs", ContentBlockStairs.class);
 
         registry.registerContentType("worldGen:ore", WorldGenOre.class);
     }

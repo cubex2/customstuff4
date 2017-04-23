@@ -1,7 +1,7 @@
 package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.plugins.vanilla.block.BlockFactory;
-import cubex2.cs4.plugins.vanilla.block.ItemBlock;
+import cubex2.cs4.plugins.vanilla.block.ItemBlockWithSubtypes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
@@ -29,6 +29,6 @@ public class ContentBlockFence extends ContentBlockBaseWithSubtypes
     @Override
     protected Optional<Item> createItem(boolean hasSubtypes)
     {
-        return Optional.of(new ItemBlock(block, this));
+        return Optional.of(new ItemBlockWithSubtypes(block, this));
     }
 }

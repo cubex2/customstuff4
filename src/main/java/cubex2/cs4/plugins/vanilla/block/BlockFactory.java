@@ -1,10 +1,7 @@
 package cubex2.cs4.plugins.vanilla.block;
 
 import cubex2.cs4.mixin.Mixin;
-import cubex2.cs4.plugins.vanilla.ContentBlockBase;
-import cubex2.cs4.plugins.vanilla.ContentBlockFence;
-import cubex2.cs4.plugins.vanilla.ContentBlockOrientable;
-import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
+import cubex2.cs4.plugins.vanilla.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
@@ -21,6 +18,7 @@ public class BlockFactory
     private static Class<? extends Block> horizontalSubtypeClass;
     private static Class<? extends Block> fenceClass;
     private static Class<? extends Block> fenceSubtypeClass;
+    private static Class<? extends Block> stairsClass;
 
     public static Block createSimple(ContentBlockSimple content)
     {
@@ -72,6 +70,11 @@ public class BlockFactory
         return newInstance(fenceSubtypeClass, content);
     }
 
+    public static Block createStairs(ContentBlockStairs content)
+    {
+        return newInstance(stairsClass, content);
+    }
+
     private static <T extends ContentBlockBase> Block newInstance(Class<? extends Block> blockClass, T content)
     {
         try
@@ -95,6 +98,7 @@ public class BlockFactory
         horizontalSubtypeClass = createClass(BlockOrientableHorizontalWithSubtypes.class, BlockMixin.class);
         fenceClass = createClass(BlockFence.class, BlockMixin.class);
         fenceSubtypeClass = createClass(BlockFenceWithSubtypes.class, BlockMixin.class);
+        stairsClass = createClass(BlockStairs.class, BlockMixin.class);
     }
 
     @SuppressWarnings("unchecked")

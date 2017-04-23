@@ -13,3 +13,4 @@ tile.cs4examplemod.directional.0.name=Directional 0
 tile.cs4examplemod.directional.1.name=Directional 1
 tile.cs4examplemod.fence.0.name=Fence 0
 tile.cs4examplemod.fence.1.name=Fence 1
+tile.cs4examplemod.stairs.name=Stairs

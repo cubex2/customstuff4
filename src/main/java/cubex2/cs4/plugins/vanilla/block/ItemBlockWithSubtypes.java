@@ -1,17 +1,17 @@
 package cubex2.cs4.plugins.vanilla.block;
 
-import cubex2.cs4.plugins.vanilla.ContentBlockBase;
+import cubex2.cs4.plugins.vanilla.ContentBlockBaseWithSubtypes;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlock extends net.minecraft.item.ItemBlock
+public class ItemBlockWithSubtypes extends net.minecraft.item.ItemBlock
 {
-    private final ContentBlockBase content;
+    private final ContentBlockBaseWithSubtypes content;
     private CreativeTabs[] tabs;
 
-    public ItemBlock(Block block, ContentBlockBase content)
+    public ItemBlockWithSubtypes(Block block, ContentBlockBaseWithSubtypes content)
     {
         super(block);
 
@@ -41,7 +41,7 @@ public class ItemBlock extends net.minecraft.item.ItemBlock
     {
         if (tabs == null)
         {
-            tabs = ItemHelper.createCreativeTabs(content.creativeTab, new int[] {0});
+            tabs = ItemHelper.createCreativeTabs(content.creativeTab, content.subtypes);
         }
 
         return tabs;
@@ -50,6 +50,6 @@ public class ItemBlock extends net.minecraft.item.ItemBlock
     @Override
     public int getItemStackLimit(ItemStack stack)
     {
-        return content.maxStack.get(0).orElse(64);
+        return content.maxStack.get(stack.getMetadata()).orElse(64);
     }
 }

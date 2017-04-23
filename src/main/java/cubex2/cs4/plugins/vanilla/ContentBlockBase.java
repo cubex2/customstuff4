@@ -46,7 +46,11 @@ public abstract class ContentBlockBase implements Content
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
     {
-        if (phase != InitPhase.INIT)
+        if (phase == InitPhase.PRE_INIT)
+            return;
+        if (phase == InitPhase.INIT && !isReady())
+            return;
+        if (phase == InitPhase.POST_INIT && (block != null || !isReady()))
             return;
 
         block = createBlock();
@@ -61,7 +65,7 @@ public abstract class ContentBlockBase implements Content
         createItem().ifPresent(this::initItem);
     }
 
-    private void initItem(Item item)
+    protected void initItem(Item item)
     {
         item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         item.setRegistryName(id);
@@ -79,5 +83,10 @@ public abstract class ContentBlockBase implements Content
     protected Optional<Item> createItem()
     {
         return Optional.empty();
+    }
+
+    protected boolean isReady()
+    {
+        return true;
     }
 }

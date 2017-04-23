@@ -45,15 +45,14 @@ public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
     @Override
     protected final Optional<Item> createItem()
     {
-        Optional<Item> item = createItem(hasSubtypes);
-
-        item.ifPresent(this::initItem);
-
-        return item;
+        return createItem(hasSubtypes);
     }
 
-    private void initItem(Item item)
+    @Override
+    protected void initItem(Item item)
     {
+        super.initItem(item);
+
         item.setHasSubtypes(hasSubtypes);
         Arrays.stream(subtypes).forEach(meta -> itemModel.get(meta).ifPresent(model -> CustomStuff4.proxy.registerItemModel(item, meta, model)));
     }
