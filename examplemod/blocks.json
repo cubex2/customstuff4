@@ -113,6 +113,39 @@
           "hardness": 1
         }
       ]
+    },
+    {
+      "type": "block:slab",
+      "entries": [
+        {
+          "id": "slab",
+          "creativeTab": "decorations",
+          "material": "iron",
+          "subtypes": [0, 1],
+          "itemModel": {
+            "0": "cs4examplemod:slab_0",
+            "1": "cs4examplemod:slab_1"
+          },
+          "doubleSlab": {
+            "0": {
+              "block": "cs4examplemod:fence",
+              "properties": {
+                "subtype": "subtype0"
+              }
+            },
+            "1": {
+              "block": "cs4examplemod:fence",
+              "properties": {
+                "subtype": "subtype1"
+              }
+            }
+          },
+          "hardness": {
+            "0": 1,
+            "1": 4
+          }
+        }
+      ]
     }
   ]
 }

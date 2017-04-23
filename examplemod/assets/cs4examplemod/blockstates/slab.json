@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "half=bottom,subtype=subtype0": {"model": "half_slab_oak"},
+    "half=top,subtype=subtype0": {"model": "upper_slab_oak"},
+    "half=bottom,subtype=subtype1": {"model": "half_slab_birch"},
+    "half=top,subtype=subtype1": {"model": "upper_slab_birch"}
+  }
+}
