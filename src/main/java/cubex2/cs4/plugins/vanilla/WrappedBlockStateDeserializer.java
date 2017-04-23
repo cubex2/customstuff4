@@ -7,8 +7,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 class WrappedBlockStateDeserializer implements JsonDeserializer<WrappedBlockState>
 {
@@ -25,14 +26,7 @@ class WrappedBlockStateDeserializer implements JsonDeserializer<WrappedBlockStat
 
             if (jsonObject.has("properties"))
             {
-                JsonObject jsonProperties = jsonObject.getAsJsonObject("properties");
-                for (Map.Entry<String, JsonElement> entry : jsonProperties.entrySet())
-                {
-                    String name = entry.getKey();
-                    String value = entry.getValue().getAsString();
-
-                    properties.add(new Tuple<>(name, value));
-                }
+                properties = deserializeProperties(jsonObject.get("properties"));
             }
         } else
         {
@@ -40,5 +34,21 @@ class WrappedBlockStateDeserializer implements JsonDeserializer<WrappedBlockStat
         }
 
         return new WrappedBlockStateImpl(block, properties);
+    }
+
+    private List<Tuple<String, String>> deserializeProperties(JsonElement element)
+    {
+        if (element.isJsonObject())
+        {
+            return element.getAsJsonObject().entrySet().stream()
+                          .map(e -> new Tuple<>(e.getKey(), e.getValue().getAsString()))
+                          .collect(Collectors.toList());
+        } else
+        {
+            return Arrays.stream(element.getAsString().split(","))
+                         .map(s -> s.split("="))
+                         .map(a -> new Tuple<>(a[0], a[1]))
+                         .collect(Collectors.toList());
+        }
     }
 }
