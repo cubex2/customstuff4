@@ -1,0 +1,12 @@
+{
+  "tileentities": [
+    {
+      "type": "tileentity:simple",
+      "entries": [
+        {
+          "id": "simple"
+        }
+      ]
+    }
+  ]
+}

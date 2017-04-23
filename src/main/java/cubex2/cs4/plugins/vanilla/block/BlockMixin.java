@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla.block;
 
 import cubex2.cs4.plugins.vanilla.ContentBlockBase;
 import cubex2.cs4.plugins.vanilla.ContentBlockBaseWithSubtypes;
+import cubex2.cs4.plugins.vanilla.TileEntityRegistry;
 import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.block.Block;
@@ -15,8 +16,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
@@ -25,6 +28,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBase>
 {
@@ -141,6 +145,30 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
     {
         list.addAll(ItemHelper.createSubItems(itemIn, tab, getContent().creativeTab, getSubtypes()));
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state)
+    {
+        return getContent().tileEntity.hasEntry(getSubtype(state));
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state)
+    {
+        if (hasTileEntity(state))
+        {
+            Optional<String> optional = getContent().tileEntity.get(getSubtype(state));
+            if (optional.isPresent())
+            {
+                return TileEntityRegistry.createTileEntity(new ResourceLocation(optional.get()));
+            } else
+            {
+                return null;
+            }
+        }
+        return null;
     }
 
     @Override

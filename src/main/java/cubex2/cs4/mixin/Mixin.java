@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -19,6 +20,13 @@ public class Mixin implements Opcodes
     private static Method defineClass;
 
     public static Class<?> create(String name, Class<?> baseClass, Class<?>... mixins)
+    {
+        return create(name, n ->
+        {
+        }, baseClass, mixins);
+    }
+
+    public static Class<?> create(String name, Consumer<ClassNode> modifier, Class<?> baseClass, Class<?>... mixins)
     {
         checkArgument(Arrays.stream(mixins).noneMatch(Class::isInterface), "Interfaces can't be mixed in.");
 
@@ -35,6 +43,8 @@ public class Mixin implements Opcodes
         baseNode.methods.forEach(m -> fixMethodInstructions(oldName, name, m));
 
         mixinNodes.forEach(mixin -> mixin(baseNode, mixin));
+
+        modifier.accept(baseNode);
 
         return createClass(baseNode);
     }

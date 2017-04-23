@@ -67,5 +67,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("block:slab", ContentBlockSlab.class);
 
         registry.registerContentType("worldGen:ore", WorldGenOre.class);
+
+        registry.registerContentType("tileentity:simple", ContentTileEntitySimple.class);
     }
 }
