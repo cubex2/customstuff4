@@ -10,7 +10,7 @@ public interface ContentRegistry
      * Register a new type of content. You may register the same class using different names.
      *
      * @param typeName The name of the content. This is the value that is being used for the 'type' attribute in json files.
-     * @param clazz    The clazz to register. The class MUST be public and have a default constructor.
+     * @param clazz    The class to register. The class MUST be public and have a default constructor.
      */
     <T extends Content> void registerContentType(String typeName, Class<T> clazz);
 
@@ -22,4 +22,13 @@ public interface ContentRegistry
      * @param name The name of the predicate. This is the name used in the json file.
      */
     void registerLoaderPredicate(String name, LoaderPredicate predicate);
+
+    /**
+     * Register a new tile entity module type. You may register the same class using different names.
+     *
+     * @param typeName The name of the module. This is the value that is being used for the 'type' attribute in json files.
+     * @param clazz    The class to register. If you don't register a custom deserializer for the module, the class must
+     *                 have a default constructor
+     */
+    <T extends TileEntityModuleSupplier> void registerTileEntityModule(String typeName, Class<T> clazz);
 }

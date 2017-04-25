@@ -132,7 +132,7 @@ public class Mixin implements Opcodes
             } else if (next instanceof MethodInsnNode)
             {
                 MethodInsnNode methodNode = (MethodInsnNode) next;
-                if (methodNode.getOpcode() == INVOKEVIRTUAL)
+                if (methodNode.getOpcode() == INVOKEVIRTUAL ||methodNode.getOpcode() == INVOKESPECIAL)
                 {
                     if (methodNode.owner.equals(oldName))
                     {

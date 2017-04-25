@@ -1,11 +1,8 @@
 package cubex2.cs4;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
-import cubex2.cs4.api.Content;
-import cubex2.cs4.api.ContentRegistry;
-import cubex2.cs4.api.LoaderPredicate;
+import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.VanillaPlugin;
 import net.minecraft.init.Bootstrap;
 
@@ -35,6 +32,12 @@ public class TestUtil
 
             @Override
             public void registerLoaderPredicate(String name, LoaderPredicate predicate)
+            {
+                // No OP
+            }
+
+            @Override
+            public <T extends TileEntityModuleSupplier> void registerTileEntityModule(String typeName, Class<T> clazz)
             {
                 // No OP
             }

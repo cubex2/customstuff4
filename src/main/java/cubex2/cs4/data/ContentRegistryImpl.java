@@ -6,6 +6,8 @@ import com.google.gson.JsonDeserializer;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentRegistry;
 import cubex2.cs4.api.LoaderPredicate;
+import cubex2.cs4.api.TileEntityModuleSupplier;
+import cubex2.cs4.plugins.vanilla.TileEntityModuleRegistry;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -15,11 +17,12 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry
+public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry, TileEntityModuleRegistry
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
     private final Map<String, LoaderPredicate> predicates = Maps.newHashMap();
     private final List<Pair<Type, JsonDeserializer<?>>> deserializers = Lists.newArrayList();
+    private final Map<String, Class<? extends TileEntityModuleSupplier>> tileEntityModules = Maps.newHashMap();
 
     @Override
     public <T extends Content> void registerContentType(String typeName, Class<T> clazz)
@@ -60,5 +63,19 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     public LoaderPredicate getPredicate(String name)
     {
         return predicates.get(name);
+    }
+
+    @Override
+    public <T extends TileEntityModuleSupplier> void registerTileEntityModule(String typeName, Class<T> clazz)
+    {
+        checkArgument(!tileEntityModules.containsKey("name"), "Duplicate tile entity module name: %s", typeName);
+
+        tileEntityModules.put(typeName, clazz);
+    }
+
+    @Override
+    public Class<? extends TileEntityModuleSupplier> getTileEntityModuleClass(String typeName)
+    {
+        return tileEntityModules.get(typeName);
     }
 }

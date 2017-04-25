@@ -45,7 +45,7 @@ public class TileEntityRegistry
     @SuppressWarnings("unchecked")
     static Class<? extends TileEntity> createClass(Class<? extends TileEntity> template, String contentId)
     {
-        String className = template.getName().replace('.', '/') + "_" + contentId;
+        String className = template.getName().replace('.', '/') + "_" + contentId.replace(":", "_");
 
         return (Class<? extends TileEntity>) Mixin.create(className, n -> addNameMethod(contentId, n), template);
     }

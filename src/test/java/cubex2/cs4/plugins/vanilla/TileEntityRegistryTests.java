@@ -17,9 +17,8 @@ public class TileEntityRegistryTests
         assertEquals("modid:tileid", tileEntity.getContentId());
     }
 
-    public abstract static class TestTile extends TileEntity implements CSTileEntity
+    public abstract static class TestTile extends TileEntity implements CSTileEntity<ContentTileEntityBase>
     {
-
         @Override
         public ContentTileEntityBase getContent()
         {

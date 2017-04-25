@@ -113,6 +113,13 @@ public class MixinTests
         assertTrue(Mixin.hasMethod(base, "newMethod"));
     }
 
+    @Test
+    public void test_callPrivateMethodInConstructor() throws IllegalAccessException, InstantiationException
+    {
+        Class<?> aClass = Mixin.create("cubex2/cs4/mixin/NewClass2", ConstructorTest.class);
+        aClass.newInstance();
+    }
+
     static int testField;
 
     public static class ParentClass
@@ -190,6 +197,19 @@ public class MixinTests
         {
             super.parentMethod();
             parentField += 10;
+        }
+    }
+
+    private static class ConstructorTest
+    {
+        public ConstructorTest()
+        {
+            method();
+        }
+
+        private void method()
+        {
+
         }
     }
 }
