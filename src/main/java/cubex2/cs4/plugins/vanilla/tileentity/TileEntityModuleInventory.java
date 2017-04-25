@@ -8,16 +8,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
 
 public class TileEntityModuleInventory implements TileEntityModule
 {
     private final ItemStackHandler invHandler;
+    private final Supplier supplier;
 
     public TileEntityModuleInventory(Supplier supplier)
     {
         invHandler = new ItemStackHandler(supplier.size);
+        this.supplier = supplier;
     }
 
     @Override
@@ -35,14 +38,16 @@ public class TileEntityModuleInventory implements TileEntityModule
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
     {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &&
+               ArrayUtils.contains(supplier.sides, facing);
     }
 
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
     {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &&
+            ArrayUtils.contains(supplier.sides, facing))
         {
             return (T) invHandler;
         }
@@ -53,6 +58,7 @@ public class TileEntityModuleInventory implements TileEntityModule
     public static class Supplier implements TileEntityModuleSupplier
     {
         public int size;
+        public EnumFacing[] sides = EnumFacing.values();
 
         @Override
         public TileEntityModule createModule(TileEntity tileEntity)
