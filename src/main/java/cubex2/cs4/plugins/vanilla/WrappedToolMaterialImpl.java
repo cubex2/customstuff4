@@ -5,11 +5,11 @@ import net.minecraft.item.Item;
 
 import java.util.Arrays;
 
-public class WrappedToolMaterialImpl implements WrappedToolMaterial
+class WrappedToolMaterialImpl implements WrappedToolMaterial
 {
     String material;
 
-    public WrappedToolMaterialImpl(String material)
+    WrappedToolMaterialImpl(String material)
     {
         this.material = material;
     }

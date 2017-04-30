@@ -6,11 +6,11 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class NamedMapDeserializer<T> implements JsonDeserializer<Map<String, T>>
+class NamedMapDeserializer<T> implements JsonDeserializer<Map<String, T>>
 {
     private final Class<T> clazz;
 
-    public NamedMapDeserializer(Class<T> clazz) {this.clazz = clazz;}
+    NamedMapDeserializer(Class<T> clazz) {this.clazz = clazz;}
 
     @Override
     public Map<String, T> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
