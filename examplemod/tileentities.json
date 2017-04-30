@@ -9,7 +9,8 @@
             {
               "type": "inventory",
               "name": "inv1",
-              "size": 4
+              "size": 27,
+              "sides": ["north", "east", "south", "west"]
             }
           ]
         }

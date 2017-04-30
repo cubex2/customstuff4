@@ -108,6 +108,9 @@
       "file": "tileentities.json"
     },
     {
+      "file": "guis.json"
+    },
+    {
       "type": "worldGen:ore",
       "entries": [
         {

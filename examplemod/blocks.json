@@ -21,7 +21,8 @@
           "id": "simplewithtile",
           "creativeTab": "decorations",
           "itemModel": "cs4examplemod:simplewithtile",
-          "tileEntity": "cs4examplemod:simple"
+          "tileEntity": "cs4examplemod:simple",
+          "gui": "cs4examplemod:simple"
         }
       ]
     },
