@@ -18,6 +18,8 @@ public class ContentGuiContainer extends ContentGuiBase
     public List<Label> labels = Lists.newArrayList();
     public List<ShiftClickRule> shiftClickRules = Lists.newArrayList();
     public ResourceLocation bg = null;
+    public int bgTexX = 0;
+    public int bgTexY = 0;
 
     @Override
     protected Object getServerGuiElement(EntityPlayer player, World world, int x, int y, int z)

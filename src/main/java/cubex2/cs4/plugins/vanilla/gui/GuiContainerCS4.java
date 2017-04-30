@@ -27,7 +27,7 @@ public class GuiContainerCS4 extends GuiContainer
             mc.getTextureManager().bindTexture(content.bg);
             int x = (width - xSize) / 2;
             int y = (height - ySize) / 2;
-            drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+            drawTexturedModalRect(x, y, content.bgTexX, content.bgTexY, xSize, ySize);
         }
     }
 
