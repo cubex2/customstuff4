@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
+import cubex2.cs4.api.Length;
 import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.util.GuiHelper;
 import net.minecraft.client.Minecraft;

@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.primitives.Floats;
 import com.google.gson.*;
+import cubex2.cs4.api.Length;
 
 import java.lang.reflect.Type;
 

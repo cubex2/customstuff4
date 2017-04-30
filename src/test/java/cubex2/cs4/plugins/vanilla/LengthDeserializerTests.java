@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.TestUtil;
+import cubex2.cs4.api.Length;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
