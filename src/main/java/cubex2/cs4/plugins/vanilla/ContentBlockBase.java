@@ -38,7 +38,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<IntRange> expDrop = Attribute.constant(IntRange.create(0, 0));
     public Attribute<String[]> information = Attribute.constant(new String[0]);
     public Attribute<MapColor> mapColor = Attribute.constant(null);
-    public Attribute<String> tileEntity = Attribute.constant(null);
+    public Attribute<ResourceLocation> tileEntity = Attribute.constant(null);
     public Attribute<ResourceLocation> gui = Attribute.constant(null);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(new ResourceLocation("minecraft:stick"));

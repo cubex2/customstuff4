@@ -159,10 +159,10 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     {
         if (hasTileEntity(state))
         {
-            Optional<String> optional = getContent().tileEntity.get(getSubtype(state));
+            Optional<ResourceLocation> optional = getContent().tileEntity.get(getSubtype(state));
             if (optional.isPresent())
             {
-                return TileEntityRegistry.createTileEntity(new ResourceLocation(optional.get()));
+                return TileEntityRegistry.createTileEntity(optional.get());
             } else
             {
                 return null;
