@@ -34,6 +34,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(WrappedBlockState.class, new WrappedBlockStateDeserializer());
         registry.registerDeserializer(TileEntityModuleSupplier.class, new TileEntityModuleSupplierDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(EnumFacing.class, new EnumFacingDeserializer());
+        registry.registerDeserializer(Color.class, new ColorDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -46,6 +47,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<WrappedPotionEffect>>() {}.getType(), Attribute.deserializer(WrappedPotionEffect.class));
         registry.registerDeserializer(new TypeToken<Attribute<MapColor>>() {}.getType(), Attribute.deserializer(MapColor.class));
         registry.registerDeserializer(new TypeToken<Attribute<WrappedBlockState>>() {}.getType(), Attribute.deserializer(WrappedBlockState.class));
+        registry.registerDeserializer(new TypeToken<Attribute<Color>>() {}.getType(), Attribute.deserializer(Color.class));
 
         registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
@@ -79,5 +81,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("tileentity:simple", ContentTileEntitySimple.class);
 
         registry.registerTileEntityModule("inventory", TileEntityModuleInventory.Supplier.class);
+
+        registry.registerContentType("gui:container", ContentGuiContainer.class);
     }
 }

@@ -1,8 +1,7 @@
 package cubex2.cs4.plugins.vanilla.block;
 
-import cubex2.cs4.plugins.vanilla.ContentBlockBase;
-import cubex2.cs4.plugins.vanilla.ContentBlockBaseWithSubtypes;
-import cubex2.cs4.plugins.vanilla.TileEntityRegistry;
+import cubex2.cs4.CustomStuff4;
+import cubex2.cs4.plugins.vanilla.*;
 import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.block.Block;
@@ -18,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -169,6 +169,28 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+        if (worldIn.isRemote)
+        {
+            return true;
+        } else
+        {
+            Optional<ResourceLocation> location = getContent().gui.get(getSubtype(state));
+            if (location.isPresent())
+            {
+                ContentGuiBase gui = GuiRegistry.get(location.get());
+                if (gui != null)
+                {
+                    playerIn.openGui(CustomStuff4.INSTANCE, gui.getGuiId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+                }
+            }
+
+            return true;
+        }
     }
 
     @Override

@@ -2,11 +2,13 @@ package cubex2.cs4;
 
 import cubex2.cs4.api.CustomStuffPlugin;
 import cubex2.cs4.data.ContentRegistryImpl;
+import cubex2.cs4.plugins.vanilla.GuiHandler;
 import cubex2.cs4.util.PluginHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import java.io.File;
 import java.util.List;
@@ -23,6 +25,9 @@ public class CustomStuff4
     @SidedProxy(clientSide = "cubex2.cs4.ClientProxy", serverSide = "cubex2.cs4.CommonProxy")
     public static CommonProxy proxy;
 
+    @Mod.Instance(ID)
+    public static CustomStuff4 INSTANCE;
+
     private List<CustomStuffPlugin> plugins;
 
     @Mod.EventHandler
@@ -33,6 +38,7 @@ public class CustomStuff4
         File configDir = event.getModConfigurationDirectory();
         File modsDir = new File(configDir.getParent(), "mods");
 
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         ModLoader.initMods(modsDir);
     }
 

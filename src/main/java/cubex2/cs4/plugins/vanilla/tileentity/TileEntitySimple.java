@@ -5,17 +5,21 @@ import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.vanilla.ContentTileEntitySimple;
 import cubex2.cs4.plugins.vanilla.TileEntityRegistry;
+import cubex2.cs4.plugins.vanilla.gui.ItemHandlerSupplier;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
-public abstract class TileEntitySimple extends TileEntity implements CSTileEntity<ContentTileEntitySimple>
+public abstract class TileEntitySimple extends TileEntity implements CSTileEntity<ContentTileEntitySimple>, ItemHandlerSupplier
 {
     private final ContentTileEntitySimple content;
     private final LinkedHashMap<String, TileEntityModule> modules = Maps.newLinkedHashMap();
@@ -66,6 +70,18 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
         }
 
         return super.writeToNBT(compound);
+    }
+
+    @Override
+    public Optional<IItemHandler> getItemHandler(String name)
+    {
+        TileEntityModule module = modules.get(name);
+
+        if (module != null)
+        {
+            return Optional.ofNullable(module.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null));
+        }
+        return Optional.empty();
     }
 
     @Override

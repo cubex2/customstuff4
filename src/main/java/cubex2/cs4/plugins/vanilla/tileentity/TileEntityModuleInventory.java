@@ -27,6 +27,7 @@ public class TileEntityModuleInventory implements TileEntityModule
     public void readFromNBT(NBTTagCompound compound)
     {
         invHandler.deserializeNBT(compound);
+        invHandler.setSize(supplier.size);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class TileEntityModuleInventory implements TileEntityModule
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
     {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &&
-               ArrayUtils.contains(supplier.sides, facing);
+               (facing == null ||ArrayUtils.contains(supplier.sides, facing));
     }
 
     @Nullable
@@ -47,7 +48,7 @@ public class TileEntityModuleInventory implements TileEntityModule
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
     {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &&
-            ArrayUtils.contains(supplier.sides, facing))
+            (facing == null || ArrayUtils.contains(supplier.sides, facing)))
         {
             return (T) invHandler;
         }
