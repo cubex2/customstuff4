@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla;
 
+import cubex2.cs4.api.Color;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.Length;
@@ -90,6 +91,7 @@ class GuiModifier extends SimpleContent
     {
         String text;
         boolean dropShadow = true;
+        Color color = new ColorImpl(0xFFFFFF);
 
         @Override
         public void render(GuiScreenEvent.DrawScreenEvent.Post event)
@@ -99,7 +101,7 @@ class GuiModifier extends SimpleContent
             int left = getLeft(event.getGui(), font.getStringWidth(text));
             int top = getTop(event.getGui(), font.FONT_HEIGHT);
 
-            font.drawString(text, left, top, 0xFFFFFFFF, dropShadow);
+            font.drawString(text, left, top, color.getRGB(), dropShadow);
         }
     }
 
