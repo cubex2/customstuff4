@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "0.0.1"
+version = "0.1.0"
 group = "cubex2.cs4"
 archivesBaseName = "customstuff4"
 
