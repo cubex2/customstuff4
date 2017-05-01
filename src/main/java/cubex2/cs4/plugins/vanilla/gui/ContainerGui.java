@@ -61,7 +61,7 @@ public class ContainerGui extends Container
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int index)
     {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = null;
         Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
@@ -77,7 +77,7 @@ public class ContainerGui extends Container
                     ruleApplied = true;
                     if (!mergeItemStack(itemstack1, rule.getToStart(), rule.getToEnd() + 1, rule.reverseDirection()))
                     {
-                        return ItemStack.EMPTY;
+                        return null;
                     }
                     break;
                 }
@@ -85,23 +85,23 @@ public class ContainerGui extends Container
 
             if (!ruleApplied)
             {
-                return ItemStack.EMPTY;
+                return null;
             }
 
-            if (itemstack1.getCount() == 0)
+            if (itemstack1.stackSize == 0)
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(null);
             } else
             {
                 slot.onSlotChanged();
             }
 
-            if (itemstack1.getCount() == itemstack.getCount())
+            if (itemstack1.stackSize == itemstack.stackSize)
             {
-                return ItemStack.EMPTY;
+                return null;
             }
 
-            slot.onTake(player, itemstack1);
+            slot.onPickupFromSlot(player, itemstack1);
         }
 
         return itemstack;

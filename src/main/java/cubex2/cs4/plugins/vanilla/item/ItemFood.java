@@ -37,10 +37,8 @@ public class ItemFood extends net.minecraft.item.ItemFood implements ItemWithSub
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack stack = playerIn.getHeldItem(handIn);
-
         if (playerIn.canEat(content.alwaysEdible.get(stack.getMetadata()).orElse(false)))
         {
             playerIn.setActiveHand(handIn);

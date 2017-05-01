@@ -22,7 +22,7 @@ abstract class BlockOrientableWithSubtypes extends BlockOrientable
     }
 
     @Override
-    public final IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public final IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getDefaultState()
                    .withProperty(getFacingProperty(), getFacingForPlacement(pos, facing, meta, placer))

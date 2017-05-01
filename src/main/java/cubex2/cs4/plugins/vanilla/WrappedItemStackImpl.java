@@ -19,7 +19,7 @@ class WrappedItemStackImpl implements WrappedItemStack
         Item object = Item.REGISTRY.getObject(item);
         if (object == null)
         {
-            return ItemStack.EMPTY;
+            return null;
         } else
         {
             ItemStack stack = new ItemStack(object, amount, metadata);

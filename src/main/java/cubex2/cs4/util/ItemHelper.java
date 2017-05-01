@@ -1,12 +1,13 @@
 package cubex2.cs4.util;
 
+import com.google.common.collect.Lists;
 import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,9 +32,9 @@ public class ItemHelper
                      .toArray(CreativeTabs[]::new);
     }
 
-    public static NonNullList<ItemStack> createSubItems(Item item, CreativeTabs creativeTab, Attribute<String> tabLabels, int[] subtypes)
+    public static List<ItemStack> createSubItems(Item item, CreativeTabs creativeTab, Attribute<String> tabLabels, int[] subtypes)
     {
-        NonNullList<ItemStack> list = NonNullList.create();
+        List<ItemStack> list = Lists.newArrayList();
 
         if (item.getHasSubtypes())
         {

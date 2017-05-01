@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla.block;
 
 import cubex2.cs4.plugins.vanilla.ContentBlockOrientable;
 import cubex2.cs4.util.BlockHelper;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -63,6 +64,6 @@ public abstract class BlockOrientable extends BlockSimple
         if (content.faceBySide.get(meta).orElse(false))
             return facing;
         else
-            return EnumFacing.getDirectionFromEntityLiving(pos, placer);
+            return BlockPistonBase.getFacingFromEntity(pos, placer);
     }
 }

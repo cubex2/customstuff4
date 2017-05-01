@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "0.1.0"
+version = "1.10.2-0.0.1"
 group = "cubex2.cs4"
 archivesBaseName = "customstuff4"
 
@@ -23,9 +23,9 @@ compileJava {
 }
 
 minecraft {
-    version = "1.11.2-13.20.0.2222"
+    version = "1.10.2-12.18.1.2045"
     runDir = "run"
-    mappings = "snapshot_20161220"
+    mappings = "snapshot_20160518"
     makeObfSourceJar = false
 }
 

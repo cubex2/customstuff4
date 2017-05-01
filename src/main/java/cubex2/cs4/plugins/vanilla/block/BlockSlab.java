@@ -88,7 +88,7 @@ public class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
     }
 
     @Override
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         IBlockState iblockstate = getDefaultState().withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM);
         return (facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double) hitY <= 0.5D) ? iblockstate : iblockstate.withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.TOP));

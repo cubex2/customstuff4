@@ -6,11 +6,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -81,7 +81,7 @@ public class ItemHelperTests
         Item item = new Item();
         item.setHasSubtypes(true);
 
-        NonNullList<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.TOOLS, tabLabels, subtypes);
+        List<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.TOOLS, tabLabels, subtypes);
 
         assertSame(1, subItems.size());
         assertSame(0, subItems.get(0).getItemDamage());
@@ -100,7 +100,7 @@ public class ItemHelperTests
         Item item = new Item();
         item.setHasSubtypes(true);
 
-        NonNullList<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.TOOLS, tabLabels, subtypes);
+        List<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.TOOLS, tabLabels, subtypes);
 
         assertSame(2, subItems.size());
         assertSame(0, subItems.get(0).getItemDamage());
@@ -120,7 +120,7 @@ public class ItemHelperTests
         Item item = new Item();
         item.setHasSubtypes(true);
 
-        NonNullList<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.DECORATIONS, tabLabels, subtypes);
+        List<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.DECORATIONS, tabLabels, subtypes);
 
         assertSame(0, subItems.size());
     }

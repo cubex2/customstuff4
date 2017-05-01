@@ -26,9 +26,9 @@ public class BlockSlabWithSubtypes extends BlockSlab
     }
 
     @Override
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer)
+        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer)
                     .withProperty(subtype, EnumSubtype.values()[meta]);
     }
 

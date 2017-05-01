@@ -6,7 +6,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +51,7 @@ public abstract class ItemWithSubtypesMixin extends Item implements ItemWithSubt
     }
 
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs creativeTab, NonNullList<ItemStack> subItems)
+    public void getSubItems(Item itemIn, CreativeTabs creativeTab, List<ItemStack> subItems)
     {
         subItems.addAll(ItemHelper.createSubItems(itemIn, creativeTab, getContent().creativeTab, getContent().subtypes));
     }

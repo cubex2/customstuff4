@@ -52,7 +52,7 @@ class WrappedBlockStateImpl implements WrappedBlockState
 
     private Optional<IProperty> getProperty(IBlockState state, String name)
     {
-        for (IProperty<?> key : state.getPropertyKeys())
+        for (IProperty<?> key : state.getPropertyNames())
         {
             if (key.getName().equals(name))
             {

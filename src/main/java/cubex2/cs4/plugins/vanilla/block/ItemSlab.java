@@ -33,11 +33,10 @@ public class ItemSlab extends ItemBlock
         this.content = content;
     }
 
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    @Override
+    public EnumActionResult onItemUse(ItemStack itemstack, EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        ItemStack itemstack = player.getHeldItem(hand);
-
-        if (!itemstack.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, itemstack))
+        if (itemstack != null && player.canPlayerEdit(pos.offset(facing), facing, itemstack))
         {
             int subtype = getMetadata(itemstack);
             IBlockState currentState = worldIn.getBlockState(pos);
@@ -57,14 +56,14 @@ public class ItemSlab extends ItemBlock
                     {
                         SoundType soundtype = stateDouble.getBlock().getSoundType(stateDouble, worldIn, pos, player);
                         worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                        itemstack.shrink(1);
+                        itemstack.stackSize--;
                     }
 
                     return EnumActionResult.SUCCESS;
                 }
             }
 
-            return this.tryPlace(player, itemstack, worldIn, pos.offset(facing), subtype) ? EnumActionResult.SUCCESS : super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+            return this.tryPlace(player, itemstack, worldIn, pos.offset(facing), subtype) ? EnumActionResult.SUCCESS : super.onItemUse(itemstack, player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
         } else
         {
             return EnumActionResult.FAIL;
@@ -72,6 +71,7 @@ public class ItemSlab extends ItemBlock
     }
 
     @SideOnly(Side.CLIENT)
+    @Override
     public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack)
     {
         BlockPos blockpos = pos;
@@ -110,7 +110,7 @@ public class ItemSlab extends ItemBlock
                 {
                     SoundType soundtype = stateDouble.getBlock().getSoundType(stateDouble, worldIn, pos, player);
                     worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                    stack.shrink(1);
+                    stack.stackSize--;
                 }
 
                 return true;
