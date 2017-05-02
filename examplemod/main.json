@@ -14,6 +14,10 @@
             "amount": 3
           },
           "mirrored": false
+        },
+        {
+          "result": "minecraft:diamond_sword",
+          "remove": true
         }
       ]
     },
@@ -39,6 +43,10 @@
             "minecraft:stone@all"
           ],
           "result": "minecraft:coal"
+        },
+        {
+          "result": "minecraft:dye@15",
+          "remove": true
         }
       ]
     },
