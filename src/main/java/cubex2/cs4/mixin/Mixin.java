@@ -132,7 +132,7 @@ public class Mixin implements Opcodes
             } else if (next instanceof MethodInsnNode)
             {
                 MethodInsnNode methodNode = (MethodInsnNode) next;
-                if (methodNode.getOpcode() == INVOKEVIRTUAL ||methodNode.getOpcode() == INVOKESPECIAL)
+                if (methodNode.getOpcode() == INVOKEVIRTUAL || methodNode.getOpcode() == INVOKESPECIAL)
                 {
                     if (methodNode.owner.equals(oldName))
                     {
@@ -169,7 +169,8 @@ public class Mixin implements Opcodes
         ClassNode node = new ClassNode();
         try
         {
-            ClassReader reader = new ClassReader(clazz.getName());
+            String fileName = clazz.getName().replace('.', '/') + ".class";
+            ClassReader reader = new ClassReader(clazz.getClassLoader().getResourceAsStream(fileName));
             reader.accept(node, 0);
 
             return node;
@@ -178,7 +179,7 @@ public class Mixin implements Opcodes
             e.printStackTrace();
         }
 
-        return null;
+        throw new RuntimeException("Couldn't create ClassNode for class " + clazz.getName());
     }
 
     static Class<?> createClass(ClassNode node)
