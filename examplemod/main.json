@@ -18,6 +18,14 @@
         {
           "result": "minecraft:diamond_sword",
           "remove": true
+        },
+        {
+          "shape": ["AA", "AA"],
+          "items": {
+            "A": "minecraft:apple"
+          },
+          "result": "minecraft:stone",
+          "recipeList": "cs4examplemod:crafter"
         }
       ]
     },

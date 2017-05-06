@@ -19,7 +19,8 @@
           "modules": [
             {
               "type": "crafting",
-              "name": "crafting"
+              "name": "crafting",
+              "recipeList": "cs4examplemod:crafter"
             }
           ]
         }
