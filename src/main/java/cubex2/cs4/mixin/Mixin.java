@@ -1,12 +1,11 @@
 package cubex2.cs4.mixin;
 
+import cubex2.cs4.util.AsmHelper;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -17,8 +16,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class Mixin implements Opcodes
 {
-    private static Method defineClass;
-
     public static Class<?> create(String name, Class<?> baseClass, Class<?>... mixins)
     {
         return create(name, n ->
@@ -46,7 +43,7 @@ public class Mixin implements Opcodes
 
         modifier.accept(baseNode);
 
-        return createClass(baseNode);
+        return AsmHelper.createClass(baseNode);
     }
 
     private static void removeStaticFieldsAndMethods(ClassNode node)
@@ -180,46 +177,5 @@ public class Mixin implements Opcodes
         }
 
         throw new RuntimeException("Couldn't create ClassNode for class " + clazz.getName());
-    }
-
-    static Class<?> createClass(ClassNode node)
-    {
-        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-        node.accept(writer);
-
-        byte[] bytes = writer.toByteArray();
-        return createClassFromBytes(node.name.replace('/', '.'), bytes);
-    }
-
-    private static Class<?> createClassFromBytes(String name, byte[] bytes)
-    {
-        if (defineClass == null)
-        {
-            defineClass = getDefineClassMethod();
-        }
-
-        try
-        {
-            return (Class<?>) defineClass.invoke(Mixin.class.getClassLoader(), name, bytes, 0, bytes.length);
-        } catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static Method getDefineClassMethod()
-    {
-        Method defineClass = null;
-
-        try
-        {
-            defineClass = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, int.class, int.class);
-            defineClass.setAccessible(true);
-        } catch (NoSuchMethodException e)
-        {
-            e.printStackTrace();
-        }
-
-        return defineClass;
     }
 }
