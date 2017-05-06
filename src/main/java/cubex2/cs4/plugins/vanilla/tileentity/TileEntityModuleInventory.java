@@ -17,16 +17,15 @@ public class TileEntityModuleInventory implements TileEntityModule
     private final ItemStackHandler invHandler;
     private final Supplier supplier;
 
-    public TileEntityModuleInventory(Supplier supplier)
+    public TileEntityModuleInventory(TileEntity tile, Supplier supplier)
     {
-        invHandler = new ItemStackHandler(supplier.size);
+        invHandler = new ItemHandlerTileEntity(supplier.size, tile);
         this.supplier = supplier;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
-        invHandler.setSize(supplier.size);
         invHandler.deserializeNBT(compound);
     }
 
@@ -64,7 +63,7 @@ public class TileEntityModuleInventory implements TileEntityModule
         @Override
         public TileEntityModule createModule(TileEntity tileEntity)
         {
-            return new TileEntityModuleInventory(this);
+            return new TileEntityModuleInventory(tileEntity, this);
         }
     }
 }
