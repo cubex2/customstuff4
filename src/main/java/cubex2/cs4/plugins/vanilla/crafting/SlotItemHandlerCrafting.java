@@ -19,9 +19,7 @@ public class SlotItemHandlerCrafting extends SlotItemHandler
     @Override
     public boolean canTakeStack(EntityPlayer playerIn)
     {
-        boolean result = !getItemHandler().extractItem(getSlotIndex(), Integer.MAX_VALUE, true).isEmpty();
-        System.out.println(result);
-        return result;
+        return !getItemHandler().extractItem(getSlotIndex(), Integer.MAX_VALUE, true).isEmpty();
     }
 
     @Override

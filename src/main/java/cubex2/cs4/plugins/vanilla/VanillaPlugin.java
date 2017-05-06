@@ -6,6 +6,7 @@ import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
 import cubex2.cs4.util.IntRange;
+import cubex2.cs4.util.JsonHelper;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -21,6 +22,7 @@ public class VanillaPlugin implements CustomStuffPlugin
     @Override
     public void registerContent(ContentRegistry registry)
     {
+        registry.registerDeserializer(String[].class, (json, typeOfT, context) -> JsonHelper.arrayFromElement(json));
         registry.registerDeserializer(ResourceLocation.class, new ResourceLocationDeserializer());
         registry.registerDeserializer(WrappedItemStack.class, new WrappedItemStackDeserializer());
         registry.registerDeserializer(RecipeInput.class, new RecipeInputDeserializer());
@@ -50,10 +52,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<WrappedBlockState>>() {}.getType(), Attribute.deserializer(WrappedBlockState.class));
         registry.registerDeserializer(new TypeToken<Attribute<Color>>() {}.getType(), Attribute.deserializer(Color.class));
 
-        registry.registerDeserializer(ShapedRecipe.class, ShapedRecipe.DESERIALIZER);
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
-
-        registry.registerDeserializer(ShapelessRecipe.class, ShapelessRecipe.DESERIALIZER);
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);
 
         registry.registerContentType("smeltingRecipe", SmeltingRecipe.class);

@@ -1,21 +1,17 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.collect.Maps;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
+import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import cubex2.cs4.util.ItemHelper;
-import cubex2.cs4.util.JsonHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
@@ -31,13 +27,14 @@ class ShapedRecipe extends SimpleContent
     WrappedItemStack result;
     boolean mirrored = true;
     boolean remove = false;
+    ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
         if (remove)
         {
-            removeRecipe(CraftingManager.getInstance().getRecipeList());
+            removeRecipe(CraftingManagerCS4.getRecipes(recipeList));
         } else
         {
             addRecipe();
@@ -56,7 +53,7 @@ class ShapedRecipe extends SimpleContent
     private void addRecipe()
     {
         ShapedOreRecipe recipe = new ShapedOreRecipe(result.createItemStack(), getInputForRecipe()).setMirrored(mirrored);
-        GameRegistry.addRecipe(recipe);
+        CraftingManagerCS4.addRecipe(recipeList, recipe);
     }
 
     boolean removeRecipe(Collection<IRecipe> from)
@@ -214,40 +211,4 @@ class ShapedRecipe extends SimpleContent
 
         return result;
     }
-
-    static final JsonDeserializer<ShapedRecipe> DESERIALIZER = (json, typeOfT, context) ->
-    {
-        JsonObject jsonObject = json.getAsJsonObject();
-        ShapedRecipe recipe = new ShapedRecipe();
-
-        if (jsonObject.has("shape"))
-        {
-            recipe.shape = JsonHelper.arrayFromElement(jsonObject.get("shape"));
-        }
-
-        if (jsonObject.has("items"))
-        {
-            recipe.items = context.deserialize(jsonObject.get("items"), new TypeToken<Map<Character, RecipeInput>>() {}.getType());
-        } else
-        {
-            recipe.items = Maps.newHashMap();
-        }
-
-        if (jsonObject.has("result"))
-        {
-            recipe.result = context.deserialize(jsonObject.get("result"), WrappedItemStack.class);
-        }
-
-        if (jsonObject.has("mirrored"))
-        {
-            recipe.mirrored = jsonObject.get("mirrored").getAsBoolean();
-        }
-
-        if (jsonObject.has("remove"))
-        {
-            recipe.remove = jsonObject.get("remove").getAsBoolean();
-        }
-
-        return recipe;
-    };
 }

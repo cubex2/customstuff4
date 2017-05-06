@@ -1,20 +1,17 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
+import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -27,13 +24,14 @@ class ShapelessRecipe extends SimpleContent
     List<RecipeInput> items = Lists.newArrayList();
     WrappedItemStack result;
     boolean remove = false;
+    ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
         if (remove)
         {
-            removeRecipe(CraftingManager.getInstance().getRecipeList());
+            removeRecipe(CraftingManagerCS4.getRecipes(recipeList));
         } else
         {
             addRecipe();
@@ -158,7 +156,7 @@ class ShapelessRecipe extends SimpleContent
     private void addRecipe()
     {
         ShapelessOreRecipe recipe = new ShapelessOreRecipe(result.createItemStack(), getInputForRecipe());
-        GameRegistry.addRecipe(recipe);
+        CraftingManagerCS4.addRecipe(recipeList, recipe);
     }
 
     Object[] getInputForRecipe()
@@ -177,27 +175,4 @@ class ShapelessRecipe extends SimpleContent
                     .map(input -> input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().createItemStack())
                     .toArray();
     }
-
-    public static final JsonDeserializer<ShapelessRecipe> DESERIALIZER = (json, typeOfT, context) ->
-    {
-        JsonObject jsonObject = json.getAsJsonObject();
-        ShapelessRecipe recipe = new ShapelessRecipe();
-
-        if (jsonObject.has("items"))
-        {
-            recipe.items = context.deserialize(jsonObject.get("items"), new TypeToken<List<RecipeInput>>() {}.getType());
-        }
-
-        if (jsonObject.has("result"))
-        {
-            recipe.result = context.deserialize(jsonObject.get("result"), WrappedItemStack.class);
-        }
-
-        if (jsonObject.has("remove"))
-        {
-            recipe.remove = jsonObject.get("remove").getAsBoolean();
-        }
-
-        return recipe;
-    };
 }

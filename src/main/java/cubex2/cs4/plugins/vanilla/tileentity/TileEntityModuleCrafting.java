@@ -6,6 +6,7 @@ import cubex2.cs4.plugins.vanilla.crafting.ItemHandlerCrafting;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -19,7 +20,7 @@ public class TileEntityModuleCrafting implements TileEntityModule
 
     public TileEntityModuleCrafting(TileEntity tile, Supplier supplier)
     {
-        this.invHandler = new ItemHandlerCrafting(tile, supplier.rows, supplier.columns);
+        this.invHandler = new ItemHandlerCrafting(tile, supplier.rows, supplier.columns, supplier.recipeList);
         this.supplier = supplier;
     }
 
@@ -65,6 +66,7 @@ public class TileEntityModuleCrafting implements TileEntityModule
     {
         public int rows = 3;
         public int columns = 3;
+        public ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
 
         @Override
         public TileEntityModule createModule(TileEntity tileEntity)

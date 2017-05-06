@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,6 +33,7 @@ public class ShapelessRecipeTests
     public void testDeserialization()
     {
         ShapelessRecipe recipe = gson.fromJson("{ \"items\": [ \"minecraft:apple\", \"minecraft:bow\" ]," +
+                                               "\"recipeList\": \"test:recipes\"," +
                                                "\"result\": \"minecraft:coal\", \"remove\":true }", ShapelessRecipe.class);
 
 
@@ -42,6 +44,7 @@ public class ShapelessRecipeTests
         assertSame(Items.BOW, input1.getStack().createItemStack().getItem());
         assertSame(Items.COAL, recipe.result.createItemStack().getItem());
         assertTrue(recipe.remove);
+        assertEquals(new ResourceLocation("test:recipes"), recipe.recipeList);
     }
 
     @Test

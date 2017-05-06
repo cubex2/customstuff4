@@ -36,6 +36,7 @@ public class ShapedRecipeTests
                                             "\"items\": { \"A\":\"minecraft:stone\", \"B\": { \"item\":\"minecraft:log\" } }," +
                                             "\"result\": \"mincraft:obsidian\"," +
                                             "\"remove\": true," +
+                                            "\"recipeList\": \"test:recipes\"," +
                                             "\"mirrored\": false }", ShapedRecipe.class);
 
         RecipeInput inputA = recipe.items.get('A');
@@ -47,6 +48,7 @@ public class ShapedRecipeTests
         assertNotNull(recipe.result);
         assertFalse(recipe.mirrored);
         assertTrue(recipe.remove);
+        assertEquals(new ResourceLocation("test:recipes"), recipe.recipeList);
     }
 
     @Test

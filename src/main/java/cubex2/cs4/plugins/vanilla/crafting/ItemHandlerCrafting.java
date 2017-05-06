@@ -4,8 +4,8 @@ import cubex2.cs4.api.SlotProvider;
 import cubex2.cs4.plugins.vanilla.tileentity.ItemHandlerTileEntity;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -16,13 +16,15 @@ public class ItemHandlerCrafting extends ItemHandlerTileEntity implements SlotPr
 {
     private final int rows;
     private final int columns;
+    private final ResourceLocation recipeList;
     private World world;
 
-    public ItemHandlerCrafting(TileEntity tile, int rows, int columns)
+    public ItemHandlerCrafting(TileEntity tile, int rows, int columns, ResourceLocation recipeList)
     {
         super(rows * columns + 1, tile);
         this.rows = rows;
         this.columns = columns;
+        this.recipeList = recipeList;
     }
 
     public void setWorld(World world)
@@ -93,7 +95,7 @@ public class ItemHandlerCrafting extends ItemHandlerTileEntity implements SlotPr
     private ItemStack getCraftResult()
     {
         InventoryCraftingWrapper wrapper = new InventoryCraftingWrapper(this);
-        return CraftingManager.getInstance().findMatchingRecipe(wrapper, world);
+        return CraftingManagerCS4.findMatchingRecipe(recipeList, wrapper, world);
     }
 
     @Override
