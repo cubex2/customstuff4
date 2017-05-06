@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
+import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.SoundType;
@@ -81,6 +82,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("tileentity:simple", ContentTileEntitySimple.class);
 
         registry.registerTileEntityModule("inventory", TileEntityModuleInventory.Supplier.class);
+        registry.registerTileEntityModule("crafting", TileEntityModuleCrafting.Supplier.class);
 
         registry.registerContentType("gui:container", ContentGuiContainer.class);
     }

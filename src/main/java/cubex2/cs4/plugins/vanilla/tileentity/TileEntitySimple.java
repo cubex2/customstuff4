@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -36,6 +37,14 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
         {
             modules.put(entry.getKey(), entry.getValue().createModule(this));
         }
+    }
+
+    @Override
+    protected void setWorldCreate(World worldIn)
+    {
+        super.setWorldCreate(worldIn);
+
+        modules.values().forEach(m -> m.setWorld(worldIn));
     }
 
     @Override

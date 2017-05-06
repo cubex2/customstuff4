@@ -13,6 +13,15 @@
               "sides": ["north", "east", "south", "west"]
             }
           ]
+        },
+        {
+          "id": "crafter",
+          "modules": [
+            {
+              "type": "crafting",
+              "name": "crafting"
+            }
+          ]
         }
       ]
     }
