@@ -1,18 +1,19 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.collect.Maps;
-import cubex2.cs4.mixin.Mixin;
+import cubex2.cs4.util.AsmHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.objectweb.asm.Label;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.Type;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class TileEntityRegistry
+public class TileEntityRegistry implements Opcodes
 {
     private static final Map<ResourceLocation, Entry> map = Maps.newHashMap();
 
@@ -47,23 +48,25 @@ public class TileEntityRegistry
     {
         String className = template.getName().replace('.', '/') + "_" + contentId.replace(":", "_");
 
-        return (Class<? extends TileEntity>) Mixin.create(className, n -> addNameMethod(contentId, n), template);
+        byte[] byteCode = generateClass(template, className, contentId);
+        return (Class<? extends TileEntity>) AsmHelper.createClassFromBytes(className, byteCode);
     }
 
-    private static void addNameMethod(String contentId, ClassNode node)
+    private static byte[] generateClass(Class<? extends TileEntity> baseClass, String className, String contentId)
     {
-        MethodNode m = new MethodNode(Opcodes.ACC_PUBLIC, "getContentId", "()Ljava/lang/String;", null, null);
-        LabelNode start = new LabelNode(new Label());
-        LabelNode end = new LabelNode(new Label());
-        m.instructions.add(start);
-        m.instructions.add(new LdcInsnNode(contentId));
-        m.instructions.add(new InsnNode(Opcodes.ARETURN));
-        m.instructions.add(end);
-        m.maxStack = 1;
-        m.maxLocals = 1;
-        m.localVariables.add(new LocalVariableNode("this", "L" + node.name + ";", null, start, end, 0));
+        ClassWriter cw = new ClassWriter(0);
+        cw.visit(V1_7, ACC_PUBLIC + ACC_SUPER, className, null, Type.getInternalName(baseClass), null);
 
-        node.methods.add(m);
+        // Constructor
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitLdcInsn(contentId);
+        mv.visitMethodInsn(INVOKESPECIAL, Type.getInternalName(baseClass), "<init>", "(Ljava/lang/String;)V", false);
+        mv.visitInsn(RETURN);
+        mv.visitMaxs(2, 1);
+        mv.visitEnd();
+
+        return cw.toByteArray();
     }
 
     private static class Entry

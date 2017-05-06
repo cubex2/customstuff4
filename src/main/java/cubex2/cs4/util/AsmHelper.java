@@ -18,7 +18,7 @@ public class AsmHelper
         return createClassFromBytes(node.name.replace('/', '.'), bytes);
     }
 
-    private static Class<?> createClassFromBytes(String name, byte[] bytes)
+    public static Class<?> createClassFromBytes(String name, byte[] bytes)
     {
         if (defineClass == null)
         {
@@ -27,7 +27,7 @@ public class AsmHelper
 
         try
         {
-            return (Class<?>) defineClass.invoke(AsmHelper.class.getClassLoader(), name, bytes, 0, bytes.length);
+            return (Class<?>) defineClass.invoke(AsmHelper.class.getClassLoader(), name.replace('/','.'), bytes, 0, bytes.length);
         } catch (Exception e)
         {
             throw new RuntimeException(e);

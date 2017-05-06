@@ -24,9 +24,9 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
     private final ContentTileEntitySimple content;
     private final LinkedHashMap<String, TileEntityModule> modules = Maps.newLinkedHashMap();
 
-    public TileEntitySimple()
+    public TileEntitySimple(String contentId)
     {
-        content = (ContentTileEntitySimple) TileEntityRegistry.getContent(new ResourceLocation(getContentId()));
+        content = (ContentTileEntitySimple) TileEntityRegistry.getContent(new ResourceLocation(contentId));
         createModules();
     }
 
