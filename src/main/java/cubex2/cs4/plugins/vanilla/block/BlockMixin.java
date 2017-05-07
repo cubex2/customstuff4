@@ -174,23 +174,30 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
+        Optional<ContentGuiBase> gui = getGui(state);
+
         if (worldIn.isRemote)
         {
-            return true;
+            return gui.isPresent();
         } else
         {
-            Optional<ResourceLocation> location = getContent().gui.get(getSubtype(state));
-            if (location.isPresent())
+            if (gui.isPresent())
             {
-                ContentGuiBase gui = GuiRegistry.get(location.get());
-                if (gui != null)
-                {
-                    playerIn.openGui(CustomStuff4.INSTANCE, gui.getGuiId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-                }
+                playerIn.openGui(CustomStuff4.INSTANCE, gui.get().getGuiId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
             }
 
-            return true;
+            return gui.isPresent();
         }
+    }
+
+    private Optional<ContentGuiBase> getGui(IBlockState state)
+    {
+        Optional<ResourceLocation> location = getContent().gui.get(getSubtype(state));
+        if (location.isPresent())
+        {
+            return Optional.ofNullable(GuiRegistry.get(location.get()));
+        }
+        return Optional.empty();
     }
 
     @Override
