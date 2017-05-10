@@ -80,4 +80,20 @@ public class ItemHelper
 
         return true;
     }
+
+    public static boolean isSameStackForFuel(ItemStack fuel, ItemStack stack)
+    {
+        boolean itemEqual = stack.getMetadata() == OreDictionary.WILDCARD_VALUE
+                            ? fuel.isItemEqualIgnoreDurability(stack)
+                            : fuel.isItemEqual(stack);
+
+        boolean nbtEqual = !stack.hasTagCompound() || ItemStack.areItemStackTagsEqual(stack, fuel);
+
+        return itemEqual && nbtEqual;
+    }
+
+    public static boolean isSameStackForMachineInput(ItemStack input, ItemStack stack)
+    {
+        return isSameStackForFuel(input, stack);
+    }
 }

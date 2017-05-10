@@ -5,10 +5,14 @@ import com.google.common.collect.Maps;
 import cubex2.cs4.api.SlotProvider;
 import cubex2.cs4.plugins.vanilla.ContentGuiContainer;
 import cubex2.cs4.plugins.vanilla.crafting.SlotItemHandlerCrafting;
+import cubex2.cs4.plugins.vanilla.tileentity.FieldSupplier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
@@ -24,11 +28,16 @@ public class ContainerGui extends Container
     private final ItemHandlerSupplier supplier;
     private final IItemHandler playerInv;
     private final Map<SlotData, List<Slot>> slotMap = Maps.newHashMap();
+    private final FieldSupplier fieldSupplier;
 
-    public ContainerGui(ContentGuiContainer content, ItemHandlerSupplier supplier, EntityPlayer player)
+    private final int[] prevFieldValues;
+
+    public ContainerGui(ContentGuiContainer content, ItemHandlerSupplier supplier, FieldSupplier fieldSupplier, EntityPlayer player)
     {
         this.content = content;
         this.supplier = supplier;
+        this.fieldSupplier = fieldSupplier;
+        prevFieldValues = new int[fieldSupplier.getFieldCount()];
 
         playerInv = new PlayerMainInvWrapper(player.inventory);
 
@@ -60,6 +69,35 @@ public class ContainerGui extends Container
                 }
             }
         }
+    }
+
+    @Override
+    public void detectAndSendChanges()
+    {
+        super.detectAndSendChanges();
+
+        for (IContainerListener listener : listeners)
+        {
+            for (int id = 0; id < prevFieldValues.length; id++)
+            {
+                if (prevFieldValues[id] != fieldSupplier.getField(id))
+                {
+                    listener.sendProgressBarUpdate(this, id, fieldSupplier.getField(id));
+                }
+            }
+        }
+
+        for (int id = 0; id < prevFieldValues.length; id++)
+        {
+            prevFieldValues[id] = fieldSupplier.getField(id);
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void updateProgressBar(int id, int data)
+    {
+        fieldSupplier.setField(id, data);
     }
 
     private void addSlot(SlotData data, Slot slot)

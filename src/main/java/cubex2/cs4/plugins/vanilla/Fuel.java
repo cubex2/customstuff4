@@ -4,10 +4,10 @@ import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
+import cubex2.cs4.util.ItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 class Fuel extends SimpleContent implements IFuelHandler
 {
@@ -19,13 +19,7 @@ class Fuel extends SimpleContent implements IFuelHandler
     @Override
     public int getBurnTime(ItemStack fuel)
     {
-        boolean itemEqual = fuelStack.getMetadata() == OreDictionary.WILDCARD_VALUE
-                            ? fuel.isItemEqualIgnoreDurability(fuelStack)
-                            : fuel.isItemEqual(fuelStack);
-
-        boolean nbtEqual = !fuelStack.hasTagCompound() || ItemStack.areItemStackTagsEqual(fuelStack, fuel);
-
-        return itemEqual && nbtEqual
+        return ItemHelper.isSameStackForFuel(fuel, fuelStack)
                ? burnTime
                : 0;
     }

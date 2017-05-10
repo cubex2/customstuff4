@@ -106,6 +106,98 @@
               "y": 73
             }
           ]
+        },
+        {
+          "id": "machine",
+          "bg": "cs4examplemod:textures/gui/container/machine.png",
+          "slots": [
+            {
+              "name": "machine",
+              "rows": 1,
+              "columns": 2,
+              "x": 38,
+              "y": 17
+            },
+            {
+              "name": "machine",
+              "rows": 1,
+              "columns": 1,
+              "firstSlot": 2,
+              "x": 116,
+              "y": 35
+            },
+            {
+              "name": "machine",
+              "rows": 1,
+              "columns": 1,
+              "firstSlot": 3,
+              "x": 142,
+              "y": 35
+            },
+            {
+              "name": "machine",
+              "rows": 1,
+              "columns": 2,
+              "firstSlot": 4,
+              "x": 38,
+              "y": 53
+            },
+            {
+              "name": "player",
+              "firstSlot": 9,
+              "rows": 3,
+              "columns": 9,
+              "x": 8,
+              "y": 84
+            },
+            {
+              "name": "player",
+              "rows": 1,
+              "columns": 9,
+              "x": 8,
+              "y": 142
+            }
+          ],
+          "shiftClickRules": [
+            {
+              "from": [0, 5],
+              "to": [41, 6]
+            }
+          ],
+          "labels": [
+            {
+              "text": "container.furnace",
+              "x": 28,
+              "y": 6
+            },
+            {
+              "text": "container.inventory",
+              "x": 8,
+              "y": 73
+            }
+          ],
+          "progressBars": [
+            {
+              "source": "machine:cookTime",
+              "x": 80,
+              "y": 34,
+              "width": 22,
+              "height": 16,
+              "texX": 177,
+              "texY": 14,
+              "direction": "right"
+            },
+            {
+              "source": "machine:burnTime",
+              "x": 56,
+              "y": 36,
+              "width": 14,
+              "height": 13,
+              "texX": 176,
+              "texY": 0,
+              "direction": "up"
+            }
+          ]
         }
       ]
     }

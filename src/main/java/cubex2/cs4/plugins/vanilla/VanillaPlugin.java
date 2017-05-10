@@ -3,8 +3,10 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
+import cubex2.cs4.plugins.vanilla.gui.ProgressBar;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
+import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleMachine;
 import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.JsonHelper;
 import net.minecraft.block.SoundType;
@@ -38,6 +40,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(TileEntityModuleSupplier.class, new TileEntityModuleSupplierDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(EnumFacing.class, new EnumFacingDeserializer());
         registry.registerDeserializer(Color.class, new ColorDeserializer());
+        registry.registerDeserializer(ProgressBar.Direction.class, ProgressBar.Direction.DESERIALIZER);
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -82,7 +85,11 @@ public class VanillaPlugin implements CustomStuffPlugin
 
         registry.registerTileEntityModule("inventory", TileEntityModuleInventory.Supplier.class);
         registry.registerTileEntityModule("crafting", TileEntityModuleCrafting.Supplier.class);
+        registry.registerTileEntityModule("machine", TileEntityModuleMachine.Supplier.class);
 
         registry.registerContentType("gui:container", ContentGuiContainer.class);
+
+        registry.registerContentType("machineRecipe", MachineRecipeImpl.class);
+        registry.registerContentType("machineFuel", MachineFuelImpl.class);
     }
 }

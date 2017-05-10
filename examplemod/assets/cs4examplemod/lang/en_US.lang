@@ -16,3 +16,4 @@ tile.cs4examplemod.fence.1.name=Fence 1
 tile.cs4examplemod.stairs.name=Stairs
 tile.cs4examplemod.simplewithtile.name=A Chest
 tile.cs4examplemod.crafter.name=Crafter
+tile.cs4examplemod.machine.name=Machine
