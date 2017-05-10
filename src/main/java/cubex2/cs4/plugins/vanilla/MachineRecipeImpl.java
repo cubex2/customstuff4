@@ -2,7 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
-import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
@@ -21,17 +21,19 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
 {
     private static final Random random = new Random();
 
-    List<WrappedItemStack> input;
+    List<RecipeInput> input;
     List<MachineResult> output;
     int cookTime = 0;
     ResourceLocation recipeList;
 
-    private transient NonNullList<ItemStack> inputStacks;
+    private transient NonNullList<Object> inputStacks;
     private transient NonNullList<ItemStack> outputStacks;
 
     @Override
     public boolean matches(NonNullList<ItemStack> input, World world)
     {
+        // isSameStackForMachineInput is not transitive, so having a stack as well as its ore class in the input
+        // will cause the recipe to not accept the items even if it should.
         return CollectionHelper.equalsWithoutOrder(input, inputStacks, ItemHelper::isSameStackForMachineInput);
     }
 
@@ -70,7 +72,7 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
         inputStacks = NonNullList.create();
-        input.forEach(item -> inputStacks.add(item.createItemStack()));
+        input.forEach(item -> inputStacks.add(item.isItemStack() ? item.getStack().createItemStack() : item.getOreClass()));
 
         outputStacks = NonNullList.create();
         output.forEach(item -> outputStacks.add(item.item.createItemStack()));
@@ -81,7 +83,7 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     @Override
     protected boolean isReady()
     {
-        return input.stream().allMatch(WrappedItemStack::isItemLoaded) &&
+        return input.stream().allMatch(input -> input.isOreClass() || (input.isItemStack() && input.getStack().isItemLoaded())) &&
                output.stream().allMatch(result -> result.item.isItemLoaded());
     }
 }

@@ -144,4 +144,14 @@ public class ItemHelperTests
         assertFalse(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), new ItemStack(Items.DIAMOND_PICKAXE)));
     }
 
+    @Test
+    public void isSameStackForMachineInput()
+    {
+        assertTrue(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), "stickWood"));
+        assertTrue(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), new ItemStack(Items.STICK)));
+
+        assertFalse(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), "stickStone"));
+        assertFalse(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), new ItemStack(Items.APPLE)));
+    }
+
 }

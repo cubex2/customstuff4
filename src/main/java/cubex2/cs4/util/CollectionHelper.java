@@ -7,7 +7,7 @@ import java.util.function.BiPredicate;
 
 public class CollectionHelper
 {
-    public static <T> boolean equalsWithoutOrder(List<T> fst, List<T> snd, BiPredicate<T, T> equality)
+    public static <T,U> boolean equalsWithoutOrder(List<T> fst, List<U> snd, BiPredicate<T, U> equality)
     {
         if (fst != null && snd != null)
         {
@@ -15,18 +15,18 @@ public class CollectionHelper
             {
                 // create copied lists so the original list is not modified
                 List<T> cfst = new ArrayList<>(fst);
-                List<T> csnd = new ArrayList<>(snd);
+                List<U> csnd = new ArrayList<>(snd);
 
                 Iterator<T> ifst = cfst.iterator();
                 boolean foundEqualObject;
                 while (ifst.hasNext())
                 {
                     T a = ifst.next();
-                    Iterator<T> isnd = csnd.iterator();
+                    Iterator<U> isnd = csnd.iterator();
                     foundEqualObject = false;
                     while (isnd.hasNext())
                     {
-                        T b = isnd.next();
+                        U b = isnd.next();
                         if (equality.test(a, b))
                         {
                             ifst.remove();

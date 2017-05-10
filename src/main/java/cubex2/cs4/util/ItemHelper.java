@@ -92,8 +92,18 @@ public class ItemHelper
         return itemEqual && nbtEqual;
     }
 
-    public static boolean isSameStackForMachineInput(ItemStack input, ItemStack stack)
+    public static boolean isSameStackForMachineInput(ItemStack target, Object input)
     {
-        return isSameStackForFuel(input, stack);
+        if (input instanceof ItemStack)
+        {
+            return isSameStackForFuel(target, (ItemStack) input);
+        }
+
+        if (input instanceof String)
+        {
+            return OreDictionary.containsMatch(false, OreDictionary.getOres((String) input), target);
+        }
+
+        return false;
     }
 }
