@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
+import cubex2.cs4.plugins.vanilla.crafting.MachineResult;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBar;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
@@ -41,6 +42,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(EnumFacing.class, new EnumFacingDeserializer());
         registry.registerDeserializer(Color.class, new ColorDeserializer());
         registry.registerDeserializer(ProgressBar.Direction.class, ProgressBar.Direction.DESERIALIZER);
+        registry.registerDeserializer(MachineResult.class, MachineResult.DESERIALIZER);
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));

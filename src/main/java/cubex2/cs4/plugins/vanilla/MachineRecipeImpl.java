@@ -6,6 +6,7 @@ import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+import cubex2.cs4.plugins.vanilla.crafting.MachineResult;
 import cubex2.cs4.util.CollectionHelper;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.item.ItemStack;
@@ -14,11 +15,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Random;
 
 public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
 {
+    private static final Random random = new Random();
+
     List<WrappedItemStack> input;
-    List<WrappedItemStack> output;
+    List<MachineResult> output;
     int cookTime = 0;
     ResourceLocation recipeList;
 
@@ -35,7 +39,18 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     public NonNullList<ItemStack> getResult()
     {
         NonNullList<ItemStack> result = NonNullList.create();
-        outputStacks.forEach(stack -> result.add(stack.copy()));
+
+        for (int i = 0; i < outputStacks.size(); i++)
+        {
+            if (random.nextFloat() < output.get(i).chance)
+            {
+                result.add(outputStacks.get(i).copy());
+            } else
+            {
+                result.add(ItemStack.EMPTY);
+            }
+        }
+
         return result;
     }
 
@@ -58,7 +73,7 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
         input.forEach(item -> inputStacks.add(item.createItemStack()));
 
         outputStacks = NonNullList.create();
-        output.forEach(item -> outputStacks.add(item.createItemStack()));
+        output.forEach(item -> outputStacks.add(item.item.createItemStack()));
 
         MachineManager.addRecipe(recipeList, this);
     }
@@ -67,6 +82,6 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     protected boolean isReady()
     {
         return input.stream().allMatch(WrappedItemStack::isItemLoaded) &&
-               output.stream().allMatch(WrappedItemStack::isItemLoaded);
+               output.stream().allMatch(result -> result.item.isItemLoaded());
     }
 }
