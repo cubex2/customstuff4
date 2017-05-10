@@ -105,4 +105,20 @@ public class WrappedItemStackDeserializerTests
 
         assertNull(nbt);
     }
+
+    @Test
+    public void test_longFormatWithMetaInItem()
+    {
+        WrappedItemStackImpl stack = (WrappedItemStackImpl) gson.fromJson("{ \"item\": \"minecraft:coal@27\" }", WrappedItemStack.class);
+
+        assertEquals(27, stack.metadata);
+    }
+
+    @Test
+    public void test_longFormatWithMetaInItemOverriddenByMetadata()
+    {
+        WrappedItemStackImpl stack = (WrappedItemStackImpl) gson.fromJson("{ \"item\": \"minecraft:coal@27\", \"metadata\":42 }", WrappedItemStack.class);
+
+        assertEquals(42, stack.metadata);
+    }
 }

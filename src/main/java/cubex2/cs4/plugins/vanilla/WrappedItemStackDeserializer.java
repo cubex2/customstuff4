@@ -5,6 +5,7 @@ import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Type;
 
@@ -29,26 +30,11 @@ class WrappedItemStackDeserializer implements JsonDeserializer<WrappedItemStack>
         JsonPrimitive primitive = json.getAsJsonPrimitive();
         if (primitive.isString())
         {
-            String string = primitive.getAsString();
-            int meta = 0;
-
-            if (string.contains("@"))
-            {
-                String metaPart = string.substring(string.lastIndexOf('@') + 1);
-                string = string.substring(0, string.lastIndexOf('@'));
-
-                if (metaPart.equalsIgnoreCase(WILDCARD_STRING))
-                {
-                    meta = OreDictionary.WILDCARD_VALUE;
-                } else
-                {
-                    meta = Integer.parseInt(metaPart);
-                }
-            }
+            Pair<String, Integer> pair = parseItemPart(primitive.getAsString());
 
             WrappedItemStackImpl stack = new WrappedItemStackImpl();
-            stack.item = context.deserialize(new JsonPrimitive(string), ResourceLocation.class);
-            stack.metadata = meta;
+            stack.item = context.deserialize(new JsonPrimitive(pair.getLeft()), ResourceLocation.class);
+            stack.metadata = pair.getRight();
             return stack;
         } else
         {
@@ -62,7 +48,17 @@ class WrappedItemStackDeserializer implements JsonDeserializer<WrappedItemStack>
         JsonObject jsonObject = json.getAsJsonObject();
 
         if (jsonObject.has("item"))
-            stack.item = context.deserialize(jsonObject.get("item"), ResourceLocation.class);
+        {
+            JsonElement element = jsonObject.get("item");
+            if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString())
+            {
+                Pair<String, Integer> pair = parseItemPart(element.getAsString());
+                element = new JsonPrimitive(pair.getLeft());
+                stack.metadata = pair.getRight();
+            }
+
+            stack.item = context.deserialize(element, ResourceLocation.class);
+        }
 
         if (jsonObject.has("amount"))
             stack.amount = jsonObject.get("amount").getAsInt();
@@ -91,5 +87,26 @@ class WrappedItemStackDeserializer implements JsonDeserializer<WrappedItemStack>
         }
 
         return stack;
+    }
+
+    private Pair<String, Integer> parseItemPart(String input)
+    {
+        int meta = 0;
+
+        if (input.contains("@"))
+        {
+            String metaPart = input.substring(input.lastIndexOf('@') + 1);
+            input = input.substring(0, input.lastIndexOf('@'));
+
+            if (metaPart.equalsIgnoreCase(WILDCARD_STRING))
+            {
+                meta = OreDictionary.WILDCARD_VALUE;
+            } else
+            {
+                meta = Integer.parseInt(metaPart);
+            }
+        }
+
+        return Pair.of(input, meta);
     }
 }
