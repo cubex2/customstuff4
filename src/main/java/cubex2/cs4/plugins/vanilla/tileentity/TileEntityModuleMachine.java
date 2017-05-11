@@ -152,7 +152,7 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
 
     private boolean canSmelt()
     {
-        NonNullList<ItemStack> recipe = getActiveRecipe().getResult();
+        NonNullList<ItemStack> recipe = getActiveRecipe().getRecipeOutput();
 
         if (recipe.isEmpty())
         {

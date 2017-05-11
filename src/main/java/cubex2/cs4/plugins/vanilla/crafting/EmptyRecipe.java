@@ -21,6 +21,12 @@ public class EmptyRecipe implements MachineRecipe
     }
 
     @Override
+    public NonNullList<ItemStack> getRecipeOutput()
+    {
+        return result;
+    }
+
+    @Override
     public int getInputStacks()
     {
         return 0;

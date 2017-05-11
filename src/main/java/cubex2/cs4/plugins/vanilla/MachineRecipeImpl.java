@@ -57,6 +57,12 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     }
 
     @Override
+    public NonNullList<ItemStack> getRecipeOutput()
+    {
+        return outputStacks;
+    }
+
+    @Override
     public int getInputStacks()
     {
         return outputStacks.size();

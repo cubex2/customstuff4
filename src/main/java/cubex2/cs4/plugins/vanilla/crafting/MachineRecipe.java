@@ -18,6 +18,11 @@ public interface MachineRecipe
     NonNullList<ItemStack> getResult();
 
     /**
+     * Gets the items that this recipe creates. This must not return empty stacks.
+     */
+    NonNullList<ItemStack> getRecipeOutput();
+
+    /**
      * Gets the number of input stacks
      */
     int getInputStacks();

@@ -29,6 +29,12 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     }
 
     @Override
+    public NonNullList<ItemStack> getRecipeOutput()
+    {
+        return NonNullList.withSize(1, result);
+    }
+
+    @Override
     public int getInputStacks()
     {
         return 1;
