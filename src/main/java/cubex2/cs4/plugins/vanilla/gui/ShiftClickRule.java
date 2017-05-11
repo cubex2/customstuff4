@@ -1,11 +1,14 @@
 package cubex2.cs4.plugins.vanilla.gui;
 
+import net.minecraft.item.ItemStack;
+
 public class ShiftClickRule
 {
     int[] from = new int[] {-1, -1};
     int[] to = new int[] {-1, -1};
+    ItemFilter filter = ItemFilter.EVERYTHING;
 
-    boolean canApply(int index)
+    boolean canApply(int index, ItemStack stack)
     {
         int start = from[0];
         int end = from[1];
@@ -16,7 +19,7 @@ public class ShiftClickRule
             start = tmp;
         }
 
-        return index >= start && index <= end;
+        return index >= start && index <= end && filter.accepts(stack);
     }
 
     boolean reverseDirection()

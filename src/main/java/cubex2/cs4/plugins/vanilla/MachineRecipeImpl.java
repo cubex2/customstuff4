@@ -34,7 +34,13 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     {
         // isSameStackForMachineInput is not transitive, so having a stack as well as its ore class in the input
         // will cause the recipe to not accept the items even if it should.
-        return CollectionHelper.equalsWithoutOrder(input, inputStacks, ItemHelper::isSameStackForMachineInput);
+        return CollectionHelper.equalsWithoutOrder(input, inputStacks, ItemHelper::stackMatchesStackOrOreClass);
+    }
+
+    @Override
+    public List<RecipeInput> getRecipeInput()
+    {
+        return input;
     }
 
     @Override

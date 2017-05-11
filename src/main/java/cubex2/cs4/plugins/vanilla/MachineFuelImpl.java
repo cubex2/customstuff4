@@ -2,7 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
-import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.plugins.vanilla.crafting.MachineFuel;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
@@ -16,27 +16,33 @@ import java.util.List;
 
 class MachineFuelImpl extends SimpleContent implements MachineFuel
 {
-    List<WrappedItemStack> items;
+    List<RecipeInput> items;
     int burnTime;
     ResourceLocation fuelList;
 
-    private transient NonNullList<ItemStack> fuelStacks;
+    private transient NonNullList<Object> fuelStacks;
 
     @Override
     public int getBurnTime(NonNullList<ItemStack> items)
     {
-        return CollectionHelper.equalsWithoutOrder(items, fuelStacks, ItemHelper::isSameStackForFuel)
+        return CollectionHelper.equalsWithoutOrder(items, fuelStacks, ItemHelper::stackMatchesStackOrOreClass)
                ? burnTime
                : 0;
+    }
+
+    @Override
+    public List<RecipeInput> getFuelInput()
+    {
+        return items;
     }
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
         fuelStacks = NonNullList.create();
-        for (WrappedItemStack item : items)
+        for (RecipeInput item : items)
         {
-            fuelStacks.add(item.createItemStack());
+            fuelStacks.add(item.isItemStack() ? item.getStack().createItemStack() : item.getOreClass());
         }
 
         MachineManager.addFuel(fuelList, this);
@@ -45,6 +51,6 @@ class MachineFuelImpl extends SimpleContent implements MachineFuel
     @Override
     protected boolean isReady()
     {
-        return items.stream().allMatch(WrappedItemStack::isItemLoaded);
+        return items.stream().allMatch(input -> input.isOreClass() || (input.isItemStack() && input.getStack().isItemLoaded()));
     }
 }

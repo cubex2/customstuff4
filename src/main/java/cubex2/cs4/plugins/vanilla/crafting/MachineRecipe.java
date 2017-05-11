@@ -1,8 +1,11 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
+import cubex2.cs4.api.RecipeInput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public interface MachineRecipe
 {
@@ -10,6 +13,8 @@ public interface MachineRecipe
      * Checks if the given items match this recipe. The list is guaranteed to have the size returned by getInputStacks.
      */
     boolean matches(NonNullList<ItemStack> input, World world);
+
+    List<RecipeInput> getRecipeInput();
 
     /**
      * Gets the result items. The returned stacks are put into the machine, so they should be copies of the internal stacks.

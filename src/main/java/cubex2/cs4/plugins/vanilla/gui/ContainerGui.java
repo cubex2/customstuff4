@@ -161,7 +161,7 @@ public class ContainerGui extends Container
             boolean ruleApplied = false;
             for (ShiftClickRule rule : content.shiftClickRules)
             {
-                if (rule.canApply(index))
+                if (rule.canApply(index, itemstack1))
                 {
                     ruleApplied = true;
                     if (!mergeItemStack(itemstack1, rule.getToStart(), rule.getToEnd() + 1, rule.reverseDirection()))

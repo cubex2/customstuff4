@@ -1,8 +1,11 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
+import cubex2.cs4.api.RecipeInput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EmptyRecipe implements MachineRecipe
 {
@@ -12,6 +15,12 @@ public class EmptyRecipe implements MachineRecipe
     public boolean matches(NonNullList<ItemStack> input, World world)
     {
         return false;
+    }
+
+    @Override
+    public List<RecipeInput> getRecipeInput()
+    {
+        return NonNullList.create();
     }
 
     @Override

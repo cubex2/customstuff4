@@ -147,11 +147,11 @@ public class ItemHelperTests
     @Test
     public void isSameStackForMachineInput()
     {
-        assertTrue(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), "stickWood"));
-        assertTrue(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), new ItemStack(Items.STICK)));
+        assertTrue(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), "stickWood"));
+        assertTrue(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), new ItemStack(Items.STICK)));
 
-        assertFalse(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), "stickStone"));
-        assertFalse(ItemHelper.isSameStackForMachineInput(new ItemStack(Items.STICK), new ItemStack(Items.APPLE)));
+        assertFalse(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), "stickStone"));
+        assertFalse(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), new ItemStack(Items.APPLE)));
     }
 
 }

@@ -1,9 +1,13 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
+import cubex2.cs4.api.RecipeInput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+
+import java.util.Collections;
+import java.util.List;
 
 public class VanillaFurnaceRecipe implements MachineRecipe
 {
@@ -20,6 +24,12 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     private boolean compareItemStacks(ItemStack stack1, ItemStack stack2)
     {
         return stack2.getItem() == stack1.getItem() && (stack2.getMetadata() == 32767 || stack2.getMetadata() == stack1.getMetadata());
+    }
+
+    @Override
+    public List<RecipeInput> getRecipeInput()
+    {
+        return Collections.emptyList();
     }
 
     @Override

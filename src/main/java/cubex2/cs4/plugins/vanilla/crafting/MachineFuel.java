@@ -1,7 +1,10 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
+import cubex2.cs4.api.RecipeInput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+
+import java.util.List;
 
 public interface MachineFuel
 {
@@ -10,4 +13,6 @@ public interface MachineFuel
      * this should still return 0.
      */
     int getBurnTime(NonNullList<ItemStack> items);
+
+    List<RecipeInput> getFuelInput();
 }

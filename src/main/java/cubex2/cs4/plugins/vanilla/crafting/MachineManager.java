@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla.crafting;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import cubex2.cs4.util.ItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -43,6 +44,26 @@ public class MachineManager
     public static void addRecipe(ResourceLocation list, MachineRecipe recipe)
     {
         getRecipes(list).add(recipe);
+    }
+
+    public static boolean isPartOfRecipe(ResourceLocation list, ItemStack stack)
+    {
+        if (stack.isEmpty())
+            return false;
+
+        if (list.toString().equals("minecraft:vanilla"))
+        {
+            return !FurnaceRecipes.instance().getSmeltingResult(stack).isEmpty();
+        }
+
+        for (MachineRecipe recipe : getInstance(list).recipes)
+        {
+            if (recipe.getRecipeInput().stream()
+                      .anyMatch(input -> ItemHelper.stackMatchesRecipeInput(stack, input)))
+                return true;
+        }
+
+        return false;
     }
 
     public static MachineRecipe findMatchingRecipe(ResourceLocation list, NonNullList<ItemStack> input, World worldIn)
@@ -106,5 +127,25 @@ public class MachineManager
         }
 
         return 0;
+    }
+
+    public static boolean isPartOfFuel(ResourceLocation list, ItemStack stack)
+    {
+        if (stack.isEmpty())
+            return false;
+
+        if (list.toString().equals("minecraft:vanilla"))
+        {
+            return TileEntityFurnace.getItemBurnTime(stack) > 0;
+        }
+
+        for (MachineFuel fuel : getInstance(list).fuels)
+        {
+            if (fuel.getFuelInput().stream()
+                    .anyMatch(input -> ItemHelper.stackMatchesRecipeInput(stack, input)))
+                return true;
+        }
+
+        return false;
     }
 }

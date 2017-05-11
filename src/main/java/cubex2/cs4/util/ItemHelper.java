@@ -1,5 +1,6 @@
 package cubex2.cs4.util;
 
+import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -92,7 +93,7 @@ public class ItemHelper
         return itemEqual && nbtEqual;
     }
 
-    public static boolean isSameStackForMachineInput(ItemStack target, Object input)
+    public static boolean stackMatchesStackOrOreClass(ItemStack target, Object input)
     {
         if (input instanceof ItemStack)
         {
@@ -102,6 +103,21 @@ public class ItemHelper
         if (input instanceof String)
         {
             return OreDictionary.containsMatch(false, OreDictionary.getOres((String) input), target);
+        }
+
+        return false;
+    }
+
+    public static boolean stackMatchesRecipeInput(ItemStack stack, RecipeInput input)
+    {
+        if (input.isItemStack())
+        {
+            if (OreDictionary.itemMatches(input.getStack().createItemStack(), stack, false))
+                return true;
+        } else
+        {
+            if (OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass()), stack))
+                return true;
         }
 
         return false;
