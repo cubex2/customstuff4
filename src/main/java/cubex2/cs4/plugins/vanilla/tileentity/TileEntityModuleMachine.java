@@ -64,17 +64,17 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     {
         if (!tile.getWorld().isRemote)
         {
-            if (isBurning())
+            if (isBurning() && needsFuel())
             {
                 burnTime--;
             }
 
-            if (!isBurning() && canSmelt())
+            if (!isBurning() && canSmelt() && needsFuel())
             {
                 burnFuel();
             }
 
-            if (isBurning() && canSmelt())
+            if ((isBurning() || !needsFuel()) && canSmelt())
             {
                 ++cookTime;
 
@@ -132,6 +132,11 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     private boolean isWetSponge(ItemStack stack)
     {
         return stack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && stack.getMetadata() == 1;
+    }
+
+    private boolean needsFuel()
+    {
+        return supplier.fuelSlots > 0;
     }
 
     private void burnFuel()
