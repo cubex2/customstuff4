@@ -121,18 +121,11 @@
             {
               "name": "machine",
               "rows": 1,
-              "columns": 1,
+              "columns": 2,
               "firstSlot": 2,
               "x": 116,
-              "y": 35
-            },
-            {
-              "name": "machine",
-              "rows": 1,
-              "columns": 1,
-              "firstSlot": 3,
-              "x": 142,
-              "y": 35
+              "y": 35,
+              "spacingX": 26
             },
             {
               "name": "machine",
@@ -162,6 +155,16 @@
             {
               "from": [0, 5],
               "to": [41, 6]
+            },
+            {
+              "from": [6, 41],
+              "to": [0, 1],
+              "filter": "machineInput:cs4examplemod:machine"
+            },
+            {
+              "from": [6, 41],
+              "to": [4, 5],
+              "filter": "machineFuel:cs4examplemod:machine"
             }
           ],
           "labels": [
