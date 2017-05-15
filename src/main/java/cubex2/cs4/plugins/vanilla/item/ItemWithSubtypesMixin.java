@@ -52,6 +52,13 @@ public abstract class ItemWithSubtypesMixin extends Item implements ItemWithSubt
     }
 
     @Override
+    public CreativeTabs getCreativeTab()
+    {
+        CreativeTabs[] tabs = getCreativeTabs();
+        return tabs.length == 0 ? null : tabs[0];
+    }
+
+    @Override
     public void getSubItems(Item itemIn, CreativeTabs creativeTab, NonNullList<ItemStack> subItems)
     {
         subItems.addAll(ItemHelper.createSubItems(itemIn, creativeTab, getContent().creativeTab, getContent().subtypes));
