@@ -70,7 +70,7 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     @Override
     public int getInputStacks()
     {
-        return outputStacks.size();
+        return input.size();
     }
 
     @Override
