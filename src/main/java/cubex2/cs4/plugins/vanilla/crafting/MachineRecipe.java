@@ -1,0 +1,43 @@
+package cubex2.cs4.plugins.vanilla.crafting;
+
+import cubex2.cs4.api.RecipeInput;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
+import java.util.List;
+
+public interface MachineRecipe
+{
+    /**
+     * Checks if the given items match this recipe. The list is guaranteed to have the size returned by getInputStacks.
+     */
+    boolean matches(List<ItemStack> input, World world);
+
+    List<RecipeInput> getRecipeInput();
+
+    /**
+     * Gets the result items. The returned stacks are put into the machine, so they should be copies of the internal stacks.
+     * If the result depends on chance, add an empty stack instead of not adding it.
+     */
+    List<ItemStack> getResult();
+
+    /**
+     * Gets the items that this recipe creates. This must not return empty stacks.
+     */
+    List<ItemStack> getRecipeOutput();
+
+    /**
+     * Gets the number of input stacks
+     */
+    int getInputStacks();
+
+    /**
+     * Get the amount of ticks that this recipe takes to finish. Return 0 to use the default cook time of the machine.
+     */
+    default int getCookTime()
+    {
+        return 0;
+    }
+
+    MachineRecipe EMPTY = new EmptyRecipe();
+}

@@ -17,9 +17,9 @@ public class TileEntityModuleInventory implements TileEntityModule
     private final ItemStackHandler invHandler;
     private final Supplier supplier;
 
-    public TileEntityModuleInventory(Supplier supplier)
+    public TileEntityModuleInventory(TileEntity tile, Supplier supplier)
     {
-        invHandler = new ItemStackHandler(supplier.size);
+        invHandler = new ItemHandlerTileEntity(supplier.size, tile);
         this.supplier = supplier;
     }
 
@@ -27,7 +27,6 @@ public class TileEntityModuleInventory implements TileEntityModule
     public void readFromNBT(NBTTagCompound compound)
     {
         invHandler.deserializeNBT(compound);
-        invHandler.setSize(supplier.size);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class TileEntityModuleInventory implements TileEntityModule
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
     {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &&
-               (facing == null ||ArrayUtils.contains(supplier.sides, facing));
+               (facing == null || ArrayUtils.contains(supplier.sides, facing));
     }
 
     @Nullable
@@ -64,7 +63,7 @@ public class TileEntityModuleInventory implements TileEntityModule
         @Override
         public TileEntityModule createModule(TileEntity tileEntity)
         {
-            return new TileEntityModuleInventory(this);
+            return new TileEntityModuleInventory(tileEntity, this);
         }
     }
 }

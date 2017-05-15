@@ -4,7 +4,7 @@ import cubex2.cs4.plugins.vanilla.tileentity.CSTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TileEntityRegistryTests
 {
@@ -14,11 +14,15 @@ public class TileEntityRegistryTests
         Class<? extends TileEntity> clazz = TileEntityRegistry.createClass(TestTile.class, "modid:tileid");
         CSTileEntity tileEntity = (CSTileEntity) clazz.newInstance();
 
-        assertEquals("modid:tileid", tileEntity.getContentId());
+        assertNotNull(tileEntity);
     }
 
     public abstract static class TestTile extends TileEntity implements CSTileEntity<ContentTileEntityBase>
     {
+        public TestTile(String contentId)
+        {
+        }
+
         @Override
         public ContentTileEntityBase getContent()
         {

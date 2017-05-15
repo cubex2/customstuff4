@@ -13,6 +13,30 @@
               "sides": ["north", "east", "south", "west"]
             }
           ]
+        },
+        {
+          "id": "crafter",
+          "modules": [
+            {
+              "type": "crafting",
+              "name": "crafting",
+              "recipeList": "cs4examplemod:crafter"
+            }
+          ]
+        },
+        {
+          "id": "machine",
+          "modules": [
+            {
+              "type": "machine",
+              "name": "machine",
+              "inputSlots": 2,
+              "outputSlots": 2,
+              "fuelSlots": 2,
+              "recipeList": "cs4examplemod:machine",
+              "fuelList": "cs4examplemod:machine"
+            }
+          ]
         }
       ]
     }

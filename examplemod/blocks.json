@@ -23,6 +23,20 @@
           "itemModel": "cs4examplemod:simplewithtile",
           "tileEntity": "cs4examplemod:simple",
           "gui": "cs4examplemod:simple"
+        },
+        {
+          "id": "crafter",
+          "creativeTab": "decorations",
+          "itemModel": "cs4examplemod:sensor_iron",
+          "tileEntity": "cs4examplemod:crafter",
+          "gui": "cs4examplemod:crafter"
+        },
+        {
+          "id": "machine",
+          "creativeTab": "decorations",
+          "itemModel": "cs4examplemod:sensor_iron",
+          "tileEntity": "cs4examplemod:machine",
+          "gui": "cs4examplemod:machine"
         }
       ]
     },

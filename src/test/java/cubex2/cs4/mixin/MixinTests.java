@@ -1,5 +1,6 @@
 package cubex2.cs4.mixin;
 
+import cubex2.cs4.util.AsmHelper;
 import org.junit.Test;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -49,7 +50,7 @@ public class MixinTests
     {
         ClassNode node = Mixin.createClassNode(BaseClass.class);
         node.name = node.name.replace("MixinTests$BaseClass", "CreatedClass");
-        Class<?> clazz = Mixin.createClass(node);
+        Class<?> clazz = AsmHelper.createClass(node);
 
         assertEquals("cubex2.cs4.mixin.CreatedClass", clazz.getName());
     }

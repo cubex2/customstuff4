@@ -5,10 +5,24 @@ import cubex2.cs4.api.WrappedItemStack;
 
 import static com.google.common.base.Preconditions.checkState;
 
-class RecipeInputImpl implements RecipeInput
+public class RecipeInputImpl implements RecipeInput
 {
     public String oreClass = null;
     public WrappedItemStack stack = null;
+
+    public RecipeInputImpl()
+    {
+    }
+
+    public RecipeInputImpl(String oreClass)
+    {
+        this.oreClass = oreClass;
+    }
+
+    public RecipeInputImpl(WrappedItemStack stack)
+    {
+        this.stack = stack;
+    }
 
     @Override
     public boolean isOreClass()

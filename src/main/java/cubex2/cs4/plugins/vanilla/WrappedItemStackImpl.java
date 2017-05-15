@@ -13,6 +13,17 @@ class WrappedItemStackImpl implements WrappedItemStack
     public int amount = 1;
     public NBTTagCompound nbt;
 
+    public WrappedItemStackImpl(ResourceLocation item, int metadata, int amount)
+    {
+        this.item = item;
+        this.metadata = metadata;
+        this.amount = amount;
+    }
+
+    public WrappedItemStackImpl()
+    {
+    }
+
     @Override
     public ItemStack createItemStack()
     {

@@ -4,8 +4,10 @@ import com.google.common.collect.Maps;
 import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Bootstrap;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -123,6 +125,33 @@ public class ItemHelperTests
         List<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.DECORATIONS, tabLabels, subtypes);
 
         assertSame(0, subItems.size());
+    }
+
+    @Test
+    public void test_isSameRecipeInput()
+    {
+        assertTrue(ItemHelper.isSameRecipeInput("abc", "abc"));
+        assertFalse(ItemHelper.isSameRecipeInput("abc", "abcd"));
+
+        assertTrue(ItemHelper.isSameRecipeInput(new ItemStack(Items.APPLE), new ItemStack(Items.APPLE)));
+        assertFalse(ItemHelper.isSameRecipeInput(new ItemStack(Items.APPLE), new ItemStack(Items.DIAMOND_SWORD)));
+
+        assertTrue(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), OreDictionary.getOres("stickWood")));
+        assertFalse(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), OreDictionary.getOres("ingotIron")));
+
+        assertTrue(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), new ItemStack(Items.STICK)));
+        assertFalse(ItemHelper.isSameRecipeInput(new ItemStack(Items.STICK), OreDictionary.getOres("stickWood")));
+        assertFalse(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), new ItemStack(Items.DIAMOND_PICKAXE)));
+    }
+
+    @Test
+    public void isSameStackForMachineInput()
+    {
+        assertTrue(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), "stickWood"));
+        assertTrue(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), new ItemStack(Items.STICK)));
+
+        assertFalse(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), "stickStone"));
+        assertFalse(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), new ItemStack(Items.APPLE)));
     }
 
 }

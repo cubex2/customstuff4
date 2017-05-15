@@ -14,6 +14,18 @@
             "amount": 3
           },
           "mirrored": false
+        },
+        {
+          "result": "minecraft:diamond_sword",
+          "remove": true
+        },
+        {
+          "shape": ["AA", "AA"],
+          "items": {
+            "A": "minecraft:apple"
+          },
+          "result": "minecraft:stone",
+          "recipeList": "cs4examplemod:crafter"
         }
       ]
     },
@@ -39,6 +51,10 @@
             "minecraft:stone@all"
           ],
           "result": "minecraft:coal"
+        },
+        {
+          "result": "minecraft:dye@15",
+          "remove": true
         }
       ]
     },
@@ -121,6 +137,26 @@
           "minHeight": 64,
           "maxHeight": 90,
           "target": "minecraft:air"
+        }
+      ]
+    },
+    {
+      "type": "machineFuel",
+      "entries": [
+        {
+          "fuelList": "cs4examplemod:machine",
+          "items": ["minecraft:coal", "minecraft:stone"],
+          "burnTime": 100
+        }
+      ]
+    },
+    {
+      "type": "machineRecipe",
+      "entries": [
+        {
+          "recipeList": "cs4examplemod:machine",
+          "input": ["minecraft:apple", "minecraft:gold_ingot"],
+          "output": ["minecraft:golden_apple", "minecraft:gold_nugget"]
         }
       ]
     }

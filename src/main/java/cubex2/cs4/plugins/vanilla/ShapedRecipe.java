@@ -1,41 +1,170 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.collect.Maps;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
-import cubex2.cs4.util.JsonHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
+import cubex2.cs4.util.ItemHelper;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 class ShapedRecipe extends SimpleContent
 {
     String[] shape;
-    Map<Character, RecipeInput> items;
+    Map<Character, RecipeInput> items = Maps.newHashMap();
     WrappedItemStack result;
     boolean mirrored = true;
+    boolean remove = false;
+    ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        ShapedOreRecipe recipe = new ShapedOreRecipe(result.createItemStack(), getInputForRecipe()).setMirrored(mirrored);
-        GameRegistry.addRecipe(recipe);
+        if (remove)
+        {
+            removeRecipe(CraftingManagerCS4.getRecipes(recipeList));
+        } else
+        {
+            addRecipe();
+        }
     }
 
     @Override
     protected boolean isReady()
     {
-        if (!result.isItemLoaded())
+        if (result != null && !result.isItemLoaded())
             return false;
 
         return items.values().stream().allMatch(input -> input.isOreClass() || (input.isItemStack() && input.getStack().isItemLoaded()));
+    }
+
+    private void addRecipe()
+    {
+        ShapedOreRecipe recipe = new ShapedOreRecipe(result.createItemStack(), getInputForRecipe()).setMirrored(mirrored);
+        CraftingManagerCS4.addRecipe(recipeList, recipe);
+    }
+
+    boolean removeRecipe(Collection<IRecipe> from)
+    {
+        if (items.size() == 0)
+        {
+            return removeWithResult(from);
+        } else if (result == null)
+        {
+            return removeWithInput(from);
+        } else
+        {
+            return removeWithBoth(from);
+        }
+    }
+
+    private boolean removeWithResult(Collection<IRecipe> from)
+    {
+        return from.removeIf(this::matchesOutput);
+    }
+
+    private boolean removeWithInput(Collection<IRecipe> from)
+    {
+        List<IRecipe> recipes = from.stream()
+                                    .filter(this::matchesInput)
+                                    .collect(Collectors.toList());
+
+        return from.removeAll(recipes);
+    }
+
+    private boolean removeWithBoth(Collection<IRecipe> from)
+    {
+        List<IRecipe> recipes = from.stream()
+                                    .filter(this::matchesOutput)
+                                    .filter(this::matchesInput)
+                                    .collect(Collectors.toList());
+
+        return from.removeAll(recipes);
+    }
+
+    private boolean matchesOutput(IRecipe recipe)
+    {
+        return OreDictionary.itemMatches(recipe.getRecipeOutput(), result.createItemStack(), false);
+    }
+
+    private boolean matchesInput(IRecipe recipe)
+    {
+        if (recipe instanceof ShapedRecipes)
+        {
+            return matchesInput((ShapedRecipes) recipe);
+        } else if (recipe instanceof ShapedOreRecipe)
+        {
+            return matchesInput((ShapedOreRecipe) recipe);
+        }
+
+        return false;
+    }
+
+    private boolean matchesInput(ShapedRecipes recipe)
+    {
+        if (isOreRecipe())
+            return false;
+        if (recipe.recipeWidth != getRecipeWidth())
+            return false;
+        if (recipe.recipeHeight != getRecipeHeight())
+            return false;
+
+        return isSameInputs(recipe.recipeItems);
+    }
+
+    private boolean matchesInput(ShapedOreRecipe recipe)
+    {
+        int width = ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, recipe, "width");
+        int height = ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, recipe, "height");
+
+        if (width != getRecipeWidth())
+            return false;
+        if (height != getRecipeHeight())
+            return false;
+
+        return isSameInputs(recipe.getInput());
+    }
+
+    private boolean isSameInputs(Object[] targetInput)
+    {
+        Object[] sourceInput = getRecipeInput();
+
+        for (int i = 0; i < targetInput.length; i++)
+        {
+            Object target = targetInput[i];
+            Object source = sourceInput[i];
+
+            if (!ItemHelper.isSameRecipeInput(target, source))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isOreRecipe()
+    {
+        return items.values().stream().anyMatch(RecipeInput::isOreClass);
+    }
+
+    private int getRecipeWidth()
+    {
+        return shape[0].length();
+    }
+
+    private int getRecipeHeight()
+    {
+        return shape.length;
     }
 
     Object[] getInputForRecipe()
@@ -58,34 +187,31 @@ class ShapedRecipe extends SimpleContent
         return result;
     }
 
-    static final JsonDeserializer<ShapedRecipe> DESERIALIZER = (json, typeOfT, context) ->
+    /**
+     * Gets recipe input without the chars for the shape.
+     */
+    Object[] getRecipeInput()
     {
-        JsonObject jsonObject = json.getAsJsonObject();
-        ShapedRecipe recipe = new ShapedRecipe();
+        Object[] result = new Object[getRecipeWidth() * getRecipeHeight()];
 
-        if (jsonObject.has("shape"))
+        for (int row = 0; row < shape.length; row++)
         {
-            recipe.shape = JsonHelper.arrayFromElement(jsonObject.get("shape"));
+            for (int col = 0; col < shape[0].length(); col++)
+            {
+                RecipeInput input = items.get(shape[row].charAt(col));
+
+                int index = col + row * shape[0].length();
+
+                if (input != null)
+                {
+                    result[index] = input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().createItemStack();
+                } else
+                {
+                    result[index] = null;
+                }
+            }
         }
 
-        if (jsonObject.has("items"))
-        {
-            recipe.items = context.deserialize(jsonObject.get("items"), new TypeToken<Map<Character, RecipeInput>>() {}.getType());
-        } else
-        {
-            recipe.items = Maps.newHashMap();
-        }
-
-        if (jsonObject.has("result"))
-        {
-            recipe.result = context.deserialize(jsonObject.get("result"), WrappedItemStack.class);
-        }
-
-        if (jsonObject.has("mirrored"))
-        {
-            recipe.mirrored = jsonObject.get("mirrored").getAsBoolean();
-        }
-
-        return recipe;
-    };
+        return result;
+    }
 }
