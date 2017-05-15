@@ -26,7 +26,6 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     int cookTime = 0;
     ResourceLocation recipeList;
 
-    private transient NonNullList<Object> inputStacks;
     private transient NonNullList<ItemStack> outputStacks;
 
     @Override
@@ -34,7 +33,7 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     {
         // isSameStackForMachineInput is not transitive, so having a stack as well as its ore class in the input
         // will cause the recipe to not accept the items even if it should.
-        return CollectionHelper.equalsWithoutOrder(input, inputStacks, ItemHelper::stackMatchesStackOrOreClass);
+        return CollectionHelper.equalsWithoutOrder(input, this.input, (t, i) -> ItemHelper.stackMatchesRecipeInput(t, i, true));
     }
 
     @Override
@@ -83,11 +82,8 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        inputStacks = NonNullList.create();
-        input.forEach(item -> inputStacks.add(item.isItemStack() ? item.getStack().createItemStack() : item.getOreClass()));
-
         outputStacks = NonNullList.create();
-        output.forEach(item -> outputStacks.add(item.item.createItemStack()));
+        output.forEach(item -> outputStacks.add(item.item.getItemStack()));
 
         MachineManager.addRecipe(recipeList, this);
     }

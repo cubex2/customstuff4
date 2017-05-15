@@ -1,6 +1,8 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
 import cubex2.cs4.api.RecipeInput;
+import cubex2.cs4.plugins.vanilla.RecipeInputImpl;
+import cubex2.cs4.plugins.vanilla.WrappedItemStackConstant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.NonNullList;
@@ -12,8 +14,13 @@ import java.util.List;
 public class VanillaFurnaceRecipe implements MachineRecipe
 {
     private final ItemStack result;
+    private final List<RecipeInput> resultList;
 
-    public VanillaFurnaceRecipe(ItemStack result) {this.result = result;}
+    public VanillaFurnaceRecipe(ItemStack result)
+    {
+        this.result = result;
+        resultList = Collections.singletonList(new RecipeInputImpl(new WrappedItemStackConstant(result)));
+    }
 
     @Override
     public boolean matches(NonNullList<ItemStack> input, World world)
@@ -29,7 +36,7 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     @Override
     public List<RecipeInput> getRecipeInput()
     {
-        return Collections.emptyList();
+        return resultList;
     }
 
     @Override

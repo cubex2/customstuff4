@@ -12,7 +12,11 @@ public interface MachineFuel
      * Return the burn time for the given items. If the list contains all needed items but additional items as well,
      * this should still return 0.
      */
-    int getBurnTime(NonNullList<ItemStack> items);
+    int getBurnTime();
+
+    boolean matches(NonNullList<ItemStack> items);
 
     List<RecipeInput> getFuelInput();
+
+    MachineFuel EMPTY = new EmptyFuel();
 }

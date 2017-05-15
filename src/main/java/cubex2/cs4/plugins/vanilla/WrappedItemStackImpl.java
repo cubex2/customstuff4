@@ -25,7 +25,7 @@ class WrappedItemStackImpl implements WrappedItemStack
     }
 
     @Override
-    public ItemStack createItemStack()
+    public ItemStack getItemStack()
     {
         Item object = Item.REGISTRY.getObject(item);
         if (object == null)

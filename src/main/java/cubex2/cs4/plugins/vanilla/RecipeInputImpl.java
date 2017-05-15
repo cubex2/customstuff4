@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
+import net.minecraft.item.ItemStack;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -50,5 +51,10 @@ public class RecipeInputImpl implements RecipeInput
         checkState(isItemStack(), "Input is not a stack");
 
         return stack;
+    }
+
+    public static RecipeInputImpl create(ItemStack stack)
+    {
+        return new RecipeInputImpl(new WrappedItemStackConstant(stack));
     }
 }

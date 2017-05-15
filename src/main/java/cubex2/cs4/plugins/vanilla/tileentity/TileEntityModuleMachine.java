@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla.tileentity;
 import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.vanilla.crafting.ItemHandlerMachine;
+import cubex2.cs4.plugins.vanilla.crafting.MachineFuel;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBarSource;
@@ -45,7 +46,7 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
         burnTime = compound.getInteger("BurnTime");
         cookTime = compound.getInteger("CookTime");
         totalCookTime = compound.getInteger("TotalCookTime");
-        currentItemBurnTime = getBurnTime();
+        currentItemBurnTime = getActiveFuel().getBurnTime();
     }
 
     @Override
@@ -98,10 +99,12 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     {
         if (canSmelt())
         {
-            NonNullList<ItemStack> recipe = getActiveRecipe().getResult();
-            for (int i = 0; i < recipe.size(); i++)
+            MachineRecipe recipe = getActiveRecipe();
+
+            NonNullList<ItemStack> resultItems = recipe.getResult();
+            for (int i = 0; i < resultItems.size(); i++)
             {
-                ItemStack stack = recipe.get(i);
+                ItemStack stack = resultItems.get(i);
                 invHandler.insertOutput(i, stack, false);
             }
 
@@ -113,7 +116,7 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
                 }
             }
 
-            invHandler.shrinkInput();
+            invHandler.removeInputsFromInput(recipe.getRecipeInput());
         }
     }
 
@@ -141,18 +144,20 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
 
     private void burnFuel()
     {
-        burnTime = getBurnTime();
+        MachineFuel fuel = getActiveFuel();
+
+        burnTime = fuel.getBurnTime();
         currentItemBurnTime = burnTime;
 
         if (isBurning())
         {
-            invHandler.shrinkFuel();
+            invHandler.removeInputsFromFuel(fuel.getFuelInput());
         }
     }
 
-    private int getBurnTime()
+    private MachineFuel getActiveFuel()
     {
-        return MachineManager.getBurnTime(supplier.fuelList, invHandler.getFuelStacks());
+        return MachineManager.findMatchingFuel(supplier.fuelList, invHandler.getFuelStacks());
     }
 
     private boolean canSmelt()

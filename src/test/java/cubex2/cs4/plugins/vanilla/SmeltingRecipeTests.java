@@ -24,8 +24,8 @@ public class SmeltingRecipeTests
     {
         SmeltingRecipe recipe = gson.fromJson("{ \"input\": \"minecraft:coal\", \"result\": \"minecraft:apple\", \"xp\": 1.2 }", SmeltingRecipe.class);
 
-        assertSame(Items.COAL, recipe.input.createItemStack().getItem());
-        assertSame(Items.APPLE, recipe.result.createItemStack().getItem());
+        assertSame(Items.COAL, recipe.input.getItemStack().getItem());
+        assertSame(Items.APPLE, recipe.result.getItemStack().getItem());
         assertEquals(1.2f, recipe.xp, 0.0001f);
     }
 }

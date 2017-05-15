@@ -15,7 +15,7 @@ class SmeltingRecipe extends SimpleContent
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        GameRegistry.addSmelting(input.createItemStack(), result.createItemStack(), xp);
+        GameRegistry.addSmelting(input.getItemStack(), result.getItemStack(), xp);
     }
 
     @Override

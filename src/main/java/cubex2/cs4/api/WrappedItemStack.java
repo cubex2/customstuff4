@@ -10,9 +10,9 @@ public interface WrappedItemStack
 {
     /**
      * Tries to create the ItemStack. This returns ItemStack.EMPTY if the item for the stack does not exist or hasn't been loaded
-     * yet.
+     * yet. The returned stack must not be modified.
      */
-    ItemStack createItemStack();
+    ItemStack getItemStack();
 
     /**
      * Returns true if the item for stack has been loaded. Allows to distinguish between empty stacks due to missing items

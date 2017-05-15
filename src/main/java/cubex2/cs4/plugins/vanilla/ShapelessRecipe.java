@@ -87,7 +87,7 @@ class ShapelessRecipe extends SimpleContent
 
     private boolean matchesOutput(IRecipe recipe)
     {
-        return OreDictionary.itemMatches(recipe.getRecipeOutput(), result.createItemStack(), false);
+        return OreDictionary.itemMatches(recipe.getRecipeOutput(), result.getItemStack(), false);
     }
 
     private boolean matchesInput(IRecipe recipe)
@@ -155,14 +155,14 @@ class ShapelessRecipe extends SimpleContent
 
     private void addRecipe()
     {
-        ShapelessOreRecipe recipe = new ShapelessOreRecipe(result.createItemStack(), getInputForRecipe());
+        ShapelessOreRecipe recipe = new ShapelessOreRecipe(result.getItemStack(), getInputForRecipe());
         CraftingManagerCS4.addRecipe(recipeList, recipe);
     }
 
     Object[] getInputForRecipe()
     {
         return items.stream()
-                    .map(input -> input.isOreClass() ? input.getOreClass() : input.getStack().createItemStack())
+                    .map(input -> input.isOreClass() ? input.getOreClass() : input.getStack().getItemStack())
                     .toArray();
     }
 
@@ -172,7 +172,7 @@ class ShapelessRecipe extends SimpleContent
     Object[] getRecipeInput()
     {
         return items.stream()
-                    .map(input -> input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().createItemStack())
+                    .map(input -> input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().getItemStack())
                     .toArray();
     }
 }

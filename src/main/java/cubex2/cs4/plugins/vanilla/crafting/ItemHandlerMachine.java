@@ -1,11 +1,14 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
+import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.plugins.vanilla.tileentity.ItemHandlerTileEntity;
+import cubex2.cs4.util.ItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ItemHandlerMachine extends ItemHandlerTileEntity
 {
@@ -66,14 +69,6 @@ public class ItemHandlerMachine extends ItemHandlerTileEntity
         return super.insertItem(slot, stack, simulate);
     }
 
-    public void shrinkFuel()
-    {
-        for (int i = 0; i < fuelSlots; i++)
-        {
-            extractFuel(i, 1, false);
-        }
-    }
-
     public ItemStack extractFuel(int fuelSlot, int amount, boolean simulate)
     {
         return extractItem(inputSlots + outputSlots + fuelSlot, amount, simulate);
@@ -84,16 +79,13 @@ public class ItemHandlerMachine extends ItemHandlerTileEntity
         setStackInSlot(inputSlots + outputSlots + fuelSlot, stack);
     }
 
-    public void shrinkInput()
+    public void removeInputsFromInput(List<RecipeInput> inputs)
     {
-        for (int i = 0; i < inputSlots; i++)
-        {
-            extractInput(i, 1, false);
-        }
+        ItemHelper.removeInputsFromInventory(inputs, this, 0, inputSlots);
     }
 
-    public ItemStack extractInput(int inputSlot, int amount, boolean simulate)
+    public void removeInputsFromFuel(List<RecipeInput> inputs)
     {
-        return extractItem(inputSlot, amount, simulate);
+        ItemHelper.removeInputsFromInventory(inputs, this, inputSlots + outputSlots, fuelSlots);
     }
 }

@@ -85,7 +85,7 @@ public class WrappedItemStackDeserializerTests
     {
         WrappedItemStackImpl stack = (WrappedItemStackImpl) gson.fromJson("{ \"item\":\"minecraft:coal\", \"nbt\": \"{AByte:1b, AString:\\\"Test\\\"}\" }", WrappedItemStack.class);
 
-        ItemStack itemStack = stack.createItemStack();
+        ItemStack itemStack = stack.getItemStack();
         NBTTagCompound nbt = itemStack.getTagCompound();
 
         assertNotNull(nbt);
@@ -100,7 +100,7 @@ public class WrappedItemStackDeserializerTests
     {
         WrappedItemStackImpl stack = (WrappedItemStackImpl) gson.fromJson("{ \"item\": \"minecraft:coal\" }", WrappedItemStack.class);
 
-        ItemStack itemStack = stack.createItemStack();
+        ItemStack itemStack = stack.getItemStack();
         NBTTagCompound nbt = itemStack.getTagCompound();
 
         assertNull(nbt);

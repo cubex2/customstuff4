@@ -20,14 +20,16 @@ class MachineFuelImpl extends SimpleContent implements MachineFuel
     int burnTime;
     ResourceLocation fuelList;
 
-    private transient NonNullList<Object> fuelStacks;
+    @Override
+    public int getBurnTime()
+    {
+        return burnTime;
+    }
 
     @Override
-    public int getBurnTime(NonNullList<ItemStack> items)
+    public boolean matches(NonNullList<ItemStack> items)
     {
-        return CollectionHelper.equalsWithoutOrder(items, fuelStacks, ItemHelper::stackMatchesStackOrOreClass)
-               ? burnTime
-               : 0;
+        return CollectionHelper.equalsWithoutOrder(items, this.items, (t, i) -> ItemHelper.stackMatchesRecipeInput(t, i, true));
     }
 
     @Override
@@ -39,12 +41,6 @@ class MachineFuelImpl extends SimpleContent implements MachineFuel
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        fuelStacks = NonNullList.create();
-        for (RecipeInput item : items)
-        {
-            fuelStacks.add(item.isItemStack() ? item.getStack().createItemStack() : item.getOreClass());
-        }
-
         MachineManager.addFuel(fuelList, this);
     }
 
