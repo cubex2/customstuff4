@@ -1,0 +1,91 @@
+{
+  "crafter": [
+    {
+      "type": "block:simple",
+      "entries": [
+        {
+          "id": "crafter",
+          "creativeTab": "decorations",
+          "itemModel": "cs4examplemod:sensor_iron",
+          "tileEntity": "cs4examplemod:crafter",
+          "gui": "cs4examplemod:crafter"
+        }
+      ]
+    },
+    {
+      "type": "tileentity:simple",
+      "entries": [
+        {
+          "id": "crafter",
+          "modules": [
+            {
+              "type": "crafting",
+              "name": "crafting",
+              "recipeList": "cs4examplemod:crafter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "gui:container",
+      "entries": [
+        {
+          "id": "crafter",
+          "bg": "textures/gui/container/crafting_table.png",
+          "slots": [
+            {
+              "name": "crafting",
+              "rows": 3,
+              "columns": 3,
+              "x": 30,
+              "y": 17
+            },
+            {
+              "name": "crafting",
+              "rows": 1,
+              "columns": 1,
+              "firstSlot": 9,
+              "x": 124,
+              "y": 35
+            },
+            {
+              "name": "player",
+              "firstSlot": 9,
+              "rows": 3,
+              "columns": 9,
+              "x": 8,
+              "y": 84
+            },
+            {
+              "name": "player",
+              "rows": 1,
+              "columns": 9,
+              "x": 8,
+              "y": 142
+            }
+          ],
+          "shiftClickRules": [
+            {
+              "from": [0, 9],
+              "to": [45, 10]
+            }
+          ],
+          "labels": [
+            {
+              "text": "container.crafting",
+              "x": 28,
+              "y": 6
+            },
+            {
+              "text": "container.inventory",
+              "x": 8,
+              "y": 73
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

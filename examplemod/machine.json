@@ -1,112 +1,39 @@
 {
-  "guis": [
+  "machine": [
+    {
+      "type": "block:simple",
+      "entries": [
+        {
+          "id": "machine",
+          "creativeTab": "decorations",
+          "itemModel": "cs4examplemod:sensor_iron",
+          "tileEntity": "cs4examplemod:machine",
+          "gui": "cs4examplemod:machine"
+        }
+      ]
+    },
+    {
+      "type": "tileentity:simple",
+      "entries": [
+        {
+          "id": "machine",
+          "modules": [
+            {
+              "type": "machine",
+              "name": "machine",
+              "inputSlots": 2,
+              "outputSlots": 2,
+              "fuelSlots": 2,
+              "recipeList": "cs4examplemod:machine",
+              "fuelList": "cs4examplemod:machine"
+            }
+          ]
+        }
+      ]
+    },
     {
       "type": "gui:container",
       "entries": [
-        {
-          "id": "simple",
-          "bg": "cs4examplemod:textures/gui/container/simple.png",
-          "slots": [
-            {
-              "name": "inv1",
-              "rows": 3,
-              "columns": 9,
-              "x": 8,
-              "y": 17
-            },
-            {
-              "name": "player",
-              "firstSlot": 9,
-              "rows": 3,
-              "columns": 9,
-              "x": 8,
-              "y": 84
-            },
-            {
-              "name": "player",
-              "rows": 1,
-              "columns": 9,
-              "x": 8,
-              "y": 142
-            }
-          ],
-          "shiftClickRules": [
-            {
-              "from": [0, 26],
-              "to": [62, 27]
-            },
-            {
-              "from": [27, 62],
-              "to": [0, 26]
-            }
-          ],
-          "labels": [
-            {
-              "text": "container.chest",
-              "x": 8,
-              "y": 6
-            },
-            {
-              "text": "container.inventory",
-              "x": 8,
-              "y": 73
-            }
-          ]
-        },
-        {
-          "id": "crafter",
-          "bg": "textures/gui/container/crafting_table.png",
-          "slots": [
-            {
-              "name": "crafting",
-              "rows": 3,
-              "columns": 3,
-              "x": 30,
-              "y": 17
-            },
-            {
-              "name": "crafting",
-              "rows": 1,
-              "columns": 1,
-              "firstSlot": 9,
-              "x": 124,
-              "y": 35
-            },
-            {
-              "name": "player",
-              "firstSlot": 9,
-              "rows": 3,
-              "columns": 9,
-              "x": 8,
-              "y": 84
-            },
-            {
-              "name": "player",
-              "rows": 1,
-              "columns": 9,
-              "x": 8,
-              "y": 142
-            }
-          ],
-          "shiftClickRules": [
-            {
-              "from": [0, 9],
-              "to": [45, 10]
-            }
-          ],
-          "labels": [
-            {
-              "text": "container.crafting",
-              "x": 28,
-              "y": 6
-            },
-            {
-              "text": "container.inventory",
-              "x": 8,
-              "y": 73
-            }
-          ]
-        },
         {
           "id": "machine",
           "bg": "cs4examplemod:textures/gui/container/machine.png",
@@ -201,6 +128,26 @@
               "direction": "up"
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "machineFuel",
+      "entries": [
+        {
+          "fuelList": "cs4examplemod:machine",
+          "items": ["minecraft:coal", "minecraft:stone"],
+          "burnTime": 100
+        }
+      ]
+    },
+    {
+      "type": "machineRecipe",
+      "entries": [
+        {
+          "recipeList": "cs4examplemod:machine",
+          "input": ["minecraft:apple", "minecraft:gold_ingot"],
+          "output": ["minecraft:golden_apple", "minecraft:gold_nugget"]
         }
       ]
     }
