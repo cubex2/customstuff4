@@ -201,7 +201,7 @@ class ShapedRecipe extends SimpleContent
 
                 if (input != null)
                 {
-                    result[index] = input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().getItemStack();
+                    result[index] = input.isOreClass() ? OreDictionary.getOres(input.getOreClass().getOreName()) : input.getStack().getItemStack();
                 } else
                 {
                     result[index] = ItemStack.EMPTY;

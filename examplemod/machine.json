@@ -136,7 +136,7 @@
       "entries": [
         {
           "fuelList": "cs4examplemod:machine",
-          "items": ["minecraft:coal", "minecraft:stone"],
+          "items": ["minecraft:coal", {"ore": "stone", "amount": 2}],
           "burnTime": 100
         }
       ]

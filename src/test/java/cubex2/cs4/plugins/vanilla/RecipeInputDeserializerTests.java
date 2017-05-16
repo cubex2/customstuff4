@@ -1,12 +1,9 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.RecipeInput;
-import cubex2.cs4.api.WrappedItemStack;
-import net.minecraft.util.ResourceLocation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -41,7 +38,37 @@ public class RecipeInputDeserializerTests
 
         RecipeInput input = map.get("input");
         assertTrue(input.isOreClass());
-        assertEquals("air", input.getOreClass());
+        assertEquals("air", input.getOreClass().getOreName());
+    }
+
+    @Test
+    public void test_fromString_ore()
+    {
+        Map<String, RecipeInput> map = gson.fromJson("{\"input\":\"ore:air\"}", new TypeToken<Map<String, RecipeInput>>() {}.getType());
+
+        RecipeInput input = map.get("input");
+        assertTrue(input.isOreClass());
+        assertEquals("air", input.getOreClass().getOreName());
+    }
+
+    @Test
+    public void test_fromObject_ore()
+    {
+        RecipeInput input = gson.fromJson("{\"ore\":\"stickWood\", \"amount\":5}", RecipeInput.class);
+
+        assertTrue(input.isOreClass());
+        assertEquals("stickWood", input.getOreClass().getOreName());
+        assertEquals(5, input.getOreClass().getAmount());
+    }
+
+    @Test
+    public void test_fromObject_ore_without_amount()
+    {
+        RecipeInput input = gson.fromJson("{\"ore\":\"stickWood\"}", RecipeInput.class);
+
+        assertTrue(input.isOreClass());
+        assertEquals("stickWood", input.getOreClass().getOreName());
+        assertEquals(1, input.getOreClass().getAmount());
     }
 
     @Test

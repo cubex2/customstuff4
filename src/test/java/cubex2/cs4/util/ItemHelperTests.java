@@ -179,12 +179,12 @@ public class ItemHelperTests
         inv.setStackInSlot(0, new ItemStack(Items.APPLE));
         inv.setStackInSlot(1, new ItemStack(Items.STICK, 3));
 
-        RecipeInputImpl input1 = new RecipeInputImpl("stickWood");
+        RecipeInputImpl input1 = new RecipeInputImpl("stickWood", 2);
         RecipeInputImpl input2 = RecipeInputImpl.create(new ItemStack(Items.APPLE, 1));
         ItemHelper.removeInputsFromInventory(Lists.newArrayList(input1, input2), inv, 0, 2);
 
         assertTrue(inv.getStackInSlot(0).isEmpty());
-        assertEquals(2, inv.getStackInSlot(1).getCount());
+        assertEquals(1, inv.getStackInSlot(1).getCount());
     }
 
 }

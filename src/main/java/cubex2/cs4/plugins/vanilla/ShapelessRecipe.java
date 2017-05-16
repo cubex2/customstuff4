@@ -172,7 +172,7 @@ class ShapelessRecipe extends SimpleContent
     Object[] getRecipeInput()
     {
         return items.stream()
-                    .map(input -> input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().getItemStack())
+                    .map(input -> input.isOreClass() ? OreDictionary.getOres(input.getOreClass().getOreName()) : input.getStack().getItemStack())
                     .toArray();
     }
 }

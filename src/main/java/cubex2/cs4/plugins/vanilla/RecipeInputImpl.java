@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla;
 
+import cubex2.cs4.api.OreClass;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import net.minecraft.item.ItemStack;
@@ -8,7 +9,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 public class RecipeInputImpl implements RecipeInput
 {
-    public String oreClass = null;
+    public OreClass oreClass = null;
     public WrappedItemStack stack = null;
 
     public RecipeInputImpl()
@@ -17,7 +18,12 @@ public class RecipeInputImpl implements RecipeInput
 
     public RecipeInputImpl(String oreClass)
     {
-        this.oreClass = oreClass;
+        this.oreClass = new OreClass(oreClass, 1);
+    }
+
+     public RecipeInputImpl(String oreClass, int amount)
+    {
+        this.oreClass = new OreClass(oreClass, amount);
     }
 
     public RecipeInputImpl(WrappedItemStack stack)
@@ -38,7 +44,7 @@ public class RecipeInputImpl implements RecipeInput
     }
 
     @Override
-    public String getOreClass() throws IllegalStateException
+    public OreClass getOreClass() throws IllegalStateException
     {
         checkState(isOreClass(), "Input is not a ore class");
 

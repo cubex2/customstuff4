@@ -118,7 +118,7 @@ public class ItemHelper
                 return true;
         } else
         {
-            if (OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass()), stack))
+            if (OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass().getOreName()), stack))
                 return true;
         }
 
@@ -150,7 +150,7 @@ public class ItemHelper
     {
         if (input.isOreClass())
         {
-            from.extractItem(slot, 1, false);
+            from.extractItem(slot, input.getOreClass().getAmount(), false);
         } else
         {
             ItemStack toExtract = input.getStack().getItemStack();
