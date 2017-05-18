@@ -3,6 +3,7 @@ package cubex2.cs4.plugins.vanilla;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
+import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -40,6 +41,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<MapColor> mapColor = Attribute.constant(null);
     public Attribute<ResourceLocation> tileEntity = Attribute.constant(null);
     public Attribute<ResourceLocation> gui = Attribute.constant(null);
+    public Attribute<WrappedItemStack> drop = Attribute.constant(null);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(new ResourceLocation("minecraft:stick"));
 

@@ -59,6 +59,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<MapColor>>() {}.getType(), Attribute.deserializer(MapColor.class));
         registry.registerDeserializer(new TypeToken<Attribute<WrappedBlockState>>() {}.getType(), Attribute.deserializer(WrappedBlockState.class));
         registry.registerDeserializer(new TypeToken<Attribute<Color>>() {}.getType(), Attribute.deserializer(Color.class));
+        registry.registerDeserializer(new TypeToken<Attribute<WrappedItemStack>>() {}.getType(), Attribute.deserializer(WrappedItemStack.class));
 
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);

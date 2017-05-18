@@ -15,6 +15,10 @@
           "hardness": {
             "0": 1,
             "1": 4
+          },
+          "drop": {
+            "0": {"item": "cs4examplemod:someblock@0", "amount": 4},
+            "1": "minecraft:air"
           }
         }
       ]
