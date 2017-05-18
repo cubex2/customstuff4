@@ -1,5 +1,7 @@
 package cubex2.cs4.plugins.vanilla.tileentity;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.vanilla.crafting.ItemHandlerMachine;
@@ -18,8 +20,15 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSource
 {
@@ -32,11 +41,31 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     private int cookTime;
     private int totalCookTime;
 
+    private final Map<EnumFacing, IItemHandler> itemHandlers = Maps.newHashMap();
+
     public TileEntityModuleMachine(TileEntity tile, Supplier supplier)
     {
         this.invHandler = new ItemHandlerMachine(supplier.inputSlots, supplier.outputSlots, supplier.fuelSlots, tile);
         this.tile = tile;
         this.supplier = supplier;
+
+        for (EnumFacing facing : EnumFacing.values())
+        {
+            handlerForSide(facing).ifPresent(h -> itemHandlers.put(facing, h));
+        }
+    }
+
+    private Optional<IItemHandler> handlerForSide(EnumFacing facing)
+    {
+        List<IItemHandlerModifiable> handlers = Lists.newArrayList();
+        if (ArrayUtils.contains(supplier.sidesInput, facing))
+            handlers.add(invHandler.getInputHandler());
+        if (ArrayUtils.contains(supplier.sidesOutput, facing))
+            handlers.add(invHandler.getOutputHandler());
+        if (ArrayUtils.contains(supplier.sidesFuel, facing))
+            handlers.add(invHandler.getFuelHandler());
+
+        return Optional.ofNullable(handlers.isEmpty() ? null : new CombinedInvWrapper(handlers.toArray(new IItemHandlerModifiable[handlers.size()])));
     }
 
     @Override
@@ -124,10 +153,10 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     {
         for (int i = 0; i < supplier.fuelSlots; i++)
         {
-            ItemStack extracted = invHandler.extractFuel(i, 1, true);
+            ItemStack extracted = invHandler.getFuelHandler().extractItem(i, 1, true);
             if (!extracted.isEmpty() && extracted.getItem() == Items.BUCKET)
             {
-                invHandler.setFuelSlot(i, new ItemStack(Items.WATER_BUCKET));
+                invHandler.getFuelHandler().setStackInSlot(i, new ItemStack(Items.WATER_BUCKET));
             }
         }
     }
@@ -267,17 +296,23 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
     {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &&
-               (facing == null);
+               (facing == null || itemHandlers.containsKey(facing));
     }
 
+    @SuppressWarnings("unchecked")
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
     {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &&
-            (facing == null))
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
         {
-            return (T) invHandler;
+            if (facing == null)
+            {
+                return (T) invHandler;
+            } else
+            {
+                return (T) itemHandlers.get(facing);
+            }
         }
 
         return null;
@@ -292,6 +327,10 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
 
         public ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
         public ResourceLocation fuelList = new ResourceLocation("minecraft", "vanilla");
+
+        public EnumFacing[] sidesInput = new EnumFacing[] {EnumFacing.UP};
+        public EnumFacing[] sidesOutput = new EnumFacing[] {EnumFacing.DOWN};
+        public EnumFacing[] sidesFuel = new EnumFacing[] {EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.EAST, EnumFacing.WEST};
 
         @Override
         public TileEntityModule createModule(TileEntity tileEntity)
