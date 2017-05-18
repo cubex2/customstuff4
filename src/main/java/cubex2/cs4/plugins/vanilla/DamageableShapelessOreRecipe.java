@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-class DamageableShapelessOreRecipe extends ShapelessOreRecipe
+public class DamageableShapelessOreRecipe extends ShapelessOreRecipe
 {
     private final int[] damageAmounts;
     private final int[] invSlots;
@@ -88,15 +88,13 @@ class DamageableShapelessOreRecipe extends ShapelessOreRecipe
 
                     if (next instanceof ItemStack)
                     {
-                        ItemStack stack = (ItemStack) next;
-                        match = OreDictionary.itemMatches(stack, slot, false) && damage <= stack.getMaxDamage() - stack.getItemDamage() + 1;
+                        match = OreDictionary.itemMatches((ItemStack) next, slot, false) && damage <= slot.getMaxDamage() - slot.getItemDamage() + 1;
                     } else if (next instanceof List)
                     {
                         Iterator<ItemStack> itr = ((List<ItemStack>) next).iterator();
                         while (itr.hasNext() && !match)
                         {
-                            ItemStack stack = itr.next();
-                            match = OreDictionary.itemMatches(stack, slot, false) && damage <= stack.getMaxDamage() - stack.getItemDamage() + 1;
+                            match = OreDictionary.itemMatches(itr.next(), slot, false) && damage <= slot.getMaxDamage() - slot.getItemDamage() + 1;
                         }
                     }
 

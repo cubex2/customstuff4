@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.List;
 
-class DamageableShapedOreRecipe extends ShapedOreRecipe
+public class DamageableShapedOreRecipe extends ShapedOreRecipe
 {
     private final int[] damageAmounts;
     private final int[] mirroredDamageAmounts;
@@ -140,8 +140,7 @@ class DamageableShapedOreRecipe extends ShapedOreRecipe
 
                 if (target instanceof ItemStack)
                 {
-                    ItemStack stack = (ItemStack) target;
-                    if (!OreDictionary.itemMatches(stack, slot, false) || damage > stack.getMaxDamage() - stack.getItemDamage() + 1)
+                    if (!OreDictionary.itemMatches((ItemStack) target, slot, false) || damage > slot.getMaxDamage() - slot.getItemDamage() + 1)
                     {
                         return false;
                     }
@@ -152,8 +151,7 @@ class DamageableShapedOreRecipe extends ShapedOreRecipe
                     Iterator<ItemStack> itr = ((List<ItemStack>) target).iterator();
                     while (itr.hasNext() && !matched)
                     {
-                        ItemStack stack = itr.next();
-                        matched = OreDictionary.itemMatches(stack, slot, false) && damage <= stack.getMaxDamage() - stack.getItemDamage() + 1;
+                        matched = OreDictionary.itemMatches(itr.next(), slot, false) && damage <= slot.getMaxDamage() - slot.getItemDamage() + 1;
                     }
 
                     if (!matched)
