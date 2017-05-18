@@ -25,6 +25,7 @@ class ShapelessRecipe extends SimpleContent
     WrappedItemStack result;
     boolean remove = false;
     ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
+    int[] damage = new int[0];
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
@@ -155,7 +156,10 @@ class ShapelessRecipe extends SimpleContent
 
     private void addRecipe()
     {
-        ShapelessOreRecipe recipe = new ShapelessOreRecipe(result.getItemStack(), getInputForRecipe());
+        if (damage.length == 0)
+            damage = new int[items.size()];
+
+        ShapelessOreRecipe recipe = new DamageableShapelessOreRecipe(damage, result.getItemStack(), getInputForRecipe());
         CraftingManagerCS4.addRecipe(recipeList, recipe);
     }
 
