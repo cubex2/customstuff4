@@ -65,6 +65,22 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public boolean isFullCube(IBlockState state)
+    {
+        return getContent().isFullCube.get(getSubtype(state)).orElse(true);
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state)
+    {
+        // Block is calling this in the constructor...
+        if (getContent() == null)
+            return true;
+
+        return getContent().isFullCube.get(getSubtype(state)).orElse(true);
+    }
+
+    @Override
     public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
     {
         return getContent().hardness.get(getSubtype(blockState)).orElse(1f);

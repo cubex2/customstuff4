@@ -69,12 +69,6 @@ public class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
-    }
-
-    @Override
     public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
     {
         if (net.minecraftforge.common.ForgeModContainer.disableStairSlabCulling)
@@ -92,12 +86,6 @@ public class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
     {
         IBlockState iblockstate = getDefaultState().withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM);
         return (facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double) hitY <= 0.5D) ? iblockstate : iblockstate.withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.TOP));
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
     }
 
     @SideOnly(Side.CLIENT)

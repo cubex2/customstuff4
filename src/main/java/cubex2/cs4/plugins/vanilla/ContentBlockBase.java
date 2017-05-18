@@ -42,6 +42,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<ResourceLocation> tileEntity = Attribute.constant(null);
     public Attribute<ResourceLocation> gui = Attribute.constant(null);
     public Attribute<WrappedItemStack> drop = Attribute.constant(null);
+    public Attribute<Boolean> isFullCube = Attribute.constant(true);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(new ResourceLocation("minecraft:stick"));
 
