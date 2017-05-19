@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla;
 
+import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.api.WrappedPotionEffect;
 import cubex2.cs4.plugins.vanilla.item.ItemFactory;
 import net.minecraft.item.Item;
@@ -11,6 +12,7 @@ public class ContentItemFood extends ContentItemWithSubtypes<Item>
     public Attribute<Boolean> alwaysEdible = Attribute.constant(false);
     public Attribute<WrappedPotionEffect> potionEffect = Attribute.constant(WrappedPotionEffect.of(null));
     public Attribute<Float> potionEffectProbability = Attribute.constant(1f);
+    public Attribute<WrappedItemStack> result = Attribute.constant(null);
 
     public boolean isWolfFood = false;
 
