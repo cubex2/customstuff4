@@ -7,13 +7,16 @@
           "shape": ["XX", "Y "],
           "items": {
             "X": "minecraft:stone@all",
-            "Y": "minecraft:diamond_block"
+            "Y": "minecraft:diamond_sword@all"
           },
           "result": {
             "item": "minecraft:obsidian",
             "amount": 3
           },
-          "mirrored": false
+          "damage": {
+            "Y": 20
+          },
+          "mirrored": true
         },
         {
           "result": "minecraft:diamond_sword",
@@ -121,12 +124,6 @@
       "file": "blocks.json"
     },
     {
-      "file": "tileentities.json"
-    },
-    {
-      "file": "guis.json"
-    },
-    {
       "type": "worldGen:ore",
       "entries": [
         {
@@ -141,24 +138,13 @@
       ]
     },
     {
-      "type": "machineFuel",
-      "entries": [
-        {
-          "fuelList": "cs4examplemod:machine",
-          "items": ["minecraft:coal", "minecraft:stone"],
-          "burnTime": 100
-        }
-      ]
+      "file": "machine.json"
     },
     {
-      "type": "machineRecipe",
-      "entries": [
-        {
-          "recipeList": "cs4examplemod:machine",
-          "input": ["minecraft:apple", "minecraft:gold_ingot"],
-          "output": ["minecraft:golden_apple", "minecraft:gold_nugget"]
-        }
-      ]
+      "file": "crafter.json"
+    },
+    {
+      "file": "chest.json"
     }
   ]
 }

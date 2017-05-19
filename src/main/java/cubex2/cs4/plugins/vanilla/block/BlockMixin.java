@@ -1,6 +1,7 @@
 package cubex2.cs4.plugins.vanilla.block;
 
 import cubex2.cs4.CustomStuff4;
+import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.vanilla.*;
 import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.ItemHelper;
@@ -26,6 +27,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +42,41 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     public int damageDropped(IBlockState state)
     {
         return getSubtype(state);
+    }
+
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+    {
+        Optional<WrappedItemStack> stack = getContent().drop.get(getSubtype(state));
+        if (stack.isPresent())
+        {
+            WrappedItemStack wrappedItemStack = stack.get();
+            ItemStack droppedStack = wrappedItemStack.getItemStack();
+
+            if (droppedStack == null)
+                return Collections.emptyList();
+
+            return Collections.singletonList(droppedStack.copy());
+        } else
+        {
+            return super.getDrops(world, pos, state, fortune);
+        }
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state)
+    {
+        return getContent().isFullCube.get(getSubtype(state)).orElse(true);
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state)
+    {
+        // Block is calling this in the constructor...
+        if (getContent() == null)
+            return true;
+
+        return getContent().isFullCube.get(getSubtype(state)).orElse(true);
     }
 
     @Override

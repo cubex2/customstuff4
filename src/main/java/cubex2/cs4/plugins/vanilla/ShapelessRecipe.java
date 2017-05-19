@@ -25,6 +25,7 @@ class ShapelessRecipe extends SimpleContent
     WrappedItemStack result;
     boolean remove = false;
     ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
+    int[] damage = new int[0];
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
@@ -87,7 +88,7 @@ class ShapelessRecipe extends SimpleContent
 
     private boolean matchesOutput(IRecipe recipe)
     {
-        return OreDictionary.itemMatches(recipe.getRecipeOutput(), result.createItemStack(), false);
+        return OreDictionary.itemMatches(recipe.getRecipeOutput(), result.getItemStack(), false);
     }
 
     private boolean matchesInput(IRecipe recipe)
@@ -155,14 +156,17 @@ class ShapelessRecipe extends SimpleContent
 
     private void addRecipe()
     {
-        ShapelessOreRecipe recipe = new ShapelessOreRecipe(result.createItemStack(), getInputForRecipe());
+        if (damage.length == 0)
+            damage = new int[items.size()];
+
+        ShapelessOreRecipe recipe = new DamageableShapelessOreRecipe(damage, result.getItemStack(), getInputForRecipe());
         CraftingManagerCS4.addRecipe(recipeList, recipe);
     }
 
     Object[] getInputForRecipe()
     {
         return items.stream()
-                    .map(input -> input.isOreClass() ? input.getOreClass() : input.getStack().createItemStack())
+                    .map(input -> input.isOreClass() ? input.getOreClass() : input.getStack().getItemStack())
                     .toArray();
     }
 
@@ -172,7 +176,7 @@ class ShapelessRecipe extends SimpleContent
     Object[] getRecipeInput()
     {
         return items.stream()
-                    .map(input -> input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().createItemStack())
+                    .map(input -> input.isOreClass() ? OreDictionary.getOres(input.getOreClass().getOreName()) : input.getStack().getItemStack())
                     .toArray();
     }
 }

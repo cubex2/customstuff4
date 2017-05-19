@@ -30,7 +30,7 @@ public class OreDictionaryEntryTests
         entry.init(InitPhase.PRE_INIT, new TestContentHelper("{}", BlankContent.class));
 
         assertEquals("stickWood", entry.oreClass);
-        assertSame(Items.COAL, entry.item.createItemStack().getItem());
+        assertSame(Items.COAL, entry.item.getItemStack().getItem());
     }
 
     @Test

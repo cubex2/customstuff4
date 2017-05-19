@@ -14,7 +14,7 @@ class OreDictionaryEntry extends SimpleContent
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        OreDictionary.registerOre(oreClass, item.createItemStack());
+        OreDictionary.registerOre(oreClass, item.getItemStack());
     }
 
     @Override

@@ -40,9 +40,9 @@ public class ShapelessRecipeTests
         RecipeInput input0 = recipe.items.get(0);
         RecipeInput input1 = recipe.items.get(1);
 
-        assertSame(Items.APPLE, input0.getStack().createItemStack().getItem());
-        assertSame(Items.BOW, input1.getStack().createItemStack().getItem());
-        assertSame(Items.COAL, recipe.result.createItemStack().getItem());
+        assertSame(Items.APPLE, input0.getStack().getItemStack().getItem());
+        assertSame(Items.BOW, input1.getStack().getItemStack().getItem());
+        assertSame(Items.COAL, recipe.result.getItemStack().getItem());
         assertTrue(recipe.remove);
         assertEquals(new ResourceLocation("test:recipes"), recipe.recipeList);
     }

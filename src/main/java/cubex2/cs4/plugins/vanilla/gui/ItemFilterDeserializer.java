@@ -86,7 +86,7 @@ public class ItemFilterDeserializer implements JsonDeserializer<ItemFilter>
         {
             if (itemStack == null)
             {
-                itemStack = wrappedStack.createItemStack();
+                itemStack = wrappedStack.getItemStack();
             }
             return itemStack != null && OreDictionary.itemMatches(itemStack, stack, false);
         }

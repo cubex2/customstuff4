@@ -19,6 +19,12 @@
           "id": "someitem1",
           "model": "cs4examplemod:mobile_sensor_0",
           "creativeTab": "tools"
+        },
+        {
+          "id": "itemdamageable",
+          "model": "cs4examplemod:mobile_sensor_0",
+          "creativeTab": "tools",
+          "maxDamage": 30
         }
       ]
     },
@@ -30,7 +36,7 @@
           "creativeTab": "tools",
           "attackSpeed": 7.35,
           "material": "diamond",
-          "model" : "minecraft:diamond_axe"
+          "model": "minecraft:diamond_axe"
         }
       ]
     },
@@ -42,7 +48,7 @@
           "creativeTab": "tools",
           "attackSpeed": 7.35,
           "material": "diamond",
-          "model" : "minecraft:diamond_pickaxe"
+          "model": "minecraft:diamond_pickaxe"
         }
       ]
     },
@@ -54,7 +60,7 @@
           "creativeTab": "tools",
           "attackSpeed": 7.35,
           "material": "diamond",
-          "model" : "minecraft:diamond_shovel"
+          "model": "minecraft:diamond_shovel"
         }
       ]
     },
@@ -80,7 +86,13 @@
               "duration": 120
             }
           },
-          "potionEffectProbability": 0.5
+          "potionEffectProbability": 0.5,
+          "result":{
+            "1": "minecraft:glass_bottle"
+          },
+          "useAction": {
+            "1": "drink"
+          }
         }
       ]
     }

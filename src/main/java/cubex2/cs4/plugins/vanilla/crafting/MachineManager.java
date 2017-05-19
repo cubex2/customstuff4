@@ -58,7 +58,7 @@ public class MachineManager
         for (MachineRecipe recipe : getInstance(list).recipes)
         {
             if (recipe.getRecipeInput().stream()
-                      .anyMatch(input -> ItemHelper.stackMatchesRecipeInput(stack, input)))
+                      .anyMatch(input -> ItemHelper.stackMatchesRecipeInput(stack, input, false)))
                 return true;
         }
 
@@ -105,7 +105,38 @@ public class MachineManager
         }
     }
 
-    public static int getBurnTime(ResourceLocation list, List<ItemStack> items)
+    public static MachineFuel findMatchingFuel(ResourceLocation list, List<ItemStack> input)
+    {
+        if (list.toString().equals("minecraft:vanilla"))
+        {
+            if (input.size() == 1 && input.get(0) != null)
+            {
+                ItemStack stack = input.get(0);
+                int burnTime = TileEntityFurnace.getItemBurnTime(stack);
+                if (burnTime > 0)
+                    return new VanillaFurnaceFuel(stack, burnTime);
+            }
+
+            return MachineFuel.EMPTY;
+        }
+
+        return findMatchingFuel(getInstance(list).fuels, input);
+    }
+
+    public static MachineFuel findMatchingFuel(List<MachineFuel> fuels, List<ItemStack> input)
+    {
+        for (MachineFuel fuel : fuels)
+        {
+            if (input.size() == fuel.getFuelInput().size() && fuel.matches(input))
+            {
+                return fuel;
+            }
+        }
+
+        return MachineFuel.EMPTY;
+    }
+
+    /*public static int getBurnTime(ResourceLocation list, List<ItemStack> items)
     {
         if (list.toString().equals("minecraft:vanilla"))
         {
@@ -126,7 +157,7 @@ public class MachineManager
         }
 
         return 0;
-    }
+    }*/
 
     public static boolean isPartOfFuel(ResourceLocation list, ItemStack stack)
     {
@@ -141,7 +172,7 @@ public class MachineManager
         for (MachineFuel fuel : getInstance(list).fuels)
         {
             if (fuel.getFuelInput().stream()
-                    .anyMatch(input -> ItemHelper.stackMatchesRecipeInput(stack, input)))
+                    .anyMatch(input -> ItemHelper.stackMatchesRecipeInput(stack, input, false)))
                 return true;
         }
 

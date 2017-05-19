@@ -160,11 +160,16 @@ public class ItemFilterDeserializerTest
 
     private static class TestMachineFuel implements MachineFuel
     {
-
         @Override
-        public int getBurnTime(List<ItemStack> items)
+        public int getBurnTime()
         {
             return 0;
+        }
+
+        @Override
+        public boolean matches(List<ItemStack> items)
+        {
+            return false;
         }
 
         @Override

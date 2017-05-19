@@ -31,7 +31,7 @@ public class MachineResultTest
 
         MachineResult result = map.get("result");
 
-        assertSame(Item.getItemFromBlock(Blocks.DIRT), result.item.createItemStack().getItem());
+        assertSame(Item.getItemFromBlock(Blocks.DIRT), result.item.getItemStack().getItem());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class MachineResultTest
     {
         MachineResult result = gson.fromJson("{ \"item\": \"minecraft:dirt\", \"amount\":5, \"chance\": 0.5 }", MachineResult.class);
 
-        ItemStack stack = result.item.createItemStack();
+        ItemStack stack = result.item.getItemStack();
         assertSame(Item.getItemFromBlock(Blocks.DIRT), stack.getItem());
         assertEquals(5, stack.stackSize);
         assertEquals(0.5f, result.chance, 0.001f);

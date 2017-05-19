@@ -6,12 +6,10 @@ import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class ItemHelper
 {
@@ -109,18 +107,53 @@ public class ItemHelper
         return false;
     }
 
-    public static boolean stackMatchesRecipeInput(ItemStack stack, RecipeInput input)
+    public static boolean stackMatchesRecipeInput(ItemStack stack, RecipeInput input, boolean checkCount)
     {
         if (input.isItemStack())
         {
-            if (OreDictionary.itemMatches(input.getStack().createItemStack(), stack, false))
+            ItemStack inputStack = input.getStack().getItemStack();
+            if (OreDictionary.itemMatches(inputStack, stack, false)
+                && (!checkCount || inputStack.stackSize <= stack.stackSize))
                 return true;
         } else
         {
-            if (OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass()), stack))
+            if (OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass().getOreName()), stack))
                 return true;
         }
 
         return false;
+    }
+
+    public static void removeInputsFromInventory(List<RecipeInput> inputs, IItemHandlerModifiable inv, int start, int numSlots)
+    {
+        List<RecipeInput> remaining = Lists.newLinkedList(inputs);
+
+        for (int i = start; i < start + numSlots; i++)
+        {
+            ItemStack stack = inv.getStackInSlot(i);
+            for (Iterator<RecipeInput> iterator = remaining.iterator(); iterator.hasNext(); )
+            {
+                RecipeInput input = iterator.next();
+                if (stackMatchesRecipeInput(stack, input, true))
+                {
+                    extractInput(input, inv, i);
+
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    static void extractInput(RecipeInput input, IItemHandlerModifiable from, int slot)
+    {
+        if (input.isOreClass())
+        {
+            from.extractItem(slot, input.getOreClass().getAmount(), false);
+        } else
+        {
+            ItemStack toExtract = input.getStack().getItemStack();
+            from.extractItem(slot, toExtract.stackSize, false);
+        }
     }
 }

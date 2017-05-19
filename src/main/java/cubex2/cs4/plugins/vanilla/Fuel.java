@@ -27,7 +27,7 @@ class Fuel extends SimpleContent implements IFuelHandler
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        fuelStack = item.createItemStack();
+        fuelStack = item.getItemStack();
         GameRegistry.registerFuelHandler(this);
     }
 

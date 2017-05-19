@@ -1,6 +1,5 @@
 package cubex2.cs4.plugins.vanilla;
 
-import com.google.common.collect.Lists;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.RecipeInput;
@@ -20,14 +19,16 @@ class MachineFuelImpl extends SimpleContent implements MachineFuel
     int burnTime;
     ResourceLocation fuelList;
 
-    private transient List<Object> fuelStacks;
+    @Override
+    public int getBurnTime()
+    {
+        return burnTime;
+    }
 
     @Override
-    public int getBurnTime(List<ItemStack> items)
+    public boolean matches(List<ItemStack> items)
     {
-        return CollectionHelper.equalsWithoutOrder(items, fuelStacks, ItemHelper::stackMatchesStackOrOreClass)
-               ? burnTime
-               : 0;
+        return CollectionHelper.equalsWithoutOrder(items, this.items, (t, i) -> ItemHelper.stackMatchesRecipeInput(t, i, true));
     }
 
     @Override
@@ -39,12 +40,6 @@ class MachineFuelImpl extends SimpleContent implements MachineFuel
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        fuelStacks = Lists.newArrayList();
-        for (RecipeInput item : items)
-        {
-            fuelStacks.add(item.isItemStack() ? item.getStack().createItemStack() : item.getOreClass());
-        }
-
         MachineManager.addFuel(fuelList, this);
     }
 

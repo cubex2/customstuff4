@@ -3,10 +3,27 @@ package cubex2.cs4.plugins.vanilla.gui;
 public class SlotData
 {
     public String name;
-    public int firstSlot = 0;
-    public int rows = 1;
-    public int columns = 1;
-    public int x = 0;
-    public int y = 0;
-    public boolean dropOnClose = false;
+    int firstSlot = 0;
+    int rows = 1;
+    int columns = 1;
+    int x = 0;
+    int y = 0;
+    boolean dropOnClose = false;
+    int spacingX = 18;
+    int spacingY = 18;
+
+    int getSlotIndex(int row, int col)
+    {
+        return firstSlot + row * columns + col;
+    }
+
+    int getX(int col)
+    {
+        return x + col * spacingX;
+    }
+
+    int getY(int row)
+    {
+        return y + row * spacingY;
+    }
 }

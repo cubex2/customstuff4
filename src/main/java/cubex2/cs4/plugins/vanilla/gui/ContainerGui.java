@@ -53,9 +53,9 @@ public class ContainerGui extends Container
                 {
                     for (int col = 0; col < data.columns; col++)
                     {
-                        int index = data.firstSlot + row * data.columns + col;
-                        int x = data.x + col * 18;
-                        int y = data.y + row * 18;
+                        int index = data.getSlotIndex(row, col);
+                        int x = data.getX(col);
+                        int y = data.getY(row);
 
                         Slot slot;
                         if (handler instanceof SlotProvider)

@@ -1,12 +1,15 @@
 package cubex2.cs4.util;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs4.plugins.vanilla.Attribute;
+import cubex2.cs4.plugins.vanilla.RecipeInputImpl;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -152,6 +155,36 @@ public class ItemHelperTests
 
         assertFalse(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), "stickStone"));
         assertFalse(ItemHelper.stackMatchesStackOrOreClass(new ItemStack(Items.STICK), new ItemStack(Items.APPLE)));
+    }
+
+    @Test
+    public void test_removeInputsFromInventory_stacks()
+    {
+        ItemStackHandler inv = new ItemStackHandler(2);
+        inv.setStackInSlot(0, new ItemStack(Items.APPLE));
+        inv.setStackInSlot(1, new ItemStack(Items.STICK, 3));
+
+        RecipeInputImpl input1 = RecipeInputImpl.create(new ItemStack(Items.STICK, 2));
+        RecipeInputImpl input2 = RecipeInputImpl.create(new ItemStack(Items.APPLE, 1));
+        ItemHelper.removeInputsFromInventory(Lists.newArrayList(input1, input2), inv, 0, 2);
+
+        assertTrue(inv.getStackInSlot(0) == null);
+        assertEquals(1, inv.getStackInSlot(1).stackSize);
+    }
+
+    @Test
+    public void test_removeInputsFromInventory_ore()
+    {
+        ItemStackHandler inv = new ItemStackHandler(2);
+        inv.setStackInSlot(0, new ItemStack(Items.APPLE));
+        inv.setStackInSlot(1, new ItemStack(Items.STICK, 3));
+
+        RecipeInputImpl input1 = new RecipeInputImpl("stickWood", 2);
+        RecipeInputImpl input2 = RecipeInputImpl.create(new ItemStack(Items.APPLE, 1));
+        ItemHelper.removeInputsFromInventory(Lists.newArrayList(input1, input2), inv, 0, 2);
+
+        assertTrue(inv.getStackInSlot(0) == null);
+        assertEquals(1, inv.getStackInSlot(1).stackSize);
     }
 
 }

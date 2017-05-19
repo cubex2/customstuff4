@@ -16,6 +16,7 @@ public class ContentBlockSlab extends ContentBlockBaseWithSubtypes
     public ContentBlockSlab()
     {
         opacity = Attribute.constant(0);
+        isFullCube = Attribute.constant(false);
     }
 
     @Override

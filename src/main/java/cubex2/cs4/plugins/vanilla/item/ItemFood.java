@@ -1,15 +1,20 @@
 package cubex2.cs4.plugins.vanilla.item;
 
+import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.api.WrappedPotionEffect;
 import cubex2.cs4.plugins.vanilla.ContentItemFood;
 import cubex2.cs4.plugins.vanilla.ContentItemWithSubtypes;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
+import java.util.Optional;
 
 public class ItemFood extends net.minecraft.item.ItemFood implements ItemWithSubtypes
 {
@@ -60,6 +65,36 @@ public class ItemFood extends net.minecraft.item.ItemFood implements ItemWithSub
         {
             player.addPotionEffect(new PotionEffect(potion));
         }
+    }
+
+    @Override
+    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+    {
+        stack = super.onItemUseFinish(stack, worldIn, entityLiving);
+
+        Optional<WrappedItemStack> result = content.result.get(stack.getMetadata());
+        if (result.isPresent())
+        {
+            if (stack == null)
+            {
+                return result.get().getItemStack().copy();
+            }
+
+            EntityPlayer player = entityLiving instanceof EntityPlayer ? (EntityPlayer) entityLiving : null;
+
+            if (player != null)
+            {
+                player.inventory.addItemStackToInventory(result.get().getItemStack().copy());
+            }
+        }
+
+        return stack;
+    }
+
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return content.useAction.get(stack.getMetadata()).orElse(EnumAction.EAT);
     }
 
     @Override

@@ -9,7 +9,7 @@ public interface RecipeInput
     /**
      * Gets the ore class. Throws exception if isOreClass() returns false.
      */
-    String getOreClass() throws IllegalStateException;
+    OreClass getOreClass() throws IllegalStateException;
 
     /**
      * Gets the stack. Throws exception if isItemStack() returns false.

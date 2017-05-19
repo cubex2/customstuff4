@@ -28,6 +28,7 @@ class ShapedRecipe extends SimpleContent
     boolean mirrored = true;
     boolean remove = false;
     ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
+    Map<Character, Integer> damage = Maps.newHashMap();
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
@@ -52,7 +53,9 @@ class ShapedRecipe extends SimpleContent
 
     private void addRecipe()
     {
-        ShapedOreRecipe recipe = new ShapedOreRecipe(result.createItemStack(), getInputForRecipe()).setMirrored(mirrored);
+        DamageableShapedOreRecipe recipe = new DamageableShapedOreRecipe(createDamageAmounts(), result.getItemStack(), getInputForRecipe());
+        recipe.setMirrored(mirrored);
+
         CraftingManagerCS4.addRecipe(recipeList, recipe);
     }
 
@@ -96,7 +99,7 @@ class ShapedRecipe extends SimpleContent
 
     private boolean matchesOutput(IRecipe recipe)
     {
-        return OreDictionary.itemMatches(recipe.getRecipeOutput(), result.createItemStack(), false);
+        return OreDictionary.itemMatches(recipe.getRecipeOutput(), result.getItemStack(), false);
     }
 
     private boolean matchesInput(IRecipe recipe)
@@ -179,7 +182,7 @@ class ShapedRecipe extends SimpleContent
             RecipeInput input = entry.getValue();
 
             result[i] = entry.getKey();
-            result[i + 1] = input.isOreClass() ? input.getOreClass() : input.getStack().createItemStack();
+            result[i + 1] = input.isOreClass() ? input.getOreClass() : input.getStack().getItemStack();
 
             i += 2;
         }
@@ -204,7 +207,7 @@ class ShapedRecipe extends SimpleContent
 
                 if (input != null)
                 {
-                    result[index] = input.isOreClass() ? OreDictionary.getOres(input.getOreClass()) : input.getStack().createItemStack();
+                    result[index] = input.isOreClass() ? OreDictionary.getOres(input.getOreClass().getOreName()) : input.getStack().getItemStack();
                 } else
                 {
                     result[index] = null;
@@ -214,4 +217,24 @@ class ShapedRecipe extends SimpleContent
 
         return result;
     }
+
+    int[] createDamageAmounts()
+    {
+        int[] result = new int[getRecipeWidth() * getRecipeHeight()];
+
+        for (int row = 0; row < shape.length; row++)
+        {
+            for (int col = 0; col < shape[0].length(); col++)
+            {
+                int amount = damage.getOrDefault(shape[row].charAt(col), 0);
+
+                int index = col + row * shape[0].length();
+
+                result[index] = amount;
+            }
+        }
+
+        return result;
+    }
+
 }

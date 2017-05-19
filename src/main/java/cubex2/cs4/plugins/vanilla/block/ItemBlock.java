@@ -48,6 +48,13 @@ public class ItemBlock extends net.minecraft.item.ItemBlock
     }
 
     @Override
+    public CreativeTabs getCreativeTab()
+    {
+        CreativeTabs[] tabs = getCreativeTabs();
+        return tabs.length == 0 ? null : tabs[0];
+    }
+
+    @Override
     public int getItemStackLimit(ItemStack stack)
     {
         return content.maxStack.get(0).orElse(64);

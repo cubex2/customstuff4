@@ -2,8 +2,6 @@ package cubex2.cs4.api;
 
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nullable;
-
 /**
  * Contains the data to construct an ItemStack. Necessary as deserialization happens during preInit while items can be
  * registered later.
@@ -11,11 +9,10 @@ import javax.annotation.Nullable;
 public interface WrappedItemStack
 {
     /**
-     * Tries to create the ItemStack. This returns null if the item for the stack does not exist or hasn't been loaded
-     * yet.
+     * Tries to create the ItemStack. This returns ItemStack.EMPTY if the item for the stack does not exist or hasn't been loaded
+     * yet. The returned stack must not be modified.
      */
-    @Nullable
-    ItemStack createItemStack();
+    ItemStack getItemStack();
 
     /**
      * Returns true if the item for stack has been loaded. Allows to distinguish between empty stacks due to missing items

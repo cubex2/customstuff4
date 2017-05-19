@@ -1,10 +1,14 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
 import com.google.common.collect.Lists;
+import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.plugins.vanilla.tileentity.ItemHandlerTileEntity;
+import cubex2.cs4.util.ItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.items.wrapper.RangedWrapper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemHandlerMachine extends ItemHandlerTileEntity
@@ -13,12 +17,35 @@ public class ItemHandlerMachine extends ItemHandlerTileEntity
     private final int outputSlots;
     private final int fuelSlots;
 
+    private final RangedWrapper inputHandler;
+    private final RangedWrapper outputHandler;
+    private final RangedWrapper fuelHandler;
+
     public ItemHandlerMachine(int inputSlots, int outputSlots, int fuelSlots, TileEntity tile)
     {
         super(inputSlots + outputSlots + fuelSlots, tile);
         this.inputSlots = inputSlots;
         this.outputSlots = outputSlots;
         this.fuelSlots = fuelSlots;
+
+        inputHandler = new RangedWrapper(this, 0, inputSlots);
+        outputHandler = new RangedWrapper(this, inputSlots, inputSlots + outputSlots);
+        fuelHandler = new RangedWrapper(this, inputSlots + outputSlots, inputSlots + outputSlots + fuelSlots);
+    }
+
+    public RangedWrapper getInputHandler()
+    {
+        return inputHandler;
+    }
+
+    public RangedWrapper getOutputHandler()
+    {
+        return outputHandler;
+    }
+
+    public RangedWrapper getFuelHandler()
+    {
+        return fuelHandler;
     }
 
     private boolean isOutputSlot(int index)
@@ -56,8 +83,9 @@ public class ItemHandlerMachine extends ItemHandlerTileEntity
         return super.insertItem(inputSlots + outputSlot, stack, simulate);
     }
 
+    @Nonnull
     @Override
-    public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
+    public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate)
     {
         if (isOutputSlot(slot))
             return stack;
@@ -65,34 +93,13 @@ public class ItemHandlerMachine extends ItemHandlerTileEntity
         return super.insertItem(slot, stack, simulate);
     }
 
-    public void shrinkFuel()
+    public void removeInputsFromInput(List<RecipeInput> inputs)
     {
-        for (int i = 0; i < fuelSlots; i++)
-        {
-            extractFuel(i, 1, false);
-        }
+        ItemHelper.removeInputsFromInventory(inputs, this, 0, inputSlots);
     }
 
-    public ItemStack extractFuel(int fuelSlot, int amount, boolean simulate)
+    public void removeInputsFromFuel(List<RecipeInput> inputs)
     {
-        return extractItem(inputSlots + outputSlots + fuelSlot, amount, simulate);
-    }
-
-    public void setFuelSlot(int fuelSlot, ItemStack stack)
-    {
-        setStackInSlot(inputSlots + outputSlots + fuelSlot, stack);
-    }
-
-    public void shrinkInput()
-    {
-        for (int i = 0; i < inputSlots; i++)
-        {
-            extractInput(i, 1, false);
-        }
-    }
-
-    public ItemStack extractInput(int inputSlot, int amount, boolean simulate)
-    {
-        return extractItem(inputSlot, amount, simulate);
+        ItemHelper.removeInputsFromInventory(inputs, this, inputSlots + outputSlots, fuelSlots);
     }
 }

@@ -34,7 +34,7 @@ class ToolTip extends SimpleContent
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        stack = item.createItemStack();
+        stack = item.getItemStack();
 
         MinecraftForge.EVENT_BUS.register(this);
     }

@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public abstract class ContentItemBase<T extends Item> implements Content
 {
     String id;
+    int maxDamage = 0;
 
     protected transient T item;
 
@@ -23,6 +24,7 @@ public abstract class ContentItemBase<T extends Item> implements Content
         item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         item.setRegistryName(id);
 
+        item.setMaxDamage(maxDamage);
         initItem();
 
         GameRegistry.register(item);
