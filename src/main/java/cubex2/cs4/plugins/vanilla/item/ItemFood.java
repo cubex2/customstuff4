@@ -6,6 +6,7 @@ import cubex2.cs4.plugins.vanilla.ContentItemFood;
 import cubex2.cs4.plugins.vanilla.ContentItemWithSubtypes;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
@@ -90,6 +91,12 @@ public class ItemFood extends net.minecraft.item.ItemFood implements ItemWithSub
         }
 
         return stack;
+    }
+
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return content.useAction.get(stack.getMetadata()).orElse(EnumAction.EAT);
     }
 
     @Override

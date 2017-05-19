@@ -86,7 +86,13 @@
               "duration": 120
             }
           },
-          "potionEffectProbability": 0.5
+          "potionEffectProbability": 0.5,
+          "result":{
+            "1": "minecraft:glass_bottle"
+          },
+          "useAction": {
+            "1": "drink"
+          }
         }
       ]
     }
