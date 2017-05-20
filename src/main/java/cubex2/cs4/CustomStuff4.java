@@ -4,8 +4,11 @@ import cubex2.cs4.api.CustomStuffPlugin;
 import cubex2.cs4.data.ContentRegistryImpl;
 import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
 import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
+import cubex2.cs4.plugins.vanilla.EventHandler;
 import cubex2.cs4.plugins.vanilla.GuiHandler;
 import cubex2.cs4.util.PluginHelper;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
@@ -36,13 +39,15 @@ public class CustomStuff4
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        MinecraftForge.EVENT_BUS.register(EventHandler.class);
+
         initPlugins(event.getAsmData());
 
         File configDir = event.getModConfigurationDirectory();
         File modsDir = new File(configDir.getParent(), "mods");
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-        RecipeSorter.register("customstuff4:shapedore", DamageableShapedOreRecipe.class, RecipeSorter.Category.SHAPED,"after:minecraft:shaped before:minecraft:shapeless");
+        RecipeSorter.register("customstuff4:shapedore", DamageableShapedOreRecipe.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
         RecipeSorter.register("customstuff4:shapelessore", DamageableShapelessOreRecipe.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
         ModLoader.initMods(modsDir);
     }
@@ -51,5 +56,10 @@ public class CustomStuff4
     {
         plugins = PluginHelper.getPluginInstances(asmDataTable);
         plugins.forEach(plugin -> plugin.registerContent(contentRegistry));
+    }
+
+    static
+    {
+        FluidRegistry.enableUniversalBucket();
     }
 }

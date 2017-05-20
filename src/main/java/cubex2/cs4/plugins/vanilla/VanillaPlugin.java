@@ -87,6 +87,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("block:fence", ContentBlockFence.class);
         registry.registerContentType("block:stairs", ContentBlockStairs.class);
         registry.registerContentType("block:slab", ContentBlockSlab.class);
+        registry.registerContentType("block:fluid", ContentBlockFluid.class);
 
         registry.registerContentType("worldGen:ore", WorldGenOre.class);
 

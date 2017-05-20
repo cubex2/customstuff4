@@ -150,6 +150,19 @@
           }
         }
       ]
+    },
+    {
+      "type": "block:fluid",
+      "entries": [
+        {
+          "id": "examplefluid",
+          "creativeTab": "decorations",
+          "material": "water",
+          "texStill": "blocks/water_still",
+          "texFlowing": "blocks/water_flow",
+          "canCreateSource": true
+        }
+      ]
     }
   ]
 }

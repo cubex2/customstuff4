@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public abstract class ContentBlockBase implements Content
 {
-    String id;
+    public String id;
     public Material material = Material.GROUND;
     float slipperiness = 0.6f;
 

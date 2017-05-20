@@ -187,7 +187,9 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     public boolean hasTileEntity(IBlockState state)
     {
-        return getContent().tileEntity.hasEntry(getSubtype(state));
+        int subtype = getSubtype(state);
+        return getContent().tileEntity.hasEntry(subtype)
+               && getContent().tileEntity.get(subtype).isPresent();
     }
 
     @Nullable

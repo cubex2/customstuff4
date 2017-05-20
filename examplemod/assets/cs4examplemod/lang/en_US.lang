@@ -18,3 +18,4 @@ tile.cs4examplemod.stairs.name=Stairs
 tile.cs4examplemod.chest.name=A Chest
 tile.cs4examplemod.crafter.name=Crafter
 tile.cs4examplemod.machine.name=Machine
+fluid.examplefluid=Example Fluid

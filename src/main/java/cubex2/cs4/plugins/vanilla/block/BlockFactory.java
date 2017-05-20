@@ -21,6 +21,7 @@ public class BlockFactory
     private static Class<? extends Block> stairsClass;
     private static Class<? extends Block> slabClass;
     private static Class<? extends Block> slabSubtypeClass;
+    private static Class<? extends Block> fluidClass;
 
     public static Block createSimple(ContentBlockSimple content)
     {
@@ -87,6 +88,11 @@ public class BlockFactory
         return newInstance(slabSubtypeClass, content);
     }
 
+    public static Block createFluid(ContentBlockFluid content)
+    {
+        return newInstance(fluidClass, content);
+    }
+
     private static <T extends ContentBlockBase> Block newInstance(Class<? extends Block> blockClass, T content)
     {
         try
@@ -113,6 +119,7 @@ public class BlockFactory
         stairsClass = createClass(BlockStairs.class, BlockMixin.class);
         slabClass = createClass(BlockSlab.class, BlockMixin.class);
         slabSubtypeClass = createClass(BlockSlabWithSubtypes.class, BlockMixin.class);
+        fluidClass = createClass(BlockFluid.class, BlockMixin.class);
     }
 
     @SuppressWarnings("unchecked")
