@@ -10,6 +10,7 @@ import cubex2.cs4.plugins.vanilla.gui.ProgressBar;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleMachine;
+import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleTank;
 import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.JsonHelper;
 import net.minecraft.block.SoundType;
@@ -97,6 +98,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerTileEntityModule("inventory", TileEntityModuleInventory.Supplier.class);
         registry.registerTileEntityModule("crafting", TileEntityModuleCrafting.Supplier.class);
         registry.registerTileEntityModule("machine", TileEntityModuleMachine.Supplier.class);
+        registry.registerTileEntityModule("tank", TileEntityModuleTank.Supplier.class);
 
         registry.registerContentType("gui:container", ContentGuiContainer.class);
 

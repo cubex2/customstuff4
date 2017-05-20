@@ -25,6 +25,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -215,18 +217,38 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     {
         Optional<ContentGuiBase> gui = getGui(state);
 
-        if (worldIn.isRemote)
+        if (gui.isPresent())
         {
-            return gui.isPresent();
-        } else
-        {
-            if (gui.isPresent())
+            if (worldIn.isRemote)
+            {
+                return true;
+            } else
             {
                 playerIn.openGui(CustomStuff4.INSTANCE, gui.get().getGuiId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-            }
 
-            return gui.isPresent();
+                return true;
+            }
         }
+
+        if (getContent().canInteractWithFluidItem.get(getSubtype(state)).orElse(true))
+        {
+            TileEntity tile = worldIn.getTileEntity(pos);
+            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing))
+            {
+                if (worldIn.isRemote)
+                {
+                    return true;
+                }
+
+                if (FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, facing))
+                {
+                    playerIn.inventoryContainer.detectAndSendChanges();
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private Optional<ContentGuiBase> getGui(IBlockState state)

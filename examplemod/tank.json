@@ -1,0 +1,30 @@
+{
+  "tank": [
+    {
+      "type": "block:simple",
+      "entries": [
+        {
+          "id": "tank",
+          "creativeTab": "decorations",
+          "itemModel": "cs4examplemod:sensor_iron",
+          "tileEntity": "cs4examplemod:tank"
+        }
+      ]
+    },
+    {
+      "type": "tileentity:simple",
+      "entries": [
+        {
+          "id": "tank",
+          "modules": [
+            {
+              "type": "tank",
+              "name": "tank"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
