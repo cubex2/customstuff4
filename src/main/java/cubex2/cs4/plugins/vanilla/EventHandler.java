@@ -14,6 +14,9 @@ public class EventHandler
         if (event.getResult() != Event.Result.DEFAULT)
             return;
 
+        if (applyModifiers(event))
+            return;
+
         Block block = event.getState().getBlock();
 
         if (block instanceof CSBlock)
@@ -25,5 +28,24 @@ public class EventHandler
                 event.setResult(fluid.canCreateSource ? Event.Result.ALLOW : Event.Result.DENY);
             }
         }
+    }
+
+    private static boolean applyModifiers(BlockEvent.CreateFluidSourceEvent event)
+    {
+        Block block = event.getState().getBlock();
+
+        for (FluidModifier modifier : FluidModifier.getModifiers())
+        {
+            if (block.getRegistryName() != null && block.getRegistryName().equals(modifier.block))
+            {
+                if (modifier.canCreateSource != null)
+                {
+                    event.setResult(modifier.canCreateSource ? Event.Result.ALLOW : Event.Result.DENY);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
