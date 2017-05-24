@@ -6,7 +6,7 @@
         {
           "id": "tank",
           "creativeTab": "decorations",
-          "itemModel": "cs4examplemod:sensor_iron",
+          "itemModel_": "cs4examplemod:sensor_iron",
           "tileEntity": "cs4examplemod:tank"
         }
       ]

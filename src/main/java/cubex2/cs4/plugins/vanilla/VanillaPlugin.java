@@ -81,6 +81,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:shovel", ContentItemShovel.class);
         registry.registerContentType("item:sword", ContentItemSword.class);
         registry.registerContentType("item:food", ContentItemFood.class);
+        registry.registerContentType("item:fluidContainer", ContentItemFluidContainer.class);
 
         registry.registerContentType("block:simple", ContentBlockSimple.class);
         registry.registerContentType("block:orientable:vertical", ContentBlockOrientableVertical.class);

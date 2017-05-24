@@ -158,8 +158,8 @@
           "id": "examplefluid",
           "creativeTab": "decorations",
           "material": "water",
-          "texStill": "blocks/water_still",
-          "texFlowing": "blocks/water_flow",
+          "texStill": "cs4examplemod:blocks/fluid_still",
+          "texFlowing": "cs4examplemod:blocks/fluid_flow",
           "canCreateSource": true
         }
       ]

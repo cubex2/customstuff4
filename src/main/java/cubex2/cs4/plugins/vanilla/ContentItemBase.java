@@ -17,7 +17,7 @@ public abstract class ContentItemBase<T extends Item> implements Content
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
     {
-        if (phase != InitPhase.INIT)
+        if (phase != InitPhase.PRE_INIT)
             return;
 
         item = createItem();

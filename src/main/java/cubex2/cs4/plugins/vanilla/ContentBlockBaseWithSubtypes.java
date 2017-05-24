@@ -5,8 +5,8 @@ import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
@@ -54,7 +54,11 @@ public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
         super.initItem(item);
 
         item.setHasSubtypes(hasSubtypes);
-        Arrays.stream(subtypes).forEach(meta -> itemModel.get(meta).ifPresent(model -> CustomStuff4.proxy.registerItemModel(item, meta, model)));
+        for (int meta : subtypes)
+        {
+            ResourceLocation model = itemModel.get(meta).orElse(item.getRegistryName());
+            CustomStuff4.proxy.registerItemModel(item, meta, model);
+        }
     }
 
     protected abstract Optional<Item> createItem(boolean hasSubtypes);
