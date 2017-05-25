@@ -6,7 +6,8 @@
         {
           "id": "tank",
           "creativeTab": "decorations",
-          "tileEntity": "cs4examplemod:tank"
+          "tileEntity": "cs4examplemod:tank",
+          "gui": "cs4examplemod:tank"
         }
       ]
     },
@@ -19,6 +20,55 @@
             {
               "type": "tank",
               "name": "tank"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "gui:container",
+      "entries": [
+        {
+          "id": "tank",
+          "bg": "cs4examplemod:textures/gui/container/tank.png",
+          "slots": [
+            {
+              "name": "player",
+              "firstSlot": 9,
+              "rows": 3,
+              "columns": 9,
+              "x": 8,
+              "y": 84
+            },
+            {
+              "name": "player",
+              "rows": 1,
+              "columns": 9,
+              "x": 8,
+              "y": 142
+            }
+          ],
+          "labels": [
+            {
+              "text": "Tank",
+              "x": 8,
+              "y": 6
+            },
+            {
+              "text": "container.inventory",
+              "x": 8,
+              "y": 73
+            }
+          ],
+          "fluidDisplays": [
+            {
+              "source": "tank",
+              "x": 8,
+              "y": 17,
+              "width":160,
+              "height":52,
+              "overlayTexX":0,
+              "overlayTexY":166
             }
           ]
         }
