@@ -27,6 +27,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fml.common.FMLLog;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -215,21 +216,21 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        Optional<ContentGuiBase> gui = getGui(state);
-
-        if (gui.isPresent())
+        if (playerIn.isSneaking())
         {
-            if (worldIn.isRemote)
-            {
-                return true;
-            } else
-            {
-                playerIn.openGui(CustomStuff4.INSTANCE, gui.get().getGuiId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-
-                return true;
-            }
+            if (interactWithFluidItem(worldIn, pos, state, playerIn, hand, facing)) return true;
+            if (openGui(worldIn, pos, state, playerIn)) return true;
+        } else
+        {
+            if (openGui(worldIn, pos, state, playerIn)) return true;
+            if (interactWithFluidItem(worldIn, pos, state, playerIn, hand, facing)) return true;
         }
 
+        return false;
+    }
+
+    private boolean interactWithFluidItem(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing)
+    {
         if (getContent().canInteractWithFluidItem.get(getSubtype(state)).orElse(true))
         {
             TileEntity tile = worldIn.getTileEntity(pos);
@@ -247,16 +248,41 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
                 }
             }
         }
+        return false;
+    }
+
+    private boolean openGui(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn)
+    {
+        Optional<ContentGuiBase> gui = getGui(state);
+
+        if (gui.isPresent())
+        {
+            if (worldIn.isRemote)
+            {
+                return true;
+            } else
+            {
+                playerIn.openGui(CustomStuff4.INSTANCE, gui.get().getGuiId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+
+                return true;
+            }
+        }
 
         return false;
     }
+
 
     private Optional<ContentGuiBase> getGui(IBlockState state)
     {
         Optional<ResourceLocation> location = getContent().gui.get(getSubtype(state));
         if (location.isPresent())
         {
-            return Optional.ofNullable(GuiRegistry.get(location.get()));
+            ContentGuiBase gui = GuiRegistry.get(location.get());
+            if (gui == null)
+            {
+                FMLLog.warning("Missing GUI %s", location.get());
+            }
+            return Optional.ofNullable(gui);
         }
         return Optional.empty();
     }

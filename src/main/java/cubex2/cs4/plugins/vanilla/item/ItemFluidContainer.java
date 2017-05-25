@@ -2,10 +2,13 @@ package cubex2.cs4.plugins.vanilla.item;
 
 import cubex2.cs4.plugins.vanilla.ContentItemFluidContainer;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -85,6 +88,12 @@ public class ItemFluidContainer extends net.minecraftforge.fluids.capability.Ite
 
     @Override
     public boolean hasContainerItem(@Nonnull ItemStack stack)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player)
     {
         return true;
     }

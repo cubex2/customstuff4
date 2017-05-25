@@ -17,6 +17,7 @@ public class ContentGuiContainer extends ContentGuiBase
     public int height = 166;
     public List<SlotData> slots = Lists.newArrayList();
     public List<Label> labels = Lists.newArrayList();
+    public List<FluidDisplay> fluidDisplays = Lists.newArrayList();
     public List<ShiftClickRule> shiftClickRules = Lists.newArrayList();
     public List<ProgressBar> progressBars = Lists.newArrayList();
     public ResourceLocation bg = null;
@@ -42,7 +43,7 @@ public class ContentGuiContainer extends ContentGuiBase
         if (te != null && te instanceof ItemHandlerSupplier && te instanceof FieldSupplier)
         {
             return new GuiContainerCS4(this, new ContainerGui(this, (ItemHandlerSupplier) te, (FieldSupplier) te, player),
-                                       (ProgressBarSource) te);
+                                       (ProgressBarSource) te, (FluidSource) te);
         }
 
         return null;

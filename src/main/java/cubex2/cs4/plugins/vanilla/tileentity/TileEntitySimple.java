@@ -6,15 +6,19 @@ import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.vanilla.ContentTileEntitySimple;
 import cubex2.cs4.plugins.vanilla.TileEntityRegistry;
+import cubex2.cs4.plugins.vanilla.gui.FluidSource;
 import cubex2.cs4.plugins.vanilla.gui.ItemHandlerSupplier;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBarSource;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -27,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class TileEntitySimple extends TileEntity implements CSTileEntity<ContentTileEntitySimple>, ItemHandlerSupplier, FieldSupplier, ProgressBarSource, ITickable
+public abstract class TileEntitySimple extends TileEntity implements CSTileEntity<ContentTileEntitySimple>, ItemHandlerSupplier, FieldSupplier, ProgressBarSource, ITickable, FluidSource
 {
     private final ContentTileEntitySimple content;
     private final LinkedHashMap<String, TileEntityModule> modules = Maps.newLinkedHashMap();
@@ -92,6 +96,35 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
         }
 
         return super.writeToNBT(compound);
+    }
+
+    @Override
+    public NBTTagCompound getUpdateTag()
+    {
+        NBTTagCompound compound = super.getUpdateTag();
+
+        for (Map.Entry<String, TileEntityModule> entry : modules.entrySet())
+        {
+            TileEntityModule module = entry.getValue();
+            NBTTagCompound moduleNbt = module.writeToUpdateTag(new NBTTagCompound());
+
+            compound.setTag("Module_" + entry.getKey(), moduleNbt);
+        }
+
+        return compound;
+    }
+
+    @Nullable
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
+        return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+    {
+        readFromNBT(pkt.getNbtCompound());
     }
 
     @Override
@@ -167,6 +200,32 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
             return ((ProgressBarSource) module).getProgress(sourceName);
 
         return 0.0f;
+    }
+
+    @Nullable
+    @Override
+    public IFluidTank getFluidTank(String name)
+    {
+        String moduleName;
+        String sourceName;
+        TileEntityModule module;
+
+        if (name.contains(":"))
+        {
+            String[] split = name.split(":");
+            moduleName = split[0];
+            sourceName = split[1];
+        } else
+        {
+            moduleName = name;
+            sourceName = name;
+        }
+
+        module = modules.get(moduleName);
+        if (module instanceof FluidSource)
+            return ((FluidSource) module).getFluidTank(sourceName);
+
+        return null;
     }
 
     @Override

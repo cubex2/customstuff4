@@ -2,25 +2,30 @@ package cubex2.cs4.plugins.vanilla.tileentity;
 
 import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
+import cubex2.cs4.plugins.vanilla.gui.FluidSource;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
 
-public class TileEntityModuleTank implements TileEntityModule
+public class TileEntityModuleTank implements TileEntityModule, FluidSource
 {
     private final Supplier supplier;
-    private final FluidTank tank;
+    private final Tank tank;
+    private final TileEntity tile;
 
     public TileEntityModuleTank(Supplier supplier, TileEntity tile)
     {
         this.supplier = supplier;
-        tank = new FluidTank(supplier.capacity);
+        this.tile = tile;
+        tank = new Tank(supplier.capacity);
         tank.setCanDrain(supplier.canDrain);
         tank.setCanFill(supplier.canFill);
         tank.setTileEntity(tile);
@@ -36,6 +41,12 @@ public class TileEntityModuleTank implements TileEntityModule
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         return tank.writeToNBT(compound);
+    }
+
+    @Override
+    public NBTTagCompound writeToUpdateTag(NBTTagCompound compound)
+    {
+        return writeToNBT(compound);
     }
 
     @Override
@@ -59,6 +70,29 @@ public class TileEntityModuleTank implements TileEntityModule
                 return (T) tank;
         }
         return null;
+    }
+
+    @Nullable
+    @Override
+    public IFluidTank getFluidTank(String name)
+    {
+        return tank;
+    }
+
+    private class Tank extends FluidTank
+    {
+        public Tank(int capacity)
+        {
+            super(capacity);
+        }
+
+        @Override
+        protected void onContentsChanged()
+        {
+            tile.markDirty();
+            IBlockState state = tile.getWorld().getBlockState(tile.getPos());
+            tile.getWorld().notifyBlockUpdate(tile.getPos(), state, state, 3);
+        }
     }
 
     public static class Supplier implements TileEntityModuleSupplier
