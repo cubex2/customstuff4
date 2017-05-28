@@ -7,10 +7,10 @@ import cubex2.cs4.plugins.vanilla.ContentGuiContainer;
 import cubex2.cs4.plugins.vanilla.crafting.SlotItemHandlerCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.FieldSupplier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class ContainerGui extends Container
+public class ContainerGui extends ContainerCS4
 {
     private final ContentGuiContainer content;
     private final ItemHandlerSupplier supplier;
@@ -32,7 +32,7 @@ public class ContainerGui extends Container
 
     private final int[] prevFieldValues;
 
-    public ContainerGui(ContentGuiContainer content, ItemHandlerSupplier supplier, FieldSupplier fieldSupplier, EntityPlayer player)
+    public ContainerGui(ContentGuiContainer content, ItemHandlerSupplier supplier, FluidSource fluidSource, FieldSupplier fieldSupplier, EntityPlayer player)
     {
         this.content = content;
         this.supplier = supplier;
@@ -67,6 +67,15 @@ public class ContainerGui extends Container
                         addSlot(data, slot);
                     }
                 }
+            }
+        }
+
+        for (FluidDisplay display : content.fluidDisplays)
+        {
+            IFluidTank tank = fluidSource.getFluidTank(display.source);
+            if (tank != null)
+            {
+                addTank(tank);
             }
         }
     }

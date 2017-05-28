@@ -76,6 +76,11 @@ public class GuiContainerCS4 extends GuiContainer
 
                 drawTexturedModalRect(display.x, display.y, display.overlayTexX, display.overlayTexY, display.width, display.height);
             }
+        }
+
+        for (FluidDisplay display : content.fluidDisplays)
+        {
+            IFluidTank tank = fluidSource.getFluidTank(display.source);
 
             if (mouseX >= guiLeft + display.x && mouseX <= guiLeft + display.x + display.width
                 && mouseY >= guiTop + display.y && mouseY <= guiTop + display.y + display.height)

@@ -6,7 +6,9 @@ import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
 import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
 import cubex2.cs4.plugins.vanilla.EventHandler;
 import cubex2.cs4.plugins.vanilla.GuiHandler;
+import cubex2.cs4.plugins.vanilla.network.PacketSyncContainerFluid;
 import cubex2.cs4.util.PluginHelper;
+import net.minecraft.init.Bootstrap;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -14,6 +16,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 
 import java.io.File;
@@ -36,6 +40,8 @@ public class CustomStuff4
 
     private List<CustomStuffPlugin> plugins;
 
+    public static SimpleNetworkWrapper network = new SimpleNetworkWrapper("customstuff4");
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -45,6 +51,8 @@ public class CustomStuff4
 
         File configDir = event.getModConfigurationDirectory();
         File modsDir = new File(configDir.getParent(), "mods");
+
+        registerPackets();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         RecipeSorter.register("customstuff4:shapedore", DamageableShapedOreRecipe.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
@@ -58,8 +66,14 @@ public class CustomStuff4
         plugins.forEach(plugin -> plugin.registerContent(contentRegistry));
     }
 
+    private void registerPackets()
+    {
+        network.registerMessage(PacketSyncContainerFluid.Handler.class, PacketSyncContainerFluid.class, 0, Side.CLIENT);
+    }
+
     static
     {
-        FluidRegistry.enableUniversalBucket();
+        if (Bootstrap.isRegistered()) // Tests will fail otherwise
+            FluidRegistry.enableUniversalBucket();
     }
 }

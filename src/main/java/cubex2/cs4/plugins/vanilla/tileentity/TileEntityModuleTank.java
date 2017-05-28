@@ -3,7 +3,6 @@ package cubex2.cs4.plugins.vanilla.tileentity;
 import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.vanilla.gui.FluidSource;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -19,12 +18,10 @@ public class TileEntityModuleTank implements TileEntityModule, FluidSource
 {
     private final Supplier supplier;
     private final Tank tank;
-    private final TileEntity tile;
 
     public TileEntityModuleTank(Supplier supplier, TileEntity tile)
     {
         this.supplier = supplier;
-        this.tile = tile;
         tank = new Tank(supplier.capacity);
         tank.setCanDrain(supplier.canDrain);
         tank.setCanFill(supplier.canFill);
@@ -41,12 +38,6 @@ public class TileEntityModuleTank implements TileEntityModule, FluidSource
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         return tank.writeToNBT(compound);
-    }
-
-    @Override
-    public NBTTagCompound writeToUpdateTag(NBTTagCompound compound)
-    {
-        return writeToNBT(compound);
     }
 
     @Override
@@ -90,8 +81,6 @@ public class TileEntityModuleTank implements TileEntityModule, FluidSource
         protected void onContentsChanged()
         {
             tile.markDirty();
-            IBlockState state = tile.getWorld().getBlockState(tile.getPos());
-            tile.getWorld().notifyBlockUpdate(tile.getPos(), state, state, 3);
         }
     }
 

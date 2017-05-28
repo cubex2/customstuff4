@@ -14,11 +14,6 @@ public interface TileEntityModule extends FieldSupplier
 
     NBTTagCompound writeToNBT(NBTTagCompound compound);
 
-    default NBTTagCompound writeToUpdateTag(NBTTagCompound compound)
-    {
-        return compound;
-    }
-
     default void update()
     {
 

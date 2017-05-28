@@ -161,6 +161,9 @@
     },
     {
       "file": "tank.json"
+    },
+    {
+      "file": "fluid_machine.json"
     }
   ]
 }

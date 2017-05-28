@@ -49,6 +49,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(MachineResult.class, MachineResult.DESERIALIZER);
         registry.registerDeserializer(ItemFilter.class, new ItemFilterDeserializer());
         registry.registerDeserializer(EnumAction.class, new EnumActionDeserializer());
+        registry.registerDeserializer(WrappedFluidStack.class, new WrappedFluidStackDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));

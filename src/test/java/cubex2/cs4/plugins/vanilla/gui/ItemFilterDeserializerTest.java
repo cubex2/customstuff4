@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -129,12 +130,6 @@ public class ItemFilterDeserializerTest
     {
 
         @Override
-        public boolean matches(NonNullList<ItemStack> input, World world)
-        {
-            return false;
-        }
-
-        @Override
         public List<RecipeInput> getRecipeInput()
         {
             return Lists.newArrayList(new RecipeInputImpl("ingotIron"), new RecipeInputImpl("stickWood"));
@@ -150,6 +145,36 @@ public class ItemFilterDeserializerTest
         public NonNullList<ItemStack> getRecipeOutput()
         {
             return null;
+        }
+
+        @Override
+        public boolean matches(NonNullList<ItemStack> input, List<FluidStack> inputFluid, World world)
+        {
+            return false;
+        }
+
+        @Override
+        public List<FluidStack> getFluidRecipeInput()
+        {
+            return null;
+        }
+
+        @Override
+        public List<FluidStack> getFluidResult()
+        {
+            return null;
+        }
+
+        @Override
+        public List<FluidStack> getFluidRecipeOutput()
+        {
+            return null;
+        }
+
+        @Override
+        public int getFluidStacks()
+        {
+            return 0;
         }
 
         @Override

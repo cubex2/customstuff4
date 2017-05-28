@@ -4,15 +4,16 @@ import cubex2.cs4.api.RecipeInput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
 public interface MachineRecipe
 {
     /**
-     * Checks if the given items match this recipe. The list is guaranteed to have the size returned by getInputStacks.
+     * Checks if the given items and fluids match this recipe. The lists are guaranteed to have the size returned by getInputStacks and getInputFluids.
      */
-    boolean matches(NonNullList<ItemStack> input, World world);
+    boolean matches(NonNullList<ItemStack> input, List<FluidStack> inputFluid, World world);
 
     List<RecipeInput> getRecipeInput();
 
@@ -27,10 +28,21 @@ public interface MachineRecipe
      */
     NonNullList<ItemStack> getRecipeOutput();
 
+    List<FluidStack> getFluidRecipeInput();
+
+    List<FluidStack> getFluidResult();
+
+    List<FluidStack> getFluidRecipeOutput();
+
     /**
      * Gets the number of input stacks
      */
     int getInputStacks();
+
+    /**
+     * Gets the number of input fluids
+     */
+    int getFluidStacks();
 
     /**
      * Get the amount of ticks that this recipe takes to finish. Return 0 to use the default cook time of the machine.

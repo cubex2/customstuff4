@@ -10,8 +10,6 @@ import cubex2.cs4.plugins.vanilla.gui.FluidSource;
 import cubex2.cs4.plugins.vanilla.gui.ItemHandlerSupplier;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBarSource;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -96,35 +94,6 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
         }
 
         return super.writeToNBT(compound);
-    }
-
-    @Override
-    public NBTTagCompound getUpdateTag()
-    {
-        NBTTagCompound compound = super.getUpdateTag();
-
-        for (Map.Entry<String, TileEntityModule> entry : modules.entrySet())
-        {
-            TileEntityModule module = entry.getValue();
-            NBTTagCompound moduleNbt = module.writeToUpdateTag(new NBTTagCompound());
-
-            compound.setTag("Module_" + entry.getKey(), moduleNbt);
-        }
-
-        return compound;
-    }
-
-    @Nullable
-    @Override
-    public SPacketUpdateTileEntity getUpdatePacket()
-    {
-        return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-    {
-        readFromNBT(pkt.getNbtCompound());
     }
 
     @Override

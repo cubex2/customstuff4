@@ -10,6 +10,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import org.junit.BeforeClass;
@@ -187,4 +190,40 @@ public class ItemHelperTests
         assertEquals(1, inv.getStackInSlot(1).getCount());
     }
 
+    @Test
+    public void test_fluidStackEqual()
+    {
+        assertTrue(ItemHelper.fluidStackEqual(null, null, false));
+        assertFalse(ItemHelper.fluidStackEqual(new FluidStack(FluidRegistry.WATER, 10), null, false));
+        assertFalse(ItemHelper.fluidStackEqual(null, new FluidStack(FluidRegistry.WATER, 10), false));
+        assertFalse(ItemHelper.fluidStackEqual(new FluidStack(FluidRegistry.WATER, 1), new FluidStack(FluidRegistry.WATER, 10), true));
+        assertTrue(ItemHelper.fluidStackEqual(new FluidStack(FluidRegistry.WATER, 1), new FluidStack(FluidRegistry.WATER, 10), false));
+
+        assertFalse(ItemHelper.fluidStackEqual(new FluidStack(FluidRegistry.LAVA, 10), new FluidStack(FluidRegistry.WATER, 10), true));
+        assertFalse(ItemHelper.fluidStackEqual(new FluidStack(FluidRegistry.LAVA, 10), new FluidStack(FluidRegistry.WATER, 10), false));
+
+        assertFalse(ItemHelper.fluidStackEqual(new FluidStack(FluidRegistry.WATER, 10), new FluidStack(FluidRegistry.LAVA, 10), true));
+        assertFalse(ItemHelper.fluidStackEqual(new FluidStack(FluidRegistry.WATER, 10), new FluidStack(FluidRegistry.LAVA, 10), false));
+    }
+
+    @Test
+    public void test_extractFluidsFromTanks()
+    {
+        FluidTank tank1 = new FluidTank(FluidRegistry.WATER, 1000, 10000);
+        FluidTank tank2 = new FluidTank(FluidRegistry.LAVA, 1000, 10000);
+
+        ItemHelper.extractFluidsFromTanks(Lists.newArrayList(tank1, tank2),
+                                          Lists.newArrayList(FluidRegistry.getFluidStack("water", 400),
+                                                             FluidRegistry.getFluidStack("lava", 300)));
+
+        assertEquals(600, tank1.getFluidAmount());
+        assertEquals(700, tank2.getFluidAmount());
+
+        ItemHelper.extractFluidsFromTanks(Lists.newArrayList(tank1, tank2),
+                                          Lists.newArrayList(FluidRegistry.getFluidStack("lava", 400),
+                                                             FluidRegistry.getFluidStack("water", 300)));
+
+        assertEquals(300, tank1.getFluidAmount());
+        assertEquals(300, tank2.getFluidAmount());
+    }
 }

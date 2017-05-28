@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     }
 
     @Override
-    public boolean matches(NonNullList<ItemStack> input, World world)
+    public boolean matches(NonNullList<ItemStack> input, List<FluidStack> inputFluid, World world)
     {
         return compareItemStacks(FurnaceRecipes.instance().getSmeltingResult(input.get(0)), result);
     }
@@ -49,6 +50,30 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     public NonNullList<ItemStack> getRecipeOutput()
     {
         return NonNullList.withSize(1, result);
+    }
+
+    @Override
+    public List<FluidStack> getFluidRecipeInput()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<FluidStack> getFluidResult()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<FluidStack> getFluidRecipeOutput()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public int getFluidStacks()
+    {
+        return 0;
     }
 
     @Override

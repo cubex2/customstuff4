@@ -8,7 +8,9 @@ import cubex2.cs4.plugins.vanilla.crafting.ItemHandlerMachine;
 import cubex2.cs4.plugins.vanilla.crafting.MachineFuel;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+import cubex2.cs4.plugins.vanilla.gui.FluidSource;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBarSource;
+import cubex2.cs4.util.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -19,6 +21,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -26,15 +31,15 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSource
 {
     private final ItemHandlerMachine invHandler;
     private final Supplier supplier;
     private final TileEntity tile;
+    private final FluidSource fluidSource;
 
     private int burnTime;
     private int currentItemBurnTime;
@@ -48,6 +53,10 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
         this.invHandler = new ItemHandlerMachine(supplier.inputSlots, supplier.outputSlots, supplier.fuelSlots, tile);
         this.tile = tile;
         this.supplier = supplier;
+
+        fluidSource = tile instanceof FluidSource
+                      ? n -> Optional.ofNullable(((FluidSource) tile).getFluidTank(n)).orElse(EmptyFluidHandler.INSTANCE)
+                      : n -> EmptyFluidHandler.INSTANCE;
 
         for (EnumFacing facing : EnumFacing.values())
         {
@@ -115,7 +124,7 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
                 {
                     cookTime = 0;
                     totalCookTime = getCookTime();
-                    smeltItems();
+                    smelt();
                 }
             } else
             {
@@ -124,29 +133,56 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
         }
     }
 
-    private void smeltItems()
+    private void smelt()
     {
         if (canSmelt())
         {
             MachineRecipe recipe = getActiveRecipe();
-
-            NonNullList<ItemStack> resultItems = recipe.getResult();
-            for (int i = 0; i < resultItems.size(); i++)
-            {
-                ItemStack stack = resultItems.get(i);
-                invHandler.insertOutput(i, stack, false);
-            }
-
-            for (ItemStack stack : invHandler.getInputStacks())
-            {
-                if (isWetSponge(stack))
-                {
-                    fillBucketWithWater();
-                }
-            }
-
-            invHandler.removeInputsFromInput(recipe.getRecipeInput());
+            smeltItems(recipe);
+            smeltFluids(recipe);
         }
+    }
+
+    private void smeltFluids(MachineRecipe recipe)
+    {
+        List<FluidStack> resultFluids = recipe.getFluidResult();
+
+        for (int i = 0; i < resultFluids.size(); i++)
+        {
+            FluidStack stack = resultFluids.get(i);
+            fluidSource.getFluidTank(supplier.outputTanks[i]).fill(stack, true);
+        }
+
+        extractInputFluids(recipe);
+    }
+
+    private void extractInputFluids(MachineRecipe recipe)
+    {
+        List<IFluidTank> remaining = Arrays.stream(supplier.inputTanks)
+                                           .map(fluidSource::getFluidTank)
+                                           .collect(Collectors.toCollection(LinkedList::new));
+
+        ItemHelper.extractFluidsFromTanks(remaining, recipe.getFluidRecipeInput());
+    }
+
+    private void smeltItems(MachineRecipe recipe)
+    {
+        NonNullList<ItemStack> resultItems = recipe.getResult();
+        for (int i = 0; i < resultItems.size(); i++)
+        {
+            ItemStack stack = resultItems.get(i);
+            invHandler.insertOutput(i, stack, false);
+        }
+
+        for (ItemStack stack : invHandler.getInputStacks())
+        {
+            if (isWetSponge(stack))
+            {
+                fillBucketWithWater();
+            }
+        }
+
+        invHandler.removeInputsFromInput(recipe.getRecipeInput());
     }
 
     private void fillBucketWithWater()
@@ -191,18 +227,28 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
 
     private boolean canSmelt()
     {
-        NonNullList<ItemStack> recipe = getActiveRecipe().getRecipeOutput();
+        MachineRecipe recipe = getActiveRecipe();
+        NonNullList<ItemStack> recipeItems = recipe.getRecipeOutput();
+        List<FluidStack> recipeFluids = recipe.getFluidRecipeOutput();
 
-        if (recipe.isEmpty())
+        if (recipeItems.isEmpty() && recipeFluids.isEmpty())
         {
             return false;
         } else
         {
-            for (int i = 0; i < recipe.size(); i++)
+            for (int i = 0; i < recipeItems.size(); i++)
             {
-                ItemStack stack = recipe.get(i);
+                ItemStack stack = recipeItems.get(i);
                 ItemStack inserted = invHandler.insertOutput(i, stack, true);
                 if (!inserted.isEmpty())
+                    return false;
+            }
+
+            for (int i = 0; i < recipeFluids.size(); i++)
+            {
+                FluidStack stack = recipeFluids.get(i);
+                int inserted = fluidSource.getFluidTank(supplier.outputTanks[i]).fill(stack, false);
+                if (inserted != stack.amount)
                     return false;
             }
 
@@ -213,7 +259,12 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     private MachineRecipe getActiveRecipe()
     {
         NonNullList<ItemStack> input = invHandler.getInputStacks();
-        return MachineManager.findMatchingRecipe(supplier.recipeList, input, tile.getWorld());
+        List<FluidStack> inputFluid = Arrays.stream(supplier.inputTanks)
+                                            .map(fluidSource::getFluidTank)
+                                            .map(IFluidTank::getFluid)
+                                            .collect(Collectors.toList());
+
+        return MachineManager.findMatchingRecipe(supplier.recipeList, input, inputFluid, tile.getWorld());
     }
 
     private boolean isBurning()
@@ -273,8 +324,6 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     @Override
     public float getProgress(String name)
     {
-        //if (true)
-        //return 1f;
         if (name.equals("cookTime"))
         {
             if (totalCookTime > 0)
@@ -324,6 +373,9 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
         public int outputSlots = 1;
         public int fuelSlots = 1;
         public int cookTime = 200;
+
+        public String[] inputTanks = new String[0];
+        public String[] outputTanks = new String[0];
 
         public ResourceLocation recipeList = new ResourceLocation("minecraft", "vanilla");
         public ResourceLocation fuelList = new ResourceLocation("minecraft", "vanilla");
