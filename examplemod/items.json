@@ -103,10 +103,7 @@
         {
           "id": "fluid_container",
           "creativeTab": "misc",
-          "model": "cs4examplemod:fluid_container",
-          "texBase": "cs4examplemod:items/fluid_container_base",
-          "texFluid": "cs4examplemod:items/fluid_container_fluid",
-          "texCover": "cs4examplemod:items/fluid_container_cover"
+          "model": "cs4examplemod:fluid_container"
         }
       ]
     }
