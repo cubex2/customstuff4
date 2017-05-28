@@ -1,12 +1,12 @@
 package cubex2.cs4.plugins.vanilla.crafting;
 
-import com.google.common.collect.Lists;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.plugins.vanilla.RecipeInputImpl;
 import cubex2.cs4.plugins.vanilla.WrappedItemStackConstant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +23,7 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     }
 
     @Override
-    public boolean matches(List<ItemStack> input, World world)
+    public boolean matches(List<ItemStack> input, List<FluidStack> inputFluid, World world)
     {
         return compareItemStacks(FurnaceRecipes.instance().getSmeltingResult(input.get(0)), result);
     }
@@ -42,13 +42,37 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     @Override
     public List<ItemStack> getResult()
     {
-        return Lists.newArrayList(result.copy());
+        return Collections.singletonList(result.copy());
     }
 
     @Override
     public List<ItemStack> getRecipeOutput()
     {
-        return Lists.newArrayList(result);
+        return Collections.singletonList(result);
+    }
+
+    @Override
+    public List<FluidStack> getFluidRecipeInput()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<FluidStack> getFluidResult()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<FluidStack> getFluidRecipeOutput()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public int getFluidStacks()
+    {
+        return 0;
     }
 
     @Override

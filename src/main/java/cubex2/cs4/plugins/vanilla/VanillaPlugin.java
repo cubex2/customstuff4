@@ -10,6 +10,7 @@ import cubex2.cs4.plugins.vanilla.gui.ProgressBar;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleMachine;
+import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleTank;
 import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.JsonHelper;
 import net.minecraft.block.SoundType;
@@ -48,6 +49,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(MachineResult.class, MachineResult.DESERIALIZER);
         registry.registerDeserializer(ItemFilter.class, new ItemFilterDeserializer());
         registry.registerDeserializer(EnumAction.class, new EnumActionDeserializer());
+        registry.registerDeserializer(WrappedFluidStack.class, new WrappedFluidStackDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -72,6 +74,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("oreDict", OreDictionaryEntry.class);
         registry.registerContentType("toolTip", ToolTip.class);
         registry.registerContentType("guiModifier", GuiModifier.class);
+        registry.registerContentType("fluidModifier", FluidModifier.class);
 
         registry.registerContentType("item:simple", ContentItemSimple.class);
         registry.registerContentType("item:axe", ContentItemAxe.class);
@@ -79,6 +82,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:shovel", ContentItemShovel.class);
         registry.registerContentType("item:sword", ContentItemSword.class);
         registry.registerContentType("item:food", ContentItemFood.class);
+        registry.registerContentType("item:fluidContainer", ContentItemFluidContainer.class);
 
         registry.registerContentType("block:simple", ContentBlockSimple.class);
         registry.registerContentType("block:orientable:vertical", ContentBlockOrientableVertical.class);
@@ -87,6 +91,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("block:fence", ContentBlockFence.class);
         registry.registerContentType("block:stairs", ContentBlockStairs.class);
         registry.registerContentType("block:slab", ContentBlockSlab.class);
+        registry.registerContentType("block:fluid", ContentBlockFluid.class);
 
         registry.registerContentType("worldGen:ore", WorldGenOre.class);
 
@@ -95,6 +100,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerTileEntityModule("inventory", TileEntityModuleInventory.Supplier.class);
         registry.registerTileEntityModule("crafting", TileEntityModuleCrafting.Supplier.class);
         registry.registerTileEntityModule("machine", TileEntityModuleMachine.Supplier.class);
+        registry.registerTileEntityModule("tank", TileEntityModuleTank.Supplier.class);
 
         registry.registerContentType("gui:container", ContentGuiContainer.class);
 

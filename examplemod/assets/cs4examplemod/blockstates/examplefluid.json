@@ -1,0 +1,27 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+    	"model": "forge:fluid",
+        "custom": { "fluid": "examplefluid" }
+    },
+    "variants": {
+    	"level": {
+        	"0": {"model": "forge:fluid"},
+        	"1": {"model": "forge:fluid"},
+        	"2": {"model": "forge:fluid"},
+        	"3": {"model": "forge:fluid"},
+        	"4": {"model": "forge:fluid"},
+        	"5": {"model": "forge:fluid"},
+        	"6": {"model": "forge:fluid"},
+        	"7": {"model": "forge:fluid"},
+        	"8": {"model": "forge:fluid"},
+        	"9": {"model": "forge:fluid"},
+        	"10": {"model": "forge:fluid"},
+        	"11": {"model": "forge:fluid"},
+        	"12": {"model": "forge:fluid"},
+        	"13": {"model": "forge:fluid"},
+        	"14": {"model": "forge:fluid"},
+        	"15": {"model": "forge:fluid"}
+        }
+    }
+}

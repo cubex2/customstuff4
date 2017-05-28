@@ -6,6 +6,8 @@ import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -154,6 +156,49 @@ public class ItemHelper
         {
             ItemStack toExtract = input.getStack().getItemStack();
             from.extractItem(slot, toExtract.stackSize, false);
+        }
+    }
+
+    public static boolean fluidStackEqual(FluidStack stack, FluidStack input, boolean checkCount)
+    {
+        if (stack == null && input == null)
+            return true;
+        if (stack == null ^ input == null)
+            return false;
+
+        return stack.isFluidEqual(input) && (!checkCount || input.amount <= stack.amount);
+    }
+
+    public static boolean fluidStackEqual(FluidStack stack1, FluidStack stack2)
+    {
+        if (stack1 == null && stack2 == null)
+            return true;
+        if (stack1 == null ^ stack2 == null)
+            return false;
+
+        return stack1.isFluidEqual(stack2) && stack2.amount == stack1.amount;
+    }
+
+    public static void extractFluidsFromTanks(List<IFluidTank> tanks, List<FluidStack> fluids)
+    {
+        LinkedList<IFluidTank> remaining = Lists.newLinkedList(tanks);
+
+        for (FluidStack stack : fluids)
+        {
+            for (Iterator<IFluidTank> iterator = remaining.iterator(); iterator.hasNext(); )
+            {
+                IFluidTank tank = iterator.next();
+                if (tank.getFluid() != null && tank.getFluid().getFluid().getName().equals(stack.getFluid().getName()))
+                {
+                    FluidStack drained = tank.drain(stack.amount, false);
+                    if (drained != null && drained.amount == stack.amount)
+                    {
+                        tank.drain(stack.amount, true);
+                        iterator.remove();
+                        break;
+                    }
+                }
+            }
         }
     }
 }

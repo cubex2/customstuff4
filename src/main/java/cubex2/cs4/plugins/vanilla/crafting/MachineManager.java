@@ -8,6 +8,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ public class MachineManager
         return false;
     }
 
-    public static MachineRecipe findMatchingRecipe(ResourceLocation list, List<ItemStack> input, World worldIn)
+    public static MachineRecipe findMatchingRecipe(ResourceLocation list, List<ItemStack> input, List<FluidStack> inputFluid, World worldIn)
     {
         if (list.toString().equals("minecraft:vanilla"))
         {
@@ -78,14 +79,16 @@ public class MachineManager
             }
         }
 
-        return findMatchingRecipe(getRecipes(list), input, worldIn);
+        return findMatchingRecipe(getRecipes(list), input, inputFluid, worldIn);
     }
 
-    public static MachineRecipe findMatchingRecipe(List<MachineRecipe> recipes, List<ItemStack> input, World worldIn)
+    public static MachineRecipe findMatchingRecipe(List<MachineRecipe> recipes, List<ItemStack> input, List<FluidStack> inputFluid, World worldIn)
     {
         for (MachineRecipe recipe : recipes)
         {
-            if (input.size() == recipe.getInputStacks() && recipe.matches(input, worldIn))
+            if (input.size() == recipe.getInputStacks()
+                && inputFluid.size() == recipe.getFluidStacks()
+                && recipe.matches(input, inputFluid, worldIn))
             {
                 return recipe;
             }

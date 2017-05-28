@@ -1,10 +1,12 @@
 package cubex2.cs4.plugins.vanilla.tileentity;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.vanilla.ContentTileEntitySimple;
 import cubex2.cs4.plugins.vanilla.TileEntityRegistry;
+import cubex2.cs4.plugins.vanilla.gui.FluidSource;
 import cubex2.cs4.plugins.vanilla.gui.ItemHandlerSupplier;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBarSource;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,16 +16,20 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class TileEntitySimple extends TileEntity implements CSTileEntity<ContentTileEntitySimple>, ItemHandlerSupplier, FieldSupplier, ProgressBarSource, ITickable
+public abstract class TileEntitySimple extends TileEntity implements CSTileEntity<ContentTileEntitySimple>, ItemHandlerSupplier, FieldSupplier, ProgressBarSource, ITickable, FluidSource
 {
     private final ContentTileEntitySimple content;
     private final LinkedHashMap<String, TileEntityModule> modules = Maps.newLinkedHashMap();
@@ -165,6 +171,32 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
         return 0.0f;
     }
 
+    @Nullable
+    @Override
+    public IFluidTank getFluidTank(String name)
+    {
+        String moduleName;
+        String sourceName;
+        TileEntityModule module;
+
+        if (name.contains(":"))
+        {
+            String[] split = name.split(":");
+            moduleName = split[0];
+            sourceName = split[1];
+        } else
+        {
+            moduleName = name;
+            sourceName = name;
+        }
+
+        module = modules.get(moduleName);
+        if (module instanceof FluidSource)
+            return ((FluidSource) module).getFluidTank(sourceName);
+
+        return null;
+    }
+
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
     {
@@ -178,14 +210,42 @@ public abstract class TileEntitySimple extends TileEntity implements CSTileEntit
     }
 
     @Nullable
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
     {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        {
+            return (T) getItemHandlerCapability(facing);
+        }
+
         for (TileEntityModule module : modules.values())
         {
             if (module.hasCapability(capability, facing))
                 return module.getCapability(capability, facing);
         }
+
         return super.getCapability(capability, facing);
+    }
+
+    @Nullable
+    private IItemHandlerModifiable getItemHandlerCapability(@Nullable EnumFacing facing)
+    {
+        Capability<IItemHandler> capability = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+
+        List<IItemHandlerModifiable> handlers = Lists.newLinkedList();
+
+        for (TileEntityModule module : modules.values())
+        {
+            if (module.hasCapability(capability, facing))
+                handlers.add((IItemHandlerModifiable) module.getCapability(capability, facing));
+        }
+
+        if (handlers.size() == 1)
+            return handlers.get(0);
+        else if (handlers.size() > 1)
+            return new CombinedInvWrapper(handlers.toArray(new IItemHandlerModifiable[handlers.size()]));
+        else
+            return null;
     }
 }

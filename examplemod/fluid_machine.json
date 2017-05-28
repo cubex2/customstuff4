@@ -1,0 +1,168 @@
+{
+  "machine": [
+    {
+      "type": "block:simple",
+      "entries": [
+        {
+          "id": "fluid_machine",
+          "creativeTab": "decorations",
+          "itemModel": "cs4examplemod:sensor_iron",
+          "tileEntity": "cs4examplemod:fluid_machine",
+          "gui": "cs4examplemod:fluid_machine"
+        }
+      ]
+    },
+    {
+      "type": "tileentity:simple",
+      "entries": [
+        {
+          "id": "fluid_machine",
+          "modules": [
+            {
+              "type": "tank",
+              "name": "input1",
+              "capacity": 5000,
+              "sides": ["up"]
+            },
+            {
+              "type": "tank",
+              "name": "input2",
+              "capacity": 5000,
+              "sides": ["north", "south", "east", "west"]
+            },
+            {
+              "type": "tank",
+              "canFill": true,
+              "name": "output",
+              "capacity": 5000,
+              "sides": ["down"]
+            },
+            {
+              "type": "machine",
+              "name": "machine",
+              "inputSlots": 0,
+              "outputSlots": 0,
+              "fuelSlots": 1,
+              "inputTanks": ["input1", "input2"],
+              "outputTanks": ["output"],
+              "recipeList": "cs4examplemod:fluid_machine",
+              "fuelList": "minecraft:vanilla"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "gui:container",
+      "entries": [
+        {
+          "id": "fluid_machine",
+          "bg": "cs4examplemod:textures/gui/container/fluid_machine.png",
+          "slots": [
+            {
+              "name": "machine",
+              "rows": 1,
+              "columns": 1,
+              "x": 56,
+              "y": 53
+            },
+            {
+              "name": "player",
+              "firstSlot": 9,
+              "rows": 3,
+              "columns": 9,
+              "x": 8,
+              "y": 84
+            },
+            {
+              "name": "player",
+              "rows": 1,
+              "columns": 9,
+              "x": 8,
+              "y": 142
+            }
+          ],
+          "shiftClickRules": [
+            {
+              "from": [0, 0],
+              "to": [36, 1]
+            },
+            {
+              "from": [1, 36],
+              "to": [0, 0],
+              "filter": "machineFuel:minecraft:vanilla"
+            }
+          ],
+          "labels": [
+            {
+              "text": "container.furnace",
+              "x": 28,
+              "y": 6
+            },
+            {
+              "text": "container.inventory",
+              "x": 8,
+              "y": 73
+            }
+          ],
+          "progressBars": [
+            {
+              "source": "machine:cookTime",
+              "x": 80,
+              "y": 34,
+              "width": 22,
+              "height": 16,
+              "texX": 177,
+              "texY": 14,
+              "direction": "right"
+            },
+            {
+              "source": "machine:burnTime",
+              "x": 56,
+              "y": 36,
+              "width": 14,
+              "height": 13,
+              "texX": 176,
+              "texY": 0,
+              "direction": "up"
+            }
+          ],
+          "fluidDisplays": [
+            {
+              "source": "input1",
+              "x": 46,
+              "y": 17,
+              "width": 16,
+              "height": 16
+            },
+            {
+              "source": "input2",
+              "x": 64,
+              "y": 17,
+              "width": 16,
+              "height": 16
+            },
+            {
+              "source": "output",
+              "x": 112,
+              "y": 31,
+              "width": 24,
+              "height": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "machineRecipe",
+      "entries": [
+        {
+          "recipeList": "cs4examplemod:fluid_machine",
+          "inputFluid": ["water@500", "lava@500"],
+          "outputFluid": ["examplefluid"]
+        }
+      ]
+    }
+  ]
+}
+

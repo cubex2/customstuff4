@@ -69,6 +69,7 @@
       "entries": [
         {
           "id": "somefood",
+          "model": "minecraft:apple",
           "subtypes": [0, 1],
           "creativeTab": "food",
           "healAmount": {
@@ -87,12 +88,22 @@
             }
           },
           "potionEffectProbability": 0.5,
-          "result":{
+          "result": {
             "1": "minecraft:glass_bottle"
           },
           "useAction": {
             "1": "drink"
           }
+        }
+      ]
+    },
+    {
+      "type": "item:fluidContainer",
+      "entries": [
+        {
+          "id": "fluid_container",
+          "creativeTab": "misc",
+          "model": "cs4examplemod:fluid_container"
         }
       ]
     }

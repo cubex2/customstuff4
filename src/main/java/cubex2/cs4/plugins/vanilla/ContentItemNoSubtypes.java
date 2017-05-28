@@ -10,12 +10,15 @@ public abstract class ContentItemNoSubtypes<T extends Item> extends ContentItemB
     public String[] information = new String[0];
     String creativeTab = "search";
 
-    ResourceLocation model = new ResourceLocation("minecraft:stick");
+    ResourceLocation model = null;
 
     @Override
     protected void initItem()
     {
         item.setCreativeTab(ItemHelper.findCreativeTab(creativeTab).orElse(null));
+
+        if (model == null)
+            model = item.getRegistryName();
 
         CustomStuff4.proxy.registerItemModel(item, 0, model);
     }

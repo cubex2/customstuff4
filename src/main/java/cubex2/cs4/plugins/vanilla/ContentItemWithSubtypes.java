@@ -4,8 +4,6 @@ import cubex2.cs4.CustomStuff4;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Arrays;
-
 public abstract class ContentItemWithSubtypes<T extends Item> extends ContentItemBase<T>
 {
     public int[] subtypes = new int[0];
@@ -14,7 +12,7 @@ public abstract class ContentItemWithSubtypes<T extends Item> extends ContentIte
     public Attribute<Integer> maxStack = Attribute.constant(64);
     public Attribute<String[]> information = Attribute.constant(new String[0]);
 
-    Attribute<ResourceLocation> model = Attribute.constant(new ResourceLocation("minecraft:stick"));
+    Attribute<ResourceLocation> model = Attribute.constant(null);
 
     @Override
     protected void initItem()
@@ -24,6 +22,10 @@ public abstract class ContentItemWithSubtypes<T extends Item> extends ContentIte
         if (subtypes.length == 0)
             subtypes = new int[] {0};
 
-        Arrays.stream(subtypes).forEach(meta -> model.get(meta).ifPresent(model -> CustomStuff4.proxy.registerItemModel(item, meta, model)));
+        for (int meta : subtypes)
+        {
+            ResourceLocation model = this.model.get(meta).orElse(item.getRegistryName());
+            CustomStuff4.proxy.registerItemModel(item, meta, model);
+        }
     }
 }

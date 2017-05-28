@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public abstract class ContentBlockBase implements Content
 {
-    String id;
+    public String id;
     public Material material = Material.GROUND;
     float slipperiness = 0.6f;
 
@@ -43,17 +43,18 @@ public abstract class ContentBlockBase implements Content
     public Attribute<ResourceLocation> gui = Attribute.constant(null);
     public Attribute<WrappedItemStack> drop = Attribute.constant(null);
     public Attribute<Boolean> isFullCube = Attribute.constant(true);
+    public Attribute<Boolean> canInteractWithFluidItem = Attribute.constant(true);
 
-    Attribute<ResourceLocation> itemModel = Attribute.constant(new ResourceLocation("minecraft:stick"));
+    Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 
     protected transient Block block;
 
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
     {
-        if (phase == InitPhase.PRE_INIT)
+        if (phase == InitPhase.PRE_INIT && !isReady())
             return;
-        if (phase == InitPhase.INIT && !isReady())
+        if (phase == InitPhase.INIT && (block != null || !isReady()))
             return;
         if (phase == InitPhase.POST_INIT && (block != null || !isReady()))
             return;

@@ -17,6 +17,7 @@ public class ContentGuiContainer extends ContentGuiBase
     public int height = 166;
     public List<SlotData> slots = Lists.newArrayList();
     public List<Label> labels = Lists.newArrayList();
+    public List<FluidDisplay> fluidDisplays = Lists.newArrayList();
     public List<ShiftClickRule> shiftClickRules = Lists.newArrayList();
     public List<ProgressBar> progressBars = Lists.newArrayList();
     public ResourceLocation bg = null;
@@ -29,7 +30,7 @@ public class ContentGuiContainer extends ContentGuiBase
         TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
         if (te != null && te instanceof ItemHandlerSupplier && te instanceof FieldSupplier)
         {
-            return new ContainerGui(this, (ItemHandlerSupplier) te, (FieldSupplier) te, player);
+            return createContainer(te, player);
         }
 
         return null;
@@ -41,10 +42,14 @@ public class ContentGuiContainer extends ContentGuiBase
         TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
         if (te != null && te instanceof ItemHandlerSupplier && te instanceof FieldSupplier)
         {
-            return new GuiContainerCS4(this, new ContainerGui(this, (ItemHandlerSupplier) te, (FieldSupplier) te, player),
-                                       (ProgressBarSource) te);
+            return new GuiContainerCS4(this, createContainer(te, player), (ProgressBarSource) te, (FluidSource) te);
         }
 
         return null;
+    }
+
+    private ContainerGui createContainer(TileEntity te, EntityPlayer player)
+    {
+        return new ContainerGui(this, (ItemHandlerSupplier) te, (FluidSource) te, (FieldSupplier) te, player);
     }
 }

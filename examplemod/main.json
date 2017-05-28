@@ -138,6 +138,19 @@
       ]
     },
     {
+      "type": "fluidModifier",
+      "entries": [
+        {
+          "block": "minecraft:flowing_water",
+          "canCreateSource": false
+        },
+        {
+          "block": "minecraft:flowing_lava",
+          "canCreateSource": true
+        }
+      ]
+    },
+    {
       "file": "machine.json"
     },
     {
@@ -145,6 +158,12 @@
     },
     {
       "file": "chest.json"
+    },
+    {
+      "file": "tank.json"
+    },
+    {
+      "file": "fluid_machine.json"
     }
   ]
 }
