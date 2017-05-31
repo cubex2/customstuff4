@@ -8,6 +8,8 @@ import cubex2.cs4.api.ContentRegistry;
 import cubex2.cs4.api.LoaderPredicate;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.vanilla.TileEntityModuleRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -20,6 +22,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry, TileEntityModuleRegistry
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
+    private final Map<String, Side> typeSides = Maps.newHashMap();
     private final Map<String, LoaderPredicate> predicates = Maps.newHashMap();
     private final List<Pair<Type, JsonDeserializer<?>>> deserializers = Lists.newArrayList();
     private final Map<String, Class<? extends TileEntityModuleSupplier>> tileEntityModules = Maps.newHashMap();
@@ -32,9 +35,21 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
         types.put(typeName, clazz);
     }
 
+    @Override
+    public <T extends Content> void registerContentType(String typeName, Class<T> clazz, Side side)
+    {
+        registerContentType(typeName, clazz);
+
+        typeSides.put(typeName, side);
+    }
+
     @Nullable
     Class<? extends Content> getContentClass(String typeName)
     {
+        if (typeSides.containsKey(typeName)
+            && FMLCommonHandler.instance().getSide() != typeSides.get(typeName))
+            return null;
+
         return types.get(typeName);
     }
 

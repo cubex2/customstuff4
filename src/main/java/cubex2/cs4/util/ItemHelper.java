@@ -9,18 +9,41 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class ItemHelper
 {
+    private static Field tabLabelField;
+
     public static Optional<CreativeTabs> findCreativeTab(String tabLabel)
     {
         return Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY)
-                     .filter(tab -> tab != null && tab.getTabLabel().equals(tabLabel))
+                     .filter(tab -> tab != null && Objects.equals(getTabLabel(tab), tabLabel))
                      .findFirst();
+    }
+
+    private static String getTabLabel(CreativeTabs tab)
+    {
+        if (tabLabelField == null)
+        {
+            tabLabelField = ReflectionHelper.findField(CreativeTabs.class, "tabLabel", "field_78034_o", "o");
+            tabLabelField.setAccessible(true);
+        }
+
+        try
+        {
+            return (String) tabLabelField.get(tab);
+        } catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static CreativeTabs[] createCreativeTabs(Attribute<String> tabLabels, int[] subtypes)
@@ -46,7 +69,7 @@ public class ItemHelper
                 tabLabels.get(meta)
                          .ifPresent(tabLabel ->
                                     {
-                                        if (creativeTab == null || Objects.equals(tabLabel, creativeTab.getTabLabel()))
+                                        if (creativeTab == null || Objects.equals(tabLabel, getTabLabel(creativeTab)))
                                         {
                                             list.add(new ItemStack(item, 1, meta));
                                         }

@@ -5,6 +5,7 @@ import com.google.gson.JsonDeserializer;
 import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.VanillaPlugin;
 import net.minecraft.init.Bootstrap;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.lang.reflect.Type;
 
@@ -20,6 +21,12 @@ public class TestUtil
         {
             @Override
             public <T extends Content> void registerContentType(String typeName, Class<T> clazz)
+            {
+                // No OP
+            }
+
+            @Override
+            public <T extends Content> void registerContentType(String typeName, Class<T> clazz, Side side)
             {
                 // No OP
             }
