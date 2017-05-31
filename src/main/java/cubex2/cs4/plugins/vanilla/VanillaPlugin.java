@@ -20,6 +20,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.Map;
 
@@ -73,7 +74,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("fuel", Fuel.class);
         registry.registerContentType("oreDict", OreDictionaryEntry.class);
         registry.registerContentType("toolTip", ToolTip.class);
-        registry.registerContentType("guiModifier", GuiModifier.class);
+        registry.registerContentType("guiModifier", GuiModifier.class, Side.CLIENT);
         registry.registerContentType("fluidModifier", FluidModifier.class);
 
         registry.registerContentType("item:simple", ContentItemSimple.class);

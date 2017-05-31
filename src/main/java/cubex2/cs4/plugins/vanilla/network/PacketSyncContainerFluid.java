@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla.network;
 
+import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.plugins.vanilla.gui.ContainerCS4;
 import cubex2.cs4.util.NetworkHelper;
 import io.netty.buffer.ByteBuf;
@@ -7,6 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -53,7 +56,7 @@ public class PacketSyncContainerFluid implements IMessage
         @Override
         public IMessage onMessage(PacketSyncContainerFluid message, MessageContext ctx)
         {
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            EntityPlayer player = CustomStuff4.proxy.getClientPlayer();
             if (NetworkHelper.checkThreadAndEnqueue(message, this, ctx, Minecraft.getMinecraft()))
                 return null;
 

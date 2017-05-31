@@ -2,12 +2,11 @@ package cubex2.cs4.plugins.vanilla.gui;
 
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonParseException;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.client.config.GuiUtils;
 
 import java.util.Arrays;
 
-public class ProgressBar extends Gui
+public class ProgressBar
 {
     public int x;
     public int y;
@@ -28,7 +27,7 @@ public class ProgressBar extends Gui
         int offsetX = direction.getOffsetX(width, w);
         int offsetY = direction.getOffsetY(height, h);
 
-        drawTexturedModalRect(x + offsetX, y + offsetY, texX + offsetX, texY + offsetY, w, h);
+        GuiUtils.drawTexturedModalRect(x + offsetX, y + offsetY, texX + offsetX, texY + offsetY, w, h, 0f);
     }
 
     public enum Direction
@@ -47,7 +46,7 @@ public class ProgressBar extends Gui
             if (this == UP || this == DOWN)
                 return maxWidth;
 
-            return Math.round (maxWidth * progress);
+            return Math.round(maxWidth * progress);
         }
 
         int getOffsetX(int maxWidth, int width)
