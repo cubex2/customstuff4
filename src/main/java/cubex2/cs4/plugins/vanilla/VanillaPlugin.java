@@ -3,6 +3,8 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeDeserializer;
 import cubex2.cs4.plugins.vanilla.crafting.MachineResult;
 import cubex2.cs4.plugins.vanilla.gui.ItemFilter;
 import cubex2.cs4.plugins.vanilla.gui.ItemFilterDeserializer;
@@ -51,6 +53,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(ItemFilter.class, new ItemFilterDeserializer());
         registry.registerDeserializer(EnumAction.class, new EnumActionDeserializer());
         registry.registerDeserializer(WrappedFluidStack.class, new WrappedFluidStackDeserializer());
+        registry.registerDeserializer(MachineRecipeImpl.class, new MachineRecipeDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));

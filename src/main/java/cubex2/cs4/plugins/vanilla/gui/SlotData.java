@@ -17,13 +17,28 @@ public class SlotData
         return firstSlot + row * columns + col;
     }
 
-    int getX(int col)
+    public int getX(int col)
     {
         return x + col * spacingX;
     }
 
-    int getY(int row)
+    public int getY(int row)
     {
         return y + row * spacingY;
+    }
+
+    public int getRow(int index)
+    {
+        return index / columns;
+    }
+
+    public int getColumn(int index)
+    {
+        return index % columns;
+    }
+
+    public boolean containsIndex(int index)
+    {
+        return index >= firstSlot && index <= firstSlot + rows * columns - 1;
     }
 }

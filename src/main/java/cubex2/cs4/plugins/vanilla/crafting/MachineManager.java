@@ -31,7 +31,7 @@ public class MachineManager
         return instances.get(list);
     }
 
-    private static List<MachineRecipe> getRecipes(ResourceLocation list)
+    public static List<MachineRecipe> getRecipes(ResourceLocation list)
     {
         if (list.toString().equals("minecraft:vanilla"))
         {
