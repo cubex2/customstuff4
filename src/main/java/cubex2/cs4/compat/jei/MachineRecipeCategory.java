@@ -41,7 +41,7 @@ public class MachineRecipeCategory extends BlankRecipeCategory<MachineRecipeWrap
     public MachineRecipeCategory(JEIMachineRecipe recipe, IGuiHelper guiHelper)
     {
         this.recipe = recipe;
-        uid = recipe.recipeList.toString();
+        uid = recipe.getRecipeUid();
         title = recipe.title;
 
         gui = recipe.getGui();

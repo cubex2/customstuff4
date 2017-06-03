@@ -39,6 +39,11 @@ public class JEIMachineRecipe extends SimpleContent
         return true;
     }
 
+    public String getRecipeUid()
+    {
+        return recipeList.toString() + "#" + "machine_recipes";
+    }
+
     @SuppressWarnings("unchecked")
     @Nullable
     public ContentGuiContainer getGui()

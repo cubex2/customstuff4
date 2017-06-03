@@ -22,13 +22,15 @@ public class CS4JEIPlugin extends BlankModPlugin
 
         for (JEIMachineRecipe recipe : JEICompatRegistry.machineRecipes)
         {
-            registry.handleRecipes((Class<MachineRecipeImpl>) JEICompatRegistry.getMachineRecipeClass(recipe.recipeList), factory, recipe.recipeList.toString());
+            String recipeUid = recipe.getRecipeUid();
+
+            registry.handleRecipes((Class<MachineRecipeImpl>) JEICompatRegistry.getMachineRecipeClass(recipe.recipeList), factory, recipeUid);
             registry.addRecipeCategories(new MachineRecipeCategory(recipe, jeiHelpers.getGuiHelper()));
-            registry.addRecipes(MachineManager.getRecipes(recipe.recipeList), recipe.recipeList.toString());
+            registry.addRecipes(MachineManager.getRecipes(recipe.recipeList), recipeUid);
 
             if (recipe.icon != null)
             {
-                registry.addRecipeCategoryCraftingItem(recipe.icon.getItemStack(), recipe.recipeList.toString());
+                registry.addRecipeCategoryCraftingItem(recipe.icon.getItemStack(), recipeUid);
             }
 
             if (recipe.recipeAreaWidth > 0 && recipe.recipeAreaHeight > 0)
@@ -38,7 +40,7 @@ public class CS4JEIPlugin extends BlankModPlugin
                                             recipe.recipeAreaY,
                                             recipe.recipeAreaWidth,
                                             recipe.recipeAreaHeight,
-                                            recipe.recipeList.toString());
+                                            recipeUid);
             }
         }
     }
