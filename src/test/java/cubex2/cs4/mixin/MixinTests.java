@@ -40,7 +40,7 @@ public class MixinTests
     @Test
     public void test_createClassNode()
     {
-        ClassNode node = Mixin.createClassNode(BaseClass.class);
+        ClassNode node = AsmHelper.createClassNode(BaseClass.class);
 
         assertEquals("cubex2/cs4/mixin/MixinTests$BaseClass", node.name);
     }
@@ -48,7 +48,7 @@ public class MixinTests
     @Test
     public void test_createClass()
     {
-        ClassNode node = Mixin.createClassNode(BaseClass.class);
+        ClassNode node = AsmHelper.createClassNode(BaseClass.class);
         node.name = node.name.replace("MixinTests$BaseClass", "CreatedClass");
         Class<?> clazz = AsmHelper.createClass(node);
 
@@ -58,8 +58,8 @@ public class MixinTests
     @Test
     public void test_mixin()
     {
-        ClassNode base = Mixin.createClassNode(BaseClass.class);
-        ClassNode mixin = Mixin.createClassNode(MixinClass.class);
+        ClassNode base = AsmHelper.createClassNode(BaseClass.class);
+        ClassNode mixin = AsmHelper.createClassNode(MixinClass.class);
 
         Mixin.mixin(base, mixin);
 
@@ -70,7 +70,7 @@ public class MixinTests
     @Test
     public void test_hasField()
     {
-        ClassNode node = Mixin.createClassNode(MixinClass.class);
+        ClassNode node = AsmHelper.createClassNode(MixinClass.class);
 
         assertTrue(Mixin.hasField(node, "field"));
         assertFalse(Mixin.hasField(node, "fieldA"));
@@ -79,8 +79,8 @@ public class MixinTests
     @Test
     public void test_mixinFields()
     {
-        ClassNode base = Mixin.createClassNode(BaseClass.class);
-        ClassNode mixin = Mixin.createClassNode(MixinClass.class);
+        ClassNode base = AsmHelper.createClassNode(BaseClass.class);
+        ClassNode mixin = AsmHelper.createClassNode(MixinClass.class);
 
         Mixin.mixinFields(base, mixin);
 
@@ -96,7 +96,7 @@ public class MixinTests
     @Test
     public void test_hasMethod()
     {
-        ClassNode mixin = Mixin.createClassNode(MixinClass.class);
+        ClassNode mixin = AsmHelper.createClassNode(MixinClass.class);
 
         assertTrue(Mixin.hasMethod(mixin, "newMethod"));
         assertFalse(Mixin.hasMethod(mixin, "notNewMethod"));
@@ -105,8 +105,8 @@ public class MixinTests
     @Test
     public void test_mixinMethods()
     {
-        ClassNode base = Mixin.createClassNode(BaseClass.class);
-        ClassNode mixin = Mixin.createClassNode(MixinClass.class);
+        ClassNode base = AsmHelper.createClassNode(BaseClass.class);
+        ClassNode mixin = AsmHelper.createClassNode(MixinClass.class);
 
         Mixin.mixinMethods(base, mixin);
 

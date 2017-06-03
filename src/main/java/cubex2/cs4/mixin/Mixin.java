@@ -1,11 +1,9 @@
 package cubex2.cs4.mixin;
 
 import cubex2.cs4.util.AsmHelper;
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -27,8 +25,8 @@ public class Mixin implements Opcodes
     {
         checkArgument(Arrays.stream(mixins).noneMatch(Class::isInterface), "Interfaces can't be mixed in.");
 
-        ClassNode baseNode = createClassNode(baseClass);
-        List<ClassNode> mixinNodes = Arrays.stream(mixins).map(Mixin::createClassNode).collect(Collectors.toList());
+        ClassNode baseNode = AsmHelper.createClassNode(baseClass);
+        List<ClassNode> mixinNodes = Arrays.stream(mixins).map(AsmHelper::createClassNode).collect(Collectors.toList());
 
         baseNode.access &= ~ACC_ABSTRACT;
 
@@ -161,21 +159,4 @@ public class Mixin implements Opcodes
         return node.methods.stream().anyMatch(m -> m.name.equals(name));
     }
 
-    static ClassNode createClassNode(Class<?> clazz)
-    {
-        ClassNode node = new ClassNode();
-        try
-        {
-            String fileName = clazz.getName().replace('.', '/') + ".class";
-            ClassReader reader = new ClassReader(clazz.getClassLoader().getResourceAsStream(fileName));
-            reader.accept(node, 0);
-
-            return node;
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        throw new RuntimeException("Couldn't create ClassNode for class " + clazz.getName());
-    }
 }
