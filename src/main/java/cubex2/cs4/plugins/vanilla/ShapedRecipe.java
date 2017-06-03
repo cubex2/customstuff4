@@ -6,8 +6,10 @@ import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
+import cubex2.cs4.plugins.jei.JEICompatRegistry;
 import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import cubex2.cs4.util.ItemHelper;
+import cubex2.cs4.util.ReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
@@ -15,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +56,9 @@ class ShapedRecipe extends SimpleContent
 
     private void addRecipe()
     {
-        DamageableShapedOreRecipe recipe = new DamageableShapedOreRecipe(createDamageAmounts(), result.getItemStack(), getInputForRecipe());
+        Class<? extends DamageableShapedOreRecipe> recipeClass = JEICompatRegistry.getShapedCraftingRecipeClass(recipeList);
+        Constructor<? extends DamageableShapedOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
+        DamageableShapedOreRecipe recipe = ReflectionHelper.newInstance(constructor, createDamageAmounts(), result.getItemStack(), getInputForRecipe());
         recipe.setMirrored(mirrored);
 
         CraftingManagerCS4.addRecipe(recipeList, recipe);

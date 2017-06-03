@@ -11,5 +11,6 @@ public class JEIPlugin implements CustomStuffPlugin
     public void registerContent(ContentRegistry registry)
     {
         registry.registerContentType("jei:machineRecipe", JEIMachineRecipe.class);
+        registry.registerContentType("jei:craftingRecipe", JEICraftingRecipe.class);
     }
 }

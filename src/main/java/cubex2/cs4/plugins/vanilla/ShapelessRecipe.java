@@ -6,8 +6,10 @@ import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
+import cubex2.cs4.plugins.jei.JEICompatRegistry;
 import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import cubex2.cs4.util.ItemHelper;
+import cubex2.cs4.util.ReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
@@ -15,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -159,7 +162,9 @@ class ShapelessRecipe extends SimpleContent
         if (damage.length == 0)
             damage = new int[items.size()];
 
-        ShapelessOreRecipe recipe = new DamageableShapelessOreRecipe(damage, result.getItemStack(), getInputForRecipe());
+        Class<? extends DamageableShapelessOreRecipe> recipeClass = JEICompatRegistry.getShapelessCraftingRecipeClass(recipeList);
+        Constructor<? extends DamageableShapelessOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
+        DamageableShapelessOreRecipe recipe = ReflectionHelper.newInstance(constructor, damage, result.getItemStack(), getInputForRecipe());
         CraftingManagerCS4.addRecipe(recipeList, recipe);
     }
 

@@ -3,12 +3,12 @@ package cubex2.cs4.plugins.jei;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 
-public class JEIMachineRecipe extends JEIRecipe
+public class JEICraftingRecipe extends JEIRecipe
 {
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        JEICompatRegistry.addMachineRecipe(this);
+        JEICompatRegistry.addCraftingRecipe(this);
     }
 
     @Override
@@ -19,6 +19,6 @@ public class JEIMachineRecipe extends JEIRecipe
 
     public String getRecipeUid()
     {
-        return recipeList.toString() + "#" + "machine_recipes";
+        return recipeList.toString() + "#" + "crafting_recipes";
     }
 }

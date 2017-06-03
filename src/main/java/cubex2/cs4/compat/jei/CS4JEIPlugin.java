@@ -1,8 +1,12 @@
 package cubex2.cs4.compat.jei;
 
 import cubex2.cs4.plugins.jei.JEICompatRegistry;
+import cubex2.cs4.plugins.jei.JEICraftingRecipe;
 import cubex2.cs4.plugins.jei.JEIMachineRecipe;
+import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
+import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
 import cubex2.cs4.plugins.vanilla.MachineRecipeImpl;
+import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IJeiHelpers;
@@ -41,6 +45,32 @@ public class CS4JEIPlugin extends BlankModPlugin
                                             recipe.recipeAreaWidth,
                                             recipe.recipeAreaHeight,
                                             recipeUid);
+            }
+        }
+
+        ShapedCraftingRecipeWrapperFactory shapedFactory = new ShapedCraftingRecipeWrapperFactory(jeiHelpers);
+        ShapelessCraftingRecipeWrapperFactory shapelessFactory = new ShapelessCraftingRecipeWrapperFactory(jeiHelpers);
+        for (JEICraftingRecipe recipe : JEICompatRegistry.craftingRecipes)
+        {
+            String uid = recipe.getRecipeUid();
+            registry.handleRecipes((Class<DamageableShapedOreRecipe>) JEICompatRegistry.getShapedCraftingRecipeClass(recipe.recipeList), shapedFactory, uid);
+            registry.handleRecipes((Class<DamageableShapelessOreRecipe>) JEICompatRegistry.getShapelessCraftingRecipeClass(recipe.recipeList), shapelessFactory, uid);
+            registry.addRecipeCategories(new CraftingRecipeCategory(recipe, jeiHelpers.getGuiHelper()));
+            registry.addRecipes(CraftingManagerCS4.getRecipes(recipe.recipeList), uid);
+
+            if (recipe.icon != null)
+            {
+                registry.addRecipeCategoryCraftingItem(recipe.icon.getItemStack(), uid);
+            }
+
+            if (recipe.recipeAreaWidth > 0 && recipe.recipeAreaHeight > 0)
+            {
+                registry.addRecipeClickArea(recipe.getGui().getGuiClass(),
+                                            recipe.recipeAreaX,
+                                            recipe.recipeAreaY,
+                                            recipe.recipeAreaWidth,
+                                            recipe.recipeAreaHeight,
+                                            uid);
             }
         }
     }

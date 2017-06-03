@@ -85,6 +85,55 @@
           ]
         }
       ]
+    },
+    {
+      "type": "shapedRecipe",
+      "entries": [
+        {
+          "shape": ["AA", "AA"],
+          "items": {
+            "A": "minecraft:apple"
+          },
+          "result": "minecraft:stone",
+          "recipeList": "cs4examplemod:crafter"
+        }
+      ]
+    },
+    {
+      "type": "shapelessRecipe",
+      "entries": [
+        {
+          "items": [
+            "minecraft:stone@all",
+            "minecraft:coal"
+          ],
+          "result": {
+            "item": "minecraft:obsidian",
+            "nbt": "{display:{Name:\"Some Obsidian\"}}"
+          },
+          "recipeList": "cs4examplemod:crafter"
+        }
+      ]
+    },
+    {
+      "type": "jei:craftingRecipe",
+      "entries": [
+        {
+          "recipeList": "cs4examplemod:crafter",
+          "gui": "cs4examplemod:crafter",
+          "tileEntity": "cs4examplemod:crafter",
+          "bgX": 29,
+          "bgY": 16,
+          "bgWidth": 116,
+          "bgHeight": 54,
+          "icon": "cs4examplemod:crafter",
+          "title": "Crafting Recipes",
+          "recipeAreaX": 88,
+          "recipeAreaY": 32,
+          "recipeAreaWidth": 28,
+          "recipeAreaHeight": 23
+        }
+      ]
     }
   ]
 }
