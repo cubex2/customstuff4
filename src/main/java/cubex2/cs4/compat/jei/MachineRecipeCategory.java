@@ -126,7 +126,7 @@ public class MachineRecipeCategory extends BlankRecipeCategory<MachineRecipeWrap
 
         for (int i = 0; i < outputFluids.size(); i++)
         {
-            fluids.set(module.inputSlots + i, outputFluids.get(i));
+            fluids.set(module.inputTanks.length + i, outputFluids.get(i));
         }
     }
 
@@ -137,7 +137,7 @@ public class MachineRecipeCategory extends BlankRecipeCategory<MachineRecipeWrap
             TileEntityModuleTank.Supplier tank = findTank(tanks[i]);
             FluidDisplay display = findFluidDisplay(tanks[i]);
             if (tank != null && display != null)
-                fluids.init(startSlot + i, input, display.x - recipe.bgX - 1, display.y - recipe.bgY - 1, display.width, display.height, tank.capacity, false, null);
+                fluids.init(startSlot + i, input, display.x - recipe.bgX, display.y - recipe.bgY, display.width, display.height, tank.capacity, false, null);
         }
     }
 
