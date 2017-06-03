@@ -17,7 +17,7 @@ public class JEICraftingRecipe extends JEIRecipe
         return true;
     }
 
-    public String getRecipeUid()
+    public String getUid()
     {
         return recipeList.toString() + "#" + "crafting_recipes";
     }

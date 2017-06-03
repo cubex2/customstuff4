@@ -56,8 +56,8 @@ class ShapedRecipe extends SimpleContent
 
     private void addRecipe()
     {
-        Class<? extends DamageableShapedOreRecipe> recipeClass = JEICompatRegistry.getShapedCraftingRecipeClass(recipeList);
-        Constructor<? extends DamageableShapedOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
+        Class<DamageableShapedOreRecipe> recipeClass = JEICompatRegistry.getShapedCraftingRecipeClass(recipeList);
+        Constructor<DamageableShapedOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
         DamageableShapedOreRecipe recipe = ReflectionHelper.newInstance(constructor, createDamageAmounts(), result.getItemStack(), getInputForRecipe());
         recipe.setMirrored(mirrored);
 

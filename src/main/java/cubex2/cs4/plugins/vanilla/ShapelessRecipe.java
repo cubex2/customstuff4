@@ -162,8 +162,8 @@ class ShapelessRecipe extends SimpleContent
         if (damage.length == 0)
             damage = new int[items.size()];
 
-        Class<? extends DamageableShapelessOreRecipe> recipeClass = JEICompatRegistry.getShapelessCraftingRecipeClass(recipeList);
-        Constructor<? extends DamageableShapelessOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
+        Class<DamageableShapelessOreRecipe> recipeClass = JEICompatRegistry.getShapelessCraftingRecipeClass(recipeList);
+        Constructor<DamageableShapelessOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
         DamageableShapelessOreRecipe recipe = ReflectionHelper.newInstance(constructor, damage, result.getItemStack(), getInputForRecipe());
         CraftingManagerCS4.addRecipe(recipeList, recipe);
     }

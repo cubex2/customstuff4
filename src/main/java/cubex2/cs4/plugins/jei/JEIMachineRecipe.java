@@ -17,7 +17,7 @@ public class JEIMachineRecipe extends JEIRecipe
         return true;
     }
 
-    public String getRecipeUid()
+    public String getUid()
     {
         return recipeList.toString() + "#" + "machine_recipes";
     }

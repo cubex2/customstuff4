@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ReflectionHelper
 {
-    public static <T> Constructor<? extends T> getConstructor(Class<? extends T> clazz, Class<?>... paramTypes)
+    public static <T> Constructor<T> getConstructor(Class<T> clazz, Class<?>... paramTypes)
     {
         try
         {

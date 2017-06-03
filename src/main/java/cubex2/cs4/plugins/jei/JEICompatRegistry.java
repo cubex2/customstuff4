@@ -38,9 +38,10 @@ public class JEICompatRegistry implements Opcodes
         return recipeClasses.computeIfAbsent(list, recipeList -> AsmHelper.createSubClass(MachineRecipeImpl.class, recipeList.toString(), 0));
     }
 
-    public static Class<? extends DamageableShapedOreRecipe> getShapedCraftingRecipeClass(ResourceLocation list)
+    @SuppressWarnings("unchecked")
+    public static Class<DamageableShapedOreRecipe> getShapedCraftingRecipeClass(ResourceLocation list)
     {
-        return shapedCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
+        return (Class<DamageableShapedOreRecipe>) shapedCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
         {
             Class<? extends DamageableShapedOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapedOreRecipe.class, recipeList.toString(), 3);
             RecipeSorter.register("customstuff4:shapedore:" + list.toString(), clazz, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
@@ -48,9 +49,10 @@ public class JEICompatRegistry implements Opcodes
         });
     }
 
-    public static Class<? extends DamageableShapelessOreRecipe> getShapelessCraftingRecipeClass(ResourceLocation list)
+    @SuppressWarnings("unchecked")
+    public static Class<DamageableShapelessOreRecipe> getShapelessCraftingRecipeClass(ResourceLocation list)
     {
-        return shapelessCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
+        return (Class<DamageableShapelessOreRecipe>) shapelessCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
         {
             Class<? extends DamageableShapelessOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapelessOreRecipe.class, recipeList.toString(), 3);
             RecipeSorter.register("customstuff4:shapelessore:" + list.toString(), clazz, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");

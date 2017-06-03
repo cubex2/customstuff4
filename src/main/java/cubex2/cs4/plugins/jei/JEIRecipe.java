@@ -31,4 +31,6 @@ public abstract class JEIRecipe extends SimpleContent
     {
         return (ContentGuiContainer) GuiRegistry.get(gui);
     }
+
+    public abstract String getUid();
 }
