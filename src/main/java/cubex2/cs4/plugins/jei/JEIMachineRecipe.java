@@ -4,7 +4,11 @@ import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
+import cubex2.cs4.plugins.vanilla.ContentGuiContainer;
+import cubex2.cs4.plugins.vanilla.GuiRegistry;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nullable;
 
 public class JEIMachineRecipe extends SimpleContent
 {
@@ -18,6 +22,10 @@ public class JEIMachineRecipe extends SimpleContent
     public int bgWidth;
     public int bgHeight;
     public WrappedItemStack icon;
+    public int recipeAreaX;
+    public int recipeAreaY;
+    public int recipeAreaWidth = -1;
+    public int recipeAreaHeight = -1;
 
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
@@ -29,5 +37,12 @@ public class JEIMachineRecipe extends SimpleContent
     protected boolean isReady()
     {
         return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Nullable
+    public ContentGuiContainer getGui()
+    {
+        return (ContentGuiContainer) GuiRegistry.get(gui);
     }
 }

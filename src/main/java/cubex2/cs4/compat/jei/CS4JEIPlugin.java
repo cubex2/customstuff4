@@ -30,6 +30,16 @@ public class CS4JEIPlugin extends BlankModPlugin
             {
                 registry.addRecipeCategoryCraftingItem(recipe.icon.getItemStack(), recipe.recipeList.toString());
             }
+
+            if (recipe.recipeAreaWidth > 0 && recipe.recipeAreaHeight > 0)
+            {
+                registry.addRecipeClickArea(recipe.getGui().getGuiClass(),
+                                            recipe.recipeAreaX,
+                                            recipe.recipeAreaY,
+                                            recipe.recipeAreaWidth,
+                                            recipe.recipeAreaHeight,
+                                            recipe.recipeList.toString());
+            }
         }
     }
 }

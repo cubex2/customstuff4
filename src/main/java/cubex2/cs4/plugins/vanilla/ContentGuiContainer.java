@@ -32,6 +32,11 @@ public class ContentGuiContainer extends ContentGuiBase implements Opcodes
     private transient Class<? extends GuiContainerCS4> guiClass;
     private transient Constructor<? extends GuiContainerCS4> guiConstructor;
 
+    public Class<? extends GuiContainerCS4> getGuiClass()
+    {
+        return guiClass;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     protected void init()

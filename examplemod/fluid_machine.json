@@ -175,7 +175,11 @@
           "bgWidth": 92,
           "bgHeight": 54,
           "icon": "cs4examplemod:machine",
-          "title": "FLuid Machine Recipes"
+          "title": "FLuid Machine Recipes",
+          "recipeAreaX": 80,
+          "recipeAreaY": 35,
+          "recipeAreaWidth": 22,
+          "recipeAreaHeight": 15
         }
       ]
     }

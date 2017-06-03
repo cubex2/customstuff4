@@ -4,7 +4,6 @@ import cubex2.cs4.api.TileEntityModuleSupplier;
 import cubex2.cs4.plugins.jei.JEIMachineRecipe;
 import cubex2.cs4.plugins.vanilla.ContentGuiContainer;
 import cubex2.cs4.plugins.vanilla.ContentTileEntityBase;
-import cubex2.cs4.plugins.vanilla.GuiRegistry;
 import cubex2.cs4.plugins.vanilla.TileEntityRegistry;
 import cubex2.cs4.plugins.vanilla.gui.FluidDisplay;
 import cubex2.cs4.plugins.vanilla.gui.SlotData;
@@ -45,7 +44,7 @@ public class MachineRecipeCategory extends BlankRecipeCategory<MachineRecipeWrap
         uid = recipe.recipeList.toString();
         title = recipe.title;
 
-        gui = (ContentGuiContainer) GuiRegistry.get(recipe.gui);
+        gui = recipe.getGui();
         tileEntity = TileEntityRegistry.getContent(recipe.tileEntity);
 
         Pair<String, TileEntityModuleMachine.Supplier> pair = getModule();
