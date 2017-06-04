@@ -24,6 +24,8 @@ public abstract class JEIRecipe extends SimpleContent
     public int recipeAreaY;
     public int recipeAreaWidth = -1;
     public int recipeAreaHeight = -1;
+    public int transferButtonX = -1;
+    public int transferButtonY = -1;
 
     @SuppressWarnings("unchecked")
     @Nullable

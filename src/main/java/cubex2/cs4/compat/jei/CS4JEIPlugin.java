@@ -35,12 +35,14 @@ public class CS4JEIPlugin extends BlankModPlugin
         for (JEICraftingRecipe recipe : JEICompatRegistry.craftingRecipes)
         {
             String uid = recipe.getUid();
+            CraftingRecipeCategory category = new CraftingRecipeCategory(recipe, jeiHelpers.getGuiHelper());
+
             registry.handleRecipes(JEICompatRegistry.getShapedCraftingRecipeClass(recipe.recipeList), shapedFactory, uid);
             registry.handleRecipes(JEICompatRegistry.getShapelessCraftingRecipeClass(recipe.recipeList), shapelessFactory, uid);
-            registry.addRecipeCategories(new CraftingRecipeCategory(recipe, jeiHelpers.getGuiHelper()));
+            registry.addRecipeCategories(category);
             registry.addRecipes(CraftingManagerCS4.getRecipes(recipe.recipeList), uid);
 
-            addCommonEntries(registry, recipe);
+            addCommonEntries(registry, recipe, category.getModuleName(), category.getModule().rows * category.getModule().columns);
         }
     }
 
@@ -52,16 +54,17 @@ public class CS4JEIPlugin extends BlankModPlugin
         for (JEIMachineRecipe recipe : JEICompatRegistry.machineRecipes)
         {
             String uid = recipe.getUid();
+            MachineRecipeCategory category = new MachineRecipeCategory(recipe, jeiHelpers.getGuiHelper());
 
             registry.handleRecipes((Class<MachineRecipeImpl>) JEICompatRegistry.getMachineRecipeClass(recipe.recipeList), factory, uid);
-            registry.addRecipeCategories(new MachineRecipeCategory(recipe, jeiHelpers.getGuiHelper()));
+            registry.addRecipeCategories(category);
             registry.addRecipes(MachineManager.getRecipes(recipe.recipeList), uid);
 
-            addCommonEntries(registry, recipe);
+            addCommonEntries(registry, recipe, category.getModuleName(), category.getModule().inputSlots);
         }
     }
 
-    private void addCommonEntries(IModRegistry registry, JEIRecipe recipe)
+    private void addCommonEntries(IModRegistry registry, JEIRecipe recipe, String moduleName, int inputSlots)
     {
         if (recipe.icon != null)
         {
@@ -77,5 +80,7 @@ public class CS4JEIPlugin extends BlankModPlugin
                                         recipe.recipeAreaHeight,
                                         recipe.getUid());
         }
+
+        registry.getRecipeTransferRegistry().addRecipeTransferHandler(new TransferInfo(recipe.getUid(), moduleName, inputSlots));
     }
 }

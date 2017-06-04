@@ -27,6 +27,8 @@ public class CraftingRecipeCategory extends BaseRecipeCategory<IRecipeWrapper, T
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients)
     {
+        super.setRecipe(recipeLayout, recipeWrapper, ingredients);
+
         IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 
         List<List<ItemStack>> inputItems = ingredients.getInputs(ItemStack.class);

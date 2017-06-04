@@ -1,7 +1,7 @@
 package cubex2.cs4.plugins.vanilla.gui;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import cubex2.cs4.api.SlotProvider;
 import cubex2.cs4.plugins.vanilla.ContentGuiContainer;
 import cubex2.cs4.plugins.vanilla.crafting.SlotItemHandlerCrafting;
@@ -17,9 +17,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
 
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class ContainerGui extends ContainerCS4
@@ -27,7 +26,8 @@ public class ContainerGui extends ContainerCS4
     private final ContentGuiContainer content;
     private final ItemHandlerSupplier supplier;
     private final IItemHandler playerInv;
-    private final Map<SlotData, List<Slot>> slotMap = Maps.newHashMap();
+    private final Multimap<SlotData, Slot> slotMap = HashMultimap.create();
+    private final Multimap<String, Slot> slotsBySource = HashMultimap.create();
     private final FieldSupplier fieldSupplier;
 
     private final int[] prevFieldValues;
@@ -80,6 +80,11 @@ public class ContainerGui extends ContainerCS4
         }
     }
 
+    public Collection<Slot> getSlotsForSource(String source)
+    {
+        return slotsBySource.get(source);
+    }
+
     @Override
     public void detectAndSendChanges()
     {
@@ -112,9 +117,8 @@ public class ContainerGui extends ContainerCS4
     private void addSlot(SlotData data, Slot slot)
     {
         addSlotToContainer(slot);
-        if (!slotMap.containsKey(data))
-            slotMap.put(data, Lists.newArrayList());
-        slotMap.get(data).add(slot);
+        slotsBySource.put(data.name, slot);
+        slotMap.put(data, slot);
     }
 
     private Optional<IItemHandler> getInventory(String name)
@@ -136,7 +140,7 @@ public class ContainerGui extends ContainerCS4
             {
                 if (data.dropOnClose)
                 {
-                    List<Slot> slots = slotMap.getOrDefault(data, Collections.emptyList());
+                    Collection<Slot> slots = slotMap.get(data);
                     for (Slot slot : slots)
                     {
                         ItemStack stack = slot.decrStackSize(Integer.MAX_VALUE);

@@ -12,6 +12,8 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import org.apache.commons.lang3.tuple.Pair;
@@ -46,6 +48,16 @@ public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends Til
         this.module = pair.getRight();
 
         background = guiHelper.createDrawable(gui.bg, recipe.bgX, recipe.bgY, recipe.bgWidth, recipe.bgHeight);
+    }
+
+    public String getModuleName()
+    {
+        return moduleName;
+    }
+
+    public M getModule()
+    {
+        return module;
     }
 
     @SuppressWarnings("unchecked")
@@ -84,6 +96,15 @@ public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends Til
     public IDrawable getBackground()
     {
         return background;
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayout recipeLayout, T recipeWrapper, IIngredients ingredients)
+    {
+        if (recipe.transferButtonX >= 0 && recipe.transferButtonY >= 0)
+        {
+            recipeLayout.setRecipeTransferButton(recipe.transferButtonX - recipe.bgX, recipe.transferButtonY - recipe.bgY);
+        }
     }
 
     protected void initFluids(IGuiFluidStackGroup fluids, boolean input, String[] tanks, int startSlot)

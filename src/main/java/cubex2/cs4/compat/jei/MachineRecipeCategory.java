@@ -22,6 +22,8 @@ public class MachineRecipeCategory extends BaseRecipeCategory<MachineRecipeWrapp
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, MachineRecipeWrapper recipeWrapper, IIngredients ingredients)
     {
+        super.setRecipe(recipeLayout, recipeWrapper, ingredients);
+
         IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
         IGuiFluidStackGroup fluids = recipeLayout.getFluidStacks();
 
