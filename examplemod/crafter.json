@@ -32,7 +32,7 @@
       "entries": [
         {
           "id": "crafter",
-          "bg": "textures/gui/container/crafting_table.png",
+          "bg": "cs4examplemod:textures/gui/container/crafter.png",
           "slots": [
             {
               "name": "crafting",
@@ -132,6 +132,15 @@
           "recipeAreaY": 32,
           "recipeAreaWidth": 28,
           "recipeAreaHeight": 23
+        }
+      ]
+    },
+    {
+      "type": "jei:description",
+      "entries": [
+        {
+          "items": ["cs4examplemod:crafter"],
+          "desc": ["cs4examplemod.crafter.jei.desc"]
         }
       ]
     }

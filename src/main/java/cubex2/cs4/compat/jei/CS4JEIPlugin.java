@@ -27,7 +27,11 @@ public class CS4JEIPlugin extends BlankModPlugin
 
         addMachineRecipes(registry, jeiHelpers);
         addCraftingRecipes(registry, jeiHelpers);
+        addDescriptions(registry);
+    }
 
+    private void addDescriptions(IModRegistry registry)
+    {
         for (JEIDescription description : JEICompatRegistry.descriptions)
         {
             List<ItemStack> items = description.items.stream()
