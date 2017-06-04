@@ -36,7 +36,7 @@ public class TransferInfo implements IRecipeTransferInfo<ContainerGui>
     @Override
     public boolean canHandle(ContainerGui container)
     {
-        return true;
+        return container.getSlotsForSource(moduleName).size() >= inputSlots;
     }
 
     @Override
