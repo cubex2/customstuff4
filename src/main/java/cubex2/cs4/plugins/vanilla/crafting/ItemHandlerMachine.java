@@ -10,7 +10,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemHandlerMachine extends ItemHandlerTileEntity
@@ -88,9 +87,8 @@ public class ItemHandlerMachine extends ItemHandlerTileEntity
         return super.insertItem(inputSlots + outputSlot, stack, simulate);
     }
 
-    @Nonnull
     @Override
-    public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate)
+    public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
     {
         if (isOutputSlot(slot))
             return stack;

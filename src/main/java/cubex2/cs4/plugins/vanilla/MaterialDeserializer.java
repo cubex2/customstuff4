@@ -17,7 +17,12 @@ class MaterialDeserializer implements JsonDeserializer<Material>
     @Override
     public Material deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
     {
-        return materialMap.get(json.getAsString());
+        Material material = materialMap.get(json.getAsString());
+        if (material == null)
+        {
+            throw new JsonParseException("Unknown block material: " + json.getAsString());
+        }
+        return material;
     }
 
     static

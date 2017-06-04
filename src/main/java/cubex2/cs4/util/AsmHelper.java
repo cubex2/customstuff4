@@ -1,11 +1,13 @@
 package cubex2.cs4.util;
 
-import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.*;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
-public class AsmHelper
+public class AsmHelper implements Opcodes
 {
     private static Method defineClass;
 
@@ -27,7 +29,7 @@ public class AsmHelper
 
         try
         {
-            return (Class<?>) defineClass.invoke(AsmHelper.class.getClassLoader(), name.replace('/','.'), bytes, 0, bytes.length);
+            return (Class<?>) defineClass.invoke(AsmHelper.class.getClassLoader(), name.replace('/', '.'), bytes, 0, bytes.length);
         } catch (Exception e)
         {
             throw new RuntimeException(e);
@@ -48,5 +50,78 @@ public class AsmHelper
         }
 
         return defineClass;
+    }
+
+    public static <T> Class<? extends T> createSubClass(Class<T> superClass, String nameSuffix, int constructorParams)
+    {
+        ClassNode superNode = createClassNode(superClass);
+        MethodNode constructor = findConstructor(superNode, constructorParams);
+        String className = superClass.getName().replace('.', '/') + "_" + nameSuffix.replace(":", "_");
+
+        ClassWriter cw = new ClassWriter(0);
+        cw.visit(V1_7, ACC_PUBLIC + ACC_SUPER, className, null, Type.getInternalName(superClass), null);
+
+        // Constructor
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, constructor.name, constructor.desc, null, null);
+        int[] opcodes = createLoadOpcodes(constructor);
+        for (int i = 0; i < opcodes.length; i++)
+        {
+            mv.visitVarInsn(opcodes[i], i);
+        }
+        mv.visitMethodInsn(INVOKESPECIAL, Type.getInternalName(superClass), constructor.name, constructor.desc, false);
+        mv.visitInsn(RETURN);
+        mv.visitMaxs(constructorParams + 1, constructorParams + 1);
+        mv.visitEnd();
+
+        byte[] byteCode = cw.toByteArray();
+
+        return (Class<? extends T>) createClassFromBytes(className, byteCode);
+    }
+
+    static int[] createLoadOpcodes(MethodNode method)
+    {
+        Type[] argumentTypes = Type.getArgumentTypes(method.desc);
+
+        int[] opcodes = new int[argumentTypes.length + 1];
+        opcodes[0] = ALOAD;
+
+        for (int i = 0; i < argumentTypes.length; i++)
+        {
+            opcodes[i + 1] = argumentTypes[i].getOpcode(ILOAD);
+        }
+
+        return opcodes;
+    }
+
+    static MethodNode findConstructor(ClassNode node, int numParams)
+    {
+        for (MethodNode method : node.methods)
+        {
+            Type[] argumentTypes = Type.getArgumentTypes(method.desc);
+            if (method.name.equals("<init>") && argumentTypes.length == numParams)
+            {
+                return method;
+            }
+        }
+
+        return null;
+    }
+
+    public static ClassNode createClassNode(Class<?> clazz)
+    {
+        ClassNode node = new ClassNode();
+        try
+        {
+            String fileName = clazz.getName().replace('.', '/') + ".class";
+            ClassReader reader = new ClassReader(clazz.getClassLoader().getResourceAsStream(fileName));
+            reader.accept(node, 0);
+
+            return node;
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        throw new RuntimeException("Couldn't create ClassNode for class " + clazz.getName());
     }
 }

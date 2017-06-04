@@ -27,6 +27,13 @@ public abstract class ContentGuiBase implements Content
         key = new ResourceLocation(modId, id);
 
         guiId = GuiRegistry.register(this);
+
+        init();
+    }
+
+    protected void init()
+    {
+
     }
 
     public ResourceLocation getKey()

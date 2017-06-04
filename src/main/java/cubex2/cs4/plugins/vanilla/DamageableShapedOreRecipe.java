@@ -25,6 +25,16 @@ public class DamageableShapedOreRecipe extends ShapedOreRecipe
         mirroredDamageAmounts = mirror(damageAmounts);
     }
 
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeight()
+    {
+        return height;
+    }
+
     private int[] mirror(int[] array)
     {
         int[] result = new int[array.length];

@@ -22,3 +22,5 @@ tile.cs4examplemod.crafter.name=Crafter
 tile.cs4examplemod.machine.name=Machine
 tile.cs4examplemod.tank.name=Tank
 fluid.examplefluid=Example Fluid
+
+cs4examplemod.crafter.jei.desc=This block can craft different things than the Crafting Table

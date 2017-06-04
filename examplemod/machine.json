@@ -147,7 +147,33 @@
         {
           "recipeList": "cs4examplemod:machine",
           "input": ["minecraft:apple", "minecraft:gold_ingot"],
-          "output": ["minecraft:golden_apple", "minecraft:gold_nugget"]
+          "output": ["minecraft:golden_apple", "minecraft:gold_nugget"],
+          "cookTime": 400
+        },
+        {
+          "recipeList": "cs4examplemod:machine",
+          "input": ["minecraft:apple", "minecraft:iron_ingot"],
+          "output": ["minecraft:golden_apple", "minecraft:iron_nugget"]
+        }
+      ]
+    },
+    {
+      "type": "jei:machineRecipe",
+      "entries": [
+        {
+          "recipeList": "cs4examplemod:machine",
+          "gui": "cs4examplemod:machine",
+          "tileEntity": "cs4examplemod:machine",
+          "bgX": 37,
+          "bgY": 16,
+          "bgWidth": 126,
+          "bgHeight": 54,
+          "icon": "cs4examplemod:machine",
+          "title": "Machine Recipes",
+          "recipeAreaX": 80,
+          "recipeAreaY": 35,
+          "recipeAreaWidth": 22,
+          "recipeAreaHeight": 15
         }
       ]
     }
