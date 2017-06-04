@@ -22,6 +22,7 @@ public class JEICompatRegistry implements Opcodes
     private static final Map<ResourceLocation, Class<? extends DamageableShapedOreRecipe>> shapedCraftingRecipeClasses = Maps.newHashMap();
     private static final Map<ResourceLocation, Class<? extends DamageableShapelessOreRecipe>> shapelessCraftingRecipeClasses = Maps.newHashMap();
 
+    public static final List<JEIDescription> descriptions = Lists.newArrayList();
 
     public static void addMachineRecipe(JEIMachineRecipe recipe)
     {
@@ -31,6 +32,11 @@ public class JEICompatRegistry implements Opcodes
     public static void addCraftingRecipe(JEICraftingRecipe recipe)
     {
         craftingRecipes.add(recipe);
+    }
+
+    public static void addDescription(JEIDescription description)
+    {
+        descriptions.add(description);
     }
 
     public static Class<? extends MachineRecipeImpl> getMachineRecipeClass(ResourceLocation list)

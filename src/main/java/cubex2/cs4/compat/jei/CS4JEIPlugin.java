@@ -1,9 +1,7 @@
 package cubex2.cs4.compat.jei;
 
-import cubex2.cs4.plugins.jei.JEICompatRegistry;
-import cubex2.cs4.plugins.jei.JEICraftingRecipe;
-import cubex2.cs4.plugins.jei.JEIMachineRecipe;
-import cubex2.cs4.plugins.jei.JEIRecipe;
+import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.plugins.jei.*;
 import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
 import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
 import cubex2.cs4.plugins.vanilla.MachineRecipeImpl;
@@ -14,6 +12,10 @@ import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
+import net.minecraft.item.ItemStack;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @JEIPlugin
 public class CS4JEIPlugin extends BlankModPlugin
@@ -25,6 +27,16 @@ public class CS4JEIPlugin extends BlankModPlugin
 
         addMachineRecipes(registry, jeiHelpers);
         addCraftingRecipes(registry, jeiHelpers);
+
+        for (JEIDescription description : JEICompatRegistry.descriptions)
+        {
+            List<ItemStack> items = description.items.stream()
+                                                     .map(WrappedItemStack::getItemStack)
+                                                     .map(ItemStack::copy)
+                                                     .collect(Collectors.toList());
+
+            registry.addDescription(items, description.desc);
+        }
     }
 
     @SuppressWarnings("unchecked")
