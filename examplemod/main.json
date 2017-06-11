@@ -156,6 +156,17 @@
     },
     {
       "file": "fluid_machine.json"
+    },
+    {
+      "type": "imc",
+      "entries": [
+        {
+          "type": "string",
+          "modId": "customstuff4",
+          "key": "test",
+          "value": "example value"
+        }
+      ]
     }
   ]
 }
