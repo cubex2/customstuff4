@@ -4,6 +4,9 @@ import cubex2.cs4.mixin.Mixin;
 import cubex2.cs4.plugins.vanilla.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
 
 
 public class BlockFactory
@@ -125,6 +128,17 @@ public class BlockFactory
     @SuppressWarnings("unchecked")
     private static Class<? extends Block> createClass(Class<?> baseClass, Class<?>... mixins)
     {
-        return (Class<? extends Block>) Mixin.create(baseClass.getName().replace('.', '/') + "_created", baseClass, mixins);
+        return (Class<? extends Block>) Mixin.create(baseClass.getName().replace('.', '/') + "_created", BlockFactory::checkForPublicConstructor, baseClass, mixins);
+    }
+
+    private static void checkForPublicConstructor(ClassNode node)
+    {
+        for (MethodNode method : node.methods)
+        {
+            if (method.name.equals("<init>") && (method.access & Opcodes.ACC_PUBLIC) == Opcodes.ACC_PUBLIC)
+                return;
+        }
+
+        throw new RuntimeException(" Block Class " + node.name + " has no public constructor");
     }
 }

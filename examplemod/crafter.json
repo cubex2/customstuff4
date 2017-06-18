@@ -5,7 +5,7 @@
       "entries": [
         {
           "id": "crafter",
-          "creativeTab": "decorations",
+          "creativeTab": "examplemod",
           "itemModel": "cs4examplemod:sensor_iron",
           "tileEntity": "cs4examplemod:crafter",
           "gui": "cs4examplemod:crafter"

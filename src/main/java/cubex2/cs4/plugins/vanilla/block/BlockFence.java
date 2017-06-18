@@ -9,7 +9,7 @@ public class BlockFence extends net.minecraft.block.BlockFence implements CSBloc
 {
     private final ContentBlockFence content;
 
-    BlockFence(Material material, ContentBlockFence content)
+    public BlockFence(Material material, ContentBlockFence content)
     {
         super(material, MapColor.AIR); // that map color is being overridden
 

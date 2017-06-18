@@ -3,7 +3,6 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
-import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeDeserializer;
 import cubex2.cs4.plugins.vanilla.crafting.MachineResult;
 import cubex2.cs4.plugins.vanilla.gui.ItemFilter;
@@ -79,6 +78,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("toolTip", ToolTip.class);
         registry.registerContentType("guiModifier", GuiModifier.class, Side.CLIENT);
         registry.registerContentType("fluidModifier", FluidModifier.class);
+        registry.registerContentType("creativeTab", CreativeTab.class);
 
         registry.registerContentType("item:simple", ContentItemSimple.class);
         registry.registerContentType("item:axe", ContentItemAxe.class);
@@ -110,5 +110,8 @@ public class VanillaPlugin implements CustomStuffPlugin
 
         registry.registerContentType("machineRecipe", MachineRecipeImpl.class);
         registry.registerContentType("machineFuel", MachineFuelImpl.class);
+
+        registry.registerContentType("imc", IMCBase.class);
+        registry.registerDeserializer(IMCBase.class, new IMCDeserializer());
     }
 }

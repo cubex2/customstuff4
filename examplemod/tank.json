@@ -5,7 +5,7 @@
       "entries": [
         {
           "id": "tank",
-          "creativeTab": "decorations",
+          "creativeTab": "examplemod",
           "tileEntity": "cs4examplemod:tank",
           "gui": "cs4examplemod:tank"
         }
@@ -20,6 +20,28 @@
             {
               "type": "tank",
               "name": "tank"
+            }
+          ]
+        },
+        {
+          "id": "druidic_distillery",
+          "modules": [
+            {
+              "type": "machine",
+              "name": "druidic_distillery",
+              "inputSlots": 1,
+              "fuelSlots": 1,
+              "cookTime": 1200,
+              "outputTanks": ["output"],
+              "recipeList": "mysticrealm:druidic_distillery",
+              "fuelList": "mysticrealm:druidic_distillery"
+            },
+            {
+              "type": "tank",
+              "name": "output",
+              "capacity": 8000,
+              "canDrain": true,
+              "canFill": true
             }
           ]
         }
@@ -65,10 +87,10 @@
               "source": "tank",
               "x": 8,
               "y": 17,
-              "width":160,
-              "height":52,
-              "overlayTexX":0,
-              "overlayTexY":166
+              "width": 160,
+              "height": 52,
+              "overlayTexX": 0,
+              "overlayTexY": 166
             }
           ]
         }

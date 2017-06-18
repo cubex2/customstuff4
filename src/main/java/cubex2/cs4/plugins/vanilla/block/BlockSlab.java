@@ -27,7 +27,7 @@ public class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
     private final ContentBlockSlab content;
     protected StateMetaMapper<BlockSlab> mapper;
 
-    BlockSlab(Material material, ContentBlockSlab content)
+    public BlockSlab(Material material, ContentBlockSlab content)
     {
         super(material, MapColor.AIR); // that map color is being overridden
 

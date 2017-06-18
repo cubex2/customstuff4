@@ -5,7 +5,7 @@
       "entries": [
         {
           "id": "chest",
-          "creativeTab": "decorations",
+          "creativeTab": "examplemod",
           "itemModel": "cs4examplemod:chest",
           "tileEntity": "cs4examplemod:chest",
           "gui": "cs4examplemod:chest"

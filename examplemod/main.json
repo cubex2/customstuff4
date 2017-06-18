@@ -110,6 +110,15 @@
       ]
     },
     {
+      "type": "creativeTab",
+      "entries": [
+        {
+          "id": "examplemod",
+          "icon": "cs4examplemod:machine"
+        }
+      ]
+    },
+    {
       "file": "items.json"
     },
     {
@@ -156,6 +165,17 @@
     },
     {
       "file": "fluid_machine.json"
+    },
+    {
+      "type": "imc",
+      "entries": [
+        {
+          "type": "string",
+          "modId": "customstuff4",
+          "key": "test",
+          "value": "example value"
+        }
+      ]
     }
   ]
 }
