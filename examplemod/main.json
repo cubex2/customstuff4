@@ -110,6 +110,15 @@
       ]
     },
     {
+      "type": "creativeTab",
+      "entries": [
+        {
+          "id": "examplemod",
+          "icon": "cs4examplemod:machine"
+        }
+      ]
+    },
+    {
       "file": "items.json"
     },
     {

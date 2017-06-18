@@ -5,7 +5,7 @@
       "entries": [
         {
           "id": "someblock",
-          "creativeTab": "redstone",
+          "creativeTab": "examplemod",
           "material": "iron",
           "subtypes": [0, 1],
           "itemModel": {
@@ -28,7 +28,7 @@
       "entries": [
         {
           "id": "vertical",
-          "creativeTab": "redstone",
+          "creativeTab": "examplemod",
           "material": "iron",
           "subtypes": [0, 1],
           "itemModel": {
@@ -47,7 +47,7 @@
       "entries": [
         {
           "id": "horizontal",
-          "creativeTab": "redstone",
+          "creativeTab": "examplemod",
           "material": "iron",
           "subtypes": [0, 1],
           "itemModel": {
@@ -67,7 +67,7 @@
         {
           "id": "directional",
           "faceBySide": true,
-          "creativeTab": "redstone",
+          "creativeTab": "examplemod",
           "material": "iron",
           "subtypes": [0, 1],
           "itemModel": {
@@ -86,7 +86,7 @@
       "entries": [
         {
           "id": "fence",
-          "creativeTab": "decorations",
+          "creativeTab": "examplemod",
           "material": "iron",
           "subtypes": [0, 1],
           "itemModel": {
@@ -105,7 +105,7 @@
       "entries": [
         {
           "id": "stairs",
-          "creativeTab": "decorations",
+          "creativeTab": "examplemod",
           "material": "iron",
           "itemModel": "cs4examplemod:stairs",
           "modelState": {
@@ -123,7 +123,7 @@
       "entries": [
         {
           "id": "slab",
-          "creativeTab": "decorations",
+          "creativeTab": "examplemod",
           "material": "iron",
           "subtypes": [0, 1],
           "itemModel": {
@@ -156,7 +156,7 @@
       "entries": [
         {
           "id": "examplefluid",
-          "creativeTab": "decorations",
+          "creativeTab": "examplemod",
           "material": "water",
           "texStill": "cs4examplemod:blocks/fluid_still",
           "texFlowing": "cs4examplemod:blocks/fluid_flow",

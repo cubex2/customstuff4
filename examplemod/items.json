@@ -102,7 +102,7 @@
       "entries": [
         {
           "id": "fluid_container",
-          "creativeTab": "misc",
+          "creativeTab": "examplemod",
           "model": "cs4examplemod:fluid_container"
         }
       ]
