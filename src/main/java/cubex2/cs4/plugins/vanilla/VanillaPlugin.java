@@ -78,6 +78,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("toolTip", ToolTip.class);
         registry.registerContentType("guiModifier", GuiModifier.class, Side.CLIENT);
         registry.registerContentType("fluidModifier", FluidModifier.class);
+        registry.registerContentType("creativeTab", CreativeTab.class);
 
         registry.registerContentType("item:simple", ContentItemSimple.class);
         registry.registerContentType("item:axe", ContentItemAxe.class);
