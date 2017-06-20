@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Collections;
 
-public class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
+public abstract class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
 {
     public static final PropertyEnum<net.minecraft.block.BlockSlab.EnumBlockHalf> HALF = PropertyEnum.<net.minecraft.block.BlockSlab.EnumBlockHalf>create("half", net.minecraft.block.BlockSlab.EnumBlockHalf.class);
     protected static final AxisAlignedBB AABB_BOTTOM_HALF = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);

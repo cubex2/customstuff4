@@ -23,12 +23,14 @@ import java.util.Optional;
 public class ItemSlab extends ItemBlock
 {
     private final ContentBlockSlab content;
-    private final BlockSlab singleSlab;
+    private final Block singleSlab;
+    private final CSBlock singleSlabCS;
 
     public ItemSlab(Block block, ContentBlockSlab content)
     {
         super(block, content);
-        singleSlab = (BlockSlab) block;
+        singleSlab = block;
+        singleSlabCS = (CSBlock) block;
 
         this.content = content;
     }
@@ -44,7 +46,7 @@ public class ItemSlab extends ItemBlock
 
             if (currentState.getBlock() == singleSlab)
             {
-                int subtype1 = this.singleSlab.getSubtype(currentState);
+                int subtype1 = this.singleSlabCS.getSubtype(currentState);
                 net.minecraft.block.BlockSlab.EnumBlockHalf half = currentState.getValue(net.minecraft.block.BlockSlab.HALF);
 
                 if ((facing == EnumFacing.UP && half == net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM || facing == EnumFacing.DOWN && half == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP)
@@ -82,7 +84,7 @@ public class ItemSlab extends ItemBlock
         {
             boolean flag = iblockstate.getValue(net.minecraft.block.BlockSlab.HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP;
 
-            if ((side == EnumFacing.UP && !flag || side == EnumFacing.DOWN && flag) && subtype == singleSlab.getSubtype(iblockstate))
+            if ((side == EnumFacing.UP && !flag || side == EnumFacing.DOWN && flag) && subtype == singleSlabCS.getSubtype(iblockstate))
             {
                 return true;
             }
@@ -90,7 +92,7 @@ public class ItemSlab extends ItemBlock
 
         pos = pos.offset(side);
         IBlockState iblockstate1 = worldIn.getBlockState(pos);
-        return iblockstate1.getBlock() == this.singleSlab && subtype == singleSlab.getSubtype(iblockstate) || super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
+        return iblockstate1.getBlock() == this.singleSlab && subtype == singleSlabCS.getSubtype(iblockstate) || super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
     }
 
     private boolean tryPlace(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, int subtype)
@@ -99,7 +101,7 @@ public class ItemSlab extends ItemBlock
 
         if (iblockstate.getBlock() == this.singleSlab)
         {
-            int subtype1 = singleSlab.getSubtype(iblockstate);
+            int subtype1 = singleSlabCS.getSubtype(iblockstate);
 
             if (subtype1 == subtype)
             {
