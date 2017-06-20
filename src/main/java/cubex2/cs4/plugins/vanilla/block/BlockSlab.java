@@ -8,6 +8,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Collections;
 
-public class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
+public abstract class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
 {
     public static final PropertyEnum<net.minecraft.block.BlockSlab.EnumBlockHalf> HALF = PropertyEnum.<net.minecraft.block.BlockSlab.EnumBlockHalf>create("half", net.minecraft.block.BlockSlab.EnumBlockHalf.class);
     protected static final AxisAlignedBB AABB_BOTTOM_HALF = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
@@ -82,7 +83,7 @@ public class BlockSlab extends Block implements CSBlock<ContentBlockSlab>
     }
 
     @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack)
     {
         IBlockState iblockstate = getDefaultState().withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM);
         return (facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double) hitY <= 0.5D) ? iblockstate : iblockstate.withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.TOP));
