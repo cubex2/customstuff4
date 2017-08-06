@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": {"model": "cs4examplemod:horizontal_0", "y": 0},
+    "facing=east": {"model": "cs4examplemod:horizontal_0", "y": 90},
+    "facing=south": {"model": "cs4examplemod:horizontal_0", "y": 180},
+    "facing=west": {"model": "cs4examplemod:horizontal_0", "y": 270},
+    "facing=up": {"model": "cs4examplemod:vertical_0"},
+    "facing=down": {"model": "cs4examplemod:vertical_0", "x": 180}
+  }
+}
