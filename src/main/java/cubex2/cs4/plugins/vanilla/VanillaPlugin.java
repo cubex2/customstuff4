@@ -55,6 +55,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(WrappedFluidStack.class, new WrappedFluidStackDeserializer());
         registry.registerDeserializer(MachineRecipeImpl.class, new MachineRecipeDeserializer());
         registry.registerDeserializer(AxisAlignedBB.class, new AxisAlignedBBDeserializer());
+        registry.registerDeserializer(BlockDrop.class, new BlockDropDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -71,6 +72,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<WrappedItemStack>>() {}.getType(), Attribute.deserializer(WrappedItemStack.class));
         registry.registerDeserializer(new TypeToken<Attribute<EnumAction>>() {}.getType(), Attribute.deserializer(EnumAction.class));
         registry.registerDeserializer(new TypeToken<Attribute<AxisAlignedBB>>() {}.getType(), Attribute.deserializer(AxisAlignedBB.class));
+        registry.registerDeserializer(new TypeToken<Attribute<BlockDrop>>() {}.getType(), Attribute.deserializer(BlockDrop.class));
 
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);

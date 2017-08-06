@@ -54,16 +54,17 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Optional<WrappedItemStack> stack = getContent().drop.get(getSubtype(state));
-        if (stack.isPresent())
+        Optional<BlockDrop> drop = getContent().drop.get(getSubtype(state));
+        if (drop.isPresent())
         {
-            WrappedItemStack wrappedItemStack = stack.get();
+            WrappedItemStack wrappedItemStack = drop.get().getItem();
             ItemStack droppedStack = wrappedItemStack.getItemStack();
 
             if (droppedStack.isEmpty())
                 return Collections.emptyList();
 
-            return Collections.singletonList(droppedStack.copy());
+            int amount = drop.get().getAmount();
+            return Collections.singletonList(ItemHelper.copyStack(droppedStack, amount));
         } else
         {
             return super.getDrops(world, pos, state, fortune);
