@@ -12,6 +12,7 @@ public class ContentBlockFence extends ContentBlockBaseWithSubtypes
     public ContentBlockFence()
     {
         opacity = Attribute.constant(0);
+        isFullCube = Attribute.constant(false);
     }
 
     @Override
