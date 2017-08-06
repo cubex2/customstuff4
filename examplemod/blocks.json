@@ -148,6 +148,19 @@
             "0": 1,
             "1": 4
           }
+        },
+        {
+          "id": "slab1",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:slab_0",
+          "doubleSlab": {
+            "block": "cs4examplemod:fence",
+            "properties": {
+              "subtype": "subtype0"
+            }
+          },
+          "hardness": 1
         }
       ]
     },
@@ -160,7 +173,8 @@
           "material": "water",
           "texStill": "cs4examplemod:blocks/fluid_still",
           "texFlowing": "cs4examplemod:blocks/fluid_flow",
-          "canCreateSource": true
+          "canCreateSource": true,
+          "isBurning": true
         }
       ]
     }

@@ -44,6 +44,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<WrappedItemStack> drop = Attribute.constant(null);
     public Attribute<Boolean> isFullCube = Attribute.constant(true);
     public Attribute<Boolean> canInteractWithFluidItem = Attribute.constant(true);
+    public Attribute<Boolean> isBurning = Attribute.constant(false);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 

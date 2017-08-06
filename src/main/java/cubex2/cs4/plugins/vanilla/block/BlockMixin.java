@@ -175,6 +175,13 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public boolean isBurning(IBlockAccess world, BlockPos pos)
+    {
+        IBlockState state = world.getBlockState(pos);
+        return getContent().isBurning.get(getSubtype(state)).orElse(false);
+    }
+
+    @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
         String[] lines = getContent().information.get(stack.getMetadata()).orElse(new String[0]);
