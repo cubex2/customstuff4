@@ -1,0 +1,6 @@
+{
+  "variants": {
+	"normal": {"model": "cs4examplemod:small_cube"},
+	"inventory": {"model": "cs4examplemod:small_cube"}
+  }
+}

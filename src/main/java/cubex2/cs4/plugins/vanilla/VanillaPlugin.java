@@ -21,6 +21,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.Map;
@@ -53,6 +54,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(EnumAction.class, new EnumActionDeserializer());
         registry.registerDeserializer(WrappedFluidStack.class, new WrappedFluidStackDeserializer());
         registry.registerDeserializer(MachineRecipeImpl.class, new MachineRecipeDeserializer());
+        registry.registerDeserializer(AxisAlignedBB.class, new AxisAlignedBBDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -68,6 +70,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<Color>>() {}.getType(), Attribute.deserializer(Color.class));
         registry.registerDeserializer(new TypeToken<Attribute<WrappedItemStack>>() {}.getType(), Attribute.deserializer(WrappedItemStack.class));
         registry.registerDeserializer(new TypeToken<Attribute<EnumAction>>() {}.getType(), Attribute.deserializer(EnumAction.class));
+        registry.registerDeserializer(new TypeToken<Attribute<AxisAlignedBB>>() {}.getType(), Attribute.deserializer(AxisAlignedBB.class));
 
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);

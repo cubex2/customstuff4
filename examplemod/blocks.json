@@ -24,6 +24,23 @@
       ]
     },
     {
+      "type": "block:simple",
+      "entries": [
+        {
+          "id": "small_cube",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "hardness": 1,
+          "opacity": 0,
+          "bounds": {
+            "cube": 0.5,
+            "offset": [0.25, 0.25, 0.25]
+          },
+          "isFullCube": false
+        }
+      ]
+    },
+    {
       "type": "block:orientable:vertical",
       "entries": [
         {

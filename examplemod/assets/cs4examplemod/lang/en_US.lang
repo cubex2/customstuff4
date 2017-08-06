@@ -24,6 +24,7 @@ tile.cs4examplemod.tank.name=Tank
 tile.cs4examplemod.fluid_machine.name=Fluid Machine
 tile.cs4examplemod.slab.0.name=Slab 0
 tile.cs4examplemod.slab.1.name=Slab 1
+tile.cs4examplemod.small_cube.name=Small Cube
 fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 

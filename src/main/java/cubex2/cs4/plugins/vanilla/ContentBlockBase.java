@@ -4,6 +4,7 @@ import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.plugins.vanilla.block.BlockMixin;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -11,6 +12,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -45,6 +47,9 @@ public abstract class ContentBlockBase implements Content
     public Attribute<Boolean> isFullCube = Attribute.constant(true);
     public Attribute<Boolean> canInteractWithFluidItem = Attribute.constant(true);
     public Attribute<Boolean> isBurning = Attribute.constant(false);
+    public Attribute<AxisAlignedBB> bounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
+    public Attribute<AxisAlignedBB> selectionBounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
+    public Attribute<AxisAlignedBB> collisionBounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 
