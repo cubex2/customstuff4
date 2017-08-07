@@ -53,7 +53,10 @@
           "isFullCube": false,
           "isOpaqueCube": false,
           "tint": "foliage",
-          "itemTint": "ffaa0000"
+          "itemTint": "ffaa0000",
+          "canSilkHarvest": false,
+          "harvestTool": "axe",
+          "harvestLevel": 3
         }
       ]
     },

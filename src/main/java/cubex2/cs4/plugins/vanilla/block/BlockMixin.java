@@ -99,6 +99,19 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
         return new ItemStack(item, 1, subtype);
     }
 
+    @Nullable
+    @Override
+    public String getHarvestTool(IBlockState state)
+    {
+        return getContent().harvestTool.get(getSubtype(state)).orElse(null);
+    }
+
+    @Override
+    public int getHarvestLevel(IBlockState state)
+    {
+        return getContent().harvestLevel.get(getSubtype(state)).orElse(-1);
+    }
+
     @Override
     public boolean isFullCube(IBlockState state)
     {
