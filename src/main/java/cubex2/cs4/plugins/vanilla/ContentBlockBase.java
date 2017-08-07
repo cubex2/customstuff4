@@ -9,6 +9,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.common.Loader;
@@ -43,6 +44,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<ResourceLocation> gui = Attribute.constant(null);
     public Attribute<BlockDrop> drop = Attribute.constant(null);
     public Attribute<Boolean> isFullCube = Attribute.constant(true);
+    public Attribute<Boolean> isOpaqueCube = Attribute.constant(true);
     public Attribute<Boolean> canInteractWithFluidItem = Attribute.constant(true);
     public Attribute<Boolean> isBurning = Attribute.constant(false);
     public Attribute<AxisAlignedBB> bounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
@@ -50,6 +52,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<AxisAlignedBB> collisionBounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
     public Attribute<BlockTint> tint = null;
     public Attribute<Color> itemTint = null;
+    public BlockRenderLayer renderLayer = null;
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 

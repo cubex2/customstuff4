@@ -17,10 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -84,7 +81,14 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
         if (getContent() == null)
             return true;
 
-        return getContent().isFullCube.get(getSubtype(state)).orElse(true);
+        return getContent().isOpaqueCube.get(getSubtype(state)).orElse(true);
+    }
+
+    @Override
+    public BlockRenderLayer getBlockLayer()
+    {
+        BlockRenderLayer layer = getContent().renderLayer;
+        return layer != null ? layer : super.getBlockLayer();
     }
 
     @Override

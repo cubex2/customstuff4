@@ -19,6 +19,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumAction;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -58,6 +59,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(AxisAlignedBB.class, new AxisAlignedBBDeserializer());
         registry.registerDeserializer(BlockDrop.class, new BlockDropDeserializer());
         registry.registerDeserializer(BlockTint.class, new BlockTintDeserializer(CustomStuff4.contentRegistry));
+        registry.registerDeserializer(BlockRenderLayer.class, new BlockRenderLayerDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -76,6 +78,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<AxisAlignedBB>>() {}.getType(), Attribute.deserializer(AxisAlignedBB.class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockDrop>>() {}.getType(), Attribute.deserializer(BlockDrop.class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockTint>>() {}.getType(), Attribute.deserializer(BlockTint.class));
+        registry.registerDeserializer(new TypeToken<Attribute<BlockRenderLayer>>() {}.getType(), Attribute.deserializer(BlockRenderLayer.class));
 
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);
