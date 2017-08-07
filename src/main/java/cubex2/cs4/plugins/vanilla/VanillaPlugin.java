@@ -12,8 +12,8 @@ import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleMachine;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleTank;
+import cubex2.cs4.util.ArrayDeserializer;
 import cubex2.cs4.util.IntRange;
-import cubex2.cs4.util.JsonHelper;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -34,7 +34,7 @@ public class VanillaPlugin implements CustomStuffPlugin
     @Override
     public void registerContent(ContentRegistry registry)
     {
-        registry.registerDeserializer(String[].class, (json, typeOfT, context) -> JsonHelper.arrayFromElement(json));
+        registry.registerDeserializer(String[].class, new ArrayDeserializer<>(String[]::new, String.class));
         registry.registerDeserializer(ResourceLocation.class, new ResourceLocationDeserializer());
         registry.registerDeserializer(WrappedItemStack.class, new WrappedItemStackDeserializer());
         registry.registerDeserializer(RecipeInput.class, new RecipeInputDeserializer());
@@ -58,6 +58,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(MachineRecipeImpl.class, new MachineRecipeDeserializer());
         registry.registerDeserializer(AxisAlignedBB.class, new AxisAlignedBBDeserializer());
         registry.registerDeserializer(BlockDrop.class, new BlockDropDeserializer());
+        registry.registerDeserializer(BlockDrop[].class, new ArrayDeserializer<>(BlockDrop[]::new, BlockDrop.class));
         registry.registerDeserializer(BlockTint.class, new BlockTintDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(BlockRenderLayer.class, new BlockRenderLayerDeserializer());
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
@@ -77,6 +78,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<EnumAction>>() {}.getType(), Attribute.deserializer(EnumAction.class));
         registry.registerDeserializer(new TypeToken<Attribute<AxisAlignedBB>>() {}.getType(), Attribute.deserializer(AxisAlignedBB.class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockDrop>>() {}.getType(), Attribute.deserializer(BlockDrop.class));
+        registry.registerDeserializer(new TypeToken<Attribute<BlockDrop[]>>() {}.getType(), Attribute.deserializer(BlockDrop[].class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockTint>>() {}.getType(), Attribute.deserializer(BlockTint.class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockRenderLayer>>() {}.getType(), Attribute.deserializer(BlockRenderLayer.class));
 

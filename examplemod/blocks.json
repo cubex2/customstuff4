@@ -20,6 +20,16 @@
             "0": {"item": "cs4examplemod:someblock@1", "amount": 4},
             "1": "minecraft:air"
           }
+        },
+        {
+          "id": "transparent",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "hardness": 1,
+          "opacity": 1,
+          "renderLayer": "mippedCutout",
+          "isFullCube": true,
+          "isOpaqueCube": false
         }
       ]
     },
@@ -32,12 +42,18 @@
           "material": "iron",
           "hardness": 1,
           "opacity": 0,
-          "drop": {"item": "cs4examplemod:someblock@1", "amount": [1, 4]},
+          "drop": [
+            {"item": "cs4examplemod:someblock@1", "amount": [1, 4]},
+            {"item": "cs4examplemod:small_cube", "amount": [0, 1]}
+          ],
           "bounds": {
             "cube": 0.5,
             "offset": [0.25, 0.25, 0.25]
           },
-          "isFullCube": false
+          "isFullCube": false,
+          "isOpaqueCube": false,
+          "tint": "foliage",
+          "itemTint": "ffaa0000"
         }
       ]
     },

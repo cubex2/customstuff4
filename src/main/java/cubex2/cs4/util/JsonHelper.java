@@ -2,8 +2,6 @@ package cubex2.cs4.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nullable;
@@ -51,23 +49,5 @@ public class JsonHelper
         }
 
         return result;
-    }
-
-    public static String[] arrayFromElement(JsonElement element)
-    {
-        if (element.isJsonArray())
-        {
-            JsonArray array = element.getAsJsonArray();
-            String[] result = new String[array.size()];
-            for (int i = 0; i < array.size(); i++)
-            {
-                result[i] = array.get(i).getAsString();
-            }
-
-            return result;
-        } else
-        {
-            return new String[] {element.getAsString()};
-        }
     }
 }

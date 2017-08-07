@@ -14,6 +14,10 @@ public class BlockDrop
         this.amount = amount;
     }
 
+    public BlockDrop()
+    {
+    }
+
     public WrappedItemStack getItem()
     {
         return item;

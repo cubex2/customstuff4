@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla.block;
 
+import com.google.common.collect.Lists;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.vanilla.*;
@@ -29,7 +30,6 @@ import net.minecraftforge.fml.common.FMLLog;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,17 +51,28 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Optional<BlockDrop> drop = getContent().drop.get(getSubtype(state));
-        if (drop.isPresent())
+        Optional<BlockDrop[]> drops = getContent().drop.get(getSubtype(state));
+        if (drops.isPresent())
         {
-            WrappedItemStack wrappedItemStack = drop.get().getItem();
-            ItemStack droppedStack = wrappedItemStack.getItemStack();
+            List<ItemStack> result = Lists.newArrayList();
 
-            if (droppedStack.isEmpty())
-                return Collections.emptyList();
+            for (BlockDrop drop : drops.get())
+            {
+                WrappedItemStack wrappedItemStack = drop.getItem();
+                ItemStack droppedStack = wrappedItemStack.getItemStack();
 
-            int amount = drop.get().getAmount();
-            return Collections.singletonList(ItemHelper.copyStack(droppedStack, amount));
+                if (!droppedStack.isEmpty())
+                {
+                    int amount = drop.getAmount();
+                    if (amount > 0)
+                    {
+                        result.add(ItemHelper.copyStack(droppedStack, amount));
+                    }
+                }
+            }
+
+            return result;
+
         } else
         {
             return super.getDrops(world, pos, state, fortune);
