@@ -48,6 +48,12 @@ public class TestUtil
             {
                 // No OP
             }
+
+            @Override
+            public void registerBlockTint(String name, BlockTint tint)
+            {
+                // No OP
+            }
         });
 
         return gsonBuilder;

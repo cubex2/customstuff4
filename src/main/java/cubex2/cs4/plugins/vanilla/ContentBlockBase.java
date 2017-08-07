@@ -1,9 +1,7 @@
 package cubex2.cs4.plugins.vanilla;
 
-import cubex2.cs4.api.Content;
-import cubex2.cs4.api.ContentHelper;
-import cubex2.cs4.api.InitPhase;
-import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.CustomStuff4;
+import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.block.BlockMixin;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
@@ -50,14 +48,30 @@ public abstract class ContentBlockBase implements Content
     public Attribute<AxisAlignedBB> bounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
     public Attribute<AxisAlignedBB> selectionBounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
     public Attribute<AxisAlignedBB> collisionBounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
+    public Attribute<BlockTint> tint = null;
+    public Attribute<Color> itemTint = null;
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 
     protected transient Block block;
+    private transient Item item;
 
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
     {
+        if (phase == InitPhase.INIT && block != null)
+        {
+            if (tint != null)
+            {
+                CustomStuff4.proxy.setBlockBiomeTint(block, subtype -> tint.get(subtype).orElse(BlockTint.WHITE));
+            }
+
+            if (item != null && itemTint != null)
+            {
+                CustomStuff4.proxy.setItemTint(item, subtype -> itemTint.get(subtype).orElse(new ColorImpl(0xffffffff)).getRGB());
+            }
+        }
+
         if (phase == InitPhase.PRE_INIT && !isReady())
             return;
         if (phase == InitPhase.INIT && (block != null || !isReady()))
@@ -79,6 +93,8 @@ public abstract class ContentBlockBase implements Content
 
     protected void initItem(Item item)
     {
+        this.item = item;
+
         item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         item.setRegistryName(id);
 

@@ -41,4 +41,12 @@ public interface ContentRegistry
      *                 have a default constructor
      */
     <T extends TileEntityModuleSupplier> void registerTileEntityModule(String typeName, Class<T> clazz);
+
+    /**
+     * Register a block tint function. You may register the same function using different names.
+     *
+     * @param name The name of the function. This is the value that is used in json files to reference the function.
+     * @param tint The tint function to register.
+     */
+    void registerBlockTint(String name, BlockTint tint);
 }

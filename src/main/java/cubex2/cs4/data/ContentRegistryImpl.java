@@ -3,10 +3,8 @@ package cubex2.cs4.data;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializer;
-import cubex2.cs4.api.Content;
-import cubex2.cs4.api.ContentRegistry;
-import cubex2.cs4.api.LoaderPredicate;
-import cubex2.cs4.api.TileEntityModuleSupplier;
+import cubex2.cs4.api.*;
+import cubex2.cs4.plugins.vanilla.BlockTintRegistry;
 import cubex2.cs4.plugins.vanilla.TileEntityModuleRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,13 +17,14 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry, TileEntityModuleRegistry
+public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry, TileEntityModuleRegistry, BlockTintRegistry
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
     private final Map<String, Side> typeSides = Maps.newHashMap();
     private final Map<String, LoaderPredicate> predicates = Maps.newHashMap();
     private final List<Pair<Type, JsonDeserializer<?>>> deserializers = Lists.newArrayList();
     private final Map<String, Class<? extends TileEntityModuleSupplier>> tileEntityModules = Maps.newHashMap();
+    private final Map<String, BlockTint> blockTintFunctions = Maps.newHashMap();
 
     @Override
     public <T extends Content> void registerContentType(String typeName, Class<T> clazz)
@@ -92,5 +91,20 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     public Class<? extends TileEntityModuleSupplier> getTileEntityModuleClass(String typeName)
     {
         return tileEntityModules.get(typeName);
+    }
+
+    @Override
+    public void registerBlockTint(String name, BlockTint tint)
+    {
+        checkArgument(!blockTintFunctions.containsKey(name), "Duplicate block tint name: %s", name);
+
+        blockTintFunctions.put(name, tint);
+    }
+
+    @Nullable
+    @Override
+    public BlockTint getBlockTint(String name)
+    {
+        return blockTintFunctions.get(name);
     }
 }

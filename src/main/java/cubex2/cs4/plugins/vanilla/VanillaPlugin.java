@@ -22,6 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.Map;
@@ -56,6 +57,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(MachineRecipeImpl.class, new MachineRecipeDeserializer());
         registry.registerDeserializer(AxisAlignedBB.class, new AxisAlignedBBDeserializer());
         registry.registerDeserializer(BlockDrop.class, new BlockDropDeserializer());
+        registry.registerDeserializer(BlockTint.class, new BlockTintDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -73,6 +75,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<EnumAction>>() {}.getType(), Attribute.deserializer(EnumAction.class));
         registry.registerDeserializer(new TypeToken<Attribute<AxisAlignedBB>>() {}.getType(), Attribute.deserializer(AxisAlignedBB.class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockDrop>>() {}.getType(), Attribute.deserializer(BlockDrop.class));
+        registry.registerDeserializer(new TypeToken<Attribute<BlockTint>>() {}.getType(), Attribute.deserializer(BlockTint.class));
 
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);
@@ -118,5 +121,10 @@ public class VanillaPlugin implements CustomStuffPlugin
 
         registry.registerContentType("imc", IMCBase.class);
         registry.registerDeserializer(IMCBase.class, new IMCDeserializer());
+
+        registry.registerBlockTint("none", BlockTint.WHITE);
+        registry.registerBlockTint("foliage", BiomeColorHelper::getFoliageColorAtPos);
+        registry.registerBlockTint("grass", BiomeColorHelper::getGrassColorAtPos);
+        registry.registerBlockTint("water", BiomeColorHelper::getWaterColorAtPos);
     }
 }
