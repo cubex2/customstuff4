@@ -1,6 +1,7 @@
 package cubex2.cs4.mixin;
 
 import cubex2.cs4.util.AsmHelper;
+import net.minecraft.util.NonNullList;
 import org.junit.Test;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -85,7 +86,7 @@ public class MixinTests
         Mixin.mixinFields(base, mixin);
 
         assertEquals(3, base.fields.size());
-         assertEquals("baseField", base.fields.get(0).name);
+        assertEquals("baseField", base.fields.get(0).name);
         assertEquals("I", base.fields.get(0).desc);
         assertEquals("field", base.fields.get(1).name);
         assertEquals("I", base.fields.get(1).desc);
@@ -119,6 +120,16 @@ public class MixinTests
     {
         Class<?> aClass = Mixin.create("cubex2/cs4/mixin/NewClass2", ConstructorTest.class);
         aClass.newInstance();
+    }
+
+    @Test
+    public void test_redirectSuperCall() throws IllegalAccessException, InstantiationException
+    {
+        Class<? extends SuperCallBase> aClass = (Class<? extends SuperCallBase>) Mixin.create("cubex2/cs4/mixin/NewClass3", SuperCallTest.class, SuperCallMixin.class);
+        SuperCallBase instance = aClass.newInstance();
+        instance.doWork();
+
+        assertEquals(10, instance.aField);
     }
 
     static int testField;
@@ -211,6 +222,46 @@ public class MixinTests
         private void method()
         {
 
+        }
+    }
+
+    public static class SuperCallBase
+    {
+        public int aField;
+
+        public void doWork()
+        {
+            aField = 5;
+        }
+    }
+
+    public static class SuperCallMidle extends SuperCallBase
+    {
+        @Override
+        public void doWork()
+        {
+            aField = 10;
+        }
+    }
+
+    public static class SuperCallTest extends SuperCallMidle
+    {
+        public SuperCallTest()
+        {
+            new StringBuilder(); // This is also invokespecial and shouldn't be redirected
+
+            // invokevirtual but from different class
+            NonNullList<Integer> list = NonNullList.create();
+            list.add(1);
+        }
+    }
+
+    public static class SuperCallMixin extends SuperCallBase
+    {
+        @Override
+        public void doWork()
+        {
+            super.doWork();
         }
     }
 }
