@@ -53,6 +53,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<BlockTint> tint = null;
     public Attribute<Color> itemTint = null;
     public BlockRenderLayer renderLayer = null;
+    public Attribute<Boolean> canSilkHarvest = Attribute.constant(true);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 

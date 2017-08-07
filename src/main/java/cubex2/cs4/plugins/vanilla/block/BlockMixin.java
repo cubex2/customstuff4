@@ -80,6 +80,26 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+    {
+        return getContent().canSilkHarvest.get(getSubtype(state)).orElse(true);
+    }
+
+    @Override
+    protected ItemStack getSilkTouchDrop(IBlockState state)
+    {
+        Item item = Item.getItemFromBlock(this);
+        int subtype = 0;
+
+        if (item.getHasSubtypes())
+        {
+            subtype = getSubtype(state);
+        }
+
+        return new ItemStack(item, 1, subtype);
+    }
+
+    @Override
     public boolean isFullCube(IBlockState state)
     {
         return getContent().isFullCube.get(getSubtype(state)).orElse(true);
