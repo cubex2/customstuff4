@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -59,6 +60,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<Boolean> canPlaceOnFloor = Attribute.constant(true);
     public Attribute<Boolean> canPlaceOnCeiling = Attribute.constant(true);
     public Attribute<Boolean> canPlaceOnSides = Attribute.constant(true);
+    public Attribute<EnumPlantType[]> sustainedPlants = Attribute.constant(null);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 

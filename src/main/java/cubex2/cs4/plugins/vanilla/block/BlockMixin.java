@@ -24,9 +24,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLLog;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -198,6 +201,21 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
     {
         return getContent().canSustainLeaves.get(getSubtype(state)).orElse(false);
+    }
+
+    @Override
+    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable)
+    {
+        EnumPlantType type = plantable.getPlantType(world, pos.offset(direction));
+
+        EnumPlantType[] sustainedPlants = getContent().sustainedPlants.get(getSubtype(state)).orElse(null);
+        if (sustainedPlants != null)
+        {
+            return ArrayUtils.contains(sustainedPlants, type);
+        } else
+        {
+            return super.canSustainPlant(state, world, pos, direction, plantable);
+        }
     }
 
     @Override

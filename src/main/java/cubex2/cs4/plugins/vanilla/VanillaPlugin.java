@@ -24,6 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.Map;
@@ -61,6 +62,8 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(BlockDrop[].class, new ArrayDeserializer<>(BlockDrop[]::new, BlockDrop.class));
         registry.registerDeserializer(BlockTint.class, new BlockTintDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(BlockRenderLayer.class, new BlockRenderLayerDeserializer());
+        registry.registerDeserializer(EnumPlantType.class, new EnumPlantTypeDeserializer());
+        registry.registerDeserializer(EnumPlantType[].class, new ArrayDeserializer<>(EnumPlantType[]::new, EnumPlantType.class));
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
@@ -81,6 +84,8 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<Attribute<BlockDrop[]>>() {}.getType(), Attribute.deserializer(BlockDrop[].class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockTint>>() {}.getType(), Attribute.deserializer(BlockTint.class));
         registry.registerDeserializer(new TypeToken<Attribute<BlockRenderLayer>>() {}.getType(), Attribute.deserializer(BlockRenderLayer.class));
+        registry.registerDeserializer(new TypeToken<Attribute<EnumPlantType>>() {}.getType(), Attribute.deserializer(EnumPlantType.class));
+        registry.registerDeserializer(new TypeToken<Attribute<EnumPlantType[]>>() {}.getType(), Attribute.deserializer(EnumPlantType[].class));
 
         registry.registerContentType("shapedRecipe", ShapedRecipe.class);
         registry.registerContentType("shapelessRecipe", ShapelessRecipe.class);
