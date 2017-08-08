@@ -234,6 +234,22 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
+    {
+        IBlockState state = worldIn.getBlockState(pos);
+        int subtype = getSubtype(state);
+
+        if (side == EnumFacing.DOWN && !getContent().canPlaceOnCeiling.get(subtype).orElse(true))
+            return false;
+        if (side == EnumFacing.UP && !getContent().canPlaceOnFloor.get(subtype).orElse(true))
+            return false;
+        if (side.getAxis().isHorizontal() && !getContent().canPlaceOnSides.get(subtype).orElse(true))
+            return false;
+
+        return super.canPlaceBlockOnSide(worldIn, pos, side);
+    }
+
+    @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         AxisAlignedBB bounds = getContent().bounds.get(getSubtype(state)).orElse(DEFAULT_AABB_MARKER);
