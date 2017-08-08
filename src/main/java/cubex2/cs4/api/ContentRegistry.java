@@ -49,4 +49,12 @@ public interface ContentRegistry
      * @param tint The tint function to register.
      */
     void registerBlockTint(String name, BlockTint tint);
+
+    /**
+     * Register a named color. The name can be used in json files instead of specifying the color value there.
+     *
+     * @param name The name of the color.
+     * @param rgba The rgba color value.
+     */
+    void registerColor(String name, int rgba);
 }

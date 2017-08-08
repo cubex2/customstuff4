@@ -23,7 +23,7 @@ public class WrappedItemStackDeserializerTests
     @BeforeClass
     public static void setup()
     {
-        gson = TestUtil.createGsonBuilder().create();
+        gson = TestUtil.createGson();
     }
 
     @Test

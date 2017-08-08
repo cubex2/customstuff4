@@ -3,7 +3,6 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
-import cubex2.cs4.util.IntRange;
 import net.minecraft.block.material.MapColor;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,7 +18,7 @@ public class MapColorDeserializerTests
     @BeforeClass
     public static void setup()
     {
-        gson = TestUtil.createGsonBuilder().create();
+        gson = TestUtil.createGson();
     }
 
     @Test

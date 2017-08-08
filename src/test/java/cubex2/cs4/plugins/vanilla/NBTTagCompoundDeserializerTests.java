@@ -2,7 +2,6 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import cubex2.cs4.TestUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
@@ -20,7 +19,7 @@ public class NBTTagCompoundDeserializerTests
     @BeforeClass
     public static void setup()
     {
-        gson = TestUtil.createGsonBuilder().create();
+        gson = TestUtil.createGson();
     }
 
     @Test

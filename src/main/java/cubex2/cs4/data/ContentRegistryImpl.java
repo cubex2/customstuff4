@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializer;
 import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.BlockTintRegistry;
+import cubex2.cs4.plugins.vanilla.ColorRegistry;
 import cubex2.cs4.plugins.vanilla.TileEntityModuleRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry, TileEntityModuleRegistry, BlockTintRegistry
+public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry, TileEntityModuleRegistry, BlockTintRegistry, ColorRegistry
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
     private final Map<String, Side> typeSides = Maps.newHashMap();
@@ -25,6 +26,7 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     private final List<Pair<Type, JsonDeserializer<?>>> deserializers = Lists.newArrayList();
     private final Map<String, Class<? extends TileEntityModuleSupplier>> tileEntityModules = Maps.newHashMap();
     private final Map<String, BlockTint> blockTintFunctions = Maps.newHashMap();
+    private final Map<String, Integer> colors = Maps.newHashMap();
 
     @Override
     public <T extends Content> void registerContentType(String typeName, Class<T> clazz)
@@ -106,5 +108,19 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     public BlockTint getBlockTint(String name)
     {
         return blockTintFunctions.get(name);
+    }
+
+    @Override
+    public void registerColor(String name, int rgba)
+    {
+        checkArgument(!colors.containsKey(name), "Duplicate color name: %s", name);
+
+        colors.put(name, rgba);
+    }
+
+    @Override
+    public int getColor(String name)
+    {
+        return colors.getOrDefault(name, -1);
     }
 }

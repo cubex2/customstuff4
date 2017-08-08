@@ -50,7 +50,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(WrappedBlockState.class, new WrappedBlockStateDeserializer());
         registry.registerDeserializer(TileEntityModuleSupplier.class, new TileEntityModuleSupplierDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(EnumFacing.class, new EnumFacingDeserializer());
-        registry.registerDeserializer(Color.class, new ColorDeserializer());
+        registry.registerDeserializer(Color.class, new ColorDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(ProgressBar.Direction.class, ProgressBar.Direction.DESERIALIZER);
         registry.registerDeserializer(MachineResult.class, MachineResult.DESERIALIZER);
         registry.registerDeserializer(ItemFilter.class, new ItemFilterDeserializer());
@@ -136,5 +136,25 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerBlockTint("foliage", BiomeColorHelper::getFoliageColorAtPos);
         registry.registerBlockTint("grass", BiomeColorHelper::getGrassColorAtPos);
         registry.registerBlockTint("water", BiomeColorHelper::getWaterColorAtPos);
+
+        registry.registerColor("black", 0xff000000);
+        registry.registerColor("white", 0xffffffff);
+        registry.registerColor("red", 0xffff0000);
+        registry.registerColor("lime", 0xff00ff00);
+        registry.registerColor("blue", 0xff0000FF);
+        registry.registerColor("yellow", 0xffffff00);
+        registry.registerColor("aqua", 0xff00ffff);
+        registry.registerColor("magenta", 0xffff00ff);
+        registry.registerColor("silver", 0xffc0c0c0);
+        registry.registerColor("gray", 0xff808080);
+        registry.registerColor("maroon", 0xff800000);
+        registry.registerColor("olive", 0xff808000);
+        registry.registerColor("green", 0xff008000);
+        registry.registerColor("purple", 0xff800080);
+        registry.registerColor("teal", 0xff008080);
+        registry.registerColor("navy", 0xff000080);
+        registry.registerColor("foliagePine", 0x619961);
+        registry.registerColor("foliageBirch", 0x80a755);
+        registry.registerColor("foliageBasic", 0x48b518);
     }
 }
