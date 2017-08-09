@@ -19,7 +19,8 @@
           "drop": {
             "0": {"item": "cs4examplemod:someblock@1", "amount": 4},
             "1": "minecraft:air"
-          }
+          },
+          "sustainedPlants": "Crop"
         },
         {
           "id": "transparent",
@@ -56,7 +57,8 @@
           "itemTint": "ffaa0000",
           "canSilkHarvest": false,
           "harvestTool": "axe",
-          "harvestLevel": 3
+          "harvestLevel": 3,
+          "canPlaceOnCeiling": false
         }
       ]
     },

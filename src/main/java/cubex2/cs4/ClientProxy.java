@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerFoliage;
+import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.model.ModelLoader;
 
 import java.util.function.IntFunction;
@@ -60,5 +61,23 @@ public class ClientProxy extends CommonProxy
     public EntityPlayer getClientPlayer()
     {
         return Minecraft.getMinecraft().player;
+    }
+
+    @Override
+    public BlockTint getFoliageTint()
+    {
+        return BiomeColorHelper::getFoliageColorAtPos;
+    }
+
+    @Override
+    public BlockTint getGrassTint()
+    {
+        return BiomeColorHelper::getGrassColorAtPos;
+    }
+
+    @Override
+    public BlockTint getWaterTint()
+    {
+        return BiomeColorHelper::getWaterColorAtPos;
     }
 }

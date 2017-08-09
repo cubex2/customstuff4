@@ -23,7 +23,6 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -133,9 +132,9 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(IMCBase.class, new IMCDeserializer());
 
         registry.registerBlockTint("none", BlockTint.WHITE);
-        registry.registerBlockTint("foliage", BiomeColorHelper::getFoliageColorAtPos);
-        registry.registerBlockTint("grass", BiomeColorHelper::getGrassColorAtPos);
-        registry.registerBlockTint("water", BiomeColorHelper::getWaterColorAtPos);
+        registry.registerBlockTint("foliage", CustomStuff4.proxy.getFoliageTint());
+        registry.registerBlockTint("grass", CustomStuff4.proxy.getGrassTint());
+        registry.registerBlockTint("water", CustomStuff4.proxy.getWaterTint());
 
         registry.registerColor("black", 0xff000000);
         registry.registerColor("white", 0xffffffff);

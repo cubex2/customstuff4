@@ -29,4 +29,19 @@ public class CommonProxy
     {
         return null;
     }
+
+    public BlockTint getFoliageTint()
+    {
+        return (world, pos) -> -1;
+    }
+
+    public BlockTint getGrassTint()
+    {
+        return (world, pos) -> -1;
+    }
+
+    public BlockTint getWaterTint()
+    {
+        return (world, pos) -> -1;
+    }
 }

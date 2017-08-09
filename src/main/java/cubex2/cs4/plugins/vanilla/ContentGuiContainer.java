@@ -11,6 +11,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.objectweb.asm.Opcodes;
 
 import java.lang.reflect.Constructor;
@@ -37,6 +39,7 @@ public class ContentGuiContainer extends ContentGuiBase implements Opcodes
         return guiClass;
     }
 
+    @SideOnly(Side.CLIENT)
     @SuppressWarnings("unchecked")
     @Override
     protected void init()
