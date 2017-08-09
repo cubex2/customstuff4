@@ -22,6 +22,7 @@ import net.minecraftforge.oredict.RecipeSorter;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 @Mod(modid = CustomStuff4.ID, name = CustomStuff4.NAME, version = CustomStuff4.VERSION)
 public class CustomStuff4
@@ -75,5 +76,10 @@ public class CustomStuff4
     {
         if (Bootstrap.isRegistered()) // Tests will fail otherwise
             FluidRegistry.enableUniversalBucket();
+    }
+
+    public static Optional<CommonProxy> getProxy()
+    {
+        return Optional.ofNullable(proxy);
     }
 }

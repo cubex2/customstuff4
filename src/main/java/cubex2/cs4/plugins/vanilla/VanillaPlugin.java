@@ -1,6 +1,8 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.reflect.TypeToken;
+import cubex2.cs4.ClientProxy;
+import cubex2.cs4.CommonProxy;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeDeserializer;
@@ -132,9 +134,9 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(IMCBase.class, new IMCDeserializer());
 
         registry.registerBlockTint("none", BlockTint.WHITE);
-        registry.registerBlockTint("foliage", CustomStuff4.proxy.getFoliageTint());
-        registry.registerBlockTint("grass", CustomStuff4.proxy.getGrassTint());
-        registry.registerBlockTint("water", CustomStuff4.proxy.getWaterTint());
+        registry.registerBlockTint("foliage", CustomStuff4.getProxy().orElseGet(CommonProxy::new).getFoliageTint());
+        registry.registerBlockTint("grass", CustomStuff4.getProxy().orElseGet(CommonProxy::new).getGrassTint());
+        registry.registerBlockTint("water", CustomStuff4.getProxy().orElseGet(CommonProxy::new).getWaterTint());
 
         registry.registerColor("black", 0xff000000);
         registry.registerColor("white", 0xffffffff);
