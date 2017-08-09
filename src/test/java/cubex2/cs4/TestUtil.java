@@ -1,55 +1,41 @@
 package cubex2.cs4;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
-import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.VanillaPlugin;
 import net.minecraft.init.Bootstrap;
-import net.minecraftforge.fml.relauncher.Side;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Type;
 
 public class TestUtil
 {
-    public static GsonBuilder createGsonBuilder()
+    private static boolean registered = false;
+    private static Gson gson;
+
+    public static Gson createGson()
     {
         Bootstrap.register();
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        new VanillaPlugin().registerContent(new ContentRegistry()
+        if (gson == null)
         {
-            @Override
-            public <T extends Content> void registerContentType(String typeName, Class<T> clazz)
+            GsonBuilder gsonBuilder = new GsonBuilder();
+
+            if (!registered)
             {
-                // No OP
+                new VanillaPlugin().registerContent(CustomStuff4.contentRegistry);
+                registered = true;
             }
 
-            @Override
-            public <T extends Content> void registerContentType(String typeName, Class<T> clazz, Side side)
+            for (Pair<Type, JsonDeserializer<?>> pair : CustomStuff4.contentRegistry.getDeserializers())
             {
-                // No OP
+                gsonBuilder.registerTypeAdapter(pair.getLeft(), pair.getRight());
             }
 
-            @Override
-            public <T> void registerDeserializer(Type type, JsonDeserializer<T> deserializer)
-            {
-                gsonBuilder.registerTypeAdapter(type, deserializer);
-            }
+            gson = gsonBuilder.create();
+        }
 
-            @Override
-            public void registerLoaderPredicate(String name, LoaderPredicate predicate)
-            {
-                // No OP
-            }
-
-            @Override
-            public <T extends TileEntityModuleSupplier> void registerTileEntityModule(String typeName, Class<T> clazz)
-            {
-                // No OP
-            }
-        });
-
-        return gsonBuilder;
+        return gson;
     }
 }

@@ -2,7 +2,6 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.api.WrappedBlockState;
 import cubex2.cs4.plugins.vanilla.block.BlockFactory;
-import cubex2.cs4.plugins.vanilla.block.ItemBlockWithSubtypes;
 import cubex2.cs4.plugins.vanilla.block.ItemSlab;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -17,6 +16,8 @@ public class ContentBlockSlab extends ContentBlockBaseWithSubtypes
     {
         opacity = Attribute.constant(0);
         isFullCube = Attribute.constant(false);
+        isOpaqueCube = Attribute.constant(false);
+        canSilkHarvest = Attribute.constant(false);
     }
 
     @Override

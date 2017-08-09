@@ -4,7 +4,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.util.IntRange;
-import net.minecraft.block.SoundType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class IntRangeDeserializerTests
     @BeforeClass
     public static void setup()
     {
-        gson = TestUtil.createGsonBuilder().create();
+        gson = TestUtil.createGson();
     }
 
     @Test

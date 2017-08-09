@@ -1,16 +1,18 @@
 package cubex2.cs4.plugins.vanilla;
 
-import cubex2.cs4.api.Content;
-import cubex2.cs4.api.ContentHelper;
-import cubex2.cs4.api.InitPhase;
-import cubex2.cs4.api.WrappedItemStack;
+import cubex2.cs4.CustomStuff4;
+import cubex2.cs4.api.*;
+import cubex2.cs4.plugins.vanilla.block.BlockMixin;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -41,17 +43,46 @@ public abstract class ContentBlockBase implements Content
     public Attribute<MapColor> mapColor = Attribute.constant(null);
     public Attribute<ResourceLocation> tileEntity = Attribute.constant(null);
     public Attribute<ResourceLocation> gui = Attribute.constant(null);
-    public Attribute<WrappedItemStack> drop = Attribute.constant(null);
+    public Attribute<BlockDrop[]> drop = Attribute.constant(null);
     public Attribute<Boolean> isFullCube = Attribute.constant(true);
+    public Attribute<Boolean> isOpaqueCube = Attribute.constant(true);
     public Attribute<Boolean> canInteractWithFluidItem = Attribute.constant(true);
+    public Attribute<Boolean> isBurning = Attribute.constant(false);
+    public Attribute<AxisAlignedBB> bounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
+    public Attribute<AxisAlignedBB> selectionBounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
+    public Attribute<AxisAlignedBB> collisionBounds = Attribute.constant(BlockMixin.DEFAULT_AABB_MARKER);
+    public Attribute<BlockTint> tint = null;
+    public Attribute<Color> itemTint = null;
+    public BlockRenderLayer renderLayer = null;
+    public Attribute<Boolean> canSilkHarvest = Attribute.constant(true);
+    public Attribute<String> harvestTool = Attribute.constant(null);
+    public Attribute<Integer> harvestLevel = Attribute.constant(-1);
+    public Attribute<Boolean> canPlaceOnFloor = Attribute.constant(true);
+    public Attribute<Boolean> canPlaceOnCeiling = Attribute.constant(true);
+    public Attribute<Boolean> canPlaceOnSides = Attribute.constant(true);
+    public Attribute<EnumPlantType[]> sustainedPlants = Attribute.constant(null);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 
     protected transient Block block;
+    private transient Item item;
 
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
     {
+        if (phase == InitPhase.INIT && block != null)
+        {
+            if (tint != null)
+            {
+                CustomStuff4.proxy.setBlockBiomeTint(block, subtype -> tint.get(subtype).orElse(BlockTint.WHITE));
+            }
+
+            if (item != null && itemTint != null)
+            {
+                CustomStuff4.proxy.setItemTint(item, subtype -> itemTint.get(subtype).orElse(new ColorImpl(0xffffffff)).getRGB());
+            }
+        }
+
         if (phase == InitPhase.PRE_INIT && !isReady())
             return;
         if (phase == InitPhase.INIT && (block != null || !isReady()))
@@ -73,6 +104,8 @@ public abstract class ContentBlockBase implements Content
 
     protected void initItem(Item item)
     {
+        this.item = item;
+
         item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         item.setRegistryName(id);
 

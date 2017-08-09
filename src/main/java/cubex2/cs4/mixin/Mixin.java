@@ -35,7 +35,7 @@ public class Mixin implements Opcodes
 
         removeStaticFieldsAndMethods(baseNode);
 
-        baseNode.methods.forEach(m -> fixMethodInstructions(oldName, name, m));
+        baseNode.methods.forEach(m -> fixMethodInstructions(oldName, name, baseNode.superName, m));
 
         mixinNodes.forEach(mixin -> mixin(baseNode, mixin));
 
@@ -103,12 +103,12 @@ public class Mixin implements Opcodes
         MethodNode m = new MethodNode(method.access, method.name, method.desc, method.signature, method.exceptions.stream().toArray(String[]::new));
         m.instructions.add(method.instructions);
 
-        fixMethodInstructions(mixin.name, base.name, m);
+        fixMethodInstructions(mixin.name, base.name, base.superName, m);
 
         base.methods.add(m);
     }
 
-    private static void fixMethodInstructions(String oldName, String newName, MethodNode method)
+    private static void fixMethodInstructions(String oldName, String newName, String newSuperName, MethodNode method)
     {
         ListIterator<AbstractInsnNode> iterator = method.instructions.iterator();
         while (iterator.hasNext())
@@ -132,6 +132,9 @@ public class Mixin implements Opcodes
                     if (methodNode.owner.equals(oldName))
                     {
                         methodNode.owner = newName;
+                    } else if (methodNode.getOpcode() == INVOKESPECIAL && !methodNode.name.equals("<init>"))
+                    {
+                        methodNode.owner = newSuperName;
                     }
                 }
             }

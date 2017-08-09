@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "facing=up": {"model": "cs4examplemod:vertical_0"},
+    "facing=down": {"model": "cs4examplemod:vertical_0", "x": 180}
+  }
+}

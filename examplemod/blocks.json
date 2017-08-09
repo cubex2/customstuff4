@@ -17,9 +17,48 @@
             "1": 4
           },
           "drop": {
-            "0": {"item": "cs4examplemod:someblock@0", "amount": 4},
+            "0": {"item": "cs4examplemod:someblock@1", "amount": 4},
             "1": "minecraft:air"
-          }
+          },
+          "sustainedPlants": "Crop"
+        },
+        {
+          "id": "transparent",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "hardness": 1,
+          "opacity": 1,
+          "renderLayer": "mippedCutout",
+          "isFullCube": true,
+          "isOpaqueCube": false
+        }
+      ]
+    },
+    {
+      "type": "block:simple",
+      "entries": [
+        {
+          "id": "small_cube",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "hardness": 1,
+          "opacity": 0,
+          "drop": [
+            {"item": "cs4examplemod:someblock@1", "amount": [1, 4]},
+            {"item": "cs4examplemod:small_cube", "amount": [0, 1]}
+          ],
+          "bounds": {
+            "cube": 0.5,
+            "offset": [0.25, 0.25, 0.25]
+          },
+          "isFullCube": false,
+          "isOpaqueCube": false,
+          "tint": "foliage",
+          "itemTint": "ffaa0000",
+          "canSilkHarvest": false,
+          "harvestTool": "axe",
+          "harvestLevel": 3,
+          "canPlaceOnCeiling": false
         }
       ]
     },
@@ -39,6 +78,13 @@
             "0": 1,
             "1": 4
           }
+        },
+        {
+          "id": "vertical_no_subtype",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:vertical_0",
+          "hardness": 1
         }
       ]
     },
@@ -58,6 +104,13 @@
             "0": 1,
             "1": 4
           }
+        },
+        {
+          "id": "horizontal_no_subtype",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:horizontal_0",
+          "hardness": 1
         }
       ]
     },
@@ -78,6 +131,13 @@
             "0": 1,
             "1": 4
           }
+        },
+        {
+          "id": "directional_no_subtype",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:horizontal_0",
+          "hardness": 1
         }
       ]
     },
@@ -148,6 +208,19 @@
             "0": 1,
             "1": 4
           }
+        },
+        {
+          "id": "slab1",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:slab_0",
+          "doubleSlab": {
+            "block": "cs4examplemod:fence",
+            "properties": {
+              "subtype": "subtype0"
+            }
+          },
+          "hardness": 1
         }
       ]
     },
@@ -160,7 +233,8 @@
           "material": "water",
           "texStill": "cs4examplemod:blocks/fluid_still",
           "texFlowing": "cs4examplemod:blocks/fluid_flow",
-          "canCreateSource": true
+          "canCreateSource": true,
+          "isBurning": true
         }
       ]
     }

@@ -18,7 +18,7 @@ public class ColorDeserializerTest
     @BeforeClass
     public static void setup()
     {
-        gson = TestUtil.createGsonBuilder().create();
+        gson = TestUtil.createGson();
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ColorDeserializerTest
 
         int color = map.get("color").getRGB();
 
-        assertEquals(0x000080,color);
+        assertEquals(0xff000080,color);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ColorDeserializerTest
 
         int color = map.get("color").getRGB();
 
-        assertEquals(0xff55ff,color);
+        assertEquals(0xffff55ff,color);
     }
 
     @Test

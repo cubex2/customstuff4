@@ -1,6 +1,6 @@
 package cubex2.cs4.plugins.vanilla.block;
 
-import cubex2.cs4.plugins.vanilla.ContentBlockOrientable;
+import cubex2.cs4.plugins.vanilla.ContentBlockOrientableVertical;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +13,7 @@ public abstract class BlockOrientableVertical extends BlockOrientable
 {
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.VERTICAL);
 
-    public BlockOrientableVertical(Material material, ContentBlockOrientable content)
+    public BlockOrientableVertical(Material material, ContentBlockOrientableVertical content)
     {
         super(material, content);
 

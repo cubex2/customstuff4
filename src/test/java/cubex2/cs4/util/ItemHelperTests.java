@@ -226,4 +226,14 @@ public class ItemHelperTests
         assertEquals(300, tank1.getFluidAmount());
         assertEquals(300, tank2.getFluidAmount());
     }
+
+    @Test
+    public void test_copyStack()
+    {
+        ItemStack stack = new ItemStack(Items.STICK, 2, 0);
+        ItemStack copy = ItemHelper.copyStack(stack, 42);
+
+        assertSame(stack.getItem(), copy.getItem());
+        assertEquals(42, copy.stackSize);
+    }
 }

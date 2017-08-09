@@ -21,6 +21,7 @@ public class ContentBlockFluid extends ContentBlockBaseNoSubtypes
     {
         material = Material.WATER;
         isFullCube = Attribute.constant(false);
+        isOpaqueCube = Attribute.constant(false);
         opacity = Attribute.constant(3);
     }
 

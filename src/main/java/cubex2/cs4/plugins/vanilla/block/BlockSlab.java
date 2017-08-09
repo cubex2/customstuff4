@@ -50,12 +50,6 @@ public abstract class BlockSlab extends Block implements CSBlock<ContentBlockSla
         return mapper.getStateFromMeta(this, meta);
     }
 
-    @Override
-    protected boolean canSilkHarvest()
-    {
-        return false;
-    }
-
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return (state.getValue(HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP ? AABB_TOP_HALF : AABB_BOTTOM_HALF);

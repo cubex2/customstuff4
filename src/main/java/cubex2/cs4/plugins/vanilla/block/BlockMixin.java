@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla.block;
 
+import com.google.common.collect.Lists;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.vanilla.*;
@@ -17,26 +18,32 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.FMLLog;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBase>
 {
+    public static final AxisAlignedBB DEFAULT_AABB_MARKER = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
+
     public BlockMixin(Material materialIn)
     {
         super(materialIn);
@@ -51,20 +58,65 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Optional<WrappedItemStack> stack = getContent().drop.get(getSubtype(state));
-        if (stack.isPresent())
+        Optional<BlockDrop[]> drops = getContent().drop.get(getSubtype(state));
+        if (drops.isPresent())
         {
-            WrappedItemStack wrappedItemStack = stack.get();
-            ItemStack droppedStack = wrappedItemStack.getItemStack();
+            List<ItemStack> result = Lists.newArrayList();
 
-            if (droppedStack == null)
-                return Collections.emptyList();
+            for (BlockDrop drop : drops.get())
+            {
+                WrappedItemStack wrappedItemStack = drop.getItem();
+                ItemStack droppedStack = wrappedItemStack.getItemStack();
 
-            return Collections.singletonList(droppedStack.copy());
+                if (droppedStack != null)
+                {
+                    int amount = drop.getAmount();
+                    if (amount > 0)
+                    {
+                        result.add(ItemHelper.copyStack(droppedStack, amount));
+                    }
+                }
+            }
+
+            return result;
+
         } else
         {
             return super.getDrops(world, pos, state, fortune);
         }
+    }
+
+    @Override
+    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+    {
+        return getContent().canSilkHarvest.get(getSubtype(state)).orElse(true);
+    }
+
+    @Override
+    protected ItemStack createStackedBlock(IBlockState state)
+    {
+        Item item = Item.getItemFromBlock(this);
+        int subtype = 0;
+
+        if (item.getHasSubtypes())
+        {
+            subtype = getSubtype(state);
+        }
+
+        return new ItemStack(item, 1, subtype);
+    }
+
+    @Nullable
+    @Override
+    public String getHarvestTool(IBlockState state)
+    {
+        return getContent().harvestTool.get(getSubtype(state)).orElse(null);
+    }
+
+    @Override
+    public int getHarvestLevel(IBlockState state)
+    {
+        return getContent().harvestLevel.get(getSubtype(state)).orElse(-1);
     }
 
     @Override
@@ -80,7 +132,14 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
         if (getContent() == null)
             return true;
 
-        return getContent().isFullCube.get(getSubtype(state)).orElse(true);
+        return getContent().isOpaqueCube.get(getSubtype(state)).orElse(true);
+    }
+
+    @Override
+    public BlockRenderLayer getBlockLayer()
+    {
+        BlockRenderLayer layer = getContent().renderLayer;
+        return layer != null ? layer : super.getBlockLayer();
     }
 
     @Override
@@ -149,6 +208,21 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable)
+    {
+        EnumPlantType type = plantable.getPlantType(world, pos.offset(direction));
+
+        EnumPlantType[] sustainedPlants = getContent().sustainedPlants.get(getSubtype(state)).orElse(null);
+        if (sustainedPlants != null)
+        {
+            return ArrayUtils.contains(sustainedPlants, type);
+        } else
+        {
+            return super.canSustainPlant(state, world, pos, direction, plantable);
+        }
+    }
+
+    @Override
     public boolean isBeaconBase(IBlockAccess world, BlockPos pos, BlockPos beacon)
     {
         IBlockState state = world.getBlockState(pos);
@@ -172,6 +246,58 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     public MapColor getMapColor(IBlockState state)
     {
         return getContent().mapColor.get(getSubtype(state)).orElse(getMaterial(state).getMaterialMapColor());
+    }
+
+    @Override
+    public boolean isBurning(IBlockAccess world, BlockPos pos)
+    {
+        IBlockState state = world.getBlockState(pos);
+        return getContent().isBurning.get(getSubtype(state)).orElse(false);
+    }
+
+    @Override
+    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
+    {
+        IBlockState state = worldIn.getBlockState(pos);
+        int subtype = getSubtype(state);
+
+        if (side == EnumFacing.DOWN && !getContent().canPlaceOnCeiling.get(subtype).orElse(true))
+            return false;
+        if (side == EnumFacing.UP && !getContent().canPlaceOnFloor.get(subtype).orElse(true))
+            return false;
+        if (side.getAxis().isHorizontal() && !getContent().canPlaceOnSides.get(subtype).orElse(true))
+            return false;
+
+        return super.canPlaceBlockOnSide(worldIn, pos, side);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+        AxisAlignedBB bounds = getContent().bounds.get(getSubtype(state)).orElse(DEFAULT_AABB_MARKER);
+        return bounds == DEFAULT_AABB_MARKER ? super.getBoundingBox(state, source, pos) : bounds;
+    }
+
+    @Nullable
+    @Override
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+    {
+        AxisAlignedBB bounds = getContent().selectionBounds.get(getSubtype(state)).orElse(null);
+        if (bounds == DEFAULT_AABB_MARKER)
+            return super.getSelectedBoundingBox(state, worldIn, pos);
+        else
+            return bounds != null ? bounds.offset(pos) : null;
+    }
+
+    @Nullable
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+    {
+        AxisAlignedBB bounds = getContent().collisionBounds.get(getSubtype(state)).orElse(null);
+        if (bounds == DEFAULT_AABB_MARKER)
+            return super.getCollisionBoundingBox(state, worldIn, pos);
+        else
+            return bounds;
     }
 
     @Override

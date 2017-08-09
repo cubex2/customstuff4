@@ -2,9 +2,8 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
-import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
-import net.minecraft.tileentity.TileEntity;
+import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleTank;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -18,28 +17,15 @@ public class TileEntityModuleSupplierDeserializerTest
     @BeforeClass
     public static void setup()
     {
-        gson = TestUtil.createGsonBuilder()
-                       .registerTypeAdapter(TileEntityModuleSupplier.class, new TileEntityModuleSupplierDeserializer(typename -> TestModule.class))
-                       .create();
+        gson = TestUtil.createGson();
     }
 
     @Test
     public void test()
     {
-        TileEntityModuleSupplier module = gson.fromJson("{\"type\":\"test\",\"prop\":\"someProp\"}", TileEntityModuleSupplier.class);
+        TileEntityModuleSupplier module = gson.fromJson("{\"type\":\"tank\",\"capacity\":10}", TileEntityModuleSupplier.class);
 
-        assertTrue(module instanceof TestModule);
-        assertEquals("someProp", ((TestModule) module).prop);
-    }
-
-    private static class TestModule implements TileEntityModuleSupplier
-    {
-        String prop;
-
-        @Override
-        public TileEntityModule createModule(TileEntity tileEntity)
-        {
-            return null;
-        }
+        assertTrue(module instanceof TileEntityModuleTank.Supplier);
+        assertEquals(10, ((TileEntityModuleTank.Supplier) module).capacity);
     }
 }

@@ -224,4 +224,11 @@ public class ItemHelper
             }
         }
     }
+
+    public static ItemStack copyStack(ItemStack stack, int newAmount)
+    {
+        ItemStack copy = stack.copy();
+        copy.stackSize = newAmount;
+        return copy;
+    }
 }
