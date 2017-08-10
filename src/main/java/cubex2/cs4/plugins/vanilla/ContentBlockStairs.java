@@ -8,6 +8,8 @@ import net.minecraft.item.Item;
 
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkState;
+
 public class ContentBlockStairs extends ContentBlockBaseNoSubtypes
 {
     public WrappedBlockState modelState = null;
@@ -28,6 +30,8 @@ public class ContentBlockStairs extends ContentBlockBaseNoSubtypes
     @Override
     protected Block createBlock()
     {
+        checkState(modelState != null, "No value for modelState!");
+
         return BlockFactory.createStairs(this);
     }
 
