@@ -35,10 +35,4 @@ public class BlockFenceWithSubtypes extends BlockFence
     {
         return mapper.getStateFromMeta(this, meta);
     }
-
-    @Override
-    public IProperty[] getProperties()
-    {
-        return new IProperty[] {NORTH, EAST, WEST, SOUTH};
-    }
 }
