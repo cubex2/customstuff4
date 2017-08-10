@@ -57,9 +57,9 @@ public abstract class ContentBlockBase implements Content
     public Attribute<Boolean> canSilkHarvest = Attribute.constant(true);
     public Attribute<String> harvestTool = Attribute.constant(null);
     public Attribute<Integer> harvestLevel = Attribute.constant(-1);
-    public Attribute<Boolean> canPlaceOnFloor = Attribute.constant(true);
-    public Attribute<Boolean> canPlaceOnCeiling = Attribute.constant(true);
-    public Attribute<Boolean> canPlaceOnSides = Attribute.constant(true);
+    public boolean canPlaceOnFloor = true;
+    public boolean canPlaceOnCeiling = true;
+    public boolean canPlaceOnSides = true;
     public Attribute<EnumPlantType[]> sustainedPlants = Attribute.constant(null);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
