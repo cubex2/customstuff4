@@ -47,4 +47,13 @@ public class BlockDropDeserializerTest
         assertEquals(1, stack.getMinAmount());
         assertEquals(42, stack.getMaxAmount());
     }
+
+    @Test
+    public void test_defaultAmount()
+    {
+        BlockDrop stack = gson.fromJson("{ \"item\":\"minecraft:stone\",\"metadata\":10 }", BlockDrop.class);
+
+        assertEquals(1, stack.getMinAmount());
+        assertEquals(1, stack.getMaxAmount());
+    }
 }

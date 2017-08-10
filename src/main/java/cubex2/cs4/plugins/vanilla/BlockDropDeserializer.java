@@ -23,7 +23,8 @@ public class BlockDropDeserializer implements JsonDeserializer<BlockDrop>
         }
 
         WrappedItemStack item = context.deserialize(json, WrappedItemStack.class);
-        IntRange amount = context.deserialize(amountElem, IntRange.class);
+        IntRange amount = amountElem != null ? context.deserialize(amountElem, IntRange.class)
+                                             : IntRange.create(1, 1);
 
         return new BlockDrop(item, amount);
     }
