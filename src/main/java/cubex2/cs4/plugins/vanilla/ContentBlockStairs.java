@@ -15,6 +15,8 @@ public class ContentBlockStairs extends ContentBlockBaseNoSubtypes
     public ContentBlockStairs()
     {
         opacity = Attribute.constant(0);
+        isFullCube = Attribute.constant(false);
+        isOpaqueCube = Attribute.constant(false);
     }
 
     @Override
