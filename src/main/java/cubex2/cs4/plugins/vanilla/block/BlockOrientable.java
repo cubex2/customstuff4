@@ -31,6 +31,12 @@ public abstract class BlockOrientable extends BlockSimple
     protected abstract PropertyDirection getFacingProperty();
 
     @Override
+    public int getSubtype(IBlockState state)
+    {
+        return 0;
+    }
+
+    @Override
     public IBlockState withRotation(IBlockState state, Rotation rot)
     {
         return state.withProperty(getFacingProperty(), rot.rotate(state.getValue(getFacingProperty())));
