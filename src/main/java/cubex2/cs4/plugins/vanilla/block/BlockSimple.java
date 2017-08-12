@@ -19,12 +19,6 @@ public abstract class BlockSimple extends Block implements CSBlock<ContentBlockS
     }
 
     @Override
-    public int damageDropped(IBlockState state)
-    {
-        return getSubtype(state);
-    }
-
-    @Override
     public int getSubtype(IBlockState state)
     {
         return getMetaFromState(state);

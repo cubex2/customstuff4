@@ -17,7 +17,7 @@ public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
     private transient boolean hasSubtypes;
 
     @Override
-    protected final Block createBlock()
+    public final Block createBlock()
     {
         hasSubtypes = subtypes.length > 0;
 

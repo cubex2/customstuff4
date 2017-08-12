@@ -117,7 +117,7 @@ public abstract class ContentBlockBase implements Content
 
     }
 
-    protected abstract Block createBlock();
+    public abstract Block createBlock();
 
     protected Optional<Item> createItem()
     {

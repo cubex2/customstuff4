@@ -28,7 +28,7 @@ public class ContentBlockStairs extends ContentBlockBaseNoSubtypes
     }
 
     @Override
-    protected Block createBlock()
+    public Block createBlock()
     {
         checkState(modelState != null, "No value for modelState!");
 
