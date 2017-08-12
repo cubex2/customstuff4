@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
+import cubex2.cs4.compat.waila.WailaData;
 import cubex2.cs4.plugins.vanilla.block.BlockMixin;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
@@ -100,6 +101,8 @@ public abstract class ContentBlockBase implements Content
         GameRegistry.register(block);
 
         createItem().ifPresent(this::initItem);
+
+        WailaData.registerStackProviderBlock(block.getClass());
     }
 
     protected void initItem(Item item)

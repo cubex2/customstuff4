@@ -14,6 +14,8 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -59,6 +61,17 @@ public class CustomStuff4
         RecipeSorter.register("customstuff4:shapedore", DamageableShapedOreRecipe.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
         RecipeSorter.register("customstuff4:shapelessore", DamageableShapelessOreRecipe.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
         ModLoader.initMods(modsDir);
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event)
+    {
+        sendIMCs();
+    }
+
+    private void sendIMCs()
+    {
+        FMLInterModComms.sendMessage("waila", "register", "cubex2.cs4.compat.waila.CompatWaila.callbackRegister");
     }
 
     private void initPlugins(ASMDataTable asmDataTable)
