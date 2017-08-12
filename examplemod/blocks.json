@@ -217,7 +217,7 @@
           }
         },
         {
-          "id": "slab1",
+          "id": "slab_no_subtype",
           "creativeTab": "examplemod",
           "material": "iron",
           "itemModel": "cs4examplemod:slab_0",
