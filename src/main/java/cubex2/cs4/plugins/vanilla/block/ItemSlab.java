@@ -78,21 +78,21 @@ public class ItemSlab extends ItemBlock
     {
         BlockPos blockpos = pos;
         int subtype = getMetadata(stack);
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+        IBlockState clickedState = worldIn.getBlockState(pos);
 
-        if (iblockstate.getBlock() == this.singleSlab)
+        if (clickedState.getBlock() == this.singleSlab)
         {
-            boolean flag = iblockstate.getValue(net.minecraft.block.BlockSlab.HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP;
+            boolean flag = clickedState.getValue(net.minecraft.block.BlockSlab.HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP;
 
-            if ((side == EnumFacing.UP && !flag || side == EnumFacing.DOWN && flag) && subtype == singleSlabCS.getSubtype(iblockstate))
+            if ((side == EnumFacing.UP && !flag || side == EnumFacing.DOWN && flag) && subtype == singleSlabCS.getSubtype(clickedState))
             {
                 return true;
             }
         }
 
         pos = pos.offset(side);
-        IBlockState iblockstate1 = worldIn.getBlockState(pos);
-        return iblockstate1.getBlock() == this.singleSlab && subtype == singleSlabCS.getSubtype(iblockstate) || super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
+        IBlockState existingState = worldIn.getBlockState(pos);
+        return existingState.getBlock() == this.singleSlab && subtype == singleSlabCS.getSubtype(existingState) || super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
     }
 
     private boolean tryPlace(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, int subtype)

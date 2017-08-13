@@ -157,6 +157,13 @@
             "0": 1,
             "1": 4
           }
+        },
+        {
+          "id": "fence_no_subtype",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:fence_0",
+          "hardness": 1
         }
       ]
     },
@@ -210,7 +217,7 @@
           }
         },
         {
-          "id": "slab1",
+          "id": "slab_no_subtype",
           "creativeTab": "examplemod",
           "material": "iron",
           "itemModel": "cs4examplemod:slab_0",

@@ -32,7 +32,7 @@ abstract class BlockOrientableWithSubtypes extends BlockOrientable
     protected abstract EnumFacing getFacingForPlacement(BlockPos pos, EnumFacing facing, int meta, EntityLivingBase placer);
 
     @Override
-    public int damageDropped(IBlockState state)
+    public int getSubtype(IBlockState state)
     {
         return state.getValue(subtype).ordinal();
     }

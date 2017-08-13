@@ -23,6 +23,10 @@ repositories {
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
     }
+    maven {
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
 }
 
 
@@ -49,6 +53,8 @@ dependencies {
     deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+
+    compile "mcp.mobius.waila:Waila:${waila_version}:dev"
 }
 
 processResources {

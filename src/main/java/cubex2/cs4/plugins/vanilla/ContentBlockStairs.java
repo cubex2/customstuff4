@@ -8,6 +8,8 @@ import net.minecraft.item.Item;
 
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkState;
+
 public class ContentBlockStairs extends ContentBlockBaseNoSubtypes
 {
     public WrappedBlockState modelState = null;
@@ -15,6 +17,8 @@ public class ContentBlockStairs extends ContentBlockBaseNoSubtypes
     public ContentBlockStairs()
     {
         opacity = Attribute.constant(0);
+        isFullCube = Attribute.constant(false);
+        isOpaqueCube = Attribute.constant(false);
     }
 
     @Override
@@ -24,8 +28,10 @@ public class ContentBlockStairs extends ContentBlockBaseNoSubtypes
     }
 
     @Override
-    protected Block createBlock()
+    public Block createBlock()
     {
+        checkState(modelState != null, "No value for modelState!");
+
         return BlockFactory.createStairs(this);
     }
 

@@ -26,7 +26,7 @@ public class ContentBlockFluid extends ContentBlockBaseNoSubtypes
     }
 
     @Override
-    protected Block createBlock()
+    public Block createBlock()
     {
         return BlockFactory.createFluid(this);
     }

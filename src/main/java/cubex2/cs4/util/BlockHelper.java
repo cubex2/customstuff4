@@ -14,6 +14,10 @@ public class BlockHelper
 {
     private static final Map<IntArray, PropertyEnum<EnumSubtype>> subtypeProperties = Maps.newHashMap();
 
+    /**
+     * Gets the property for the given subtypes. Returns the same instance of a property for the same array of subtypes.
+     * Order of the subtypes does not matter.
+     */
     public static PropertyEnum<EnumSubtype> getSubtypeProperty(int[] subtypes)
     {
         int[] sortedSubtypes = Arrays.stream(subtypes)
