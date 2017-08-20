@@ -12,6 +12,8 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class CraftingManagerCS4
 {
     private static final Map<ResourceLocation, CraftingManagerCS4> instances = Maps.newHashMap();
@@ -31,7 +33,7 @@ public class CraftingManagerCS4
     {
         if (list.toString().equals("minecraft:vanilla"))
         {
-            return CraftingManager.getInstance().getRecipeList();
+            return Lists.newArrayList(CraftingManager.REGISTRY.iterator());
         } else
         {
             return getInstance(list).recipes;
@@ -40,6 +42,8 @@ public class CraftingManagerCS4
 
     public static void addRecipe(ResourceLocation list, IRecipe recipe)
     {
+        checkArgument(!list.toString().equals("minecraft:vanilla"), "Trying to add a recipe for the vanilla list.");
+
         getRecipes(list).add(recipe);
     }
 

@@ -18,12 +18,12 @@
         {
           "id": "someitem1",
           "model": "cs4examplemod:mobile_sensor_0",
-          "creativeTab": "tools"
+          "creativeTab": "examplemod"
         },
         {
           "id": "itemdamageable",
           "model": "cs4examplemod:mobile_sensor_0",
-          "creativeTab": "tools",
+          "creativeTab": "examplemod",
           "maxDamage": 30
         }
       ]
@@ -33,7 +33,7 @@
       "entries": [
         {
           "id": "someaxe",
-          "creativeTab": "tools",
+          "creativeTab": "examplemod",
           "attackSpeed": 7.35,
           "material": "diamond",
           "model": "minecraft:diamond_axe"
@@ -45,7 +45,7 @@
       "entries": [
         {
           "id": "somepickaxe",
-          "creativeTab": "tools",
+          "creativeTab": "examplemod",
           "attackSpeed": 7.35,
           "material": "diamond",
           "model": "minecraft:diamond_pickaxe"
@@ -57,7 +57,7 @@
       "entries": [
         {
           "id": "someshovel",
-          "creativeTab": "tools",
+          "creativeTab": "examplemod",
           "attackSpeed": 7.35,
           "material": "diamond",
           "model": "minecraft:diamond_shovel"
@@ -71,7 +71,7 @@
           "id": "somefood",
           "model": "minecraft:apple",
           "subtypes": [0, 1],
-          "creativeTab": "food",
+          "creativeTab": "examplemod",
           "healAmount": {
             "0": 2,
             "1": 4

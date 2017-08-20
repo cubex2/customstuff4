@@ -4,12 +4,15 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.RecipeInput;
+import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.junit.BeforeClass;
@@ -79,6 +82,24 @@ public class ShapedRecipeTests
     }
 
     @Test
+    public void test_addRecipe() throws Exception
+    {
+        ShapedRecipe recipe = new ShapedRecipe();
+        recipe.recipeList = new ResourceLocation("testmod:recipes");
+        recipe.shape = new String[] {"a"};
+        recipe.items.put('a', new RecipeInputImpl("stickWood"));
+        recipe.result = new WrappedItemStackConstant(new ItemStack(Items.APPLE));
+
+        int prevRecipes = CraftingManagerCS4.getRecipes(recipe.recipeList).size();
+
+        recipe.addRecipe();
+
+        int newRecipes = CraftingManagerCS4.getRecipes(recipe.recipeList).size();
+
+        assertEquals(prevRecipes + 1, newRecipes);
+    }
+
+    @Test
     public void test_removeRecipe_onlyResult()
     {
         ShapedRecipe recipe = new ShapedRecipe();
@@ -123,17 +144,17 @@ public class ShapedRecipeTests
 
     private List<IRecipe> createTestRecipes(Item result)
     {
-        return Lists.newArrayList(new ShapedRecipes(1, 1, new ItemStack[] {new ItemStack(Items.ITEM_FRAME)}, new ItemStack(result)),
-                                  new ShapedRecipes(2, 2,
-                                                    new ItemStack[] {
-                                                            new ItemStack(Blocks.STONE), new ItemStack(Blocks.STONE),
-                                                            new ItemStack(Blocks.LOG), new ItemStack(Blocks.LOG)},
+        return Lists.newArrayList(new ShapedRecipes("group", 1, 1, NonNullList.from(Ingredient.EMPTY, Ingredient.fromItem(Items.ITEM_FRAME)), new ItemStack(result)),
+                                  new ShapedRecipes("group", 2, 2,
+                                                    NonNullList.from(Ingredient.EMPTY,
+                                                                     Ingredient.fromStacks(new ItemStack(Blocks.STONE)), Ingredient.fromStacks(new ItemStack(Blocks.STONE)),
+                                                                     Ingredient.fromStacks(new ItemStack(Blocks.LOG)), Ingredient.fromStacks(new ItemStack(Blocks.LOG))),
                                                     new ItemStack(result)));
     }
 
     private List<IRecipe> createTestRecipesOre(Item result)
     {
-        return Lists.newArrayList(new ShapedOreRecipe(result, "x", 'x', new ItemStack(Items.ITEM_FRAME)),
-                                  new ShapedOreRecipe(result, "aa", "bb", 'a', new ItemStack(Blocks.STONE), 'b', "stickWood"));
+        return Lists.newArrayList(new ShapedOreRecipe(new ResourceLocation("group"), result, "x", 'x', new ItemStack(Items.ITEM_FRAME)),
+                                  new ShapedOreRecipe(new ResourceLocation("group"), result, "aa", "bb", 'a', new ItemStack(Blocks.STONE), 'b', "stickWood"));
     }
 }

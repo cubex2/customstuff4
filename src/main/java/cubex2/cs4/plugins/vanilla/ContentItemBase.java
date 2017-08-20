@@ -7,7 +7,9 @@ import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.GameData;
+import net.minecraftforge.registries.RegistryManager;
 
 public abstract class ContentItemBase<T extends Item> implements Content
 {
@@ -21,7 +23,22 @@ public abstract class ContentItemBase<T extends Item> implements Content
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
     {
-        if (phase == InitPhase.INIT && item != null)
+        if (phase == InitPhase.PRE_INIT)
+        {
+            item = createItem();
+            item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
+            item.setRegistryName(id);
+
+            item.setMaxDamage(maxDamage);
+            initItem();
+        } else if (phase == InitPhase.REGISTER_ITEMS)
+        {
+            ForgeRegistry<Item> registry = RegistryManager.ACTIVE.getRegistry(GameData.ITEMS);
+            registry.register(item);
+        } else if (phase == InitPhase.REGISTER_MODELS)
+        {
+            registerModels();
+        } else if (phase == InitPhase.INIT)
         {
             if (tint != null)
             {
@@ -31,18 +48,11 @@ public abstract class ContentItemBase<T extends Item> implements Content
                     CustomStuff4.proxy.setItemTint(item, meta -> tint.get(0).orElse(new ColorImpl(0xffffffff)).getRGB());
             }
         }
+    }
 
-        if (phase != InitPhase.PRE_INIT)
-            return;
+    protected void registerModels()
+    {
 
-        item = createItem();
-        item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
-        item.setRegistryName(id);
-
-        item.setMaxDamage(maxDamage);
-        initItem();
-
-        GameRegistry.register(item);
     }
 
     protected abstract void initItem();

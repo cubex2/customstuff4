@@ -20,4 +20,9 @@ public interface ContentHelper
      */
     @Nullable
     Class<? extends Content> getContentClass(String typeName);
+
+    /**
+     * Gets the id of the active mod.
+     */
+    String getModId();
 }

@@ -12,6 +12,7 @@ import cubex2.cs4.util.ItemHelper;
 import cubex2.cs4.util.ReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
@@ -118,10 +119,10 @@ class ShapelessRecipe extends SimpleContent
 
         for (int i = 0; i < recipe.recipeItems.size(); i++)
         {
-            ItemStack target = recipe.recipeItems.get(i);
+            Ingredient target = recipe.recipeItems.get(i);
             ItemStack source = (ItemStack) input[i];
 
-            if (!OreDictionary.itemMatches(target, source, true))
+            if (!target.apply(source))
                 return false;
         }
 
@@ -140,14 +141,14 @@ class ShapelessRecipe extends SimpleContent
 
     private boolean matchesInput(ShapelessOreRecipe recipe)
     {
-        if (recipe.getInput().size() != getRecipeSize())
+        if (recipe.getIngredients().size() != getRecipeSize())
             return false;
 
         Object[] input = getRecipeInput();
 
-        for (int i = 0; i < recipe.getInput().size(); i++)
+        for (int i = 0; i < recipe.getIngredients().size(); i++)
         {
-            Object target = recipe.getInput().get(i);
+            Ingredient target = recipe.getIngredients().get(i);
             Object source = input[i];
 
             if (!ItemHelper.isSameRecipeInput(target, source))
@@ -157,21 +158,25 @@ class ShapelessRecipe extends SimpleContent
     }
 
 
-    private void addRecipe()
+    void addRecipe()
     {
         if (damage.length == 0)
             damage = new int[items.size()];
 
         Class<DamageableShapelessOreRecipe> recipeClass = JEICompatRegistry.getShapelessCraftingRecipeClass(recipeList);
-        Constructor<DamageableShapelessOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
-        DamageableShapelessOreRecipe recipe = ReflectionHelper.newInstance(constructor, damage, result.getItemStack(), getInputForRecipe());
-        CraftingManagerCS4.addRecipe(recipeList, recipe);
+        Constructor<DamageableShapelessOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, ResourceLocation.class, int[].class, ItemStack.class, Object[].class);
+        DamageableShapelessOreRecipe recipe = ReflectionHelper.newInstance(constructor, null, damage, result.getItemStack(), getInputForRecipe());
+
+        if (recipe != null)
+        {
+            CraftingManagerCS4.addRecipe(recipeList, recipe);
+        }
     }
 
     Object[] getInputForRecipe()
     {
         return items.stream()
-                    .map(input -> input.isOreClass() ? input.getOreClass() : input.getStack().getItemStack())
+                    .map(input -> input.isOreClass() ? input.getOreClass().getOreName() : input.getStack().getItemStack())
                     .toArray();
     }
 

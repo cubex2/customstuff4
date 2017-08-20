@@ -80,7 +80,22 @@ public class ModLoader
         ModContainer container = FMLCommonHandler.instance().findContainerFor(mod);
         File modDirectory = container.getSource();
 
-        return new ContentHelperImpl(modDirectory);
+        return new ContentHelperImpl(container.getModId(), modDirectory);
+    }
+
+    public static void onRegisterBlocks(CS4Mod mod)
+    {
+        initContents(mod, InitPhase.REGISTER_BLOCKS);
+    }
+
+    public static void onRegisterItems(CS4Mod mod)
+    {
+        initContents(mod, InitPhase.REGISTER_ITEMS);
+    }
+
+    public static void onRegisterModels(CS4Mod mod)
+    {
+        initContents(mod, InitPhase.REGISTER_MODELS);
     }
 
     @SuppressWarnings("unused")

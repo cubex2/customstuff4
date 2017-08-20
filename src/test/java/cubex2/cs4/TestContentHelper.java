@@ -12,11 +12,18 @@ public class TestContentHelper implements ContentHelper
     private final Map<String, String> jsonByPath = Maps.newHashMap();
     private final Map<String, Class<? extends Content>> classByType = Maps.newHashMap();
 
+    private final String modId;
     private final String defaultJson;
     private final Class<? extends Content> defaultClazz;
 
     public TestContentHelper(String defaultJson, Class<? extends Content> defaultClazz)
     {
+        this("testmod", defaultJson, defaultClazz);
+    }
+
+    public TestContentHelper(String modId, String defaultJson, Class<? extends Content> defaultClazz)
+    {
+        this.modId = modId;
         this.defaultJson = defaultJson;
         this.defaultClazz = defaultClazz;
     }
@@ -45,5 +52,11 @@ public class TestContentHelper implements ContentHelper
     public Class<? extends Content> getContentClass(String typeName)
     {
         return classByType.getOrDefault(typeName, defaultClazz);
+    }
+
+    @Override
+    public String getModId()
+    {
+        return modId;
     }
 }

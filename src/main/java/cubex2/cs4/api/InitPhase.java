@@ -4,7 +4,10 @@ public enum InitPhase
 {
     PRE_INIT("preInit"),
     INIT("init"),
-    POST_INIT("postInit");
+    POST_INIT("postInit"),
+    REGISTER_BLOCKS("registerBlocks"),
+    REGISTER_ITEMS("registerItems"),
+    REGISTER_MODELS("registerModels");
 
     public final String name;
 

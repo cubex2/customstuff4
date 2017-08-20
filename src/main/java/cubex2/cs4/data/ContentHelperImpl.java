@@ -10,10 +10,12 @@ import java.io.File;
 
 public class ContentHelperImpl implements ContentHelper
 {
+    private final String modId;
     private final File modDirectory;
 
-    public ContentHelperImpl(File modDirectory)
+    public ContentHelperImpl(String modId, File modDirectory)
     {
+        this.modId = modId;
         this.modDirectory = modDirectory;
     }
 
@@ -30,5 +32,11 @@ public class ContentHelperImpl implements ContentHelper
     public Class<? extends Content> getContentClass(String typeName)
     {
         return CustomStuff4.contentRegistry.getContentClass(typeName);
+    }
+
+    @Override
+    public String getModId()
+    {
+        return modId;
     }
 }

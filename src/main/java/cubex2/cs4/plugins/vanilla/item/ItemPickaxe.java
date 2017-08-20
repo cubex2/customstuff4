@@ -1,9 +1,11 @@
 package cubex2.cs4.plugins.vanilla.item;
 
 import cubex2.cs4.plugins.vanilla.ContentItemPickaxe;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class ItemPickaxe extends net.minecraft.item.ItemPickaxe implements ItemT
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         tooltip.addAll(Arrays.asList(content.information));
     }

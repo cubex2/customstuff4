@@ -8,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,8 @@ public class DamageableShapedOreRecipeTest
     @Test
     public void test_useUpItem()
     {
-        ShapedOreRecipe recipe = new DamageableShapedOreRecipe(new int[] {60}, new ItemStack(Blocks.DIRT),
+        ShapedOreRecipe recipe = new DamageableShapedOreRecipe(new ResourceLocation("group"),
+                                                               new int[] {60}, new ItemStack(Blocks.DIRT),
                                                                "A",
                                                                'A', new ItemStack(Items.WOODEN_SWORD));
 
@@ -56,7 +58,8 @@ public class DamageableShapedOreRecipeTest
 
     private void doTest(boolean mirror, boolean enoughDamage)
     {
-        ShapedOreRecipe recipe = new DamageableShapedOreRecipe(new int[] {0, 0, enoughDamage ? 5 : 5000, 0}, new ItemStack(Blocks.DIRT),
+        ShapedOreRecipe recipe = new DamageableShapedOreRecipe(new ResourceLocation("group"),
+                                                               new int[] {0, 0, enoughDamage ? 5 : 5000, 0}, new ItemStack(Blocks.DIRT),
                                                                "AA", "BA",
                                                                'A', new ItemStack(Blocks.DIRT),
                                                                'B', new ItemStack(Items.WOODEN_SWORD))

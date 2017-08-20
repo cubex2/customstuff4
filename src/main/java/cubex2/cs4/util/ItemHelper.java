@@ -6,6 +6,7 @@ import cubex2.cs4.plugins.vanilla.Attribute;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
@@ -84,27 +85,23 @@ public class ItemHelper
     }
 
     @SuppressWarnings("unchecked")
-    public static boolean isSameRecipeInput(Object target, Object input)
+    public static boolean isSameRecipeInput(Ingredient target, Object input)
     {
-        if (target instanceof String)
+        if (input instanceof String)
         {
-            if (!(input instanceof String) || !target.equals(input))
-                return false;
-        } else if (target instanceof ItemStack)
+            NonNullList<ItemStack> ores = OreDictionary.getOres(input.toString());
+            return ores.stream().allMatch(target::apply);
+        } else if (input instanceof ItemStack)
         {
-            if (!(input instanceof ItemStack) || !OreDictionary.itemMatches((ItemStack) target, (ItemStack) input, true))
-                return false;
-        } else if (target instanceof NonNullList)
+            return target.apply((ItemStack) input);
+        } else if (input instanceof NonNullList)
         {
-            if (input instanceof ItemStack)
-            {
-                if (((NonNullList<ItemStack>) target).stream().noneMatch(targetStack -> OreDictionary.itemMatches(targetStack, (ItemStack) input, true)))
-                    return false;
-            } else if (!(input instanceof NonNullList) || input != target)
-                return false;
+            NonNullList<ItemStack> items = (NonNullList<ItemStack>) input;
+            return items.stream().anyMatch(target::apply);
+        } else
+        {
+            throw new IllegalArgumentException("Invalid input: " + input);
         }
-
-        return true;
     }
 
     public static boolean isSameStackForFuel(ItemStack fuel, ItemStack stack)

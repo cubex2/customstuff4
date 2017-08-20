@@ -4,12 +4,15 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.RecipeInput;
+import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.junit.BeforeClass;
@@ -61,6 +64,23 @@ public class ShapelessRecipeTests
     }
 
     @Test
+    public void test_addRecipe()
+    {
+        ShapelessRecipe recipe = new ShapelessRecipe();
+        recipe.recipeList = new ResourceLocation("testmod:recipes");
+        recipe.items.add(new RecipeInputImpl("stickWood"));
+        recipe.result = new WrappedItemStackConstant(new ItemStack(Items.APPLE));
+
+        int prevRecipes = CraftingManagerCS4.getRecipes(recipe.recipeList).size();
+
+        recipe.addRecipe();
+
+        int newRecipes = CraftingManagerCS4.getRecipes(recipe.recipeList).size();
+
+        assertEquals(prevRecipes + 1, newRecipes);
+    }
+
+    @Test
     public void test_removeRecipe_onlyResult()
     {
         ShapelessRecipe recipe = gson.fromJson("{ \"result\": \"minecraft:apple\" }", ShapelessRecipe.class);
@@ -101,13 +121,13 @@ public class ShapelessRecipeTests
 
     private List<IRecipe> createTestRecipes(Item result)
     {
-        return Lists.newArrayList(new ShapelessRecipes(new ItemStack(result), Lists.newArrayList(new ItemStack(Items.ITEM_FRAME))),
-                                  new ShapelessRecipes(new ItemStack(result), Lists.newArrayList(new ItemStack(Blocks.STONE), new ItemStack(Blocks.LOG))));
+        return Lists.newArrayList(new ShapelessRecipes("group", new ItemStack(result), NonNullList.from(Ingredient.EMPTY, Ingredient.fromItem(Items.ITEM_FRAME))),
+                                  new ShapelessRecipes("group", new ItemStack(result), NonNullList.from(Ingredient.EMPTY, Ingredient.fromStacks(new ItemStack(Blocks.STONE)), Ingredient.fromStacks(new ItemStack(Blocks.LOG)))));
     }
 
     private List<IRecipe> createTestRecipesOre(Item result)
     {
-        return Lists.newArrayList(new ShapelessOreRecipe(new ItemStack(result), new ItemStack(Items.ITEM_FRAME)),
-                                  new ShapelessOreRecipe(new ItemStack(result), new ItemStack(Blocks.STONE), "stickWood"));
+        return Lists.newArrayList(new ShapelessOreRecipe(new ResourceLocation("group"), new ItemStack(result), new ItemStack(Items.ITEM_FRAME)),
+                                  new ShapelessOreRecipe(new ResourceLocation("group"), new ItemStack(result), new ItemStack(Blocks.STONE), "stickWood"));
     }
 }

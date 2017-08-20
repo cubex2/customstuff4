@@ -1,9 +1,9 @@
 package cubex2.cs4.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -41,7 +41,7 @@ public class RenderHelper
                         double minV = (double) sprite.getMinV();
                         double maxV = (double) sprite.getMaxV();
                         Tessellator tessellator = Tessellator.getInstance();
-                        VertexBuffer tes = tessellator.getBuffer();
+                        BufferBuilder tes = tessellator.getBuffer();
                         tes.begin(7, DefaultVertexFormats.POSITION_TEX);
                         tes.pos((double) dx, (double) (dy + dht), 0.0D).tex(minU, minV + (maxV - minV) * (double) dht / 16.0D).endVertex();
                         tes.pos((double) (dx + dwt), (double) (dy + dht), 0.0D).tex(minU + (maxU - minU) * (double) dwt / 16.0D, minV + (maxV - minV) * (double) dht / 16.0D).endVertex();

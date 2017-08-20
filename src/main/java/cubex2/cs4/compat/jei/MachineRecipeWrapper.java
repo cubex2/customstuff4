@@ -5,16 +5,15 @@ import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.awt.*;
 import java.util.List;
 
-public class MachineRecipeWrapper extends BlankRecipeWrapper
+public class MachineRecipeWrapper implements IRecipeWrapper
 {
     private final MachineRecipe recipe;
     private final IJeiHelpers jeiHelpers;

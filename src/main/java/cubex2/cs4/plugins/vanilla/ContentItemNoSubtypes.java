@@ -19,7 +19,11 @@ public abstract class ContentItemNoSubtypes<T extends Item> extends ContentItemB
 
         if (model == null)
             model = item.getRegistryName();
+    }
 
+    @Override
+    protected void registerModels()
+    {
         CustomStuff4.proxy.registerItemModel(item, 0, model);
     }
 }

@@ -2,14 +2,13 @@ package cubex2.cs4.plugins.vanilla;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.Iterator;
-import java.util.List;
 
 public class DamageableShapedOreRecipe extends ShapedOreRecipe
 {
@@ -19,9 +18,9 @@ public class DamageableShapedOreRecipe extends ShapedOreRecipe
     private int matchY;
     private boolean wasMirrored;
 
-    public DamageableShapedOreRecipe(int[] damageAmounts, @Nonnull ItemStack result, Object... recipe)
+    public DamageableShapedOreRecipe(ResourceLocation group, int[] damageAmounts, @Nonnull ItemStack result, Object... recipe)
     {
-        super(result, recipe);
+        super(group, result, recipe);
         this.damageAmounts = damageAmounts;
         mirroredDamageAmounts = mirror(damageAmounts);
     }
@@ -121,7 +120,7 @@ public class DamageableShapedOreRecipe extends ShapedOreRecipe
                 int subX = x - startX;
                 int subY = y - startY;
                 int damage = 0;
-                Object target = null;
+                Ingredient target = Ingredient.EMPTY;
 
                 if (subX >= 0 && subY >= 0 && subX < width && subY < height)
                 {
@@ -129,36 +128,16 @@ public class DamageableShapedOreRecipe extends ShapedOreRecipe
 
                     if (mirror)
                     {
-                        target = input[width - subX - 1 + subY * width];
+                        target = input.get(width - subX - 1 + subY * width);
                     } else
                     {
-                        target = input[subX + subY * width];
+                        target = input.get(subX + subY * width);
                     }
                 }
 
                 ItemStack slot = inv.getStackInRowAndColumn(x, y);
 
-                if (target instanceof ItemStack)
-                {
-                    if (!OreDictionary.itemMatches((ItemStack) target, slot, false) || damage > slot.getMaxDamage() - slot.getItemDamage() + 1)
-                    {
-                        return false;
-                    }
-                } else if (target instanceof List)
-                {
-                    boolean matched = false;
-
-                    Iterator<ItemStack> itr = ((List<ItemStack>) target).iterator();
-                    while (itr.hasNext() && !matched)
-                    {
-                        matched = OreDictionary.itemMatches(itr.next(), slot, false) && damage <= slot.getMaxDamage() - slot.getItemDamage() + 1;
-                    }
-
-                    if (!matched)
-                    {
-                        return false;
-                    }
-                } else if (target == null && !slot.isEmpty())
+                if (!target.apply(slot) || damage > slot.getMaxDamage() - slot.getItemDamage() + 1)
                 {
                     return false;
                 }

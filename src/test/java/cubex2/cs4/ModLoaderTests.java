@@ -26,11 +26,14 @@ public class ModLoaderTests
 
         TestMod mod = new TestMod();
         ModLoader.doPreInitMod(mod, ModLoaderTests::createHelper, new TestDeserializationRegistry());
+        ModLoader.onRegisterBlocks(mod);
+        ModLoader.onRegisterItems(mod);
+        ModLoader.onRegisterModels(mod);
         ModLoader.onInitMod(mod);
         ModLoader.onPostInitMod(mod);
 
         assertEquals(1, instanceCounter);
-        assertEquals(3, loadedPhases.size());
+        assertEquals(6, loadedPhases.size());
         assertTrue(loadedPhases.containsAll(Arrays.asList(InitPhase.values())));
     }
 

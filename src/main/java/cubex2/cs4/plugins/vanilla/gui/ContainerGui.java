@@ -18,7 +18,6 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 public class ContainerGui extends ContainerCS4
@@ -96,7 +95,7 @@ public class ContainerGui extends ContainerCS4
             {
                 if (prevFieldValues[id] != fieldSupplier.getField(id))
                 {
-                    listener.sendProgressBarUpdate(this, id, fieldSupplier.getField(id));
+                    listener.sendWindowProperty(this, id, fieldSupplier.getField(id));
                 }
             }
         }

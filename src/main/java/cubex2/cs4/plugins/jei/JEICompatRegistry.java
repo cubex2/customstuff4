@@ -7,7 +7,6 @@ import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
 import cubex2.cs4.plugins.vanilla.MachineRecipeImpl;
 import cubex2.cs4.util.AsmHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.RecipeSorter;
 import org.objectweb.asm.Opcodes;
 
 import java.util.List;
@@ -49,8 +48,8 @@ public class JEICompatRegistry implements Opcodes
     {
         return (Class<DamageableShapedOreRecipe>) shapedCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
         {
-            Class<? extends DamageableShapedOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapedOreRecipe.class, recipeList.toString(), 3);
-            RecipeSorter.register("customstuff4:shapedore:" + list.toString(), clazz, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
+            Class<? extends DamageableShapedOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapedOreRecipe.class, recipeList.toString(), 4);
+            //RecipeSorter.register("customstuff4:shapedore:" + list.toString(), clazz, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
             return clazz;
         });
     }
@@ -60,8 +59,8 @@ public class JEICompatRegistry implements Opcodes
     {
         return (Class<DamageableShapelessOreRecipe>) shapelessCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
         {
-            Class<? extends DamageableShapelessOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapelessOreRecipe.class, recipeList.toString(), 3);
-            RecipeSorter.register("customstuff4:shapelessore:" + list.toString(), clazz, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+            Class<? extends DamageableShapelessOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapelessOreRecipe.class, recipeList.toString(), 4);
+            //RecipeSorter.register("customstuff4:shapelessore:" + list.toString(), clazz, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
             return clazz;
         });
     }

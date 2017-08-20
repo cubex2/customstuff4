@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -40,9 +40,9 @@ compileJava {
 }
 
 minecraft {
-    version = "1.11.2-13.20.0.2298"
+    version = "1.12.1-14.22.0.2459"
     runDir = "run"
-    mappings = "snapshot_20161220"
+    mappings = "snapshot_20170624"
     makeObfSourceJar = false
 }
 
@@ -54,7 +54,10 @@ dependencies {
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
 
-    compile "mcp.mobius.waila:Waila:${waila_version}:dev"
+    if ("${waila_version}".endsWith("${mc_version}"))
+        compile "mcp.mobius.waila:Waila:${waila_version}:dev"
+    else
+        compileOnly "mcp.mobius.waila:Waila:${waila_version}:dev"
 }
 
 processResources {

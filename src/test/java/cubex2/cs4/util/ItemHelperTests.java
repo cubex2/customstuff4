@@ -9,12 +9,14 @@ import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -136,18 +138,21 @@ public class ItemHelperTests
     @Test
     public void test_isSameRecipeInput()
     {
-        assertTrue(ItemHelper.isSameRecipeInput("abc", "abc"));
-        assertFalse(ItemHelper.isSameRecipeInput("abc", "abcd"));
+        assertTrue(ItemHelper.isSameRecipeInput(new OreIngredient("stickWood"), "stickWood"));
+        assertFalse(ItemHelper.isSameRecipeInput(new OreIngredient("stickWood"), "oreIron"));
 
-        assertTrue(ItemHelper.isSameRecipeInput(new ItemStack(Items.APPLE), new ItemStack(Items.APPLE)));
-        assertFalse(ItemHelper.isSameRecipeInput(new ItemStack(Items.APPLE), new ItemStack(Items.DIAMOND_SWORD)));
+        assertTrue(ItemHelper.isSameRecipeInput(Ingredient.fromItem(Items.APPLE), new ItemStack(Items.APPLE)));
+        assertFalse(ItemHelper.isSameRecipeInput(Ingredient.fromItem(Items.APPLE), new ItemStack(Items.DIAMOND_SWORD)));
 
-        assertTrue(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), OreDictionary.getOres("stickWood")));
-        assertFalse(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), OreDictionary.getOres("ingotIron")));
+        NonNullList<ItemStack> stickWoodList = OreDictionary.getOres("stickWood");
+        ItemStack[] stickWood = stickWoodList.toArray(new ItemStack[0]);
 
-        assertTrue(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), new ItemStack(Items.STICK)));
-        assertFalse(ItemHelper.isSameRecipeInput(new ItemStack(Items.STICK), OreDictionary.getOres("stickWood")));
-        assertFalse(ItemHelper.isSameRecipeInput(OreDictionary.getOres("stickWood"), new ItemStack(Items.DIAMOND_PICKAXE)));
+        assertTrue(ItemHelper.isSameRecipeInput(Ingredient.fromStacks(stickWood), stickWoodList));
+        assertFalse(ItemHelper.isSameRecipeInput(Ingredient.fromStacks(stickWood), OreDictionary.getOres("ingotIron")));
+
+        assertTrue(ItemHelper.isSameRecipeInput(Ingredient.fromStacks(stickWood), new ItemStack(Items.STICK)));
+        assertTrue(ItemHelper.isSameRecipeInput(Ingredient.fromItem(Items.STICK), stickWoodList));
+        assertFalse(ItemHelper.isSameRecipeInput(Ingredient.fromStacks(stickWood), new ItemStack(Items.DIAMOND_PICKAXE)));
     }
 
     @Test
@@ -234,6 +239,6 @@ public class ItemHelperTests
         ItemStack copy = ItemHelper.copyStack(stack, 42);
 
         assertSame(stack.getItem(), copy.getItem());
-        assertEquals(42,copy.getCount());
+        assertEquals(42, copy.getCount());
     }
 }

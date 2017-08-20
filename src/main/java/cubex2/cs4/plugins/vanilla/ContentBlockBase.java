@@ -15,9 +15,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.GameData;
+import net.minecraftforge.registries.RegistryManager;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public abstract class ContentBlockBase implements Content
 {
@@ -66,12 +71,43 @@ public abstract class ContentBlockBase implements Content
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 
     protected transient Block block;
-    private transient Item item;
+    @Nullable
+    protected transient Item item;
 
     @Override
     public final void init(InitPhase phase, ContentHelper helper)
     {
-        if (phase == InitPhase.INIT && block != null)
+        if (phase == InitPhase.PRE_INIT)
+        {
+            checkState(isReady());
+
+            block = createBlock();
+            block.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
+            block.setRegistryName(id);
+            block.slipperiness = slipperiness;
+
+            initBlock();
+
+            createItem().ifPresent(this::initItem);
+
+            WailaData.registerStackProviderBlock(block.getClass());
+        } else if (phase == InitPhase.REGISTER_MODELS)
+        {
+            registerModels();
+        } else if (phase == InitPhase.REGISTER_BLOCKS)
+        {
+            checkState(isReady());
+
+            ForgeRegistry<Block> registry = RegistryManager.ACTIVE.getRegistry(GameData.BLOCKS);
+            registry.register(block);
+        } else if (phase == InitPhase.REGISTER_ITEMS)
+        {
+            if (item != null)
+            {
+                ForgeRegistry<Item> registry = RegistryManager.ACTIVE.getRegistry(GameData.ITEMS);
+                registry.register(item);
+            }
+        } else if (phase == InitPhase.INIT)
         {
             if (tint != null)
             {
@@ -83,26 +119,6 @@ public abstract class ContentBlockBase implements Content
                 CustomStuff4.proxy.setItemTint(item, subtype -> itemTint.get(subtype).orElse(new ColorImpl(0xffffffff)).getRGB());
             }
         }
-
-        if (phase == InitPhase.PRE_INIT && !isReady())
-            return;
-        if (phase == InitPhase.INIT && (block != null || !isReady()))
-            return;
-        if (phase == InitPhase.POST_INIT && (block != null || !isReady()))
-            return;
-
-        block = createBlock();
-        block.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
-        block.setRegistryName(id);
-        block.slipperiness = slipperiness;
-
-        initBlock();
-
-        GameRegistry.register(block);
-
-        createItem().ifPresent(this::initItem);
-
-        WailaData.registerStackProviderBlock(block.getClass());
     }
 
     protected void initItem(Item item)
@@ -111,11 +127,14 @@ public abstract class ContentBlockBase implements Content
 
         item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
         item.setRegistryName(id);
-
-        GameRegistry.register(item);
     }
 
     protected void initBlock()
+    {
+
+    }
+
+    protected void registerModels()
     {
 
     }

@@ -3,12 +3,14 @@ package cubex2.cs4.plugins.vanilla.item;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import cubex2.cs4.plugins.vanilla.ContentItemSword;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class ItemSword extends net.minecraft.item.ItemSword implements ItemTool
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         tooltip.addAll(Arrays.asList(content.information));
     }

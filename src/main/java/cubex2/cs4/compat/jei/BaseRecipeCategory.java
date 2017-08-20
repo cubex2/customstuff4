@@ -14,14 +14,14 @@ import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeCategory;
+import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends TileEntityModuleSupplier> extends BlankRecipeCategory<T>
+public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends TileEntityModuleSupplier> implements IRecipeCategory<T>
 {
     private final String uid;
     private final String title;
@@ -48,6 +48,12 @@ public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends Til
         this.module = pair.getRight();
 
         background = guiHelper.createDrawable(gui.bg, recipe.bgX, recipe.bgY, recipe.bgWidth, recipe.bgHeight);
+    }
+
+    @Override
+    public String getModName()
+    {
+        return recipe.getModId();
     }
 
     public String getModuleName()

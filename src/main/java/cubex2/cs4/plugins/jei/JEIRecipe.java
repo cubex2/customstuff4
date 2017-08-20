@@ -1,5 +1,7 @@
 package cubex2.cs4.plugins.jei;
 
+import cubex2.cs4.api.ContentHelper;
+import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.plugins.vanilla.ContentGuiContainer;
@@ -27,6 +29,14 @@ public abstract class JEIRecipe extends SimpleContent
     public int transferButtonX = -1;
     public int transferButtonY = -1;
 
+    private transient String modId;
+
+    @Override
+    protected void doInit(InitPhase phase, ContentHelper helper)
+    {
+        modId = helper.getModId();
+    }
+
     @SuppressWarnings("unchecked")
     @Nullable
     public ContentGuiContainer getGui()
@@ -35,4 +45,12 @@ public abstract class JEIRecipe extends SimpleContent
     }
 
     public abstract String getUid();
+
+    /**
+     * Gets the id of the mod that added this recipe.
+     */
+    public String getModId()
+    {
+        return modId;
+    }
 }

@@ -3,15 +3,13 @@ package cubex2.cs4.compat.jei;
 import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.api.recipe.IStackHelper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import net.minecraft.item.ItemStack;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class ShapedRecipeWrapper extends BlankRecipeWrapper implements IShapedCraftingRecipeWrapper
+public class ShapedRecipeWrapper implements IShapedCraftingRecipeWrapper
 {
     private final IJeiHelpers jeiHelpers;
     private final DamageableShapedOreRecipe recipe;
@@ -30,7 +28,7 @@ public class ShapedRecipeWrapper extends BlankRecipeWrapper implements IShapedCr
 
         try
         {
-            List<List<ItemStack>> inputs = stackHelper.expandRecipeItemStackInputs(Arrays.asList(recipe.getInput()));
+            List<List<ItemStack>> inputs = stackHelper.expandRecipeItemStackInputs(recipe.getIngredients());
             ingredients.setInputLists(ItemStack.class, inputs);
             ingredients.setOutput(ItemStack.class, recipeOutput);
         } catch (RuntimeException e)

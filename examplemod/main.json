@@ -4,21 +4,6 @@
       "type": "shapedRecipe",
       "entries": [
         {
-          "shape": ["XX", "Y "],
-          "items": {
-            "X": "minecraft:stone@all",
-            "Y": "minecraft:diamond_sword@all"
-          },
-          "result": {
-            "item": "minecraft:obsidian",
-            "amount": 3
-          },
-          "damage": {
-            "Y": 20
-          },
-          "mirrored": true
-        },
-        {
           "result": "minecraft:diamond_sword",
           "remove": true
         }
@@ -27,26 +12,6 @@
     {
       "type": "shapelessRecipe",
       "entries": [
-        {
-          "items": [
-            "minecraft:stone@all",
-            "minecraft:coal"
-          ],
-          "result": {
-            "item": "minecraft:obsidian",
-            "nbt": "{display:{Name:\"Some Obsidian\"}}"
-          }
-        },
-        {
-          "items": [
-            {
-              "item": "minecraft:obsidian",
-              "nbt": "{display:{Name:\"Some Obsidian\"}}"
-            },
-            "minecraft:stone@all"
-          ],
-          "result": "minecraft:coal"
-        },
         {
           "result": "minecraft:dye@15",
           "remove": true

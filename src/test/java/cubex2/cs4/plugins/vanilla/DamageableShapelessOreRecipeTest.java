@@ -8,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +34,8 @@ public class DamageableShapelessOreRecipeTest
     @Test
     public void test_useUpItem()
     {
-        DamageableShapelessOreRecipe recipe = new DamageableShapelessOreRecipe(new int[] {60}, new ItemStack(Blocks.DIRT), new ItemStack(Items.WOODEN_SWORD));
+        DamageableShapelessOreRecipe recipe = new DamageableShapelessOreRecipe(new ResourceLocation("group"),
+                                                                               new int[] {60}, new ItemStack(Blocks.DIRT), new ItemStack(Items.WOODEN_SWORD));
         InventoryCrafting inv = new InventoryCrafting(new Container()
         {
             @Override
@@ -51,7 +53,9 @@ public class DamageableShapelessOreRecipeTest
 
     private void doTest(boolean inOrder, boolean enoughDamage)
     {
-        DamageableShapelessOreRecipe recipe = new DamageableShapelessOreRecipe(new int[] {enoughDamage ? 5 : 5000, 0}, new ItemStack(Blocks.DIRT), new ItemStack(Items.WOODEN_SWORD), new ItemStack(Items.APPLE));
+        DamageableShapelessOreRecipe recipe = new DamageableShapelessOreRecipe(new ResourceLocation("group"),
+                                                                               new int[] {enoughDamage ? 5 : 5000, 0},
+                                                                               new ItemStack(Blocks.DIRT), new ItemStack(Items.WOODEN_SWORD), new ItemStack(Items.APPLE));
         InventoryCrafting inv = new InventoryCrafting(new Container()
         {
             @Override

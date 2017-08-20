@@ -7,8 +7,8 @@ import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
 import cubex2.cs4.plugins.vanilla.MachineRecipeImpl;
 import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
-import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @JEIPlugin
-public class CS4JEIPlugin extends BlankModPlugin
+public class CS4JEIPlugin implements IModPlugin
 {
     @Override
     public void register(IModRegistry registry)
@@ -47,7 +47,7 @@ public class CS4JEIPlugin extends BlankModPlugin
     private void addCraftingRecipes(IModRegistry registry, IJeiHelpers jeiHelpers)
     {
         IRecipeWrapperFactory<DamageableShapedOreRecipe> shapedFactory = recipe -> new ShapedRecipeWrapper(recipe, jeiHelpers);
-        IRecipeWrapperFactory<DamageableShapelessOreRecipe> shapelessFactory = recipe -> new ShapelessRecipeWraper(recipe, jeiHelpers);
+        IRecipeWrapperFactory<DamageableShapelessOreRecipe> shapelessFactory = recipe -> new ShapelessRecipeWrapper(recipe, jeiHelpers);
         for (JEICraftingRecipe recipe : JEICompatRegistry.craftingRecipes)
         {
             String uid = recipe.getUid();

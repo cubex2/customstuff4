@@ -54,10 +54,18 @@ public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
         super.initItem(item);
 
         item.setHasSubtypes(hasSubtypes);
-        for (int meta : subtypes)
+    }
+
+    @Override
+    protected void registerModels()
+    {
+        if (item != null)
         {
-            ResourceLocation model = itemModel.get(meta).orElse(item.getRegistryName());
-            CustomStuff4.proxy.registerItemModel(item, meta, model);
+            for (int meta : subtypes)
+            {
+                ResourceLocation model = itemModel.get(meta).orElse(item.getRegistryName());
+                CustomStuff4.proxy.registerItemModel(item, meta, model);
+            }
         }
     }
 

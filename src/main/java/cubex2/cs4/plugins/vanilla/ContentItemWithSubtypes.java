@@ -21,7 +21,11 @@ public abstract class ContentItemWithSubtypes<T extends Item> extends ContentIte
 
         if (subtypes.length == 0)
             subtypes = new int[] {0};
+    }
 
+    @Override
+    protected void registerModels()
+    {
         for (int meta : subtypes)
         {
             ResourceLocation model = this.model.get(meta).orElse(item.getRegistryName());

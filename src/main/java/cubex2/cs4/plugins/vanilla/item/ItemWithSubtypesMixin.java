@@ -2,12 +2,14 @@ package cubex2.cs4.plugins.vanilla.item;
 
 import cubex2.cs4.plugins.vanilla.ContentItemWithSubtypes;
 import cubex2.cs4.util.ItemHelper;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public abstract class ItemWithSubtypesMixin extends Item implements ItemWithSubt
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         String[] lines = getContent().information.get(stack.getMetadata()).orElse(new String[0]);
         tooltip.addAll(Arrays.asList(lines));
@@ -59,9 +61,12 @@ public abstract class ItemWithSubtypesMixin extends Item implements ItemWithSubt
     }
 
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs creativeTab, NonNullList<ItemStack> subItems)
+    public void getSubItems(CreativeTabs creativeTab, NonNullList<ItemStack> subItems)
     {
-        subItems.addAll(ItemHelper.createSubItems(itemIn, creativeTab, getContent().creativeTab, getContent().subtypes));
+        if (isInCreativeTab(creativeTab))
+        {
+            subItems.addAll(ItemHelper.createSubItems(this, creativeTab, getContent().creativeTab, getContent().subtypes));
+        }
     }
 
     @Override

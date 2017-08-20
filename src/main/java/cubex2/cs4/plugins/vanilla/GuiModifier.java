@@ -96,7 +96,7 @@ class GuiModifier extends SimpleContent
         @Override
         public void render(GuiScreenEvent.DrawScreenEvent.Post event)
         {
-            FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
+            FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 
             int left = getLeft(event.getGui(), font.getStringWidth(text));
             int top = getTop(event.getGui(), font.FONT_HEIGHT);
@@ -137,12 +137,12 @@ class GuiModifier extends SimpleContent
 
             if (offsetX != Length.ZERO)
             {
-                button.xPosition = getLeft(gui, button.width);
+                button.x = getLeft(gui, button.width);
             }
 
             if (offsetY != Length.ZERO)
             {
-                button.yPosition = getTop(gui, button.height);
+                button.y = getTop(gui, button.height);
             }
         }
     }

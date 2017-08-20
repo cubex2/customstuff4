@@ -3,7 +3,6 @@ package cubex2.cs4.plugins.vanilla.item;
 import cubex2.cs4.plugins.vanilla.ContentItemFluidContainer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -32,22 +31,25 @@ public class ItemFluidContainer extends net.minecraftforge.fluids.capability.Ite
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubItems(@Nonnull Item itemIn, @Nullable CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems)
+    public void getSubItems(@Nullable CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems)
     {
-        subItems.add(new ItemStack(this));
-
-        for (Fluid fluid : FluidRegistry.getRegisteredFluids().values())
+        if (isInCreativeTab(tab))
         {
-            if (!fluid.getName().equals("milk"))
+            subItems.add(new ItemStack(this));
+
+            for (Fluid fluid : FluidRegistry.getRegisteredFluids().values())
             {
-                // add all fluids that the bucket can be filled  with
-                FluidStack fs = new FluidStack(fluid, content.capacity);
-                ItemStack stack = new ItemStack(this);
-                IFluidHandlerItem fluidHandler = new FluidHandlerItemStack(stack, content.capacity);
-                if (fluidHandler.fill(fs, true) == fs.amount)
+                if (!fluid.getName().equals("milk"))
                 {
-                    ItemStack filled = fluidHandler.getContainer();
-                    subItems.add(filled);
+                    // add all fluids that the bucket can be filled  with
+                    FluidStack fs = new FluidStack(fluid, content.capacity);
+                    ItemStack stack = new ItemStack(this);
+                    IFluidHandlerItem fluidHandler = new FluidHandlerItemStack(stack, content.capacity);
+                    if (fluidHandler.fill(fs, true) == fs.amount)
+                    {
+                        ItemStack filled = fluidHandler.getContainer();
+                        subItems.add(filled);
+                    }
                 }
             }
         }

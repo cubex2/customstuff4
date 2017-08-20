@@ -1,6 +1,5 @@
 package cubex2.cs4.util;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nullable;
@@ -8,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -33,7 +33,7 @@ public class IOHelper
         {
             File file = new File(modDirectory, path);
             stream = new FileInputStream(file);
-            result = IOUtils.toString(stream, Charsets.UTF_8);
+            result = IOUtils.toString(stream, StandardCharsets.UTF_8);
         } catch (IOException e)
         {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class IOHelper
             if (entry != null)
             {
                 InputStream stream = zip.getInputStream(entry);
-                result = IOUtils.toString(stream, Charsets.UTF_8);
+                result = IOUtils.toString(stream, StandardCharsets.UTF_8);
             }
         } catch (IOException e)
         {

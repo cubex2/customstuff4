@@ -12,7 +12,9 @@ import cubex2.cs4.util.ItemHelper;
 import cubex2.cs4.util.ReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -54,14 +56,17 @@ class ShapedRecipe extends SimpleContent
         return items.values().stream().allMatch(input -> input.isOreClass() || (input.isItemStack() && input.getStack().isItemLoaded()));
     }
 
-    private void addRecipe()
+    void addRecipe()
     {
         Class<DamageableShapedOreRecipe> recipeClass = JEICompatRegistry.getShapedCraftingRecipeClass(recipeList);
-        Constructor<DamageableShapedOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, int[].class, ItemStack.class, Object[].class);
-        DamageableShapedOreRecipe recipe = ReflectionHelper.newInstance(constructor, createDamageAmounts(), result.getItemStack(), getInputForRecipe());
-        recipe.setMirrored(mirrored);
+        Constructor<DamageableShapedOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, ResourceLocation.class, int[].class, ItemStack.class, Object[].class);
+        DamageableShapedOreRecipe recipe = ReflectionHelper.newInstance(constructor, null, createDamageAmounts(), result.getItemStack(), getInputForRecipe());
 
-        CraftingManagerCS4.addRecipe(recipeList, recipe);
+        if (recipe != null)
+        {
+            recipe.setMirrored(mirrored);
+            CraftingManagerCS4.addRecipe(recipeList, recipe);
+        }
     }
 
     boolean removeRecipe(Collection<IRecipe> from)
@@ -139,16 +144,16 @@ class ShapedRecipe extends SimpleContent
         if (recipe.getHeight() != getRecipeHeight())
             return false;
 
-        return isSameInputs(recipe.getInput());
+        return isSameInputs(recipe.getIngredients());
     }
 
-    private boolean isSameInputs(Object[] targetInput)
+    private boolean isSameInputs(NonNullList<Ingredient> targetInput)
     {
         Object[] sourceInput = getRecipeInput();
 
-        for (int i = 0; i < targetInput.length; i++)
+        for (int i = 0; i < targetInput.size(); i++)
         {
-            Object target = targetInput[i];
+            Ingredient target = targetInput.get(i);
             Object source = sourceInput[i];
 
             if (!ItemHelper.isSameRecipeInput(target, source))
@@ -184,7 +189,7 @@ class ShapedRecipe extends SimpleContent
             RecipeInput input = entry.getValue();
 
             result[i] = entry.getKey();
-            result[i + 1] = input.isOreClass() ? input.getOreClass() : input.getStack().getItemStack();
+            result[i + 1] = input.isOreClass() ? input.getOreClass().getOreName() : input.getStack().getItemStack();
 
             i += 2;
         }

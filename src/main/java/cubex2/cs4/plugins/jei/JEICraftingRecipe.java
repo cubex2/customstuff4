@@ -8,6 +8,8 @@ public class JEICraftingRecipe extends JEIRecipe
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
+        super.doInit(phase, helper);
+
         JEICompatRegistry.addCraftingRecipe(this);
     }
 

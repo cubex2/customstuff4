@@ -55,7 +55,7 @@ public class GuiContainerCS4 extends GuiContainer
     {
         for (Label label : content.labels)
         {
-            fontRendererObj.drawString(new TextComponentTranslation(label.text).getUnformattedText(), label.x, label.y, label.color.getRGB(), label.dropShadow);
+            fontRenderer.drawString(new TextComponentTranslation(label.text).getUnformattedText(), label.x, label.y, label.color.getRGB(), label.dropShadow);
         }
 
         for (FluidDisplay display : content.fluidDisplays)

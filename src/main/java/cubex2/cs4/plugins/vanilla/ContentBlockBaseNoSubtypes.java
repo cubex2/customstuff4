@@ -6,11 +6,13 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class ContentBlockBaseNoSubtypes extends ContentBlockBase
 {
-    protected void initItem(Item item)
+    @Override
+    protected void registerModels()
     {
-        super.initItem(item);
-
-        ResourceLocation model = itemModel.get(0).orElse(item.getRegistryName());
-        CustomStuff4.proxy.registerItemModel(item, 0, model);
+        if (item != null)
+        {
+            ResourceLocation model = itemModel.get(0).orElse(item.getRegistryName());
+            CustomStuff4.proxy.registerItemModel(item, 0, model);
+        }
     }
 }
