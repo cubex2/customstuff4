@@ -36,7 +36,10 @@ class ShapelessRecipe extends SimpleContent
     {
         if (remove)
         {
-            removeRecipe(CraftingManagerCS4.getRecipes(recipeList));
+            if (!recipeList.toString().equals("minecraft:vanilla")) // temporary until one can remove vanilla recipes
+            {
+                removeRecipe(CraftingManagerCS4.getRecipes(recipeList));
+            }
         } else
         {
             addRecipe();
