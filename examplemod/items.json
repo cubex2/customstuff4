@@ -10,6 +10,10 @@
             "0": "cs4examplemod:mobile_sensor_0",
             "1": "cs4examplemod:mobile_sensor_1"
           },
+          "burnTime": {
+            "0": 100,
+            "1": 50
+          },
           "creativeTab": {
             "0": "tools",
             "1": "redstone"

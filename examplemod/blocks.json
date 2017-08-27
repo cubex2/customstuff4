@@ -20,6 +20,10 @@
             "0": {"item": "cs4examplemod:someblock@1", "amount": 4},
             "1": "minecraft:air"
           },
+          "burnTime": {
+            "0": 100,
+            "1": 50
+          },
           "sustainedPlants": "Crop"
         },
         {

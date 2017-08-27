@@ -59,4 +59,10 @@ public class ItemBlock extends net.minecraft.item.ItemBlock
     {
         return content.maxStack.get(0).orElse(64);
     }
+
+    @Override
+    public int getItemBurnTime(ItemStack itemStack)
+    {
+        return content.burnTime.get(0).orElse(-1);
+    }
 }

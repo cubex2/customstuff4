@@ -59,4 +59,10 @@ public class ItemBlockWithSubtypes extends net.minecraft.item.ItemBlock
     {
         return content.maxStack.get(stack.getMetadata()).orElse(64);
     }
+
+    @Override
+    public int getItemBurnTime(ItemStack stack)
+    {
+        return content.burnTime.get(stack.getMetadata()).orElse(-1);
+    }
 }

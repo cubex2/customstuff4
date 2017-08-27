@@ -67,6 +67,7 @@ public abstract class ContentBlockBase implements Content
     public boolean canPlaceOnCeiling = true;
     public boolean canPlaceOnSides = true;
     public Attribute<EnumPlantType[]> sustainedPlants = Attribute.constant(null);
+    public Attribute<Integer> burnTime = Attribute.constant(-1);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 
