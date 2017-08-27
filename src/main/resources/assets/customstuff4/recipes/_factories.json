@@ -1,0 +1,6 @@
+{
+  "recipes": {
+    "damageable_shaped": "cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe$Factory",
+    "damageable_shapeless": "cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe$Factory"
+  }
+}

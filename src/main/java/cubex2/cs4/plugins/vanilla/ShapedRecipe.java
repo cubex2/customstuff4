@@ -60,7 +60,8 @@ class ShapedRecipe extends SimpleContent
     {
         Class<DamageableShapedOreRecipe> recipeClass = JEICompatRegistry.getShapedCraftingRecipeClass(recipeList);
         Constructor<DamageableShapedOreRecipe> constructor = ReflectionHelper.getConstructor(recipeClass, ResourceLocation.class, int[].class, ItemStack.class, Object[].class);
-        DamageableShapedOreRecipe recipe = ReflectionHelper.newInstance(constructor, null, createDamageAmounts(), result.getItemStack(), getInputForRecipe());
+        int[] damageAmounts = createDamageAmounts(getRecipeWidth(), getRecipeHeight(), shape, damage);
+        DamageableShapedOreRecipe recipe = ReflectionHelper.newInstance(constructor, null, damageAmounts, result.getItemStack(), getInputForRecipe());
 
         if (recipe != null)
         {
@@ -225,9 +226,9 @@ class ShapedRecipe extends SimpleContent
         return result;
     }
 
-    int[] createDamageAmounts()
+    static int[] createDamageAmounts(int width, int height, String[] shape, Map<Character, Integer> damage)
     {
-        int[] result = new int[getRecipeWidth() * getRecipeHeight()];
+        int[] result = new int[width * height];
 
         for (int row = 0; row < shape.length; row++)
         {

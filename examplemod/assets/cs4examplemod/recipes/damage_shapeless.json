@@ -1,0 +1,16 @@
+{
+  "type": "customstuff4:damageable_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond_pickaxe",
+      "data": 32767
+    }
+  ],
+  "damage": [0, 1],
+  "result": {
+    "item": "minecraft:diamond_block"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "customstuff4:damageable_shaped",
+  "pattern": [
+    "XXX",
+    " # "
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:diamond"
+    },
+    "#": {
+      "item": "minecraft:diamond_pickaxe",
+      "data": 32767
+    }
+  },
+  "damage": {
+    "#": 1
+  },
+  "result": {
+    "item": "minecraft:diamond_block"
+  }
+}
