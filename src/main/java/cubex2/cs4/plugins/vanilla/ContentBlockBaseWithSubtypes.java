@@ -1,6 +1,7 @@
 package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.CustomStuff4;
+import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -49,9 +50,9 @@ public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
     }
 
     @Override
-    protected void initItem(Item item)
+    protected void initItem(Item item, ContentHelper helper)
     {
-        super.initItem(item);
+        super.initItem(item, helper);
 
         item.setHasSubtypes(hasSubtypes);
     }

@@ -7,7 +7,6 @@ import cubex2.cs4.api.InitPhase;
 import cubex2.cs4.api.TileEntityModuleSupplier;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
 
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public abstract class ContentTileEntityBase implements Content
         if (phase != InitPhase.INIT)
             return;
 
-        String modId = Loader.instance().activeModContainer().getModId();
+        String modId = helper.getModId();
         key = new ResourceLocation(modId, id);
 
         TileEntityRegistry.register(this);

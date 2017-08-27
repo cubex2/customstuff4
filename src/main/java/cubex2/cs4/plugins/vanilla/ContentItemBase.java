@@ -6,7 +6,6 @@ import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.RegistryManager;
@@ -27,7 +26,7 @@ public abstract class ContentItemBase<T extends Item> implements Content
         if (phase == InitPhase.PRE_INIT)
         {
             item = createItem();
-            item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
+            item.setUnlocalizedName(helper.getModId() + "." + id);
             item.setRegistryName(id);
 
             item.setMaxDamage(maxDamage);

@@ -6,7 +6,6 @@ import cubex2.cs4.api.InitPhase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +22,7 @@ public abstract class ContentGuiBase implements Content
         if (phase != InitPhase.INIT)
             return;
 
-        String modId = Loader.instance().activeModContainer().getModId();
+        String modId = helper.getModId();
         key = new ResourceLocation(modId, id);
 
         guiId = GuiRegistry.register(this);

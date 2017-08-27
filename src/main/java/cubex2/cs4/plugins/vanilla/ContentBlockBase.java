@@ -14,7 +14,6 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.RegistryManager;
@@ -83,12 +82,12 @@ public abstract class ContentBlockBase implements Content
             checkState(isReady());
 
             block = createBlock();
-            block.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
+            block.setUnlocalizedName(helper.getModId() + "." + id);
             block.setRegistryName(id);
 
             initBlock();
 
-            createItem().ifPresent(this::initItem);
+            createItem().ifPresent(i -> initItem(i, helper));
 
             WailaData.registerStackProviderBlock(block.getClass());
         } else if (phase == InitPhase.REGISTER_MODELS)
@@ -121,11 +120,11 @@ public abstract class ContentBlockBase implements Content
         }
     }
 
-    protected void initItem(Item item)
+    protected void initItem(Item item, ContentHelper helper)
     {
         this.item = item;
 
-        item.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
+        item.setUnlocalizedName(helper.getModId() + "." + id);
         item.setRegistryName(id);
     }
 
