@@ -2,10 +2,12 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.plugins.vanilla.block.CSBlock;
 import net.minecraft.block.Block;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SuppressWarnings("unused")
 public class EventHandler
 {
     @SubscribeEvent
@@ -47,5 +49,18 @@ public class EventHandler
         }
 
         return false;
+    }
+
+    @SubscribeEvent
+    public static void furnaceFuelBurnTime(FurnaceFuelBurnTimeEvent event)
+    {
+        for (Fuel fuel : Fuel.INSTANCES)
+        {
+            if (fuel.appliesToStack(event.getItemStack()))
+            {
+                event.setBurnTime(fuel.burnTime);
+                break;
+            }
+        }
     }
 }
