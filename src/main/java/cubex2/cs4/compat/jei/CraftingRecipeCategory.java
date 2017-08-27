@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class CraftingRecipeCategory extends BaseRecipeCategory<IRecipeWrapper, TileEntityModuleCrafting.Supplier>
+public class CraftingRecipeCategory extends BaseRecipeCategory<JEICraftingRecipe, IRecipeWrapper, TileEntityModuleCrafting.Supplier>
 {
     private final ICraftingGridHelper craftingGridHelper;
 

@@ -1,5 +1,6 @@
 package cubex2.cs4.compat.jei;
 
+import com.google.common.collect.Lists;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.jei.*;
 import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
@@ -11,6 +12,7 @@ import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import net.minecraft.item.ItemStack;
 
@@ -20,6 +22,9 @@ import java.util.stream.Collectors;
 @JEIPlugin
 public class CS4JEIPlugin implements IModPlugin
 {
+    private List<CraftingRecipeCategory> craftingCategories = Lists.newArrayList();
+    private List<MachineRecipeCategory> machineCategories = Lists.newArrayList();
+
     @Override
     public void register(IModRegistry registry)
     {
@@ -30,16 +35,23 @@ public class CS4JEIPlugin implements IModPlugin
         addDescriptions(registry);
     }
 
-    private void addDescriptions(IModRegistry registry)
+    @Override
+    public void registerCategories(IRecipeCategoryRegistration registry)
     {
-        for (JEIDescription description : JEICompatRegistry.descriptions)
-        {
-            List<ItemStack> items = description.items.stream()
-                                                     .map(WrappedItemStack::getItemStack)
-                                                     .map(ItemStack::copy)
-                                                     .collect(Collectors.toList());
+        IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 
-            registry.addDescription(items, description.desc);
+        for (JEICraftingRecipe recipe : JEICompatRegistry.craftingRecipes)
+        {
+            CraftingRecipeCategory category = new CraftingRecipeCategory(recipe, jeiHelpers.getGuiHelper());
+            registry.addRecipeCategories(category);
+            craftingCategories.add(category);
+        }
+
+        for (JEIMachineRecipe recipe : JEICompatRegistry.machineRecipes)
+        {
+            MachineRecipeCategory category = new MachineRecipeCategory(recipe, jeiHelpers.getGuiHelper());
+            registry.addRecipeCategories(category);
+            machineCategories.add(category);
         }
     }
 
@@ -48,14 +60,13 @@ public class CS4JEIPlugin implements IModPlugin
     {
         IRecipeWrapperFactory<DamageableShapedOreRecipe> shapedFactory = recipe -> new ShapedRecipeWrapper(recipe, jeiHelpers);
         IRecipeWrapperFactory<DamageableShapelessOreRecipe> shapelessFactory = recipe -> new ShapelessRecipeWrapper(recipe, jeiHelpers);
-        for (JEICraftingRecipe recipe : JEICompatRegistry.craftingRecipes)
+        for (CraftingRecipeCategory category : craftingCategories)
         {
+            JEICraftingRecipe recipe = category.getRecipe();
             String uid = recipe.getUid();
-            CraftingRecipeCategory category = new CraftingRecipeCategory(recipe, jeiHelpers.getGuiHelper());
 
             registry.handleRecipes(JEICompatRegistry.getShapedCraftingRecipeClass(recipe.recipeList), shapedFactory, uid);
             registry.handleRecipes(JEICompatRegistry.getShapelessCraftingRecipeClass(recipe.recipeList), shapelessFactory, uid);
-            registry.addRecipeCategories(category);
             registry.addRecipes(CraftingManagerCS4.getRecipes(recipe.recipeList), uid);
 
             addCommonEntries(registry, recipe, category.getModuleName(), category.getModule().rows * category.getModule().columns);
@@ -67,13 +78,12 @@ public class CS4JEIPlugin implements IModPlugin
     {
         IRecipeWrapperFactory<MachineRecipeImpl> factory = recipe -> new MachineRecipeWrapper(recipe, jeiHelpers);
 
-        for (JEIMachineRecipe recipe : JEICompatRegistry.machineRecipes)
+        for (MachineRecipeCategory category : machineCategories)
         {
+            JEIMachineRecipe recipe = category.getRecipe();
             String uid = recipe.getUid();
-            MachineRecipeCategory category = new MachineRecipeCategory(recipe, jeiHelpers.getGuiHelper());
 
             registry.handleRecipes((Class<MachineRecipeImpl>) JEICompatRegistry.getMachineRecipeClass(recipe.recipeList), factory, uid);
-            registry.addRecipeCategories(category);
             registry.addRecipes(MachineManager.getRecipes(recipe.recipeList), uid);
 
             addCommonEntries(registry, recipe, category.getModuleName(), category.getModule().inputSlots);
@@ -84,7 +94,7 @@ public class CS4JEIPlugin implements IModPlugin
     {
         if (recipe.icon != null)
         {
-            registry.addRecipeCategoryCraftingItem(recipe.icon.getItemStack(), recipe.getUid());
+            registry.addRecipeCatalyst(recipe.icon.getItemStack(), recipe.getUid());
         }
 
         if (recipe.recipeAreaWidth > 0 && recipe.recipeAreaHeight > 0)
@@ -98,5 +108,17 @@ public class CS4JEIPlugin implements IModPlugin
         }
 
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(new TransferInfo(recipe.getUid(), moduleName, inputSlots));
+    }
+
+    private void addDescriptions(IModRegistry registry)
+    {
+        for (JEIDescription description : JEICompatRegistry.descriptions)
+        {
+            List<ItemStack> items = description.items.stream()
+                                                     .map(WrappedItemStack::getItemStack)
+                                                     .map(ItemStack::copy)
+                                                     .collect(Collectors.toList());
+            registry.addIngredientInfo(items, ItemStack.class, description.desc);
+        }
     }
 }

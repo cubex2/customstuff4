@@ -21,7 +21,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends TileEntityModuleSupplier> implements IRecipeCategory<T>
+public abstract class BaseRecipeCategory<R extends JEIRecipe, T extends IRecipeWrapper, M extends TileEntityModuleSupplier> implements IRecipeCategory<T>
 {
     private final String uid;
     private final String title;
@@ -32,9 +32,9 @@ public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends Til
     protected final M module;
     private final String moduleName;
 
-    private final JEIRecipe recipe;
+    private final R recipe;
 
-    protected BaseRecipeCategory(JEIRecipe recipe, IGuiHelper guiHelper, Class<M> moduleClass)
+    protected BaseRecipeCategory(R recipe, IGuiHelper guiHelper, Class<M> moduleClass)
     {
         this.recipe = recipe;
 
@@ -48,6 +48,11 @@ public abstract class BaseRecipeCategory<T extends IRecipeWrapper, M extends Til
         this.module = pair.getRight();
 
         background = guiHelper.createDrawable(gui.bg, recipe.bgX, recipe.bgY, recipe.bgWidth, recipe.bgHeight);
+    }
+
+    public R getRecipe()
+    {
+        return recipe;
     }
 
     @Override

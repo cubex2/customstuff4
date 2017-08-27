@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public class MachineRecipeCategory extends BaseRecipeCategory<MachineRecipeWrapper, TileEntityModuleMachine.Supplier>
+public class MachineRecipeCategory extends BaseRecipeCategory<JEIMachineRecipe, MachineRecipeWrapper, TileEntityModuleMachine.Supplier>
 {
     public MachineRecipeCategory(JEIMachineRecipe recipe, IGuiHelper guiHelper)
     {
