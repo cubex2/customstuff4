@@ -47,6 +47,12 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public float getSlipperiness(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable Entity entity)
+    {
+        return getContent().slipperiness.get(getSubtype(state)).orElse(0.6f);
+    }
+
+    @Override
     public int damageDropped(IBlockState state)
     {
         return getSubtype(state);

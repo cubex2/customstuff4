@@ -28,8 +28,8 @@ public abstract class ContentBlockBase implements Content
 {
     public String id;
     public Material material = Material.GROUND;
-    float slipperiness = 0.6f;
 
+    public Attribute<Float> slipperiness = Attribute.constant(0.6f);
     public Attribute<String> creativeTab = Attribute.constant("anonexistingtabtoreturnnull");
     public Attribute<Float> hardness = Attribute.constant(1f);
     public Attribute<Float> resistance = Attribute.constant(0f);
@@ -85,7 +85,6 @@ public abstract class ContentBlockBase implements Content
             block = createBlock();
             block.setUnlocalizedName(Loader.instance().activeModContainer().getModId() + "." + id);
             block.setRegistryName(id);
-            block.slipperiness = slipperiness;
 
             initBlock();
 
