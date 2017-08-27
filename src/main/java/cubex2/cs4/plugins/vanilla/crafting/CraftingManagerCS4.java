@@ -40,6 +40,17 @@ public class CraftingManagerCS4
         }
     }
 
+    private static Iterable<IRecipe> getRecipesIterable(ResourceLocation list)
+    {
+        if (list.toString().equals("minecraft:vanilla"))
+        {
+            return CraftingManager.REGISTRY;
+        } else
+        {
+            return getInstance(list).recipes;
+        }
+    }
+
     public static void addRecipe(ResourceLocation list, IRecipe recipe)
     {
         checkArgument(!list.toString().equals("minecraft:vanilla"), "Trying to add a recipe for the vanilla list.");
@@ -49,10 +60,10 @@ public class CraftingManagerCS4
 
     public static ItemStack findMatchingRecipe(ResourceLocation list, InventoryCrafting craftMatrix, World worldIn)
     {
-        return findMatchingRecipe(getRecipes(list), craftMatrix, worldIn);
+        return findMatchingRecipe(getRecipesIterable(list), craftMatrix, worldIn);
     }
 
-    public static ItemStack findMatchingRecipe(List<IRecipe> recipes, InventoryCrafting craftMatrix, World worldIn)
+    public static ItemStack findMatchingRecipe(Iterable<IRecipe> recipes, InventoryCrafting craftMatrix, World worldIn)
     {
         for (IRecipe irecipe : recipes)
         {
