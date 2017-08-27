@@ -47,21 +47,13 @@ public class JEICompatRegistry implements Opcodes
     public static Class<DamageableShapedOreRecipe> getShapedCraftingRecipeClass(ResourceLocation list)
     {
         return (Class<DamageableShapedOreRecipe>) shapedCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
-        {
-            Class<? extends DamageableShapedOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapedOreRecipe.class, recipeList.toString(), 4);
-            //RecipeSorter.register("customstuff4:shapedore:" + list.toString(), clazz, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
-            return clazz;
-        });
+                AsmHelper.createSubClass(DamageableShapedOreRecipe.class, recipeList.toString(), 4));
     }
 
     @SuppressWarnings("unchecked")
     public static Class<DamageableShapelessOreRecipe> getShapelessCraftingRecipeClass(ResourceLocation list)
     {
         return (Class<DamageableShapelessOreRecipe>) shapelessCraftingRecipeClasses.computeIfAbsent(list, recipeList ->
-        {
-            Class<? extends DamageableShapelessOreRecipe> clazz = AsmHelper.createSubClass(DamageableShapelessOreRecipe.class, recipeList.toString(), 4);
-            //RecipeSorter.register("customstuff4:shapelessore:" + list.toString(), clazz, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
-            return clazz;
-        });
+                AsmHelper.createSubClass(DamageableShapelessOreRecipe.class, recipeList.toString(), 4));
     }
 }

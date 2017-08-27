@@ -55,8 +55,6 @@ public class CustomStuff4
         registerPackets();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-        //RecipeSorter.register("customstuff4:shapedore", DamageableShapedOreRecipe.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
-        //RecipeSorter.register("customstuff4:shapelessore", DamageableShapelessOreRecipe.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
         ModLoader.initMods(modsDir);
     }
 
