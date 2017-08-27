@@ -70,6 +70,12 @@ public abstract class ItemWithSubtypesMixin extends Item implements ItemWithSubt
     }
 
     @Override
+    public int getItemBurnTime(ItemStack itemStack)
+    {
+        return getContent().burnTime.get(itemStack.getMetadata()).orElse(-1);
+    }
+
+    @Override
     public ContentItemWithSubtypes<?> getContent()
     {
         return null;

@@ -37,4 +37,10 @@ public class ItemShovel extends ItemSpade implements ItemTool
     {
         tooltip.addAll(Arrays.asList(content.information));
     }
+
+    @Override
+    public int getItemBurnTime(ItemStack itemStack)
+    {
+        return content.burnTime.get(itemStack.getMetadata()).orElse(-1);
+    }
 }

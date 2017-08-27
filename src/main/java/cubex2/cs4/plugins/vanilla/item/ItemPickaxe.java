@@ -36,4 +36,10 @@ public class ItemPickaxe extends net.minecraft.item.ItemPickaxe implements ItemT
     {
         tooltip.addAll(Arrays.asList(content.information));
     }
+
+    @Override
+    public int getItemBurnTime(ItemStack itemStack)
+    {
+        return content.burnTime.get(itemStack.getMetadata()).orElse(-1);
+    }
 }

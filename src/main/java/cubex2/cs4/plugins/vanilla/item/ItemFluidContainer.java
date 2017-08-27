@@ -99,4 +99,10 @@ public class ItemFluidContainer extends net.minecraftforge.fluids.capability.Ite
     {
         return true;
     }
+
+    @Override
+    public int getItemBurnTime(ItemStack itemStack)
+    {
+        return content.burnTime.get(itemStack.getMetadata()).orElse(-1);
+    }
 }

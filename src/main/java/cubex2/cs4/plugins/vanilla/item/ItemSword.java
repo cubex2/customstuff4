@@ -64,5 +64,9 @@ public class ItemSword extends net.minecraft.item.ItemSword implements ItemTool
         return multimap;
     }
 
-
+    @Override
+    public int getItemBurnTime(ItemStack itemStack)
+    {
+        return content.burnTime.get(itemStack.getMetadata()).orElse(-1);
+    }
 }

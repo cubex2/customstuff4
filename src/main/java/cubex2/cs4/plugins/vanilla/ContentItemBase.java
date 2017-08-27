@@ -17,6 +17,7 @@ public abstract class ContentItemBase<T extends Item> implements Content
     int maxDamage = 0;
 
     Attribute<Color> tint = null;
+    public Attribute<Integer> burnTime = Attribute.constant(-1);
 
     protected transient T item;
 
