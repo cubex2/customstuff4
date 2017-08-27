@@ -98,6 +98,26 @@ public class ItemHelperTests
     }
 
     @Test
+    public void test_createSubItems_search_tab()
+    {
+        HashMap<Integer, String> map = Maps.newHashMap();
+        map.put(0, "tools");
+        map.put(1, "redstone");
+
+        Attribute<String> tabLabels = Attribute.map(map);
+        int[] subtypes = new int[] {0, 1};
+
+        Item item = new Item();
+        item.setHasSubtypes(true);
+
+        NonNullList<ItemStack> subItems = ItemHelper.createSubItems(item, CreativeTabs.SEARCH, tabLabels, subtypes);
+
+        assertEquals(2, subItems.size());
+        assertEquals(0, subItems.get(0).getItemDamage());
+        assertEquals(1, subItems.get(1).getItemDamage());
+    }
+
+    @Test
     public void test_createSubItems_sameTabs()
     {
         HashMap<Integer, String> map = Maps.newHashMap();

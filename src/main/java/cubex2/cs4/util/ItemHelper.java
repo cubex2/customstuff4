@@ -70,7 +70,7 @@ public class ItemHelper
                 tabLabels.get(meta)
                          .ifPresent(tabLabel ->
                                     {
-                                        if (creativeTab == null || Objects.equals(tabLabel, getTabLabel(creativeTab)))
+                                        if (creativeTab == null || creativeTab == CreativeTabs.SEARCH || Objects.equals(tabLabel, getTabLabel(creativeTab)))
                                         {
                                             list.add(new ItemStack(item, 1, meta));
                                         }
