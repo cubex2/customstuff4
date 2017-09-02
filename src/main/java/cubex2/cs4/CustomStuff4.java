@@ -23,12 +23,14 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-@Mod(modid = CustomStuff4.ID, name = CustomStuff4.NAME, version = CustomStuff4.VERSION)
+@Mod(modid = CustomStuff4.ID, name = CustomStuff4.NAME, version = CustomStuff4.VERSION,
+        acceptedMinecraftVersions = CustomStuff4.MC_VERSION)
 public class CustomStuff4
 {
     public static final String ID = "customstuff4";
     public static final String NAME = "Custom Stuff 4";
     public static final String VERSION = "0.4.0";
+    public static final String MC_VERSION = "[1.12,)";
 
     public static final ContentRegistryImpl contentRegistry = new ContentRegistryImpl();
 
