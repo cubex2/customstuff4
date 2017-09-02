@@ -30,7 +30,7 @@ repositories {
 }
 
 
-version = "1.11.2-0.3.7"
+version = "1.12.1-0.4.0"
 group = "cubex2.cs4"
 archivesBaseName = "customstuff4"
 
