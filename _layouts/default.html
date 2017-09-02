@@ -14,7 +14,9 @@
 
   <body>
 	<div id="sidebar">
-		<a href="#" class="sidebar-item">Home</a>
+		{% for nav in site.data.nav %}
+		<a href="{{nav.url}}" class="sidebar-item">{{nav.title}}</a>
+		{% endfor %}
 	</div>
 
     <!-- MAIN CONTENT -->
