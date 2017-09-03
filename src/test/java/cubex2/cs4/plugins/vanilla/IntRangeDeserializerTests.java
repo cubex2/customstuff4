@@ -2,6 +2,7 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.util.IntRange;
 import org.junit.BeforeClass;
@@ -43,5 +44,11 @@ public class IntRangeDeserializerTests
         assertNotNull(range);
         assertEquals(1, range.getMin());
         assertEquals(5, range.getMax());
+    }
+
+    @Test(expected = JsonParseException.class)
+    public void test_withArraySingleElement()
+    {
+        Map<String, IntRange> map = gson.fromJson("{ \"range\": [1] }", new TypeToken<Map<String, IntRange>>() {}.getType());
     }
 }

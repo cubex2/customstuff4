@@ -14,6 +14,9 @@ class IntRangeDeserializer implements JsonDeserializer<IntRange>
         {
             JsonArray array = json.getAsJsonArray();
 
+            if (array.size() != 2)
+                throw new JsonSyntaxException("Invalid range. Array has " + array.size() + " elements. Expected 2.");
+
             int min = array.get(0).getAsInt();
             int max = array.get(1).getAsInt();
 
