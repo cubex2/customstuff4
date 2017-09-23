@@ -1,0 +1,39 @@
+category,name,type,default,subtype,since
+all,id,String,,false,0.1.0
+all,material,String,ground,false,0.1.0
+all,slipperiness,Float,0.6,0.4.0,0.1.0
+all,creativeTab,String,,true,0.1.0
+all,hardness,Float,1.0,true,0.1.0
+all,resistance,Float,0.0,true,0.1.0
+all,soundType,String,stone,true,0.1.0
+all,maxStack,Integer,64,true,0.1.0
+all,opacity,Integer,255,true,0.1.0
+all,light,Integer,0,true,0.1.0
+all,flammability,Integer,0,true,0.1.0
+all,fireSpreadSpeed,Integer,0,true,0.1.0
+all,isFireSource,Boolean,false,true,0.1.0
+all,isWood,Boolean,false,true,0.1.0
+all,canSustainLeaves,Boolean,false,true,0.1.0
+all,isBeaconBase,Boolean,false,true,0.1.0
+all,enchantPowerBonus,Float,0.0,true,0.1.0
+all,expDrop,IntRange,0,true,0.1.0
+all,information,StringArray,,true,0.1.0
+all,tileEntity,ResourceLocation,,true,0.1.0
+all,gui,ResourceLocation,,true,0.1.0
+all,itemModel,ResourceLocation,,true,0.1.0
+all,drop,BlockDropArray,{self drop},true,0.2.1
+all,isFullCube,Boolean,true,true,0.2.1
+all,isBurning,Boolean,false,true,0.3.5
+all,bounds,BoundingBox,{block default},true,0.3.5
+all,selectionBounds,BoundingBox,{block default},true,0.3.5
+all,collisionBounds,BoundingBox,{block default},true,0.3.5
+all,renderLayer,String,{block default},false,0.3.5
+all,isOpaqueCube,Boolean,true,true,0.3.5
+all,canSilkHarvest,Boolean,true,true,0.3.5
+all,harvestTool,String,,true,0.3.5
+all,harvestLevel,Integer,-1,true,0.3.5
+all,canPlaceOnCeiling,Boolean,true,true,0.3.5
+all,canPlaceOnFloor,Boolean,true,true,0.3.5
+all,canPlaceOnSides,Boolean,true,true,0.3.5
+all,sustainedPlants,StringArray,,true,0.3.5
+all,burnTime,Integer,-1,true,0.4.0

@@ -1,0 +1,30 @@
+{% assign entries = site.data.block_attributes | where: "category", include.category | sort: 'name' %}
+
+<table>
+<tbody>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Metadata Subtypes</th>
+<th>Since</th>
+</tr>
+{% for content in entries %}
+<tr>
+<td>{{content.name}}</td>
+<td>{{content.type}}</td>
+<td>{{content.default}}</td>
+<td>
+{% if content.subtype == "true" %}
+Yes
+{% elsif content.subtype == "false" %}
+No
+{% else %}
+Yes (since {{content.subtype}})
+{% endif %}
+</td>
+<td>{{content.since}}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>

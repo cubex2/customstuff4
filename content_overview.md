@@ -6,7 +6,7 @@ layout: default
 
 This page contains an overview of all content that can be added with Custom Stuff 4.
 
-## Blocks
+## [Blocks](./blocks.html)
 
 {% include overview_table.html category="blocks" %}
 
