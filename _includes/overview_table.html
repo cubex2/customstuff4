@@ -1,0 +1,16 @@
+{% assign entries = site.data.overview | where: "category", include.category | sort: 'type' %}
+
+<table>
+<tbody>
+<tr>
+<th>Type</th>
+<th>Since</th>
+</tr>
+{% for content in entries %}
+<tr>
+<td>{{content.type}}</td>
+<td>{{content.since}}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
