@@ -1,0 +1,123 @@
+{
+  "machine": [
+    {
+      "type": "block:simple",
+      "entries": [
+        {
+          "id": "machine_no_fuel",
+          "creativeTab": "examplemod",
+          "itemModel": "cs4examplemod:sensor_iron",
+          "tileEntity": "cs4examplemod:machine_no_fuel",
+          "gui": "cs4examplemod:machine_no_fuel"
+        }
+      ]
+    },
+    {
+      "type": "tileentity:simple",
+      "entries": [
+        {
+          "id": "machine_no_fuel",
+          "modules": [
+            {
+              "type": "machine",
+              "name": "machine",
+              "inputSlots": 2,
+              "outputSlots": 2,
+              "fuelSlots": 0,
+              "recipeList": "cs4examplemod:machine",
+              "fuelList": "cs4examplemod:machine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "gui:container",
+      "entries": [
+        {
+          "id": "machine_no_fuel",
+          "bg": "cs4examplemod:textures/gui/container/machine.png",
+          "slots": [
+            {
+              "name": "machine",
+              "rows": 1,
+              "columns": 2,
+              "x": 38,
+              "y": 17
+            },
+            {
+              "name": "machine",
+              "rows": 1,
+              "columns": 2,
+              "firstSlot": 2,
+              "x": 116,
+              "y": 35,
+              "spacingX": 26
+            },
+            {
+              "name": "player",
+              "firstSlot": 9,
+              "rows": 3,
+              "columns": 9,
+              "x": 8,
+              "y": 84
+            },
+            {
+              "name": "player",
+              "rows": 1,
+              "columns": 9,
+              "x": 8,
+              "y": 142
+            }
+          ],
+          "shiftClickRules": [
+            {
+              "from": [0, 3],
+              "to": [39, 4]
+            },
+            {
+              "from": [4, 39],
+              "to": [0, 1],
+              "filter": "machineInput:cs4examplemod:machine"
+            }
+          ],
+          "labels": [
+            {
+              "text": "container.furnace",
+              "x": 28,
+              "y": 6
+            },
+            {
+              "text": "container.inventory",
+              "x": 8,
+              "y": 73
+            }
+          ],
+          "progressBars": [
+            {
+              "source": "machine:cookTime",
+              "x": 80,
+              "y": 34,
+              "width": 22,
+              "height": 16,
+              "texX": 177,
+              "texY": 14,
+              "direction": "right"
+            },
+            {
+              "source": "machine:burnTime",
+              "x": 56,
+              "y": 36,
+              "width": 14,
+              "height": 13,
+              "texX": 176,
+              "texY": 0,
+              "direction": "up"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

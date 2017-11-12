@@ -120,6 +120,9 @@
       "file": "machine.json"
     },
     {
+      "file": "machine_no_fuel.json"
+    },
+    {
       "file": "crafter.json"
     },
     {

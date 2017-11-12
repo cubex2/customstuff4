@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "normal": {"model": "cs4examplemod:sensor_iron"}
+  }
+}
