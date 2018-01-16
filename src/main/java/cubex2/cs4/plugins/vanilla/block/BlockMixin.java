@@ -16,6 +16,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -30,6 +31,8 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
@@ -375,6 +378,30 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
             }
         }
         return false;
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        TileEntity tile = worldIn.getTileEntity(pos);
+
+        if (tile != null)
+        {
+            IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            if (itemHandler != null)
+            {
+                for (int i = 0; i < itemHandler.getSlots(); i++)
+                {
+                    ItemStack stack = itemHandler.getStackInSlot(i);
+                    if (!stack.isEmpty())
+                    {
+                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+                    }
+                }
+            }
+        }
+
+        super.breakBlock(worldIn, pos, state);
     }
 
     private boolean openGui(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn)
