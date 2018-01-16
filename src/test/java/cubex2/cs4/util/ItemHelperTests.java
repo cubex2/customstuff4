@@ -3,7 +3,9 @@ package cubex2.cs4.util;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs4.plugins.vanilla.Attribute;
+import cubex2.cs4.plugins.vanilla.BlockDrop;
 import cubex2.cs4.plugins.vanilla.RecipeInputImpl;
+import cubex2.cs4.plugins.vanilla.WrappedItemStackConstant;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
@@ -21,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -260,5 +263,57 @@ public class ItemHelperTests
 
         assertSame(stack.getItem(), copy.getItem());
         assertEquals(42, copy.getCount());
+    }
+
+    @Test
+    public void test_getDroppedStacks_nothing()
+    {
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[0]);
+
+        assertTrue(drops.isEmpty());
+    }
+
+    @Test
+    public void test_getDroppedStacks_emptyStack()
+    {
+        BlockDrop drop = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.APPLE)), IntRange.create(0, 0));
+
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop});
+
+        assertTrue(drops.isEmpty());
+    }
+
+    @Test
+    public void test_getDroppedStacks_simple()
+    {
+        BlockDrop drop1 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.APPLE)), IntRange.create(1, 1));
+        BlockDrop drop2 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.STICK)), IntRange.create(2, 2));
+
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop1, drop2});
+        ItemStack stack1 = drops.get(0);
+        ItemStack stack2 = drops.get(1);
+
+        assertSame(Items.APPLE, stack1.getItem());
+        assertEquals(1, stack1.getCount());
+
+        assertSame(Items.STICK, stack2.getItem());
+        assertEquals(2, stack2.getCount());
+    }
+
+    @Test
+    public void test_getDroppedStacks_range()
+    {
+        BlockDrop drop1 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.APPLE)), IntRange.create(1, 10));
+        BlockDrop drop2 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.STICK)), IntRange.create(11, 20));
+
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop1, drop2});
+        ItemStack stack1 = drops.get(0);
+        ItemStack stack2 = drops.get(1);
+
+        assertSame(Items.APPLE, stack1.getItem());
+        assertTrue(stack1.getCount() >= 1 && stack1.getCount() <= 10);
+
+        assertSame(Items.STICK, stack2.getItem());
+        assertTrue(stack2.getCount() >= 11 && stack2.getCount() <= 20);
     }
 }

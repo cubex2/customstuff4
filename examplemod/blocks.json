@@ -274,6 +274,22 @@
           "hardness": 1
         }
       ]
+    },
+    {
+      "type": "block:snow",
+      "entries": [
+        {
+          "id": "snow",
+          "creativeTab": "examplemod",
+          "itemModel": "cs4examplemod:snow",
+          "snowball": {
+            "item": "minecraft:snowball",
+            "amount": 2
+          },
+          "maxLight": 15,
+          "hardness": 1
+        }
+      ]
     }
   ]
 }

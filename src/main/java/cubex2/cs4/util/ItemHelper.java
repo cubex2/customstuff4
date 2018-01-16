@@ -2,7 +2,9 @@ package cubex2.cs4.util;
 
 import com.google.common.collect.Lists;
 import cubex2.cs4.api.RecipeInput;
+import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.vanilla.Attribute;
+import cubex2.cs4.plugins.vanilla.BlockDrop;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -228,5 +230,27 @@ public class ItemHelper
         ItemStack copy = stack.copy();
         copy.setCount(newAmount);
         return copy;
+    }
+
+    public static List<ItemStack> getDroppedStacks(BlockDrop[] drops)
+    {
+        List<ItemStack> result = Lists.newArrayList();
+
+        for (BlockDrop drop : drops)
+        {
+            WrappedItemStack wrappedItemStack = drop.getItem();
+            ItemStack droppedStack = wrappedItemStack.getItemStack();
+
+            if (!droppedStack.isEmpty())
+            {
+                int amount = drop.getAmount();
+                if (amount > 0)
+                {
+                    result.add(ItemHelper.copyStack(droppedStack, amount));
+                }
+            }
+        }
+
+        return result;
     }
 }

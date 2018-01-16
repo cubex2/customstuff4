@@ -1,8 +1,6 @@
 package cubex2.cs4.plugins.vanilla.block;
 
-import com.google.common.collect.Lists;
 import cubex2.cs4.CustomStuff4;
-import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.vanilla.*;
 import cubex2.cs4.util.IntRange;
 import cubex2.cs4.util.ItemHelper;
@@ -62,33 +60,15 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
-    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Optional<BlockDrop[]> drops = getContent().drop.get(getSubtype(state));
-        if (drops.isPresent())
+        Optional<BlockDrop[]> blockDrops = getContent().drop.get(getSubtype(state));
+        if (blockDrops.isPresent())
         {
-            List<ItemStack> result = Lists.newArrayList();
-
-            for (BlockDrop drop : drops.get())
-            {
-                WrappedItemStack wrappedItemStack = drop.getItem();
-                ItemStack droppedStack = wrappedItemStack.getItemStack();
-
-                if (!droppedStack.isEmpty())
-                {
-                    int amount = drop.getAmount();
-                    if (amount > 0)
-                    {
-                        result.add(ItemHelper.copyStack(droppedStack, amount));
-                    }
-                }
-            }
-
-            return result;
-
+            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get()));
         } else
         {
-            return super.getDrops(world, pos, state, fortune);
+            super.getDrops(drops, world, pos, state, fortune);
         }
     }
 
