@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "subtype=subtype0": {"model": "minecraft:carpet_white"},
+    "subtype=subtype1": {"model": "minecraft:carpet_black"}
+  }
+}

@@ -36,6 +36,9 @@ tile.cs4examplemod.slab.0.name=Slab 0
 tile.cs4examplemod.slab.1.name=Slab 1
 tile.cs4examplemod.small_cube.name=Small Cube
 tile.cs4examplemod.transparent.name=Transparent
+tile.cs4examplemod.carpet_no_subtype.name=Carpet
+tile.cs4examplemod.carpet.0.name=Carpet 0
+tile.cs4examplemod.carpet.1.name=Carpet 1
 fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 

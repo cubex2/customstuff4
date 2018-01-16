@@ -248,6 +248,32 @@
           "isBurning": true
         }
       ]
+    },
+    {
+      "type": "block:carpet",
+      "entries": [
+        {
+          "id": "carpet",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "subtypes": [0, 1],
+          "itemModel": {
+            "0": "cs4examplemod:carpet_0",
+            "1": "cs4examplemod:carpet_1"
+          },
+          "hardness": {
+            "0": 1,
+            "1": 4
+          }
+        },
+        {
+          "id": "carpet_no_subtype",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:carpet_0",
+          "hardness": 1
+        }
+      ]
     }
   ]
 }
