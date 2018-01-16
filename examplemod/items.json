@@ -114,6 +114,17 @@
           "model": "cs4examplemod:fluid_container"
         }
       ]
+    },
+    {
+      "type": "item:shears",
+      "entries": [
+        {
+          "id": "shears",
+          "creativeTab": "examplemod",
+          "model": "minecraft:shears",
+          "durability": 1000
+        }
+      ]
     }
   ]
 }

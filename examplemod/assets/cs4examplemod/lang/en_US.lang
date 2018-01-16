@@ -9,6 +9,7 @@ item.cs4examplemod.fluid_container.filled.name=%s Fluid Container
 item.cs4examplemod.someaxe.name=Axe
 item.cs4examplemod.somepickaxe.name=Pickaxe
 item.cs4examplemod.someshovel.name=Shovel
+item.cs4examplemod.shears.name=Shears
 tile.cs4examplemod.someblock.0.name=Iron Sensor
 tile.cs4examplemod.someblock.1.name=Golden Sensor
 tile.cs4examplemod.vertical_no_subtype.name=Vertical

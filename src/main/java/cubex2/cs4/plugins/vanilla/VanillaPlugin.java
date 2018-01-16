@@ -1,7 +1,6 @@
 package cubex2.cs4.plugins.vanilla;
 
 import com.google.gson.reflect.TypeToken;
-import cubex2.cs4.ClientProxy;
 import cubex2.cs4.CommonProxy;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
@@ -106,6 +105,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:sword", ContentItemSword.class);
         registry.registerContentType("item:food", ContentItemFood.class);
         registry.registerContentType("item:fluidContainer", ContentItemFluidContainer.class);
+        registry.registerContentType("item:shears", ContentItemShears.class);
 
         registry.registerContentType("block:simple", ContentBlockSimple.class);
         registry.registerContentType("block:orientable:vertical", ContentBlockOrientableVertical.class);
