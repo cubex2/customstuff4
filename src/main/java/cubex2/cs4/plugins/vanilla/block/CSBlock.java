@@ -16,9 +16,10 @@ public interface CSBlock<T extends ContentBlockBase>
     }
 
     /**
-     * Gets all properties that this block is using except for the subtype property.
+     * Gets all properties that this block is using except for the subtype property. If using with BlockMixin, this must
+     * also not include the properties of the superclass.
      */
-    default IProperty[] getProperties()
+    default IProperty<?>[] getProperties()
     {
         return new IProperty[0];
     }

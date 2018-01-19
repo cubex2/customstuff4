@@ -1,5 +1,6 @@
 package cubex2.cs4.plugins.vanilla.block;
 
+import com.google.common.collect.Lists;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.plugins.vanilla.*;
 import cubex2.cs4.util.IntRange;
@@ -8,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -26,6 +28,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLLog;
@@ -35,6 +39,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -423,6 +428,18 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, ContentBlockBaseWithSubtypes.insertSubtype(getProperties()));
+        BlockStateContainer superState = super.createBlockState();
+        List<IProperty<?>> superProperties = Lists.newArrayList(superState.getProperties());
+        superProperties.addAll(Arrays.asList(getProperties()));
+
+        if (superState instanceof ExtendedBlockState)
+        {
+            IUnlistedProperty<?>[] unlistedProperties = ((ExtendedBlockState) superState).getUnlistedProperties().toArray(new IUnlistedProperty<?>[0]);
+
+            return new ExtendedBlockState(this, ContentBlockBaseWithSubtypes.insertSubtype(superProperties), unlistedProperties);
+        } else
+        {
+            return new BlockStateContainer(this, ContentBlockBaseWithSubtypes.insertSubtype(superProperties));
+        }
     }
 }

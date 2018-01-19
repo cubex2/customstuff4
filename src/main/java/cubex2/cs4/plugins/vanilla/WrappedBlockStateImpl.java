@@ -10,7 +10,7 @@ import net.minecraft.util.Tuple;
 import java.util.List;
 import java.util.Optional;
 
-class WrappedBlockStateImpl implements WrappedBlockState
+public class WrappedBlockStateImpl implements WrappedBlockState
 {
     private final ResourceLocation block;
     private final List<Tuple<String, String>> properties;

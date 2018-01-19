@@ -8,6 +8,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
@@ -72,17 +73,21 @@ public abstract class ContentBlockBaseWithSubtypes extends ContentBlockBase
 
     protected abstract Optional<Item> createItem(boolean hasSubtypes);
 
-    public static IProperty[] insertSubtype(IProperty... properties)
+    public static IProperty[] insertSubtype(Collection<IProperty<?>> properties)
     {
         if (activeContent != null)
         {
-            IProperty[] newPropertires = new IProperty[properties.length + 1];
-            newPropertires[0] = BlockHelper.getSubtypeProperty(activeContent.subtypes);
-            System.arraycopy(properties, 0, newPropertires, 1, properties.length);
-            return newPropertires;
+            IProperty[] newProperties = new IProperty[properties.size() + 1];
+            newProperties[0] = BlockHelper.getSubtypeProperty(activeContent.subtypes);
+            int i = 1;
+            for (IProperty property : properties)
+            {
+                newProperties[i++] = property;
+            }
+            return newProperties;
         } else
         {
-            return properties;
+            return properties.toArray(new IProperty[0]);
         }
     }
 }

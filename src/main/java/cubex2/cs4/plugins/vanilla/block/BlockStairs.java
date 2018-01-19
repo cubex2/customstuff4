@@ -2,7 +2,6 @@ package cubex2.cs4.plugins.vanilla.block;
 
 import cubex2.cs4.plugins.vanilla.ContentBlockStairs;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 
 public class BlockStairs extends net.minecraft.block.BlockStairs implements CSBlock<ContentBlockStairs>
@@ -25,11 +24,5 @@ public class BlockStairs extends net.minecraft.block.BlockStairs implements CSBl
     public ContentBlockStairs getContent()
     {
         return content;
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState()
-    {
-        return super.createBlockState();
     }
 }

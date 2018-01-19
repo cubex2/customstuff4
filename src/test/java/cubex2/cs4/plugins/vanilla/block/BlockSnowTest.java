@@ -6,6 +6,7 @@ import cubex2.cs4.plugins.vanilla.ContentBlockSnow;
 import cubex2.cs4.plugins.vanilla.WrappedItemStackConstant;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
@@ -13,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -23,6 +26,18 @@ public class BlockSnowTest
     public static void setUp()
     {
         Bootstrap.register();
+    }
+
+    @Test
+    public void testProperties()
+    {
+        ContentBlockSnow content = new ContentBlockSnow();
+        content.id = "test_getSubtype";
+
+        Block block = content.createBlock();
+        Collection<IProperty<?>> properties = block.getBlockState().getProperties();
+        assertEquals(1, properties.size());
+        assertSame(properties.iterator().next(), net.minecraft.block.BlockSnow.LAYERS);
     }
 
     @Test

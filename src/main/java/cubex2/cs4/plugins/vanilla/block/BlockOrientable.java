@@ -23,7 +23,7 @@ public abstract class BlockOrientable extends BlockSimple
     }
 
     @Override
-    public IProperty[] getProperties()
+    public IProperty<?>[] getProperties()
     {
         return new IProperty[] {getFacingProperty()};
     }

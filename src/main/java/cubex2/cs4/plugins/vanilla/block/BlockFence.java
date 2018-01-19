@@ -3,7 +3,6 @@ package cubex2.cs4.plugins.vanilla.block;
 import cubex2.cs4.plugins.vanilla.ContentBlockFence;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 
 public class BlockFence extends net.minecraft.block.BlockFence implements CSBlock<ContentBlockFence>
@@ -33,11 +32,5 @@ public class BlockFence extends net.minecraft.block.BlockFence implements CSBloc
     public int[] getSubtypes()
     {
         return content.subtypes;
-    }
-
-    @Override
-    public IProperty[] getProperties()
-    {
-        return new IProperty[] {NORTH, EAST, WEST, SOUTH};
     }
 }

@@ -4,7 +4,6 @@ import cubex2.cs4.plugins.vanilla.BlockDrop;
 import cubex2.cs4.plugins.vanilla.ContentBlockSnow;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -13,7 +12,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.Random;
 
@@ -63,12 +61,5 @@ public class BlockSnow extends net.minecraft.block.BlockSnow implements CSBlock<
     public ContentBlockSnow getContent()
     {
         return content;
-    }
-
-    @Nonnull
-    @Override
-    protected BlockStateContainer createBlockState()
-    {
-        return super.createBlockState();
     }
 }

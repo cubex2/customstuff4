@@ -138,7 +138,7 @@ public abstract class BlockSlab extends Block implements CSBlock<ContentBlockSla
     }
 
     @Override
-    public IProperty[] getProperties()
+    public IProperty<?>[] getProperties()
     {
         return new IProperty[] {HALF};
     }
