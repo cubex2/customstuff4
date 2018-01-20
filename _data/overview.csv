@@ -7,6 +7,9 @@ blocks,block:fence,0.1.0,
 blocks,block:stairs,0.1.0,
 blocks,block:slab,0.1.0,
 blocks,block:fluid,0.3.0,
+blocks,block:carpet,0.4.1,
+blocks,block:snow,0.4.1,
+blocks,block:crops,0.4.1,
 
 items,item:simple,0.1.0,
 items,item:axe,0.1.0,
@@ -15,6 +18,8 @@ items,item:shovel,0.1.0,
 items,item:sword,0.1.0,
 items,item:food,0.1.0,
 items,item:fluidContainer,0.3.0,
+items,item:shears,0.4.1,
+items,item:seeds,0.4.1,
 
 tileentities,tileentity:simple,0.1.0,
 
