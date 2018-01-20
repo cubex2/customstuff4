@@ -93,7 +93,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("smeltingRecipe", SmeltingRecipe.class);
         registry.registerContentType("fuel", Fuel.class);
         registry.registerContentType("oreDict", OreDictionaryEntry.class);
-        registry.registerContentType("toolTip", ToolTip.class);
+        registry.registerContentType("toolTip", ToolTip.class, Side.CLIENT);
         registry.registerContentType("guiModifier", GuiModifier.class, Side.CLIENT);
         registry.registerContentType("fluidModifier", FluidModifier.class);
         registry.registerContentType("creativeTab", CreativeTab.class);
