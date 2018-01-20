@@ -28,6 +28,7 @@ public class BlockFactory
     private static Class<? extends Block> carpetClass;
     private static Class<? extends Block> carpetSubtypeClass;
     private static Class<? extends Block> snowClass;
+    private static Class<? extends Block> cropsClass;
 
     public static Block createSimple(ContentBlockSimple content)
     {
@@ -109,6 +110,11 @@ public class BlockFactory
         return newInstance(carpetSubtypeClass, content);
     }
 
+    public static Block createCrops(ContentBlockCrops content)
+    {
+        return newInstance(cropsClass, content);
+    }
+
     public static Block createSnow(ContentBlockSnow content)
     {
         return newInstance(snowClass, content);
@@ -144,6 +150,7 @@ public class BlockFactory
         carpetClass = createClass(BlockCarpet.class, BlockMixin.class);
         carpetSubtypeClass = createClass(BlockCarpetWithSubtypes.class, BlockMixin.class);
         snowClass = createClass(BlockSnow.class, BlockMixin.class);
+        cropsClass = createClass(BlockCrops.class, BlockMixin.class);
     }
 
     @SuppressWarnings("unchecked")

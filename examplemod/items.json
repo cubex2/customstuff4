@@ -125,6 +125,17 @@
           "durability": 1000
         }
       ]
+    },
+    {
+      "type": "item:seeds",
+      "entries": [
+        {
+          "id": "seeds",
+          "creativeTab": "examplemod",
+          "model": "minecraft:wheat_seeds",
+          "plant": {"block": "cs4examplemod:crops"}
+        }
+      ]
     }
   ]
 }

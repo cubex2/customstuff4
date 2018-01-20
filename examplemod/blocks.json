@@ -290,6 +290,18 @@
           "hardness": 1
         }
       ]
+    },
+    {
+      "type": "block:crops",
+      "entries": [
+        {
+          "id": "crops",
+          "creativeTab": "examplemod",
+          "seeds": "cs4examplemod:seeds",
+          "crops": "minecraft:carrot",
+          "growthFactor": 1.5
+        }
+      ]
     }
   ]
 }

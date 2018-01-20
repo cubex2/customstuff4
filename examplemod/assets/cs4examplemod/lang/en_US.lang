@@ -10,6 +10,7 @@ item.cs4examplemod.someaxe.name=Axe
 item.cs4examplemod.somepickaxe.name=Pickaxe
 item.cs4examplemod.someshovel.name=Shovel
 item.cs4examplemod.shears.name=Shears
+item.cs4examplemod.seeds.name=Seeds
 tile.cs4examplemod.someblock.0.name=Iron Sensor
 tile.cs4examplemod.someblock.1.name=Golden Sensor
 tile.cs4examplemod.vertical_no_subtype.name=Vertical
@@ -40,6 +41,7 @@ tile.cs4examplemod.carpet_no_subtype.name=Carpet
 tile.cs4examplemod.carpet.0.name=Carpet 0
 tile.cs4examplemod.carpet.1.name=Carpet 1
 tile.cs4examplemod.snow.name=Snow
+tile.cs4examplemod.crops.name=Crops
 fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 
