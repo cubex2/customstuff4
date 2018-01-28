@@ -1,0 +1,35 @@
+category,name,type,default,subtype,since
+all,id,String,,false,0.1.0
+all,model,ResourceLocation,{[modid]:[itemid]},true,0.1.0
+all,creativeTab,String,{item default},true,0.1.0
+all,information,StringArray,,true,0.1.0
+all,maxDamage,Integer,0,false,0.1.0
+all,tint,Color,,true,0.3.5
+all,burnTime,Integer,-1,true,0.4.0
+
+simple,maxStack,Integer,64,true,0.1.0
+simple,subtypes,IntegerArray,,false,0.1.0
+
+food,maxStack,Integer,64,true,0.1.0
+food,subtypes,IntegerArray,,false,0.1.0
+food,saturation,Float,0.6,true,0.1.0
+food,alwaysEdible,Boolean,false,true,0.1.0
+food,potionEffect,PotionEffect,,true,0.1.0
+food,potionEffectProbability,Float,1.0,true,0.1.0
+food,result,ItemStack,,true,0.2.1
+food,useAction,UseAction,eat,true,0.2.1
+food,isWolfFood,Boolean,false,false,0.1.0
+
+fluidContainer,capacity,Integer,1000,false,0.3.0
+
+shears,durability,Integer,238,false,0.4.1
+
+seeds,plant,BlockState,,false,0.4.1
+
+tools,material,ToolMaterial,wood,false,0.1.0
+tools,damage,Float,{material default},false,0.1.0
+tools,attackSpeed,Float,{material default},false,0.1.0
+tools,durability,Integer,{material default},false,0.1.0
+
+
+

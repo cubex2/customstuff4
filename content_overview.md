@@ -10,7 +10,7 @@ This page contains an overview of all content that can be added with Custom Stuf
 
 {% include overview_table.html category="blocks" %}
 
-## Items
+## [Items](./items.html)
 
 {% include overview_table.html category="items" %}
 
