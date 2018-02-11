@@ -9,10 +9,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.GameData;
@@ -93,6 +95,8 @@ public abstract class ContentBlockBase implements Content
         } else if (phase == InitPhase.REGISTER_MODELS)
         {
             registerModels();
+
+            createStateMapper().ifPresent(mapper -> ModelLoader.setCustomStateMapper(block, mapper));
         } else if (phase == InitPhase.REGISTER_BLOCKS)
         {
             checkState(isReady());
@@ -141,6 +145,11 @@ public abstract class ContentBlockBase implements Content
     public abstract Block createBlock();
 
     protected Optional<Item> createItem()
+    {
+        return Optional.empty();
+    }
+
+    protected Optional<IStateMapper> createStateMapper()
     {
         return Optional.empty();
     }

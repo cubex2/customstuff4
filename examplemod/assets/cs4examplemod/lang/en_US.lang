@@ -42,6 +42,7 @@ tile.cs4examplemod.carpet.0.name=Carpet 0
 tile.cs4examplemod.carpet.1.name=Carpet 1
 tile.cs4examplemod.snow.name=Snow
 tile.cs4examplemod.crops.name=Crops
+tile.cs4examplemod.fence_gate.name=Fence Gate
 fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 

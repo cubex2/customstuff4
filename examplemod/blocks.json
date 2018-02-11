@@ -302,6 +302,18 @@
           "growthFactor": 1.5
         }
       ]
+    },
+    {
+      "type": "block:fenceGate",
+      "entries": [
+        {
+          "id": "fence_gate",
+          "creativeTab": "examplemod",
+          "itemModel": "minecraft:acacia_fence_gate",
+          "opensWithRedstone": true,
+          "opensWithHands": false
+        }
+      ]
     }
   ]
 }
