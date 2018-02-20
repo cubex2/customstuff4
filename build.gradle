@@ -78,3 +78,14 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+task deleteExampleMod(type: Delete) {
+    delete 'run/mods/examplemod'
+}
+
+task copyExampleModToRun(type: Copy) {
+    from 'examplemod'
+    into 'run/mods/examplemod'
+}
+
+copyExampleModToRun.dependsOn deleteExampleMod
