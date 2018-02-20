@@ -336,6 +336,16 @@
           "opensWithHands": false
         }
       ]
+    },
+    {
+      "type": "block:torch",
+      "entries": [
+        {
+          "id": "torch",
+          "creativeTab": "examplemod",
+          "itemModel": "minecraft:torch"
+        }
+      ]
     }
   ]
 }

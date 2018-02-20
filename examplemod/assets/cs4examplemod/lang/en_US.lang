@@ -45,6 +45,7 @@ tile.cs4examplemod.crops.name=Crops
 tile.cs4examplemod.fence_gate.name=Fence Gate
 tile.cs4examplemod.wall.name=Wall
 tile.cs4examplemod.trapdoor.name=Trap Door
+tile.cs4examplemod.torch.name=Torch
 fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 
