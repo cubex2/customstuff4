@@ -31,6 +31,7 @@ public class BlockFactory
     private static Class<? extends Block> cropsClass;
     private static Class<? extends Block> fenceGateClass;
     private static Class<? extends Block> wallClass;
+    private static Class<? extends Block> trapDoorClass;
 
     public static Block createSimple(ContentBlockSimple content)
     {
@@ -132,6 +133,11 @@ public class BlockFactory
         return newInstance(wallClass, content);
     }
 
+    public static Block createTrapDoor(ContentBlockTrapDoor content)
+    {
+        return newInstance(trapDoorClass, content);
+    }
+
     private static <T extends ContentBlockBase> Block newInstance(Class<? extends Block> blockClass, T content)
     {
         try
@@ -165,6 +171,7 @@ public class BlockFactory
         cropsClass = createClass(BlockCrops.class, BlockMixin.class);
         fenceGateClass = createClass(BlockFenceGate.class, BlockMixin.class);
         wallClass = createClass(BlockWall.class, BlockMixin.class);
+        trapDoorClass = createClass(BlockTrapDoor.class, BlockMixin.class);
     }
 
     @SuppressWarnings("unchecked")

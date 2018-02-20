@@ -324,6 +324,18 @@
           "itemModel": "minecraft:cobblestone_wall"
         }
       ]
+    },
+    {
+      "type": "block:trapDoor",
+      "entries": [
+        {
+          "id": "trapdoor",
+          "creativeTab": "examplemod",
+          "itemModel": "minecraft:trapdoor",
+          "opensWithRedstone": true,
+          "opensWithHands": false
+        }
+      ]
     }
   ]
 }
