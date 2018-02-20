@@ -346,6 +346,16 @@
           "itemModel": "minecraft:torch"
         }
       ]
+    },
+    {
+      "type": "block:button",
+      "entries": [
+        {
+          "id": "button",
+          "creativeTab": "examplemod",
+          "itemModel": "minecraft:stone_button"
+        }
+      ]
     }
   ]
 }

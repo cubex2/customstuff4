@@ -33,6 +33,7 @@ public class BlockFactory
     private static Class<? extends Block> wallClass;
     private static Class<? extends Block> trapDoorClass;
     private static Class<? extends Block> torchClass;
+    private static Class<? extends Block> buttonClass;
 
     public static Block createSimple(ContentBlockSimple content)
     {
@@ -144,6 +145,11 @@ public class BlockFactory
         return newInstance(torchClass, content);
     }
 
+    public static Block createButton(ContentBlockButton content)
+    {
+        return newInstance(buttonClass, content);
+    }
+
     private static <T extends ContentBlockBase> Block newInstance(Class<? extends Block> blockClass, T content)
     {
         try
@@ -179,6 +185,7 @@ public class BlockFactory
         wallClass = createClass(BlockWall.class, BlockMixin.class);
         trapDoorClass = createClass(BlockTrapDoor.class, BlockMixin.class);
         torchClass = createClass(BlockTorch.class, BlockMixin.class);
+        buttonClass = createClass(BlockButton.class, BlockMixin.class);
     }
 
     @SuppressWarnings("unchecked")
