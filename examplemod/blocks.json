@@ -314,6 +314,16 @@
           "opensWithHands": false
         }
       ]
+    },
+    {
+      "type": "block:wall",
+      "entries": [
+        {
+          "id": "wall",
+          "creativeTab": "examplemod",
+          "itemModel": "minecraft:cobblestone_wall"
+        }
+      ]
     }
   ]
 }
