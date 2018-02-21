@@ -281,6 +281,9 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
+        if (getContent().collisionBounds == null)
+            return null;
+
         AxisAlignedBB bounds = getContent().collisionBounds.get(getSubtype(state)).orElse(null);
         if (bounds == DEFAULT_AABB_MARKER)
             return super.getCollisionBoundingBox(state, worldIn, pos);
