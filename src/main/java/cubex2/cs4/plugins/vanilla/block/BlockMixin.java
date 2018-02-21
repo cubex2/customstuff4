@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -39,7 +40,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -302,6 +302,20 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
     {
         list.addAll(ItemHelper.createSubItems(Item.getItemFromBlock(this), tab, getContent().creativeTab, getSubtypes()));
+    }
+
+    @Nullable
+    @Override
+    public PathNodeType getAiPathNodeType(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        PathNodeType nodeType = getContent().pathNodeType.get(getSubtype(state)).orElse(null);
+        if (nodeType == null)
+        {
+            return super.getAiPathNodeType(state, world, pos);
+        } else
+        {
+            return nodeType;
+        }
     }
 
     @Override

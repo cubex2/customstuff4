@@ -35,6 +35,22 @@
           "renderLayer": "mippedCutout",
           "isFullCube": true,
           "isOpaqueCube": false
+        },
+        {
+          "id": "mob_shield",
+          "creativeTab": "examplemod",
+          "material": "circuits",
+          "hardness": 1,
+          "pathNodeType": "blocked",
+          "itemModel": "cs4examplemod:mob_shield",
+          "bounds": {
+            "cube": 0.25,
+            "offset": [0.375, 0.375, 0.375]
+          },
+          "collisionBounds": null,
+          "isOpaqueCube": false,
+          "opacity": 1,
+          "renderLayer": "mippedCutout"
         }
       ]
     },

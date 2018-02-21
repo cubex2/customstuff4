@@ -11,6 +11,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.item.Item;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -69,6 +70,7 @@ public abstract class ContentBlockBase implements Content
     public boolean canPlaceOnSides = true;
     public Attribute<EnumPlantType[]> sustainedPlants = Attribute.constant(null);
     public Attribute<Integer> burnTime = Attribute.constant(-1);
+    public Attribute<PathNodeType> pathNodeType = Attribute.constant(null);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 
