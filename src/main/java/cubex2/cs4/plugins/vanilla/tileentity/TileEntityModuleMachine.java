@@ -4,12 +4,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cubex2.cs4.api.TileEntityModule;
 import cubex2.cs4.api.TileEntityModuleSupplier;
-import cubex2.cs4.plugins.vanilla.crafting.ItemHandlerMachine;
-import cubex2.cs4.plugins.vanilla.crafting.MachineFuel;
-import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
-import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+import cubex2.cs4.plugins.vanilla.crafting.*;
 import cubex2.cs4.plugins.vanilla.gui.FluidSource;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBarSource;
+import cubex2.cs4.util.CollectionHelper;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -138,14 +136,25 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
         if (canSmelt())
         {
             MachineRecipe recipe = getActiveRecipe();
-            smeltItems(recipe);
-            smeltFluids(recipe);
+            MachineRecipeOutput output = selectRecipeOutput(recipe);
+            smeltItems(recipe, output);
+            smeltFluids(recipe, output);
         }
     }
 
-    private void smeltFluids(MachineRecipe recipe)
+    private MachineRecipeOutput selectRecipeOutput(MachineRecipe recipe)
     {
-        List<FluidStack> resultFluids = recipe.getFluidResult();
+        List<MachineRecipeOutput> available = recipe.getOutputs().stream()
+                                                    .filter(this::doesRecipeOutputFitInMachine)
+                                                    .collect(Collectors.toList());
+
+        Optional<MachineRecipeOutput> output = CollectionHelper.randomElement(available, MachineRecipeOutput::getWeight);
+        return output.orElse(MachineRecipeOutput.EMPTY);
+    }
+
+    private void smeltFluids(MachineRecipe recipe, MachineRecipeOutput output)
+    {
+        List<FluidStack> resultFluids = output.getResultFluids();
 
         for (int i = 0; i < resultFluids.size(); i++)
         {
@@ -165,9 +174,9 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
         ItemHelper.extractFluidsFromTanks(remaining, recipe.getFluidRecipeInput());
     }
 
-    private void smeltItems(MachineRecipe recipe)
+    private void smeltItems(MachineRecipe recipe, MachineRecipeOutput output)
     {
-        NonNullList<ItemStack> resultItems = recipe.getResult();
+        NonNullList<ItemStack> resultItems = output.getResultItems();
         for (int i = 0; i < resultItems.size(); i++)
         {
             ItemStack stack = resultItems.get(i);
@@ -228,8 +237,15 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
     private boolean canSmelt()
     {
         MachineRecipe recipe = getActiveRecipe();
-        NonNullList<ItemStack> recipeItems = recipe.getRecipeOutput();
-        List<FluidStack> recipeFluids = recipe.getFluidRecipeOutput();
+        NonNullList<MachineRecipeOutput> outputs = recipe.getOutputs();
+
+        return outputs.stream().anyMatch(this::doesRecipeOutputFitInMachine);
+    }
+
+    private boolean doesRecipeOutputFitInMachine(MachineRecipeOutput output)
+    {
+        NonNullList<ItemStack> recipeItems = output.getOutputItems();
+        List<FluidStack> recipeFluids = output.getOutputFluids();
 
         if (recipeItems.isEmpty() && recipeFluids.isEmpty())
         {
@@ -247,9 +263,12 @@ public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSou
             for (int i = 0; i < recipeFluids.size(); i++)
             {
                 FluidStack stack = recipeFluids.get(i);
-                int inserted = fluidSource.getFluidTank(supplier.outputTanks[i]).fill(stack, false);
-                if (inserted != stack.amount)
-                    return false;
+                if (stack != null)
+                {
+                    int inserted = fluidSource.getFluidTank(supplier.outputTanks[i]).fill(stack, false);
+                    if (inserted != stack.amount)
+                        return false;
+                }
             }
 
             return true;

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class EmptyRecipe implements MachineRecipe
 {
-    private final NonNullList<ItemStack> result = NonNullList.create();
+    private final NonNullList<MachineRecipeOutput> outputs = NonNullList.create();
 
     @Override
     public boolean matches(NonNullList<ItemStack> input, List<FluidStack> inputFluid, World world)
@@ -21,18 +21,6 @@ public class EmptyRecipe implements MachineRecipe
 
     @Override
     public List<FluidStack> getFluidRecipeInput()
-    {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<FluidStack> getFluidResult()
-    {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<FluidStack> getFluidRecipeOutput()
     {
         return Collections.emptyList();
     }
@@ -50,15 +38,9 @@ public class EmptyRecipe implements MachineRecipe
     }
 
     @Override
-    public NonNullList<ItemStack> getResult()
+    public NonNullList<MachineRecipeOutput> getOutputs()
     {
-        return result;
-    }
-
-    @Override
-    public NonNullList<ItemStack> getRecipeOutput()
-    {
-        return result;
+        return outputs;
     }
 
     @Override

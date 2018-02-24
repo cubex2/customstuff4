@@ -8,7 +8,8 @@ import cubex2.cs4.api.WrappedFluidStack;
 import cubex2.cs4.data.SimpleContent;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
-import cubex2.cs4.plugins.vanilla.crafting.MachineResult;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutput;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutputImpl;
 import cubex2.cs4.util.CollectionHelper;
 import cubex2.cs4.util.ItemHelper;
 import net.minecraft.item.ItemStack;
@@ -19,23 +20,17 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
 {
-    private static final Random random = new Random();
-
     List<RecipeInput> input = Collections.emptyList();
     List<WrappedFluidStack> inputFluid = Collections.emptyList();
-    List<MachineResult> output = Collections.emptyList();
-    List<WrappedFluidStack> outputFluid = Collections.emptyList();
+    List<MachineRecipeOutputImpl> output = Collections.emptyList();
     int cookTime = 0;
     ResourceLocation recipeList;
 
-    private final transient NonNullList<ItemStack> outputStacks = NonNullList.create();
-    private final transient List<FluidStack> outputFluidStacks = Lists.newArrayList();
     private final transient List<FluidStack> inputFluidStacks = Lists.newArrayList();
+    private final transient NonNullList<MachineRecipeOutput> outputs = NonNullList.create();
 
     @Override
     public boolean matches(NonNullList<ItemStack> input, List<FluidStack> inputFluid, World world)
@@ -47,54 +42,21 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     }
 
     @Override
+    public NonNullList<MachineRecipeOutput> getOutputs()
+    {
+        return outputs;
+    }
+
+    @Override
     public List<RecipeInput> getRecipeInput()
     {
         return input;
     }
 
     @Override
-    public NonNullList<ItemStack> getResult()
-    {
-        NonNullList<ItemStack> result = NonNullList.create();
-
-        for (int i = 0; i < outputStacks.size(); i++)
-        {
-            if (random.nextFloat() < output.get(i).chance)
-            {
-                result.add(outputStacks.get(i).copy());
-            } else
-            {
-                result.add(ItemStack.EMPTY);
-            }
-        }
-
-        return result;
-    }
-
-    @Override
-    public NonNullList<ItemStack> getRecipeOutput()
-    {
-        return outputStacks;
-    }
-
-    @Override
     public List<FluidStack> getFluidRecipeInput()
     {
         return inputFluidStacks;
-    }
-
-    @Override
-    public List<FluidStack> getFluidResult()
-    {
-        return outputFluidStacks.stream()
-                                .map(FluidStack::copy)
-                                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<FluidStack> getFluidRecipeOutput()
-    {
-        return outputFluidStacks;
     }
 
     @Override
@@ -118,9 +80,13 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     @Override
     protected void doInit(InitPhase phase, ContentHelper helper)
     {
-        output.forEach(item -> outputStacks.add(item.item.getItemStack()));
         inputFluid.forEach(fluid -> inputFluidStacks.add(fluid.getFluidStack()));
-        outputFluid.forEach(fluid -> outputFluidStacks.add(fluid.getFluidStack()));
+
+        for (MachineRecipeOutputImpl recipeOutput : output)
+        {
+            recipeOutput.doInit(phase, helper);
+            outputs.add(recipeOutput);
+        }
 
         MachineManager.addRecipe(recipeList, this);
     }
@@ -128,9 +94,12 @@ public class MachineRecipeImpl extends SimpleContent implements MachineRecipe
     @Override
     protected boolean isReady()
     {
-        return input.stream().allMatch(input -> input.isOreClass() || (input.isItemStack() && input.getStack().isItemLoaded())) &&
-               output.stream().allMatch(result -> result.item.isItemLoaded())
-               && outputFluid.stream().allMatch(fluid -> fluid.getFluidStack() != null)
-               && inputFluid.stream().allMatch(fluid -> fluid.getFluidStack() != null);
+        boolean inputItemsValid = input.stream().allMatch(input -> input.isOreClass() || (input.isItemStack() && input.getStack().isItemLoaded()));
+        boolean inputFluidValid = inputFluid.stream().allMatch(fluid -> fluid.getFluidStack() != null);
+        boolean outputValid = output.stream().allMatch(MachineRecipeOutputImpl::isReady);
+
+        return inputItemsValid &&
+               inputFluidValid &&
+               outputValid;
     }
 }

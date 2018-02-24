@@ -16,4 +16,6 @@ public interface WrappedFluidStack
      */
     @Nullable
     FluidStack getFluidStack();
+
+    WrappedFluidStack EMPTY = () -> null;
 }

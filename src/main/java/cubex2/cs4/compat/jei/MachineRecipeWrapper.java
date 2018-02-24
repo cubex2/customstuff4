@@ -3,6 +3,7 @@ package cubex2.cs4.compat.jei;
 import com.google.common.collect.Lists;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutput;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -16,13 +17,15 @@ import java.util.List;
 public class MachineRecipeWrapper implements IRecipeWrapper
 {
     private final MachineRecipe recipe;
+    private final MachineRecipeOutput output;
     private final IJeiHelpers jeiHelpers;
 
     private final String cookTimeString;
 
-    public MachineRecipeWrapper(MachineRecipe recipe, IJeiHelpers jeiHelpers)
+    public MachineRecipeWrapper(MachineRecipe recipe, MachineRecipeOutput output, IJeiHelpers jeiHelpers)
     {
         this.recipe = recipe;
+        this.output = output;
         this.jeiHelpers = jeiHelpers;
 
         if (recipe.getCookTime() > 0)
@@ -52,7 +55,7 @@ public class MachineRecipeWrapper implements IRecipeWrapper
         ingredients.setInputLists(ItemStack.class, jeiHelpers.getStackHelper().expandRecipeItemStackInputs(inputs));
         ingredients.setInputs(FluidStack.class, recipe.getFluidRecipeInput());
 
-        ingredients.setOutputs(ItemStack.class, recipe.getRecipeOutput());
-        ingredients.setOutputs(FluidStack.class, recipe.getFluidRecipeOutput());
+        ingredients.setOutputs(ItemStack.class, output.getOutputItems());
+        ingredients.setOutputs(FluidStack.class, output.getOutputFluids());
     }
 }

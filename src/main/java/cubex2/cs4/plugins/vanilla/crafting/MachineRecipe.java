@@ -17,22 +17,12 @@ public interface MachineRecipe
 
     List<RecipeInput> getRecipeInput();
 
-    /**
-     * Gets the result items. The returned stacks are put into the machine, so they should be copies of the internal stacks.
-     * If the result depends on chance, add an empty stack instead of not adding it.
-     */
-    NonNullList<ItemStack> getResult();
-
-    /**
-     * Gets the items that this recipe creates. This must not return empty stacks.
-     */
-    NonNullList<ItemStack> getRecipeOutput();
-
     List<FluidStack> getFluidRecipeInput();
 
-    List<FluidStack> getFluidResult();
-
-    List<FluidStack> getFluidRecipeOutput();
+    /**
+     * Get all possible outputs for this recipe. The output that is being used is randomly chosen according to its weight.
+     */
+    NonNullList<MachineRecipeOutput> getOutputs();
 
     /**
      * Gets the number of input stacks

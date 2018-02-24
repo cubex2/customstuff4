@@ -147,13 +147,17 @@
         {
           "recipeList": "cs4examplemod:machine",
           "input": ["minecraft:apple", "minecraft:gold_ingot"],
-          "output": ["minecraft:golden_apple", "minecraft:gold_nugget"],
+          "output": {"items": ["minecraft:golden_apple", "minecraft:gold_nugget"]},
           "cookTime": 400
         },
         {
           "recipeList": "cs4examplemod:machine",
           "input": ["minecraft:apple", "minecraft:iron_ingot"],
-          "output": ["minecraft:golden_apple", "minecraft:iron_nugget"]
+          "output": [
+            {"items": ["minecraft:iron_ingot", "minecraft:air"], "weight": 3},
+            {"items": ["minecraft:air", "minecraft:gold_ingot"], "weight": 1}
+          ],
+          "cookTime": 10
         }
       ]
     },

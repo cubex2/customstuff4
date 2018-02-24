@@ -4,7 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.CommonProxy;
 import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
-import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeDeserializer;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutputDeserializer;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutputImpl;
 import cubex2.cs4.plugins.vanilla.crafting.MachineResult;
 import cubex2.cs4.plugins.vanilla.gui.ItemFilter;
 import cubex2.cs4.plugins.vanilla.gui.ItemFilterDeserializer;
@@ -15,6 +16,7 @@ import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleMachine;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleTank;
 import cubex2.cs4.util.ArrayDeserializer;
 import cubex2.cs4.util.IntRange;
+import cubex2.cs4.util.ListDeserializer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -28,6 +30,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.relauncher.Side;
 
+import java.util.List;
 import java.util.Map;
 
 @CS4Plugin
@@ -57,7 +60,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(ItemFilter.class, new ItemFilterDeserializer());
         registry.registerDeserializer(EnumAction.class, new EnumActionDeserializer());
         registry.registerDeserializer(WrappedFluidStack.class, new WrappedFluidStackDeserializer());
-        registry.registerDeserializer(MachineRecipeImpl.class, new MachineRecipeDeserializer());
+        //registry.registerDeserializer(MachineRecipeImpl.class, new MachineRecipeDeserializer());
         registry.registerDeserializer(AxisAlignedBB.class, new AxisAlignedBBDeserializer());
         registry.registerDeserializer(BlockDrop.class, new BlockDropDeserializer());
         registry.registerDeserializer(BlockDrop[].class, new ArrayDeserializer<>(BlockDrop[]::new, BlockDrop.class));
@@ -66,6 +69,10 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(EnumPlantType.class, new EnumPlantTypeDeserializer());
         registry.registerDeserializer(EnumPlantType[].class, new ArrayDeserializer<>(EnumPlantType[]::new, EnumPlantType.class));
         registry.registerDeserializer(PathNodeType.class, new PathNodeTypeDeserializer());
+        registry.registerDeserializer(MachineRecipeOutputImpl.class, new MachineRecipeOutputDeserializer());
+        registry.registerDeserializer(new TypeToken<List<MachineRecipeOutputImpl>>() {}.getType(), new ListDeserializer<>(MachineRecipeOutputImpl.class));
+        registry.registerDeserializer(new TypeToken<List<MachineResult>>() {}.getType(), new ListDeserializer<>(MachineResult.class));
+        registry.registerDeserializer(new TypeToken<List<WrappedFluidStack>>() {}.getType(), new ListDeserializer<>(WrappedFluidStack.class));
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));

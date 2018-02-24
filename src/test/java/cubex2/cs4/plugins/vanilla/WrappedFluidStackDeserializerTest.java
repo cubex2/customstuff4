@@ -9,8 +9,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class WrappedFluidStackDeserializerTest
 {
@@ -31,6 +30,15 @@ public class WrappedFluidStackDeserializerTest
         WrappedFluidStackImpl stack = (WrappedFluidStackImpl) map.get("stack");
         assertEquals("water", stack.fluid);
         assertEquals(1000, stack.amount);
+    }
+
+    @Test
+    public void test_fromEmptyString()
+    {
+        Map<String, WrappedFluidStack> map = gson.fromJson("{ \"stack\":\"\" }", new TypeToken<Map<String, WrappedFluidStack>>() {}.getType());
+
+        WrappedFluidStack stack = map.get("stack");
+        assertSame(WrappedFluidStack.EMPTY, stack);
     }
 
     @Test

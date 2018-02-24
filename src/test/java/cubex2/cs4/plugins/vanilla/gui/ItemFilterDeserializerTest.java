@@ -9,6 +9,7 @@ import cubex2.cs4.plugins.vanilla.RecipeInputImpl;
 import cubex2.cs4.plugins.vanilla.crafting.MachineFuel;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
 import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutput;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -136,13 +137,7 @@ public class ItemFilterDeserializerTest
         }
 
         @Override
-        public NonNullList<ItemStack> getResult()
-        {
-            return null;
-        }
-
-        @Override
-        public NonNullList<ItemStack> getRecipeOutput()
+        public NonNullList<MachineRecipeOutput> getOutputs()
         {
             return null;
         }
@@ -155,18 +150,6 @@ public class ItemFilterDeserializerTest
 
         @Override
         public List<FluidStack> getFluidRecipeInput()
-        {
-            return null;
-        }
-
-        @Override
-        public List<FluidStack> getFluidResult()
-        {
-            return null;
-        }
-
-        @Override
-        public List<FluidStack> getFluidRecipeOutput()
         {
             return null;
         }

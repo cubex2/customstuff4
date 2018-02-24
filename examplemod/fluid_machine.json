@@ -159,7 +159,7 @@
         {
           "recipeList": "cs4examplemod:fluid_machine",
           "inputFluid": ["water@500", "lava@500"],
-          "outputFluid": ["examplefluid"]
+          "output": {"fluids": "examplefluid"}
         }
       ]
     },

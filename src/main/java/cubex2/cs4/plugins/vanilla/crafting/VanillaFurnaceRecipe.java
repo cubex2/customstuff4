@@ -14,19 +14,23 @@ import java.util.List;
 
 public class VanillaFurnaceRecipe implements MachineRecipe
 {
+    private final ItemStack input;
     private final ItemStack result;
-    private final List<RecipeInput> resultList;
+    private final NonNullList<MachineRecipeOutput> outputs;
+    private final List<RecipeInput> inputList;
 
-    public VanillaFurnaceRecipe(ItemStack result)
+    public VanillaFurnaceRecipe(ItemStack input)
     {
-        this.result = result;
-        resultList = Collections.singletonList(new RecipeInputImpl(new WrappedItemStackConstant(result)));
+        this.input = input;
+        this.result = FurnaceRecipes.instance().getSmeltingResult(input);
+        outputs = NonNullList.withSize(1, new SimpleMachineRecipeOutput(result));
+        inputList = Collections.singletonList(new RecipeInputImpl(new WrappedItemStackConstant(input)));
     }
 
     @Override
     public boolean matches(NonNullList<ItemStack> input, List<FluidStack> inputFluid, World world)
     {
-        return compareItemStacks(FurnaceRecipes.instance().getSmeltingResult(input.get(0)), result);
+        return compareItemStacks(input.get(0), this.input);
     }
 
     private boolean compareItemStacks(ItemStack stack1, ItemStack stack2)
@@ -37,35 +41,17 @@ public class VanillaFurnaceRecipe implements MachineRecipe
     @Override
     public List<RecipeInput> getRecipeInput()
     {
-        return resultList;
+        return inputList;
     }
 
     @Override
-    public NonNullList<ItemStack> getResult()
+    public NonNullList<MachineRecipeOutput> getOutputs()
     {
-        return NonNullList.withSize(1, result.copy());
-    }
-
-    @Override
-    public NonNullList<ItemStack> getRecipeOutput()
-    {
-        return NonNullList.withSize(1, result);
+        return outputs;
     }
 
     @Override
     public List<FluidStack> getFluidRecipeInput()
-    {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<FluidStack> getFluidResult()
-    {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<FluidStack> getFluidRecipeOutput()
     {
         return Collections.emptyList();
     }

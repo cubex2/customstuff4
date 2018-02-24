@@ -25,6 +25,11 @@ class WrappedFluidStackDeserializer implements JsonDeserializer<WrappedFluidStac
         JsonPrimitive primitive = json.getAsJsonPrimitive();
         if (primitive.isString())
         {
+            if (primitive.getAsString().isEmpty())
+            {
+                return WrappedFluidStack.EMPTY;
+            }
+
             Pair<String, Integer> pair = parseFluidPart(primitive.getAsString());
 
             return new WrappedFluidStackImpl(pair.getLeft(), pair.getRight());

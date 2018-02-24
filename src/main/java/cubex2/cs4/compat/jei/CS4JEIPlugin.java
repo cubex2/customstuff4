@@ -5,9 +5,11 @@ import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.jei.*;
 import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
 import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
-import cubex2.cs4.plugins.vanilla.MachineRecipeImpl;
 import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
 import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutput;
+import cubex2.cs4.util.ReflectionHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
@@ -16,6 +18,7 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import net.minecraft.item.ItemStack;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,15 +79,26 @@ public class CS4JEIPlugin implements IModPlugin
     @SuppressWarnings("unchecked")
     private void addMachineRecipes(IModRegistry registry, IJeiHelpers jeiHelpers)
     {
-        IRecipeWrapperFactory<MachineRecipeImpl> factory = recipe -> new MachineRecipeWrapper(recipe, jeiHelpers);
+        IRecipeWrapperFactory<DelegatedMachineRecipe> factory = recipe -> new MachineRecipeWrapper(recipe.recipe, recipe.usedOutput, jeiHelpers);
 
         for (MachineRecipeCategory category : machineCategories)
         {
             JEIMachineRecipe recipe = category.getRecipe();
             String uid = recipe.getUid();
 
-            registry.handleRecipes((Class<MachineRecipeImpl>) JEICompatRegistry.getMachineRecipeClass(recipe.recipeList), factory, uid);
-            registry.addRecipes(MachineManager.getRecipes(recipe.recipeList), uid);
+            Class<DelegatedMachineRecipe> delegatedRecipeClass = (Class<DelegatedMachineRecipe>) JEICompatRegistry.getDelegatedMachineRecipeClass(recipe.recipeList);
+            registry.handleRecipes(delegatedRecipeClass, factory, uid);
+            for (MachineRecipe machineRecipe : MachineManager.getRecipes(recipe.recipeList))
+            {
+                // We want each output to show as its own recipe
+                for (MachineRecipeOutput output : machineRecipe.getOutputs())
+                {
+                    DelegatedMachineRecipe delegatedRecipe = ReflectionHelper.newInstance(delegatedRecipeClass);
+                    delegatedRecipe.recipe = machineRecipe;
+                    delegatedRecipe.usedOutput = output;
+                    registry.addRecipes(Collections.singletonList(delegatedRecipe), uid);
+                }
+            }
 
             addCommonEntries(registry, recipe, category.getModuleName(), category.getModule().inputSlots);
         }
