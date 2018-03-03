@@ -21,6 +21,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.BlockRenderLayer;
@@ -70,6 +71,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(EnumPlantType[].class, new ArrayDeserializer<>(EnumPlantType[]::new, EnumPlantType.class));
         registry.registerDeserializer(PathNodeType.class, new PathNodeTypeDeserializer());
         registry.registerDeserializer(MachineRecipeOutputImpl.class, new MachineRecipeOutputDeserializer());
+        registry.registerDeserializer(ItemArmor.ArmorMaterial.class, new ArmorMaterialDeserializer());
         registry.registerDeserializer(new TypeToken<List<MachineRecipeOutputImpl>>() {}.getType(), new ListDeserializer<>(MachineRecipeOutputImpl.class));
         registry.registerDeserializer(new TypeToken<List<MachineResult>>() {}.getType(), new ListDeserializer<>(MachineResult.class));
         registry.registerDeserializer(new TypeToken<List<WrappedFluidStack>>() {}.getType(), new ListDeserializer<>(WrappedFluidStack.class));
@@ -117,6 +119,10 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("item:fluidContainer", ContentItemFluidContainer.class);
         registry.registerContentType("item:shears", ContentItemShears.class);
         registry.registerContentType("item:seeds", ContentItemSeeds.class);
+        registry.registerContentType("item:helmet", ContentItemArmorHelmet.class);
+        registry.registerContentType("item:chest", ContentItemArmorChest.class);
+        registry.registerContentType("item:legs", ContentItemArmorLegs.class);
+        registry.registerContentType("item:boots", ContentItemArmorBoots.class);
 
         registry.registerContentType("block:simple", ContentBlockSimple.class);
         registry.registerContentType("block:orientable:vertical", ContentBlockOrientableVertical.class);

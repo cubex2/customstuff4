@@ -136,6 +136,54 @@
           "plant": {"block": "cs4examplemod:crops"}
         }
       ]
+    },
+    {
+      "type": "item:helmet",
+      "entries": [
+        {
+          "id": "helmet",
+          "material": "diamond",
+          "creativeTab": "examplemod",
+          "model": "minecraft:golden_helmet",
+          "armorTexture": "minecraft:textures/models/armor/gold_layer_1.png"
+        }
+      ]
+    },
+    {
+      "type": "item:chest",
+      "entries": [
+        {
+          "id": "chestplate",
+          "material": "diamond",
+          "creativeTab": "examplemod",
+          "model": "minecraft:golden_chestplate",
+          "armorTexture": "minecraft:textures/models/armor/gold_layer_1.png"
+        }
+      ]
+    },
+    {
+      "type": "item:legs",
+      "entries": [
+        {
+          "id": "legs",
+          "material": "diamond",
+          "creativeTab": "examplemod",
+          "model": "minecraft:golden_leggings",
+          "armorTexture": "minecraft:textures/models/armor/gold_layer_2.png"
+        }
+      ]
+    },
+    {
+      "type": "item:boots",
+      "entries": [
+        {
+          "id": "boots",
+          "material": "diamond",
+          "creativeTab": "examplemod",
+          "model": "minecraft:golden_boots",
+          "armorTexture": "minecraft:textures/models/armor/gold_layer_1.png"
+        }
+      ]
     }
   ]
 }
