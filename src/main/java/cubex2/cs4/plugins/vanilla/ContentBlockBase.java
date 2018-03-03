@@ -71,6 +71,7 @@ public abstract class ContentBlockBase implements Content
     public Attribute<EnumPlantType[]> sustainedPlants = Attribute.constant(null);
     public Attribute<Integer> burnTime = Attribute.constant(-1);
     public Attribute<PathNodeType> pathNodeType = Attribute.constant(null);
+    public Attribute<Boolean> isWeb = Attribute.constant(false);
 
     Attribute<ResourceLocation> itemModel = Attribute.constant(null);
 

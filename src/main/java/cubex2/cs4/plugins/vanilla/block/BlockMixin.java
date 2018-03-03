@@ -319,6 +319,16 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
     }
 
     @Override
+    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
+    {
+        Boolean isWeb = getContent().isWeb.get(getSubtype(state)).orElse(false);
+        if (isWeb)
+        {
+            entityIn.setInWeb();
+        }
+    }
+
+    @Override
     public boolean hasTileEntity(IBlockState state)
     {
         int subtype = getSubtype(state);

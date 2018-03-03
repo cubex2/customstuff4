@@ -54,7 +54,8 @@
           "collisionBounds": null,
           "isOpaqueCube": false,
           "opacity": 1,
-          "renderLayer": "mippedCutout"
+          "renderLayer": "mippedCutout",
+          "isWeb": true
         }
       ]
     },
