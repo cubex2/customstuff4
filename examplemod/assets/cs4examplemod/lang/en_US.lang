@@ -48,6 +48,7 @@ tile.cs4examplemod.trapdoor.name=Trap Door
 tile.cs4examplemod.torch.name=Torch
 tile.cs4examplemod.button.name=Button
 tile.cs4examplemod.mob_shield.name=Mob Shield
+tile.cs4examplemod.pane.name=Pane
 fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 

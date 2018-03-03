@@ -376,6 +376,17 @@
           "itemModel": "minecraft:stone_button"
         }
       ]
+    },
+    {
+      "type": "block:pane",
+      "entries": [
+        {
+          "id": "pane",
+          "material": "glass",
+          "creativeTab": "examplemod",
+          "itemModel": "minecraft:glass_pane"
+        }
+      ]
     }
   ]
 }
