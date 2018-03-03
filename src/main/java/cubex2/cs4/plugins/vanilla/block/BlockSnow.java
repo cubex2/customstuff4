@@ -38,7 +38,7 @@ public class BlockSnow extends net.minecraft.block.BlockSnow implements CSBlock<
         Optional<BlockDrop[]> blockDrops = getContent().drop.get(getSubtype(state));
         if (blockDrops.isPresent())
         {
-            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get()));
+            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get(), fortune));
         }
     }
 

@@ -85,7 +85,7 @@ public abstract class BlockCrops extends net.minecraft.block.BlockCrops implemen
         Optional<BlockDrop[]> blockDrops = getContent().drop.get(getSubtype(state));
         if (blockDrops.isPresent())
         {
-            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get()));
+            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get(), fortune));
         }
 
         int age = getAge(state);
@@ -102,17 +102,17 @@ public abstract class BlockCrops extends net.minecraft.block.BlockCrops implemen
                         if (rand.nextInt(2 * getMaxAge()) <= age)
                         {
                             ItemStack drop = stack.copy();
-                            drop.setCount(seed.getAmount());
+                            drop.setCount(seed.getAmount(fortune));
                             drops.add(drop);
                         }
                     }
                 }
             }
 
-            drops.addAll(ItemHelper.getDroppedStacks(content.crops));
+            drops.addAll(ItemHelper.getDroppedStacks(content.crops, fortune));
         } else
         {
-            drops.addAll(ItemHelper.getDroppedStacks(content.seeds));
+            drops.addAll(ItemHelper.getDroppedStacks(content.seeds, fortune));
         }
     }
 

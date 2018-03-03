@@ -70,7 +70,7 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
         Optional<BlockDrop[]> blockDrops = getContent().drop.get(getSubtype(state));
         if (blockDrops.isPresent())
         {
-            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get()));
+            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get(), fortune));
         } else
         {
             super.getDrops(drops, world, pos, state, fortune);

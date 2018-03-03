@@ -232,7 +232,7 @@ public class ItemHelper
         return copy;
     }
 
-    public static List<ItemStack> getDroppedStacks(BlockDrop[] drops)
+    public static List<ItemStack> getDroppedStacks(BlockDrop[] drops, int fortune)
     {
         List<ItemStack> result = Lists.newArrayList();
 
@@ -243,7 +243,7 @@ public class ItemHelper
 
             if (!droppedStack.isEmpty())
             {
-                int amount = drop.getAmount();
+                int amount = drop.getAmount(fortune);
                 if (amount > 0)
                 {
                     result.add(ItemHelper.copyStack(droppedStack, amount));

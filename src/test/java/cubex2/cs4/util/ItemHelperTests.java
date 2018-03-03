@@ -268,7 +268,7 @@ public class ItemHelperTests
     @Test
     public void test_getDroppedStacks_nothing()
     {
-        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[0]);
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[0], 0);
 
         assertTrue(drops.isEmpty());
     }
@@ -278,7 +278,7 @@ public class ItemHelperTests
     {
         BlockDrop drop = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.APPLE)), IntRange.create(0, 0));
 
-        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop});
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop}, 0);
 
         assertTrue(drops.isEmpty());
     }
@@ -289,7 +289,7 @@ public class ItemHelperTests
         BlockDrop drop1 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.APPLE)), IntRange.create(1, 1));
         BlockDrop drop2 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.STICK)), IntRange.create(2, 2));
 
-        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop1, drop2});
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop1, drop2}, 0);
         ItemStack stack1 = drops.get(0);
         ItemStack stack2 = drops.get(1);
 
@@ -306,7 +306,7 @@ public class ItemHelperTests
         BlockDrop drop1 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.APPLE)), IntRange.create(1, 10));
         BlockDrop drop2 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.STICK)), IntRange.create(11, 20));
 
-        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop1, drop2});
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop1, drop2}, 0);
         ItemStack stack1 = drops.get(0);
         ItemStack stack2 = drops.get(1);
 
@@ -315,5 +315,16 @@ public class ItemHelperTests
 
         assertSame(Items.STICK, stack2.getItem());
         assertTrue(stack2.getCount() >= 11 && stack2.getCount() <= 20);
+    }
+
+    @Test
+    public void test_getDroppedStacks_withFortune()
+    {
+        BlockDrop drop1 = new BlockDrop(new WrappedItemStackConstant(new ItemStack(Items.APPLE)), IntRange.create(1, 1), IntRange.create(3, 3));
+
+        List<ItemStack> drops = ItemHelper.getDroppedStacks(new BlockDrop[] {drop1}, 2);
+        ItemStack stack1 = drops.get(0);
+
+        assertEquals(7, stack1.getCount());
     }
 }
