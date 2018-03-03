@@ -138,14 +138,31 @@
       ]
     },
     {
+      "type": "armorMaterial",
+      "entries": [
+        {
+          "id": "cs4gold",
+          "textureName": "gold",
+          "durability": 40,
+          "enchantability": 25,
+          "armorHelmet": 3,
+          "armorChest": 9,
+          "armorLegs": 6,
+          "armorBoots": 3,
+          "equipSound": "entity.generic.explode",
+          "toughness": 2.5,
+          "repairItem": "minecraft:gold_ingot"
+        }
+      ]
+    },
+    {
       "type": "item:helmet",
       "entries": [
         {
           "id": "helmet",
-          "material": "diamond",
+          "material": "cs4gold",
           "creativeTab": "examplemod",
-          "model": "minecraft:golden_helmet",
-          "armorTexture": "minecraft:textures/models/armor/gold_layer_1.png"
+          "model": "minecraft:golden_helmet"
         }
       ]
     },
@@ -154,10 +171,9 @@
       "entries": [
         {
           "id": "chestplate",
-          "material": "diamond",
+          "material": "cs4gold",
           "creativeTab": "examplemod",
-          "model": "minecraft:golden_chestplate",
-          "armorTexture": "minecraft:textures/models/armor/gold_layer_1.png"
+          "model": "minecraft:golden_chestplate"
         }
       ]
     },
@@ -166,10 +182,9 @@
       "entries": [
         {
           "id": "legs",
-          "material": "diamond",
+          "material": "cs4gold",
           "creativeTab": "examplemod",
-          "model": "minecraft:golden_leggings",
-          "armorTexture": "minecraft:textures/models/armor/gold_layer_2.png"
+          "model": "minecraft:golden_leggings"
         }
       ]
     },
@@ -178,10 +193,9 @@
       "entries": [
         {
           "id": "boots",
-          "material": "diamond",
+          "material": "cs4gold",
           "creativeTab": "examplemod",
-          "model": "minecraft:golden_boots",
-          "armorTexture": "minecraft:textures/models/armor/gold_layer_1.png"
+          "model": "minecraft:golden_boots"
         }
       ]
     }

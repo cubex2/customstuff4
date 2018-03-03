@@ -13,7 +13,7 @@ public class ItemArmor extends net.minecraft.item.ItemArmor
 
     public ItemArmor(ContentItemArmor content, EntityEquipmentSlot equipmentSlotIn)
     {
-        super(content.material, 0, equipmentSlotIn);
+        super(content.material.getArmorMaterial(), 0, equipmentSlotIn);
         this.content = content;
     }
 
@@ -21,6 +21,9 @@ public class ItemArmor extends net.minecraft.item.ItemArmor
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
     {
-        return content.armorTexture.toString();
+        if (content.armorTexture != null)
+            return content.armorTexture.toString();
+
+        return null;
     }
 }

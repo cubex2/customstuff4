@@ -21,12 +21,12 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.relauncher.Side;
@@ -71,7 +71,8 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(EnumPlantType[].class, new ArrayDeserializer<>(EnumPlantType[]::new, EnumPlantType.class));
         registry.registerDeserializer(PathNodeType.class, new PathNodeTypeDeserializer());
         registry.registerDeserializer(MachineRecipeOutputImpl.class, new MachineRecipeOutputDeserializer());
-        registry.registerDeserializer(ItemArmor.ArmorMaterial.class, new ArmorMaterialDeserializer());
+        registry.registerDeserializer(WrappedArmorMaterial.class, new WrappedArmorMaterialDeserializer());
+        registry.registerDeserializer(SoundEvent.class, new SoundEventDeserializer());
         registry.registerDeserializer(new TypeToken<List<MachineRecipeOutputImpl>>() {}.getType(), new ListDeserializer<>(MachineRecipeOutputImpl.class));
         registry.registerDeserializer(new TypeToken<List<MachineResult>>() {}.getType(), new ListDeserializer<>(MachineResult.class));
         registry.registerDeserializer(new TypeToken<List<WrappedFluidStack>>() {}.getType(), new ListDeserializer<>(WrappedFluidStack.class));
@@ -109,6 +110,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("guiModifier", GuiModifier.class, Side.CLIENT);
         registry.registerContentType("fluidModifier", FluidModifier.class);
         registry.registerContentType("creativeTab", CreativeTab.class);
+        registry.registerContentType("armorMaterial", ArmorMaterial.class);
 
         registry.registerContentType("item:simple", ContentItemSimple.class);
         registry.registerContentType("item:axe", ContentItemAxe.class);
