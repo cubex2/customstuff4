@@ -1,0 +1,77 @@
+{
+  "backpack": [
+    {
+      "type": "item:simple",
+      "entries": [
+        {
+          "id": "backpack",
+          "creativeTab": "examplemod",
+          "itemModel": "cs4examplemod:backpack",
+          "gui": "cs4examplemod:backpack",
+          "modules": [
+            {
+              "type": "inventory",
+              "name": "inv1",
+              "size": 27
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "gui:container",
+      "entries": [
+        {
+          "id": "backpack",
+          "bg": "cs4examplemod:textures/gui/container/simple.png",
+          "slots": [
+            {
+              "name": "inv1",
+              "rows": 3,
+              "columns": 9,
+              "x": 8,
+              "y": 17
+            },
+            {
+              "name": "player",
+              "firstSlot": 9,
+              "rows": 3,
+              "columns": 9,
+              "x": 8,
+              "y": 84
+            },
+            {
+              "name": "player",
+              "rows": 1,
+              "columns": 9,
+              "x": 8,
+              "y": 142
+            }
+          ],
+          "shiftClickRules": [
+            {
+              "from": [0, 26],
+              "to": [62, 27]
+            },
+            {
+              "from": [27, 62],
+              "to": [0, 26]
+            }
+          ],
+          "labels": [
+            {
+              "text": "cs4examplemod.container.backpack",
+              "x": 8,
+              "y": 6
+            },
+            {
+              "text": "container.inventory",
+              "x": 8,
+              "y": 73
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

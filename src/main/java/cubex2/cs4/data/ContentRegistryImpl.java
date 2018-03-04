@@ -6,6 +6,7 @@ import com.google.gson.JsonDeserializer;
 import cubex2.cs4.api.*;
 import cubex2.cs4.plugins.vanilla.BlockTintRegistry;
 import cubex2.cs4.plugins.vanilla.ColorRegistry;
+import cubex2.cs4.plugins.vanilla.ItemModuleRegistry;
 import cubex2.cs4.plugins.vanilla.TileEntityModuleRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,13 +19,15 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry, TileEntityModuleRegistry, BlockTintRegistry, ColorRegistry
+public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry,
+        TileEntityModuleRegistry, BlockTintRegistry, ColorRegistry, ItemModuleRegistry
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
     private final Map<String, Side> typeSides = Maps.newHashMap();
     private final Map<String, LoaderPredicate> predicates = Maps.newHashMap();
     private final List<Pair<Type, JsonDeserializer<?>>> deserializers = Lists.newArrayList();
     private final Map<String, Class<? extends TileEntityModuleSupplier>> tileEntityModules = Maps.newHashMap();
+    private final Map<String, Class<? extends ItemModuleSupplier>> itemModules = Maps.newHashMap();
     private final Map<String, BlockTint> blockTintFunctions = Maps.newHashMap();
     private final Map<String, Integer> colors = Maps.newHashMap();
 
@@ -93,6 +96,20 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     public Class<? extends TileEntityModuleSupplier> getTileEntityModuleClass(String typeName)
     {
         return tileEntityModules.get(typeName);
+    }
+
+    @Override
+    public <T extends ItemModuleSupplier> void registerItemModule(String typeName, Class<T> clazz)
+    {
+        checkArgument(!itemModules.containsKey("name"), "Duplicate item module name: %s", typeName);
+
+        itemModules.put(typeName, clazz);
+    }
+
+    @Override
+    public Class<? extends ItemModuleSupplier> getItemModuleClass(String typeName)
+    {
+        return itemModules.get(typeName);
     }
 
     @Override

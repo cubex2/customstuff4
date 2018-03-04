@@ -7,4 +7,6 @@ public interface ProgressBarSource
      * supported by this source, return 0.0.
      */
     float getProgress(String name);
+
+    ProgressBarSource EMPTY = name -> 0.0f;
 }

@@ -11,4 +11,6 @@ public interface ItemHandlerSupplier
      * specified in the json file.
      */
     Optional<IItemHandler> getItemHandler(String name);
+
+    ItemHandlerSupplier EMPTY = name -> Optional.empty();
 }

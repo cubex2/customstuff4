@@ -15,7 +15,7 @@ class NamedMapDeserializer<T> implements JsonDeserializer<Map<String, T>>
     @Override
     public Map<String, T> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
     {
-        Map<String, T> map = Maps.newHashMap();
+        Map<String, T> map = Maps.newLinkedHashMap();
 
         JsonArray array = json.getAsJsonArray();
         for (JsonElement element : array)

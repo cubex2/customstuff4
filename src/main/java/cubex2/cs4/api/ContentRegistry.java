@@ -43,6 +43,15 @@ public interface ContentRegistry
     <T extends TileEntityModuleSupplier> void registerTileEntityModule(String typeName, Class<T> clazz);
 
     /**
+     * Register a new item module type. You may register the same class using different names.
+     *
+     * @param typeName The name of the module. This is the value that is being used for the 'type' attribute in json files.
+     * @param clazz    The class to register. If you don't register a custom deserializer for the module, the class must
+     *                 have a default constructor
+     */
+    <T extends ItemModuleSupplier> void registerItemModule(String typeName, Class<T> clazz);
+
+    /**
      * Register a block tint function. You may register the same function using different names.
      *
      * @param name The name of the function. This is the value that is used in json files to reference the function.

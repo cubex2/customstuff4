@@ -10,6 +10,7 @@ import cubex2.cs4.plugins.vanilla.crafting.MachineResult;
 import cubex2.cs4.plugins.vanilla.gui.ItemFilter;
 import cubex2.cs4.plugins.vanilla.gui.ItemFilterDeserializer;
 import cubex2.cs4.plugins.vanilla.gui.ProgressBar;
+import cubex2.cs4.plugins.vanilla.item.ItemModuleInventory;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleCrafting;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleInventory;
 import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleMachine;
@@ -54,6 +55,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(MapColor.class, new MapColorDeserializer());
         registry.registerDeserializer(WrappedBlockState.class, new WrappedBlockStateDeserializer());
         registry.registerDeserializer(TileEntityModuleSupplier.class, new TileEntityModuleSupplierDeserializer(CustomStuff4.contentRegistry));
+        registry.registerDeserializer(ItemModuleSupplier.class, new ItemModuleSupplierDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(EnumFacing.class, new EnumFacingDeserializer());
         registry.registerDeserializer(Color.class, new ColorDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(ProgressBar.Direction.class, ProgressBar.Direction.DESERIALIZER);
@@ -77,6 +79,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<List<MachineResult>>() {}.getType(), new ListDeserializer<>(MachineResult.class));
         registry.registerDeserializer(new TypeToken<List<WrappedFluidStack>>() {}.getType(), new ListDeserializer<>(WrappedFluidStack.class));
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
+        registry.registerDeserializer(new TypeToken<Map<String, ItemModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(ItemModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
         registry.registerDeserializer(new TypeToken<Attribute<String>>() {}.getType(), Attribute.deserializer(String.class));
         registry.registerDeserializer(new TypeToken<Attribute<Float>>() {}.getType(), Attribute.deserializer(Float.class));
@@ -152,6 +155,8 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerTileEntityModule("crafting", TileEntityModuleCrafting.Supplier.class);
         registry.registerTileEntityModule("machine", TileEntityModuleMachine.Supplier.class);
         registry.registerTileEntityModule("tank", TileEntityModuleTank.Supplier.class);
+
+        registry.registerItemModule("inventory", ItemModuleInventory.Supplier.class);
 
         registry.registerContentType("gui:container", ContentGuiContainer.class);
 

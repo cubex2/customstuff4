@@ -15,6 +15,7 @@ item.cs4examplemod.helmet.name=Helmet
 item.cs4examplemod.chestplate.name=Chestplate
 item.cs4examplemod.legs.name=Legs
 item.cs4examplemod.boots.name=Boots
+item.cs4examplemod.backpack.name=Backpack
 tile.cs4examplemod.someblock.0.name=Iron Sensor
 tile.cs4examplemod.someblock.1.name=Golden Sensor
 tile.cs4examplemod.vertical_no_subtype.name=Vertical
@@ -57,3 +58,5 @@ fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 
 cs4examplemod.crafter.jei.desc=This block can craft different things than the Crafting Table
+
+cs4examplemod.container.backpack=Backpack

@@ -135,6 +135,9 @@
       "file": "fluid_machine.json"
     },
     {
+      "file": "backpack.json"
+    },
+    {
       "type": "imc",
       "entries": [
         {

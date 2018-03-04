@@ -11,4 +11,6 @@ public interface FluidSource
      */
     @Nullable
     IFluidTank getFluidTank(String name);
+
+    FluidSource EMPTY = name -> null;
 }

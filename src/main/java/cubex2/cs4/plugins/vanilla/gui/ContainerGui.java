@@ -31,7 +31,12 @@ public class ContainerGui extends ContainerCS4
 
     private final int[] prevFieldValues;
 
-    public ContainerGui(ContentGuiContainer content, ItemHandlerSupplier supplier, FluidSource fluidSource, FieldSupplier fieldSupplier, EntityPlayer player)
+    public ContainerGui(ContentGuiContainer content,
+                        ItemHandlerSupplier supplier,
+                        FluidSource fluidSource,
+                        FieldSupplier fieldSupplier,
+                        EntityPlayer player,
+                        int readOnlyPlayerSlot)
     {
         this.content = content;
         this.supplier = supplier;
@@ -60,6 +65,8 @@ public class ContainerGui extends ContainerCS4
                         if (handler instanceof SlotProvider)
                             slot = ((SlotProvider) handler).createSlot(index, x, y)
                                                            .orElseGet(() -> new SlotItemHandler(handler, index, x, y));
+                        else if (handler == playerInv && index == readOnlyPlayerSlot)
+                            slot = new SlotItemHandlerReadOnly(handler, index, x, y);
                         else
                             slot = new SlotItemHandler(handler, index, x, y);
 

@@ -4,6 +4,7 @@ import cubex2.cs4.api.CustomStuffPlugin;
 import cubex2.cs4.data.ContentRegistryImpl;
 import cubex2.cs4.plugins.vanilla.EventHandler;
 import cubex2.cs4.plugins.vanilla.GuiHandler;
+import cubex2.cs4.plugins.vanilla.gui.CapabilityItemHandlerSupplier;
 import cubex2.cs4.plugins.vanilla.network.PacketSyncContainerFluid;
 import cubex2.cs4.util.PluginHelper;
 import net.minecraft.init.Bootstrap;
@@ -47,6 +48,7 @@ public class CustomStuff4
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        CapabilityItemHandlerSupplier.register();
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
 
         initPlugins(event.getAsmData());

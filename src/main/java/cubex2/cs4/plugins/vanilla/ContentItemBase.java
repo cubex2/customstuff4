@@ -1,14 +1,15 @@
 package cubex2.cs4.plugins.vanilla;
 
+import com.google.common.collect.Maps;
 import cubex2.cs4.CustomStuff4;
-import cubex2.cs4.api.Color;
-import cubex2.cs4.api.Content;
-import cubex2.cs4.api.ContentHelper;
-import cubex2.cs4.api.InitPhase;
+import cubex2.cs4.api.*;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.RegistryManager;
+
+import java.util.Map;
 
 public abstract class ContentItemBase<T extends Item> implements Content
 {
@@ -17,6 +18,8 @@ public abstract class ContentItemBase<T extends Item> implements Content
 
     Attribute<Color> tint = null;
     public Attribute<Integer> burnTime = Attribute.constant(-1);
+    public Attribute<ResourceLocation> gui = Attribute.constant(null);
+    public Map<String, ItemModuleSupplier> modules = Maps.newLinkedHashMap();
 
     protected transient T item;
 
