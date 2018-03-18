@@ -80,9 +80,15 @@ public class BlockWall extends Block implements CSBlock<ContentBlockWall>
     }
 
     @Override
+    public int[] getSubtypes()
+    {
+        return content.subtypes;
+    }
+
+    @Override
     public int getSubtype(IBlockState state)
     {
-        return 0;
+        return getMetaFromState(state);
     }
 
     @Override

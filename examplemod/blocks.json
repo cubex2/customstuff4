@@ -341,6 +341,15 @@
       "entries": [
         {
           "id": "wall",
+          "subtypes": [0, 1],
+          "creativeTab": "examplemod",
+          "itemModel": {
+            "0": "minecraft:cobblestone_wall",
+            "1": "minecraft:mossy_cobblestone_wall"
+          }
+        },
+        {
+          "id": "wall_no_subtype",
           "creativeTab": "examplemod",
           "itemModel": "minecraft:cobblestone_wall"
         }

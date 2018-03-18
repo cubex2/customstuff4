@@ -31,6 +31,7 @@ public class BlockFactory
     private static Class<? extends Block> cropsClass;
     private static Class<? extends Block> fenceGateClass;
     private static Class<? extends Block> wallClass;
+    private static Class<? extends Block> wallSubtypeClass;
     private static Class<? extends Block> trapDoorClass;
     private static Class<? extends Block> torchClass;
     private static Class<? extends Block> buttonClass;
@@ -137,6 +138,11 @@ public class BlockFactory
         return newInstance(wallClass, content);
     }
 
+    public static Block createWallSubtype(ContentBlockWall content)
+    {
+        return newInstance(wallSubtypeClass, content);
+    }
+
     public static Block createTrapDoor(ContentBlockTrapDoor content)
     {
         return newInstance(trapDoorClass, content);
@@ -195,6 +201,7 @@ public class BlockFactory
         cropsClass = createClass(BlockCrops.class, BlockMixin.class);
         fenceGateClass = createClass(BlockFenceGate.class, BlockMixin.class);
         wallClass = createClass(BlockWall.class, BlockMixin.class);
+        wallSubtypeClass = createClass(BlockWallWithSubtypes.class, BlockMixin.class);
         trapDoorClass = createClass(BlockTrapDoor.class, BlockMixin.class);
         torchClass = createClass(BlockTorch.class, BlockMixin.class);
         buttonClass = createClass(BlockButton.class, BlockMixin.class);

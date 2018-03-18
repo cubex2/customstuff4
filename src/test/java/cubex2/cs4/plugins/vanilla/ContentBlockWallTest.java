@@ -7,15 +7,23 @@ import org.junit.Test;
 public class ContentBlockWallTest
 {
     @BeforeClass
-    public static void setUp() throws Exception
+    public static void setUp()
     {
         Bootstrap.register();
     }
 
     @Test
-    public void test_createBlock_noSubtypes() throws Exception
+    public void test_createBlock_noSubtypes()
     {
-        ContentBlockWall wall = new ContentBlockWall();
-        wall.createBlock();
+        ContentBlockWall content = new ContentBlockWall();
+        content.createBlock();
+    }
+
+    @Test
+    public void test_createBlock_subtypes()
+    {
+        ContentBlockWall content = new ContentBlockWall();
+        content.subtypes = new int[] {0, 1};
+        content.createBlock();
     }
 }

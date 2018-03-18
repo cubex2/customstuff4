@@ -1,13 +1,13 @@
 package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.plugins.vanilla.block.BlockFactory;
-import cubex2.cs4.plugins.vanilla.block.ItemBlock;
+import cubex2.cs4.plugins.vanilla.block.ItemBlockWithSubtypes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
 import java.util.Optional;
 
-public class ContentBlockWall extends ContentBlockBaseNoSubtypes
+public class ContentBlockWall extends ContentBlockBaseWithSubtypes
 {
     public ContentBlockWall()
     {
@@ -17,14 +17,20 @@ public class ContentBlockWall extends ContentBlockBaseNoSubtypes
     }
 
     @Override
-    protected Optional<Item> createItem()
+    protected Block createBlockWithSubtypes()
     {
-        return Optional.of(new ItemBlock(block, this));
+        return BlockFactory.createWallSubtype(this);
     }
 
     @Override
-    public Block createBlock()
+    protected Block createBlockWithoutSubtypes()
     {
         return BlockFactory.createWall(this);
+    }
+
+    @Override
+    protected Optional<Item> createItem(boolean hasSubtypes)
+    {
+        return Optional.of(new ItemBlockWithSubtypes(block, this));
     }
 }
