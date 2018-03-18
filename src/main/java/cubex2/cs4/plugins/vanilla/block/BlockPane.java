@@ -17,12 +17,18 @@ public class BlockPane extends net.minecraft.block.BlockPane implements CSBlock<
     @Override
     public int getSubtype(IBlockState state)
     {
-        return 0;
+        return getMetaFromState(state);
     }
 
     @Override
     public ContentBlockPane getContent()
     {
         return content;
+    }
+
+    @Override
+    public int[] getSubtypes()
+    {
+        return content.subtypes;
     }
 }

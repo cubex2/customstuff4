@@ -392,6 +392,16 @@
       "entries": [
         {
           "id": "pane",
+          "subtypes": [0, 1],
+          "material": "glass",
+          "creativeTab": "examplemod",
+          "itemModel": {
+            "0": "minecraft:glass_pane",
+            "1": "minecraft:iron_bars"
+          }
+        },
+        {
+          "id": "pane_no_subtype",
           "material": "glass",
           "creativeTab": "examplemod",
           "itemModel": "minecraft:glass_pane"

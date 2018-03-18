@@ -18,4 +18,12 @@ public class ContentBlockPaneTest
         ContentBlockPane content = new ContentBlockPane();
         content.createBlock();
     }
+
+    @Test
+    public void test_createBlock_subtypes()
+    {
+        ContentBlockPane content = new ContentBlockPane();
+        content.subtypes = new int[] {0, 1};
+        content.createBlock();
+    }
 }
