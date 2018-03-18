@@ -326,6 +326,8 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
         {
             entityIn.setInWeb();
         }
+
+        super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
     }
 
     @Override

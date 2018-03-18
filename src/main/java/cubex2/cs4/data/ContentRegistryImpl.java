@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializer;
 import cubex2.cs4.api.*;
-import cubex2.cs4.plugins.vanilla.BlockTintRegistry;
-import cubex2.cs4.plugins.vanilla.ColorRegistry;
-import cubex2.cs4.plugins.vanilla.ItemModuleRegistry;
-import cubex2.cs4.plugins.vanilla.TileEntityModuleRegistry;
+import cubex2.cs4.plugins.vanilla.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.tuple.Pair;
@@ -20,7 +17,7 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class ContentRegistryImpl implements ContentRegistry, DeserializationRegistry, LoaderPredicateRegistry,
-        TileEntityModuleRegistry, BlockTintRegistry, ColorRegistry, ItemModuleRegistry
+        TileEntityModuleRegistry, BlockTintRegistry, ColorRegistry, ItemModuleRegistry, EntitySelectorRegistry
 {
     private final Map<String, Class<? extends Content>> types = Maps.newHashMap();
     private final Map<String, Side> typeSides = Maps.newHashMap();
@@ -30,6 +27,7 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     private final Map<String, Class<? extends ItemModuleSupplier>> itemModules = Maps.newHashMap();
     private final Map<String, BlockTint> blockTintFunctions = Maps.newHashMap();
     private final Map<String, Integer> colors = Maps.newHashMap();
+    private final Map<String, EntitySelector> entitySelectors = Maps.newHashMap();
 
     @Override
     public <T extends Content> void registerContentType(String typeName, Class<T> clazz)
@@ -139,5 +137,20 @@ public class ContentRegistryImpl implements ContentRegistry, DeserializationRegi
     public int getColor(String name)
     {
         return colors.getOrDefault(name, -1);
+    }
+
+    @Override
+    public void registerEntitySelector(String name, EntitySelector selector)
+    {
+        checkArgument(!entitySelectors.containsKey(name), "Duplicate selector name: %s", name);
+
+        entitySelectors.put(name, selector);
+    }
+
+    @Nullable
+    @Override
+    public EntitySelector<?> getEntitySelector(String name)
+    {
+        return entitySelectors.get(name);
     }
 }

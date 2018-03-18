@@ -66,4 +66,12 @@ public interface ContentRegistry
      * @param rgba The rgba color value.
      */
     void registerColor(String name, int rgba);
+
+    /**
+     * Register a named entity selector. You may register the same selector using different names.
+     *
+     * @param name     The name of the selector. This is the name used in the json file.
+     * @param selector The selector to register.
+     */
+    void registerEntitySelector(String name, EntitySelector selector);
 }

@@ -54,6 +54,7 @@ tile.cs4examplemod.torch.name=Torch
 tile.cs4examplemod.button.name=Button
 tile.cs4examplemod.mob_shield.name=Mob Shield
 tile.cs4examplemod.pane.name=Pane
+tile.cs4examplemod.pressure_plate.name=Pressure Plate
 fluid.examplefluid=Example Fluid
 itemGroup.examplemod=CS4 Example Mod
 

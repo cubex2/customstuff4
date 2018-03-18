@@ -388,6 +388,18 @@
           "itemModel": "minecraft:glass_pane"
         }
       ]
+    },
+    {
+      "type": "block:pressurePlate",
+      "entries": [
+        {
+          "id": "pressure_plate",
+          "material": "wood",
+          "creativeTab": "examplemod",
+          "itemModel": "minecraft:wooden_pressure_plate",
+          "selector": "sheep"
+        }
+      ]
     }
   ]
 }

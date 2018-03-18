@@ -21,6 +21,9 @@ import cubex2.cs4.util.ListDeserializer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathNodeType;
@@ -75,6 +78,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(MachineRecipeOutputImpl.class, new MachineRecipeOutputDeserializer());
         registry.registerDeserializer(WrappedArmorMaterial.class, new WrappedArmorMaterialDeserializer());
         registry.registerDeserializer(SoundEvent.class, new SoundEventDeserializer());
+        registry.registerDeserializer(EntitySelector.class, new EntitySelectorDeserializer(CustomStuff4.contentRegistry));
         registry.registerDeserializer(new TypeToken<List<MachineRecipeOutputImpl>>() {}.getType(), new ListDeserializer<>(MachineRecipeOutputImpl.class));
         registry.registerDeserializer(new TypeToken<List<MachineResult>>() {}.getType(), new ListDeserializer<>(MachineResult.class));
         registry.registerDeserializer(new TypeToken<List<WrappedFluidStack>>() {}.getType(), new ListDeserializer<>(WrappedFluidStack.class));
@@ -146,6 +150,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerContentType("block:torch", ContentBlockTorch.class);
         registry.registerContentType("block:button", ContentBlockButton.class);
         registry.registerContentType("block:pane", ContentBlockPane.class);
+        registry.registerContentType("block:pressurePlate", ContentBlockPressurePlate.class);
 
         registry.registerContentType("worldGen:ore", WorldGenOre.class);
 
@@ -190,5 +195,11 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerColor("foliagePine", 0x619961);
         registry.registerColor("foliageBirch", 0x80a755);
         registry.registerColor("foliageBasic", 0x48b518);
+
+        registry.registerEntitySelector("everything", EntitySelector.EVERYTHING);
+        registry.registerEntitySelector("nothing", EntitySelector.NOTHING);
+        registry.registerEntitySelector("livings", new EntitySelectorSimple<>(EntityLivingBase.class, entity -> true));
+        registry.registerEntitySelector("players", new EntitySelectorSimple<>(EntityPlayer.class, entity -> !entity.isSpectator()));
+        registry.registerEntitySelector("items", new EntitySelectorSimple<>(EntityItem.class, entity -> true));
     }
 }
