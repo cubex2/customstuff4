@@ -12,7 +12,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class MachineRecipeDeserializerTest
 {
@@ -111,5 +112,17 @@ public class MachineRecipeDeserializerTest
         assertEquals(0, output1.getOutputFluids().size());
         assertEquals(25, output0.getWeight());
         assertEquals(1, output1.getWeight());
+    }
+
+    @Test
+    public void test_oneInputItem()
+    {
+        MachineRecipeImpl recipe = gson.fromJson("{\n" +
+                                                 "\"recipeList\": \"zcm_alterlite:makeshiftfurnace\",\n" +
+                                                 "\"input\": \"minecraft:cobblestone\"\n" +
+                                                 "}", MachineRecipeImpl.class);
+        recipe.init(InitPhase.PRE_INIT, null);
+
+        assertEquals(1, recipe.getInputStacks());
     }
 }

@@ -82,6 +82,7 @@ public class VanillaPlugin implements CustomStuffPlugin
         registry.registerDeserializer(new TypeToken<List<MachineRecipeOutputImpl>>() {}.getType(), new ListDeserializer<>(MachineRecipeOutputImpl.class));
         registry.registerDeserializer(new TypeToken<List<MachineResult>>() {}.getType(), new ListDeserializer<>(MachineResult.class));
         registry.registerDeserializer(new TypeToken<List<WrappedFluidStack>>() {}.getType(), new ListDeserializer<>(WrappedFluidStack.class));
+        registry.registerDeserializer(new TypeToken<List<RecipeInput>>() {}.getType(), new ListDeserializer<>(RecipeInput.class));
         registry.registerDeserializer(new TypeToken<Map<String, TileEntityModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(TileEntityModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Map<String, ItemModuleSupplier>>() {}.getType(), new NamedMapDeserializer<>(ItemModuleSupplier.class));
         registry.registerDeserializer(new TypeToken<Attribute<ResourceLocation>>() {}.getType(), Attribute.deserializer(ResourceLocation.class));
