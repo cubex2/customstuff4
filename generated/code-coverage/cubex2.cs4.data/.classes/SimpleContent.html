@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SimpleContent</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.data</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SimpleContent (cubex2.cs4.data)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleContent</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.data;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.Content;
+<i>4</i>&nbsp;import cubex2.cs4.api.ContentHelper;
+<i>5</i>&nbsp;import cubex2.cs4.api.InitPhase;
+<i>6</i>&nbsp;
+<b class="fc"><i>7</i>&nbsp;public abstract class SimpleContent implements Content</b>
+<i>8</i>&nbsp;{
+<b class="fc"><i>9</i>&nbsp;    private boolean isInitialized = false;</b>
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    @Override
+<i>12</i>&nbsp;    public final void init(InitPhase phase, ContentHelper helper)
+<i>13</i>&nbsp;    {
+<b class="fc"><i>14</i>&nbsp;        if (!isInitialized &amp;&amp; isReady())</b>
+<i>15</i>&nbsp;        {
+<b class="fc"><i>16</i>&nbsp;            doInit(phase, helper);</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;            isInitialized = true;</b>
+<i>19</i>&nbsp;        }
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * This is called for the first phase for which isReady returns true.
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    protected abstract void doInit(InitPhase phase, ContentHelper helper);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    protected abstract boolean isReady();
+<i>28</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ModLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ModLoader (cubex2.cs4)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,5%
+  </span>
+  <span class="absValue">
+    (10/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    47,3%
+  </span>
+  <span class="absValue">
+    (26/ 55)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ModLoader$1</td>
+  </tr>
+  <tr>
+    <td class="name">ModLoader$ModData</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (12/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    51,7%
+  </span>
+  <span class="absValue">
+    (31/ 60)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import cubex2.cs4.api.ContentHelper;
+<i>5</i>&nbsp;import cubex2.cs4.api.InitPhase;
+<i>6</i>&nbsp;import cubex2.cs4.asm.ModClassGenerator;
+<i>7</i>&nbsp;import cubex2.cs4.asm.ModInfo;
+<i>8</i>&nbsp;import cubex2.cs4.data.ContentHelperFactory;
+<i>9</i>&nbsp;import cubex2.cs4.data.ContentHelperImpl;
+<i>10</i>&nbsp;import cubex2.cs4.data.ContentLoader;
+<i>11</i>&nbsp;import cubex2.cs4.data.DeserializationRegistry;
+<i>12</i>&nbsp;import cubex2.cs4.util.JsonHelper;
+<i>13</i>&nbsp;import net.minecraftforge.fml.common.FMLCommonHandler;
+<i>14</i>&nbsp;import net.minecraftforge.fml.common.ModContainer;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.io.File;
+<i>17</i>&nbsp;import java.util.Collections;
+<i>18</i>&nbsp;import java.util.List;
+<i>19</i>&nbsp;import java.util.Map;
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;public class ModLoader</b>
+<i>22</i>&nbsp;{
+<b class="fc"><i>23</i>&nbsp;    private static final Map&lt;CS4Mod, ModData&gt; mainContentLoaders = Maps.newHashMap();</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    static void initMods(File modsDir)
+<i>26</i>&nbsp;    {
+<b class="nc"><i>27</i>&nbsp;        File[] modFolders = modsDir.listFiles(File::isDirectory);</b>
+<b class="nc"><i>28</i>&nbsp;        if (modFolders != null)</b>
+<i>29</i>&nbsp;        {
+<b class="nc"><i>30</i>&nbsp;            for (File folder : modFolders)</b>
+<i>31</i>&nbsp;            {
+<b class="nc"><i>32</i>&nbsp;                File infoJsonFile = new File(folder, &quot;cs4mod.json&quot;);</b>
+<b class="nc"><i>33</i>&nbsp;                if (infoJsonFile.exists() &amp;&amp; infoJsonFile.isFile())</b>
+<i>34</i>&nbsp;                {
+<b class="nc"><i>35</i>&nbsp;                    ModInfo info = JsonHelper.deserialize(infoJsonFile, ModInfo.class);</b>
+<b class="nc"><i>36</i>&nbsp;                    if (info != null)</b>
+<i>37</i>&nbsp;                    {
+<b class="nc"><i>38</i>&nbsp;                        ModClassGenerator.createModClass(folder, info);</b>
+<b class="nc"><i>39</i>&nbsp;                        createDirectories(folder, info);</b>
+<i>40</i>&nbsp;                    }
+<i>41</i>&nbsp;                }
+<i>42</i>&nbsp;            }
+<i>43</i>&nbsp;        }
+<b class="nc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    private static void createDirectories(File mainDir, ModInfo info)
+<i>47</i>&nbsp;    {
+<b class="nc"><i>48</i>&nbsp;        File assets = createDir(new File(mainDir, &quot;assets&quot;));</b>
+<b class="nc"><i>49</i>&nbsp;        File modid = createDir(new File(assets, info.getId()));</b>
+<b class="nc"><i>50</i>&nbsp;        createDir(new File(modid, &quot;blockstates&quot;));</b>
+<b class="nc"><i>51</i>&nbsp;        createDir(new File(modid, &quot;lang&quot;));</b>
+<b class="nc"><i>52</i>&nbsp;        File models = createDir(new File(modid, &quot;models&quot;));</b>
+<b class="nc"><i>53</i>&nbsp;        createDir(new File(modid, &quot;textures&quot;));</b>
+<b class="nc"><i>54</i>&nbsp;        createDir(new File(models, &quot;item&quot;));</b>
+<b class="nc"><i>55</i>&nbsp;        createDir(new File(models, &quot;block&quot;));</b>
+<b class="nc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    private static File createDir(File dir)
+<i>59</i>&nbsp;    {
+<b class="nc"><i>60</i>&nbsp;        if (!dir.exists())</b>
+<b class="nc"><i>61</i>&nbsp;            dir.mkdir();</b>
+<b class="nc"><i>62</i>&nbsp;        return dir;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @SuppressWarnings(&quot;unused&quot;)
+<i>66</i>&nbsp;    public static void onPreInitMod(CS4Mod mod)
+<i>67</i>&nbsp;    {
+<b class="nc"><i>68</i>&nbsp;        doPreInitMod(mod, ModLoader::createHelper, CustomStuff4.contentRegistry);</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    static void doPreInitMod(CS4Mod mod, ContentHelperFactory helperFactory, DeserializationRegistry deserializationRegistry)
+<i>72</i>&nbsp;    {
+<b class="fc"><i>73</i>&nbsp;        deserializeMainLoaders(mod, helperFactory, deserializationRegistry);</b>
+<i>74</i>&nbsp;
+<b class="fc"><i>75</i>&nbsp;        initContents(mod, InitPhase.PRE_INIT);</b>
+<b class="fc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    private static ContentHelper createHelper(CS4Mod mod)
+<i>79</i>&nbsp;    {
+<b class="nc"><i>80</i>&nbsp;        ModContainer container = FMLCommonHandler.instance().findContainerFor(mod);</b>
+<b class="nc"><i>81</i>&nbsp;        File modDirectory = container.getSource();</b>
+<i>82</i>&nbsp;
+<b class="nc"><i>83</i>&nbsp;        return new ContentHelperImpl(container.getModId(), modDirectory);</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public static void onRegisterBlocks(CS4Mod mod)
+<i>87</i>&nbsp;    {
+<b class="fc"><i>88</i>&nbsp;        initContents(mod, InitPhase.REGISTER_BLOCKS);</b>
+<b class="fc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public static void onRegisterItems(CS4Mod mod)
+<i>92</i>&nbsp;    {
+<b class="fc"><i>93</i>&nbsp;        initContents(mod, InitPhase.REGISTER_ITEMS);</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public static void onRegisterModels(CS4Mod mod)
+<i>97</i>&nbsp;    {
+<b class="fc"><i>98</i>&nbsp;        initContents(mod, InitPhase.REGISTER_MODELS);</b>
+<b class="fc"><i>99</i>&nbsp;    }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    @SuppressWarnings(&quot;unused&quot;)
+<i>102</i>&nbsp;    public static void onInitMod(CS4Mod mod)
+<i>103</i>&nbsp;    {
+<b class="fc"><i>104</i>&nbsp;        initContents(mod, InitPhase.INIT);</b>
+<b class="fc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    @SuppressWarnings(&quot;unused&quot;)
+<i>108</i>&nbsp;    public static void onPostInitMod(CS4Mod mod)
+<i>109</i>&nbsp;    {
+<b class="fc"><i>110</i>&nbsp;        initContents(mod, InitPhase.POST_INIT);</b>
+<b class="fc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    private static void deserializeMainLoaders(CS4Mod mod, ContentHelperFactory helperFactory, DeserializationRegistry deserializationRegistry)
+<i>114</i>&nbsp;    {
+<b class="fc"><i>115</i>&nbsp;        ContentHelper helper = helperFactory.createHelper(mod);</b>
+<b class="fc"><i>116</i>&nbsp;        List&lt;ContentLoader&gt; loaders = loadMainLoaders(helper, deserializationRegistry);</b>
+<b class="fc"><i>117</i>&nbsp;        loaders.forEach(loader -&gt; loader.deserializeContent(helper));</b>
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;        mainContentLoaders.put(mod, new ModData(helper, loaders));</b>
+<b class="fc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    private static List&lt;ContentLoader&gt; loadMainLoaders(ContentHelper helper, DeserializationRegistry deserializationRegistry)
+<i>123</i>&nbsp;    {
+<b class="fc"><i>124</i>&nbsp;        String json = helper.readJson(&quot;main.json&quot;);</b>
+<b class="fc"><i>125</i>&nbsp;        if (json == null)</b>
+<b class="nc"><i>126</i>&nbsp;            return Collections.emptyList();</b>
+<i>127</i>&nbsp;        else
+<b class="fc"><i>128</i>&nbsp;            return ContentLoader.loadContent(json, ContentLoader.class, deserializationRegistry);</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    private static void initContents(CS4Mod mod, InitPhase phase)
+<i>132</i>&nbsp;    {
+<b class="fc"><i>133</i>&nbsp;        ModData modData = mainContentLoaders.get(mod);</b>
+<b class="fc"><i>134</i>&nbsp;        if (modData != null)</b>
+<i>135</i>&nbsp;        {
+<b class="fc"><i>136</i>&nbsp;            modData.mainLoaders.forEach(content -&gt; content.init(phase, modData.helper));</b>
+<i>137</i>&nbsp;        }
+<b class="fc"><i>138</i>&nbsp;    }</b>
+<i>139</i>&nbsp;
+<b class="fc"><i>140</i>&nbsp;    private static class ModData</b>
+<i>141</i>&nbsp;    {
+<i>142</i>&nbsp;        private final ContentHelper helper;
+<i>143</i>&nbsp;        private final List&lt;ContentLoader&gt; mainLoaders;
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;        private ModData(ContentHelper helper, List&lt;ContentLoader&gt; mainLoaders)
+<b class="fc"><i>146</i>&nbsp;        {</b>
+<b class="fc"><i>147</i>&nbsp;            this.helper = helper;</b>
+<b class="fc"><i>148</i>&nbsp;            this.mainLoaders = mainLoaders;</b>
+<b class="fc"><i>149</i>&nbsp;        }</b>
+<i>150</i>&nbsp;    }
+<i>151</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemWithSubtypesMixin</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.item</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemWithSubtypesMixin (cubex2.cs4.plugins.vanilla.item)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemWithSubtypesMixin</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.item;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.CustomStuff4;
+<i>4</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentGuiBase;
+<i>5</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentItemWithSubtypes;
+<i>6</i>&nbsp;import cubex2.cs4.plugins.vanilla.GuiRegistry;
+<i>7</i>&nbsp;import cubex2.cs4.util.ItemHelper;
+<i>8</i>&nbsp;import net.minecraft.client.util.ITooltipFlag;
+<i>9</i>&nbsp;import net.minecraft.creativetab.CreativeTabs;
+<i>10</i>&nbsp;import net.minecraft.entity.player.EntityPlayer;
+<i>11</i>&nbsp;import net.minecraft.item.Item;
+<i>12</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>13</i>&nbsp;import net.minecraft.nbt.NBTTagCompound;
+<i>14</i>&nbsp;import net.minecraft.util.*;
+<i>15</i>&nbsp;import net.minecraft.world.World;
+<i>16</i>&nbsp;import net.minecraftforge.common.capabilities.ICapabilityProvider;
+<i>17</i>&nbsp;import net.minecraftforge.fml.common.FMLLog;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import javax.annotation.Nullable;
+<i>20</i>&nbsp;import java.util.Arrays;
+<i>21</i>&nbsp;import java.util.List;
+<i>22</i>&nbsp;import java.util.Optional;
+<i>23</i>&nbsp;
+<b class="nc"><i>24</i>&nbsp;public abstract class ItemWithSubtypesMixin extends Item implements ItemWithSubtypes</b>
+<i>25</i>&nbsp;{
+<i>26</i>&nbsp;    private CreativeTabs[] tabs;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public String getUnlocalizedName(ItemStack stack)
+<i>30</i>&nbsp;    {
+<b class="nc"><i>31</i>&nbsp;        if (hasSubtypes)</b>
+<i>32</i>&nbsp;        {
+<b class="nc"><i>33</i>&nbsp;            return super.getUnlocalizedName(stack) + &quot;.&quot; + stack.getMetadata();</b>
+<i>34</i>&nbsp;        } else
+<i>35</i>&nbsp;        {
+<b class="nc"><i>36</i>&nbsp;            return super.getUnlocalizedName(stack);</b>
+<i>37</i>&nbsp;        }
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public int getItemStackLimit(ItemStack stack)
+<i>42</i>&nbsp;    {
+<b class="nc"><i>43</i>&nbsp;        return getContent().maxStack.get(stack.getMetadata()).orElse(64);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @Override
+<i>47</i>&nbsp;    public void addInformation(ItemStack stack, @Nullable World worldIn, List&lt;String&gt; tooltip, ITooltipFlag flagIn)
+<i>48</i>&nbsp;    {
+<b class="nc"><i>49</i>&nbsp;        String[] lines = getContent().information.get(stack.getMetadata()).orElse(new String[0]);</b>
+<b class="nc"><i>50</i>&nbsp;        tooltip.addAll(Arrays.asList(lines));</b>
+<b class="nc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @Override
+<i>54</i>&nbsp;    public CreativeTabs[] getCreativeTabs()
+<i>55</i>&nbsp;    {
+<b class="nc"><i>56</i>&nbsp;        if (tabs == null)</b>
+<i>57</i>&nbsp;        {
+<b class="nc"><i>58</i>&nbsp;            tabs = ItemHelper.createCreativeTabs(getContent().creativeTab, getContent().subtypes);</b>
+<i>59</i>&nbsp;        }
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;        return tabs;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public CreativeTabs getCreativeTab()
+<i>66</i>&nbsp;    {
+<b class="nc"><i>67</i>&nbsp;        CreativeTabs[] tabs = getCreativeTabs();</b>
+<b class="nc"><i>68</i>&nbsp;        return tabs.length == 0 ? null : tabs[0];</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    @Override
+<i>72</i>&nbsp;    public void getSubItems(CreativeTabs creativeTab, NonNullList&lt;ItemStack&gt; subItems)
+<i>73</i>&nbsp;    {
+<b class="nc"><i>74</i>&nbsp;        if (isInCreativeTab(creativeTab))</b>
+<i>75</i>&nbsp;        {
+<b class="nc"><i>76</i>&nbsp;            subItems.addAll(ItemHelper.createSubItems(this, creativeTab, getContent().creativeTab, getContent().subtypes));</b>
+<i>77</i>&nbsp;        }
+<b class="nc"><i>78</i>&nbsp;    }</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    @Override
+<i>81</i>&nbsp;    public int getItemBurnTime(ItemStack itemStack)
+<i>82</i>&nbsp;    {
+<b class="nc"><i>83</i>&nbsp;        return getContent().burnTime.get(itemStack.getMetadata()).orElse(-1);</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Override
+<i>87</i>&nbsp;    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+<i>88</i>&nbsp;    {
+<b class="nc"><i>89</i>&nbsp;        ItemStack stack = playerIn.getHeldItem(handIn);</b>
+<b class="nc"><i>90</i>&nbsp;        Optional&lt;ContentGuiBase&gt; gui = getGui(stack.getMetadata());</b>
+<b class="nc"><i>91</i>&nbsp;        if (gui.isPresent())</b>
+<i>92</i>&nbsp;        {
+<b class="nc"><i>93</i>&nbsp;            playerIn.openGui(CustomStuff4.INSTANCE, gui.get().getGuiId(), worldIn, handIn.ordinal(), -1, 0);</b>
+<b class="nc"><i>94</i>&nbsp;            return new ActionResult&lt;&gt;(EnumActionResult.SUCCESS, stack);</b>
+<i>95</i>&nbsp;        } else
+<i>96</i>&nbsp;        {
+<b class="nc"><i>97</i>&nbsp;            return new ActionResult&lt;&gt;(EnumActionResult.PASS, stack);</b>
+<i>98</i>&nbsp;        }
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    private Optional&lt;ContentGuiBase&gt; getGui(int subtype)
+<i>102</i>&nbsp;    {
+<b class="nc"><i>103</i>&nbsp;        Optional&lt;ResourceLocation&gt; location = getContent().gui.get(subtype);</b>
+<b class="nc"><i>104</i>&nbsp;        if (location.isPresent())</b>
+<i>105</i>&nbsp;        {
+<b class="nc"><i>106</i>&nbsp;            ContentGuiBase gui = GuiRegistry.get(location.get());</b>
+<b class="nc"><i>107</i>&nbsp;            if (gui == null)</b>
+<i>108</i>&nbsp;            {
+<b class="nc"><i>109</i>&nbsp;                FMLLog.warning(&quot;Missing GUI %s&quot;, location.get());</b>
+<i>110</i>&nbsp;            }
+<b class="nc"><i>111</i>&nbsp;            return Optional.ofNullable(gui);</b>
+<i>112</i>&nbsp;        }
+<b class="nc"><i>113</i>&nbsp;        return Optional.empty();</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;     @Nullable
+<i>117</i>&nbsp;    @Override
+<i>118</i>&nbsp;    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt)
+<i>119</i>&nbsp;    {
+<b class="nc"><i>120</i>&nbsp;        if (!getContent().modules.isEmpty())</b>
+<i>121</i>&nbsp;        {
+<b class="nc"><i>122</i>&nbsp;            return new CapabilityProviderItem(stack, getContent());</b>
+<i>123</i>&nbsp;        } else
+<i>124</i>&nbsp;        {
+<b class="nc"><i>125</i>&nbsp;            return null;</b>
+<i>126</i>&nbsp;        }
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    @Override
+<i>130</i>&nbsp;    public ContentItemWithSubtypes&lt;?&gt; getContent()
+<i>131</i>&nbsp;    {
+<b class="nc"><i>132</i>&nbsp;        return null;</b>
+<i>133</i>&nbsp;    }
+<i>134</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

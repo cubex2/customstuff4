@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MapColorDeserializer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MapColorDeserializer (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MapColorDeserializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (42/ 42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import com.google.gson.JsonDeserializationContext;
+<i>5</i>&nbsp;import com.google.gson.JsonDeserializer;
+<i>6</i>&nbsp;import com.google.gson.JsonElement;
+<i>7</i>&nbsp;import com.google.gson.JsonParseException;
+<i>8</i>&nbsp;import net.minecraft.block.material.MapColor;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.lang.reflect.Type;
+<i>11</i>&nbsp;import java.util.Map;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import static net.minecraft.block.material.MapColor.*;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;class MapColorDeserializer implements JsonDeserializer&lt;MapColor&gt;</b>
+<i>16</i>&nbsp;{
+<i>17</i>&nbsp;    @Override
+<i>18</i>&nbsp;    public MapColor deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+<i>19</i>&nbsp;    {
+<b class="fc"><i>20</i>&nbsp;        return colorsByName.getOrDefault(json.getAsString(), AIR);</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;    private static final Map&lt;String, MapColor&gt; colorsByName = Maps.newHashMap();</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    private static void add(String name, MapColor color)
+<i>26</i>&nbsp;    {
+<b class="fc"><i>27</i>&nbsp;        colorsByName.put(name, color);</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    static
+<i>31</i>&nbsp;    {
+<b class="fc"><i>32</i>&nbsp;        add(&quot;air&quot;, AIR);</b>
+<b class="fc"><i>33</i>&nbsp;        add(&quot;grass&quot;, GRASS);</b>
+<b class="fc"><i>34</i>&nbsp;        add(&quot;sand&quot;, SAND);</b>
+<b class="fc"><i>35</i>&nbsp;        add(&quot;cloth&quot;, CLOTH);</b>
+<b class="fc"><i>36</i>&nbsp;        add(&quot;tnt&quot;, TNT);</b>
+<b class="fc"><i>37</i>&nbsp;        add(&quot;ice&quot;, ICE);</b>
+<b class="fc"><i>38</i>&nbsp;        add(&quot;iron&quot;, IRON);</b>
+<b class="fc"><i>39</i>&nbsp;        add(&quot;foliage&quot;, FOLIAGE);</b>
+<b class="fc"><i>40</i>&nbsp;        add(&quot;snow&quot;, SNOW);</b>
+<b class="fc"><i>41</i>&nbsp;        add(&quot;clay&quot;, CLAY);</b>
+<b class="fc"><i>42</i>&nbsp;        add(&quot;dirt&quot;, DIRT);</b>
+<b class="fc"><i>43</i>&nbsp;        add(&quot;stone&quot;, STONE);</b>
+<b class="fc"><i>44</i>&nbsp;        add(&quot;water&quot;, WATER);</b>
+<b class="fc"><i>45</i>&nbsp;        add(&quot;wood&quot;, WOOD);</b>
+<b class="fc"><i>46</i>&nbsp;        add(&quot;quartz&quot;, QUARTZ);</b>
+<b class="fc"><i>47</i>&nbsp;        add(&quot;adobe&quot;, ADOBE);</b>
+<b class="fc"><i>48</i>&nbsp;        add(&quot;magenta&quot;, MAGENTA);</b>
+<b class="fc"><i>49</i>&nbsp;        add(&quot;light_blue&quot;, LIGHT_BLUE);</b>
+<b class="fc"><i>50</i>&nbsp;        add(&quot;yellow&quot;, YELLOW);</b>
+<b class="fc"><i>51</i>&nbsp;        add(&quot;lime&quot;, LIME);</b>
+<b class="fc"><i>52</i>&nbsp;        add(&quot;pink&quot;, PINK);</b>
+<b class="fc"><i>53</i>&nbsp;        add(&quot;gray&quot;, GRAY);</b>
+<b class="fc"><i>54</i>&nbsp;        add(&quot;silver&quot;, SILVER);</b>
+<b class="fc"><i>55</i>&nbsp;        add(&quot;cyan&quot;, CYAN);</b>
+<b class="fc"><i>56</i>&nbsp;        add(&quot;purple&quot;, PURPLE);</b>
+<b class="fc"><i>57</i>&nbsp;        add(&quot;blue&quot;, BLUE);</b>
+<b class="fc"><i>58</i>&nbsp;        add(&quot;brown&quot;, BROWN);</b>
+<b class="fc"><i>59</i>&nbsp;        add(&quot;green&quot;, GREEN);</b>
+<b class="fc"><i>60</i>&nbsp;        add(&quot;red&quot;, RED);</b>
+<b class="fc"><i>61</i>&nbsp;        add(&quot;black&quot;, BLACK);</b>
+<b class="fc"><i>62</i>&nbsp;        add(&quot;gold&quot;, GOLD);</b>
+<b class="fc"><i>63</i>&nbsp;        add(&quot;diamond&quot;, DIAMOND);</b>
+<b class="fc"><i>64</i>&nbsp;        add(&quot;lapis&quot;, LAPIS);</b>
+<b class="fc"><i>65</i>&nbsp;        add(&quot;emerald&quot;, EMERALD);</b>
+<b class="fc"><i>66</i>&nbsp;        add(&quot;obsidian&quot;, OBSIDIAN);</b>
+<b class="fc"><i>67</i>&nbsp;        add(&quot;netherrack&quot;, NETHERRACK);</b>
+<b class="fc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

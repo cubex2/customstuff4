@@ -1,0 +1,65 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RecipeInput</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.api</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RecipeInput (cubex2.cs4.api)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">RecipeInput</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.api;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public interface RecipeInput
+<i>4</i>&nbsp;{
+<i>5</i>&nbsp;    boolean isOreClass();
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;    boolean isItemStack();
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    /**
+<i>10</i>&nbsp;     * Gets the ore class. Throws exception if isOreClass() returns false.
+<i>11</i>&nbsp;     */
+<i>12</i>&nbsp;    OreClass getOreClass() throws IllegalStateException;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * Gets the stack. Throws exception if isItemStack() returns false.
+<i>16</i>&nbsp;     */
+<i>17</i>&nbsp;    WrappedItemStack getStack() throws IllegalStateException;
+<i>18</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

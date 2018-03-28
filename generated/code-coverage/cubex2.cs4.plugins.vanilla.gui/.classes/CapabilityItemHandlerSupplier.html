@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CapabilityItemHandlerSupplier</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CapabilityItemHandlerSupplier (cubex2.cs4.plugins.vanilla.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CapabilityItemHandlerSupplier</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CapabilityItemHandlerSupplier$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import net.minecraft.nbt.NBTBase;
+<i>4</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>5</i>&nbsp;import net.minecraftforge.common.capabilities.Capability;
+<i>6</i>&nbsp;import net.minecraftforge.common.capabilities.CapabilityInject;
+<i>7</i>&nbsp;import net.minecraftforge.common.capabilities.CapabilityManager;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import javax.annotation.Nullable;
+<i>10</i>&nbsp;
+<b class="nc"><i>11</i>&nbsp;public class CapabilityItemHandlerSupplier</b>
+<i>12</i>&nbsp;{
+<i>13</i>&nbsp;    @CapabilityInject(ItemHandlerSupplier.class)
+<b class="nc"><i>14</i>&nbsp;    public static Capability&lt;ItemHandlerSupplier&gt; ITEM_HANDLER_SUPPLIER_CAPABILITY = null;</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    public static void register()
+<i>17</i>&nbsp;    {
+<b class="nc"><i>18</i>&nbsp;        CapabilityManager.INSTANCE.register(ItemHandlerSupplier.class, new Capability.IStorage&lt;ItemHandlerSupplier&gt;()</b>
+<b class="nc"><i>19</i>&nbsp;        {</b>
+<i>20</i>&nbsp;            @Nullable
+<i>21</i>&nbsp;            @Override
+<i>22</i>&nbsp;            public NBTBase writeNBT(Capability&lt;ItemHandlerSupplier&gt; capability, ItemHandlerSupplier instance, EnumFacing side)
+<i>23</i>&nbsp;            {
+<b class="nc"><i>24</i>&nbsp;                return null;</b>
+<i>25</i>&nbsp;            }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;            @Override
+<i>28</i>&nbsp;            public void readNBT(Capability&lt;ItemHandlerSupplier&gt; capability, ItemHandlerSupplier instance, EnumFacing side, NBTBase nbt)
+<i>29</i>&nbsp;            {
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;            }</b>
+<b class="nc"><i>32</i>&nbsp;        }, () -&gt; ItemHandlerSupplier.EMPTY);</b>
+<b class="nc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

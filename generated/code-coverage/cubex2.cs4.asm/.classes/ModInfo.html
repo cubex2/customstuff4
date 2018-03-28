@@ -1,0 +1,105 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ModInfo</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.asm</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ModInfo (cubex2.cs4.asm)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModInfo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (6/ 7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.asm;
+<i>2</i>&nbsp;
+<b class="fc"><i>3</i>&nbsp;public class ModInfo</b>
+<i>4</i>&nbsp;{
+<b class="fc"><i>5</i>&nbsp;    String id = &quot;&quot;;</b>
+<b class="fc"><i>6</i>&nbsp;    String name = &quot;&quot;;</b>
+<b class="fc"><i>7</i>&nbsp;    String version = &quot;&quot;;</b>
+<b class="fc"><i>8</i>&nbsp;    String dependencies = &quot;&quot;;</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    boolean isValid()
+<i>11</i>&nbsp;    {
+<b class="fc"><i>12</i>&nbsp;        return id != null &amp;&amp; id.matches(&quot;[0-9a-z_]+&quot;) &amp;&amp;</b>
+<i>13</i>&nbsp;               name != null &amp;&amp;
+<i>14</i>&nbsp;               version != null &amp;&amp;
+<i>15</i>&nbsp;               dependencies != null;
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public String getId()
+<i>19</i>&nbsp;    {
+<b class="nc"><i>20</i>&nbsp;        return id;</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BlockHelper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BlockHelper (cubex2.cs4.util)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlockHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,4%
+  </span>
+  <span class="absValue">
+    (5/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68,8%
+  </span>
+  <span class="absValue">
+    (11/ 16)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">BlockHelper$1</td>
+  </tr>
+  <tr>
+    <td class="name">BlockHelper$IntArray</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    81,8%
+  </span>
+  <span class="absValue">
+    (9/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78,3%
+  </span>
+  <span class="absValue">
+    (18/ 23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import cubex2.cs4.plugins.vanilla.block.EnumSubtype;
+<i>5</i>&nbsp;import net.minecraft.block.properties.PropertyEnum;
+<i>6</i>&nbsp;import net.minecraft.block.properties.PropertyInteger;
+<i>7</i>&nbsp;import net.minecraft.entity.EntityLivingBase;
+<i>8</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>9</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import javax.annotation.Nonnull;
+<i>12</i>&nbsp;import java.util.Arrays;
+<i>13</i>&nbsp;import java.util.Map;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import static com.google.common.base.Preconditions.checkArgument;
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;public class BlockHelper</b>
+<i>18</i>&nbsp;{
+<b class="fc"><i>19</i>&nbsp;    private static final Map&lt;IntArray, PropertyEnum&lt;EnumSubtype&gt;&gt; subtypeProperties = Maps.newHashMap();</b>
+<b class="fc"><i>20</i>&nbsp;    private static final Map&lt;Integer, PropertyInteger&gt; cropAgeProperties = Maps.newHashMap();</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * Gets the property for the given subtypes. Returns the same instance of a property for the same array of subtypes.
+<i>24</i>&nbsp;     * Order of the subtypes does not matter.
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    public static PropertyEnum&lt;EnumSubtype&gt; getSubtypeProperty(int[] subtypes)
+<i>27</i>&nbsp;    {
+<b class="fc"><i>28</i>&nbsp;        int[] sortedSubtypes = Arrays.stream(subtypes)</b>
+<b class="fc"><i>29</i>&nbsp;                                     .distinct()</b>
+<b class="fc"><i>30</i>&nbsp;                                     .sorted()</b>
+<b class="fc"><i>31</i>&nbsp;                                     .toArray();</b>
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;        return subtypeProperties.computeIfAbsent(new IntArray(sortedSubtypes), BlockHelper::createSubtypeProperty);</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private static PropertyEnum&lt;EnumSubtype&gt; createSubtypeProperty(IntArray subtypes)
+<i>37</i>&nbsp;    {
+<b class="fc"><i>38</i>&nbsp;        return PropertyEnum.create(&quot;subtype&quot;, EnumSubtype.class, EnumSubtype.getValues(subtypes.array));</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Gets the property for the given max age of a crop. Returns the same instance of a property for the same max age.
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    @Nonnull
+<i>45</i>&nbsp;    public static PropertyInteger getCropAgeProperty(int maxAge)
+<i>46</i>&nbsp;    {
+<b class="fc"><i>47</i>&nbsp;        checkArgument(maxAge &gt;= 0 &amp;&amp; maxAge &lt;= 15, &quot;Invalid maxAge : &quot; + maxAge);</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;        return cropAgeProperties.computeIfAbsent(maxAge, BlockHelper::createCropAgeProperty);</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    private static PropertyInteger createCropAgeProperty(int maxAge)
+<i>53</i>&nbsp;    {
+<b class="fc"><i>54</i>&nbsp;        return PropertyInteger.create(&quot;age&quot;, 0, maxAge);</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    public static EnumFacing getVerticalFacingFromEntity(BlockPos pos, EntityLivingBase living)
+<i>58</i>&nbsp;    {
+<b class="nc"><i>59</i>&nbsp;        double d = living.posY + living.getEyeHeight();</b>
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;        if (d - pos.getY() &gt; 2.0D)</b>
+<b class="nc"><i>62</i>&nbsp;            return EnumFacing.UP;</b>
+<i>63</i>&nbsp;        else
+<b class="nc"><i>64</i>&nbsp;            return EnumFacing.DOWN;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;    private static class IntArray</b>
+<i>68</i>&nbsp;    {
+<i>69</i>&nbsp;        private final int[] array;
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;        private IntArray(int[] array) {this.array = array;}</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;        @Override
+<i>74</i>&nbsp;        public boolean equals(Object o)
+<i>75</i>&nbsp;        {
+<b class="fc"><i>76</i>&nbsp;            if (this == o) return true;</b>
+<b class="fc"><i>77</i>&nbsp;            if (o == null || getClass() != o.getClass()) return false;</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;            IntArray intArray = (IntArray) o;</b>
+<i>80</i>&nbsp;
+<b class="fc"><i>81</i>&nbsp;            return Arrays.equals(array, intArray.array);</b>
+<i>82</i>&nbsp;        }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;        @Override
+<i>85</i>&nbsp;        public int hashCode()
+<i>86</i>&nbsp;        {
+<b class="fc"><i>87</i>&nbsp;            return Arrays.hashCode(array);</b>
+<i>88</i>&nbsp;        }
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

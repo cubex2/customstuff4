@@ -1,0 +1,102 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ContentBlockOrientableDirectional</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ContentBlockOrientableDirectional (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ContentBlockOrientableDirectional</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.block.BlockFactory;
+<i>4</i>&nbsp;import net.minecraft.block.Block;
+<i>5</i>&nbsp;
+<b class="fc"><i>6</i>&nbsp;public class ContentBlockOrientableDirectional extends ContentBlockOrientable</b>
+<i>7</i>&nbsp;{
+<i>8</i>&nbsp;    @Override
+<i>9</i>&nbsp;    protected Block createBlockWithSubtypes()
+<i>10</i>&nbsp;    {
+<b class="fc"><i>11</i>&nbsp;        return BlockFactory.createDirectionalSubtype(this);</b>
+<i>12</i>&nbsp;    }
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    @Override
+<i>15</i>&nbsp;    protected Block createBlockWithoutSubtypes()
+<i>16</i>&nbsp;    {
+<b class="fc"><i>17</i>&nbsp;        return BlockFactory.createDirectional(this);</b>
+<i>18</i>&nbsp;    }
+<i>19</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

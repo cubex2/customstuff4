@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemSnow</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemSnow (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemSnow</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentBlockSnow;
+<i>4</i>&nbsp;import net.minecraft.advancements.CriteriaTriggers;
+<i>5</i>&nbsp;import net.minecraft.block.Block;
+<i>6</i>&nbsp;import net.minecraft.block.BlockSnow;
+<i>7</i>&nbsp;import net.minecraft.block.SoundType;
+<i>8</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>9</i>&nbsp;import net.minecraft.entity.player.EntityPlayer;
+<i>10</i>&nbsp;import net.minecraft.entity.player.EntityPlayerMP;
+<i>11</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>12</i>&nbsp;import net.minecraft.util.EnumActionResult;
+<i>13</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>14</i>&nbsp;import net.minecraft.util.EnumHand;
+<i>15</i>&nbsp;import net.minecraft.util.SoundCategory;
+<i>16</i>&nbsp;import net.minecraft.util.math.AxisAlignedBB;
+<i>17</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>18</i>&nbsp;import net.minecraft.world.World;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;public class ItemSnow extends ItemBlock
+<i>21</i>&nbsp;{
+<i>22</i>&nbsp;    private final ContentBlockSnow content;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public ItemSnow(Block block, ContentBlockSnow content)
+<i>25</i>&nbsp;    {
+<b class="nc"><i>26</i>&nbsp;        super(block, content);</b>
+<i>27</i>&nbsp;
+<b class="nc"><i>28</i>&nbsp;        this.content = content;</b>
+<b class="nc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    @Override
+<i>32</i>&nbsp;    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+<i>33</i>&nbsp;    {
+<b class="nc"><i>34</i>&nbsp;        ItemStack itemstack = player.getHeldItem(hand);</b>
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;        if (!itemstack.isEmpty() &amp;&amp; player.canPlayerEdit(pos, facing, itemstack))</b>
+<i>37</i>&nbsp;        {
+<b class="nc"><i>38</i>&nbsp;            IBlockState iblockstate = worldIn.getBlockState(pos);</b>
+<b class="nc"><i>39</i>&nbsp;            Block block = iblockstate.getBlock();</b>
+<b class="nc"><i>40</i>&nbsp;            BlockPos blockpos = pos;</b>
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;            if ((facing != EnumFacing.UP || block != this.block) &amp;&amp; !block.isReplaceable(worldIn, pos))</b>
+<i>43</i>&nbsp;            {
+<b class="nc"><i>44</i>&nbsp;                blockpos = pos.offset(facing);</b>
+<b class="nc"><i>45</i>&nbsp;                iblockstate = worldIn.getBlockState(blockpos);</b>
+<b class="nc"><i>46</i>&nbsp;                block = iblockstate.getBlock();</b>
+<i>47</i>&nbsp;            }
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;            if (block == this.block)</b>
+<i>50</i>&nbsp;            {
+<b class="nc"><i>51</i>&nbsp;                int i = iblockstate.getValue(BlockSnow.LAYERS);</b>
+<i>52</i>&nbsp;
+<b class="nc"><i>53</i>&nbsp;                if (i &lt; 8)</b>
+<i>54</i>&nbsp;                {
+<b class="nc"><i>55</i>&nbsp;                    IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, i + 1);</b>
+<b class="nc"><i>56</i>&nbsp;                    AxisAlignedBB axisalignedbb = iblockstate1.getCollisionBoundingBox(worldIn, blockpos);</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;                    if (axisalignedbb != Block.NULL_AABB &amp;&amp; worldIn.checkNoEntityCollision(axisalignedbb.offset(blockpos)) &amp;&amp; worldIn.setBlockState(blockpos, iblockstate1, 10))</b>
+<i>59</i>&nbsp;                    {
+<b class="nc"><i>60</i>&nbsp;                        SoundType soundtype = this.block.getSoundType(iblockstate1, worldIn, pos, player);</b>
+<b class="nc"><i>61</i>&nbsp;                        worldIn.playSound(player, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);</b>
+<i>62</i>&nbsp;
+<b class="nc"><i>63</i>&nbsp;                        if (player instanceof EntityPlayerMP)</b>
+<i>64</i>&nbsp;                        {
+<b class="nc"><i>65</i>&nbsp;                            CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP)player, pos, itemstack);</b>
+<i>66</i>&nbsp;                        }
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;                        itemstack.shrink(1);</b>
+<b class="nc"><i>69</i>&nbsp;                        return EnumActionResult.SUCCESS;</b>
+<i>70</i>&nbsp;                    }
+<i>71</i>&nbsp;                }
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;            return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);</b>
+<i>75</i>&nbsp;        }
+<i>76</i>&nbsp;        else
+<i>77</i>&nbsp;        {
+<b class="nc"><i>78</i>&nbsp;            return EnumActionResult.FAIL;</b>
+<i>79</i>&nbsp;        }
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    @Override
+<i>83</i>&nbsp;    public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack)
+<i>84</i>&nbsp;    {
+<b class="nc"><i>85</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>86</i>&nbsp;        return (state.getBlock() == block &amp;&amp; state.getValue(BlockSnow.LAYERS) &lt;= 7)</b>
+<b class="nc"><i>87</i>&nbsp;               || super.canPlaceBlockOnSide(world, pos, side, player, stack);</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ContentBlockCrops</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ContentBlockCrops (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ContentBlockCrops</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/ 15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.block.BlockFactory;
+<i>4</i>&nbsp;import net.minecraft.block.Block;
+<i>5</i>&nbsp;import net.minecraft.block.SoundType;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public class ContentBlockCrops extends ContentBlockBaseNoSubtypes
+<i>8</i>&nbsp;{
+<b class="fc"><i>9</i>&nbsp;    public int maxAge = 7;</b>
+<b class="fc"><i>10</i>&nbsp;    public float growthFactor = 1f;</b>
+<b class="fc"><i>11</i>&nbsp;    public float[] heights = new float[0];</b>
+<b class="fc"><i>12</i>&nbsp;    public BlockDrop[] seeds = new BlockDrop[0];</b>
+<b class="fc"><i>13</i>&nbsp;    public BlockDrop[] crops = new BlockDrop[0];</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /** Used to make maxAge available during block state creation */
+<b class="fc"><i>16</i>&nbsp;    public static int activeMaxAge = -1;</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public ContentBlockCrops()
+<b class="fc"><i>19</i>&nbsp;    {</b>
+<b class="fc"><i>20</i>&nbsp;        opacity = Attribute.constant(0);</b>
+<b class="fc"><i>21</i>&nbsp;        isFullCube = Attribute.constant(false);</b>
+<b class="fc"><i>22</i>&nbsp;        isOpaqueCube = Attribute.constant(false);</b>
+<b class="fc"><i>23</i>&nbsp;        hardness = Attribute.constant(0f);</b>
+<b class="fc"><i>24</i>&nbsp;        soundType = Attribute.constant(SoundType.PLANT);</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public Block createBlock()
+<i>29</i>&nbsp;    {
+<b class="fc"><i>30</i>&nbsp;        activeMaxAge = maxAge;</b>
+<b class="fc"><i>31</i>&nbsp;        return BlockFactory.createCrops(this);</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

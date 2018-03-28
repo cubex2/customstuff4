@@ -1,0 +1,155 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BlockFluid</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BlockFluid (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlockFluid</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (1/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (8/ 20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentBlockFluid;
+<i>4</i>&nbsp;import net.minecraft.block.material.Material;
+<i>5</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>6</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>7</i>&nbsp;import net.minecraft.world.IBlockAccess;
+<i>8</i>&nbsp;import net.minecraft.world.World;
+<i>9</i>&nbsp;import net.minecraftforge.fluids.BlockFluidClassic;
+<i>10</i>&nbsp;import net.minecraftforge.fluids.Fluid;
+<i>11</i>&nbsp;import net.minecraftforge.fluids.FluidRegistry;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import javax.annotation.Nonnull;
+<i>14</i>&nbsp;import java.util.Random;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;public class BlockFluid extends BlockFluidClassic implements CSBlock&lt;ContentBlockFluid&gt;
+<i>17</i>&nbsp;{
+<i>18</i>&nbsp;    private final ContentBlockFluid content;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public BlockFluid(Material material, ContentBlockFluid content)
+<i>21</i>&nbsp;    {
+<b class="nc"><i>22</i>&nbsp;        super(createFluid(content), material);</b>
+<b class="nc"><i>23</i>&nbsp;        this.content = content;</b>
+<b class="nc"><i>24</i>&nbsp;        setQuantaPerBlock(content.flowLength);</b>
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;        if (content.addUniversalBucket)</b>
+<b class="nc"><i>27</i>&nbsp;            FluidRegistry.addBucketForFluid(getFluid());</b>
+<b class="nc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    static Fluid createFluid(ContentBlockFluid content)
+<i>31</i>&nbsp;    {
+<b class="fc"><i>32</i>&nbsp;        Fluid fluid = new Fluid(content.id, content.texStill, content.texFlowing);</b>
+<b class="fc"><i>33</i>&nbsp;        fluid.setDensity(content.density);</b>
+<b class="fc"><i>34</i>&nbsp;        fluid.setTemperature(content.temperature);</b>
+<b class="fc"><i>35</i>&nbsp;        fluid.setGaseous(content.isGaseous);</b>
+<b class="fc"><i>36</i>&nbsp;        fluid.setViscosity(content.viscosity);</b>
+<b class="fc"><i>37</i>&nbsp;        fluid.setLuminosity(content.light.get(0).orElse(0));</b>
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;        FluidRegistry.registerFluid(fluid);</b>
+<b class="fc"><i>40</i>&nbsp;        return fluid;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Override
+<i>44</i>&nbsp;    public void updateTick(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand)
+<i>45</i>&nbsp;    {
+<b class="nc"><i>46</i>&nbsp;        super.updateTick(world, pos, state, rand);</b>
+<b class="nc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @Override
+<i>50</i>&nbsp;    public int getLightValue(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos)
+<i>51</i>&nbsp;    {
+<b class="nc"><i>52</i>&nbsp;        return super.getLightValue(state, world, pos);</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    @Override
+<i>56</i>&nbsp;    public int getSubtype(IBlockState state)
+<i>57</i>&nbsp;    {
+<b class="nc"><i>58</i>&nbsp;        return 0;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Override
+<i>62</i>&nbsp;    public ContentBlockFluid getContent()
+<i>63</i>&nbsp;    {
+<b class="nc"><i>64</i>&nbsp;        return content;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    @Override
+<i>68</i>&nbsp;    public Fluid getFluid()
+<i>69</i>&nbsp;    {
+<b class="nc"><i>70</i>&nbsp;        return definedFluid;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

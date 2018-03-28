@@ -1,0 +1,102 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CompatWaila</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.compat.waila</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CompatWaila (cubex2.cs4.compat.waila)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompatWaila</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.compat.waila;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import mcp.mobius.waila.api.IWailaRegistrar;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;@SuppressWarnings(&quot;unused&quot;)
+<b class="nc"><i>6</i>&nbsp;public class CompatWaila</b>
+<i>7</i>&nbsp;{
+<i>8</i>&nbsp;    public static void callbackRegister(IWailaRegistrar registrar)
+<i>9</i>&nbsp;    {
+<b class="nc"><i>10</i>&nbsp;        WailaCS4DataProvider provider = new WailaCS4DataProvider();</b>
+<i>11</i>&nbsp;
+<b class="nc"><i>12</i>&nbsp;        for (Class block : WailaData.stackProviderBlocks)</b>
+<i>13</i>&nbsp;        {
+<b class="nc"><i>14</i>&nbsp;            registrar.registerStackProvider(provider, block);</b>
+<b class="nc"><i>15</i>&nbsp;        }</b>
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;        WailaData.stackProviderBlocks.clear();</b>
+<b class="nc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

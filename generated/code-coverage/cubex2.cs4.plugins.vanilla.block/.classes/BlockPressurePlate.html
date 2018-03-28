@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BlockPressurePlate</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BlockPressurePlate (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlockPressurePlate</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,7%
+  </span>
+  <span class="absValue">
+    (1/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3,6%
+  </span>
+  <span class="absValue">
+    (1/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentBlockPressurePlate;
+<i>4</i>&nbsp;import net.minecraft.block.BlockBasePressurePlate;
+<i>5</i>&nbsp;import net.minecraft.block.material.Material;
+<i>6</i>&nbsp;import net.minecraft.block.properties.PropertyBool;
+<i>7</i>&nbsp;import net.minecraft.block.state.BlockStateContainer;
+<i>8</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>9</i>&nbsp;import net.minecraft.entity.Entity;
+<i>10</i>&nbsp;import net.minecraft.util.SoundCategory;
+<i>11</i>&nbsp;import net.minecraft.util.math.AxisAlignedBB;
+<i>12</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>13</i>&nbsp;import net.minecraft.world.World;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.List;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;public class BlockPressurePlate extends BlockBasePressurePlate implements CSBlock&lt;ContentBlockPressurePlate&gt;
+<i>18</i>&nbsp;{
+<b class="fc"><i>19</i>&nbsp;    public static final PropertyBool POWERED = PropertyBool.create(&quot;powered&quot;);</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    private final ContentBlockPressurePlate content;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public BlockPressurePlate(Material material, ContentBlockPressurePlate content)
+<i>24</i>&nbsp;    {
+<b class="nc"><i>25</i>&nbsp;        super(material);</b>
+<b class="nc"><i>26</i>&nbsp;        setDefaultState(blockState.getBaseState().withProperty(POWERED, false));</b>
+<b class="nc"><i>27</i>&nbsp;        this.content = content;</b>
+<b class="nc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Override
+<i>31</i>&nbsp;    public int tickRate(World worldIn)
+<i>32</i>&nbsp;    {
+<b class="nc"><i>33</i>&nbsp;        return content.pressedTicks;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    protected void playClickOnSound(World worldIn, BlockPos pos)
+<i>38</i>&nbsp;    {
+<b class="nc"><i>39</i>&nbsp;        worldIn.playSound(null, pos, content.onSound, SoundCategory.BLOCKS, 0.3F, 0.8F);</b>
+<b class="nc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    @Override
+<i>43</i>&nbsp;    protected void playClickOffSound(World worldIn, BlockPos pos)
+<i>44</i>&nbsp;    {
+<b class="nc"><i>45</i>&nbsp;        worldIn.playSound(null, pos, content.offSound, SoundCategory.BLOCKS, 0.3F, 0.7F);</b>
+<b class="nc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+<i>49</i>&nbsp;    @Override
+<i>50</i>&nbsp;    protected int computeRedstoneStrength(World worldIn, BlockPos pos)
+<i>51</i>&nbsp;    {
+<b class="nc"><i>52</i>&nbsp;        AxisAlignedBB axisalignedbb = PRESSURE_AABB.offset(pos);</b>
+<i>53</i>&nbsp;        List&lt;? extends Entity&gt; list;
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;        Class&lt;? extends Entity&gt; selectedEntityClass = content.selector.getEntityClass();</b>
+<b class="nc"><i>56</i>&nbsp;        if (selectedEntityClass == null)</b>
+<i>57</i>&nbsp;        {
+<b class="nc"><i>58</i>&nbsp;            list = worldIn.getEntitiesWithinAABBExcludingEntity(null, axisalignedbb);</b>
+<i>59</i>&nbsp;        } else
+<i>60</i>&nbsp;        {
+<b class="nc"><i>61</i>&nbsp;            list = worldIn.getEntitiesWithinAABB(selectedEntityClass, axisalignedbb);</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        if (!list.isEmpty())</b>
+<i>65</i>&nbsp;        {
+<b class="nc"><i>66</i>&nbsp;            for (Entity entity : list)</b>
+<i>67</i>&nbsp;            {
+<b class="nc"><i>68</i>&nbsp;                if (!entity.doesEntityNotTriggerPressurePlate() &amp;&amp; content.selector.isValidEntity(entity))</b>
+<i>69</i>&nbsp;                {
+<b class="nc"><i>70</i>&nbsp;                    return 15;</b>
+<i>71</i>&nbsp;                }
+<b class="nc"><i>72</i>&nbsp;            }</b>
+<i>73</i>&nbsp;        }
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        return 0;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    @Override
+<i>79</i>&nbsp;    protected int getRedstoneStrength(IBlockState state)
+<i>80</i>&nbsp;    {
+<b class="nc"><i>81</i>&nbsp;        return state.getValue(POWERED) ? 15 : 0;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    @Override
+<i>85</i>&nbsp;    protected IBlockState setRedstoneStrength(IBlockState state, int strength)
+<i>86</i>&nbsp;    {
+<b class="nc"><i>87</i>&nbsp;        return state.withProperty(POWERED, strength &gt; 0);</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @Override
+<i>91</i>&nbsp;    public int getSubtype(IBlockState state)
+<i>92</i>&nbsp;    {
+<b class="nc"><i>93</i>&nbsp;        return 0;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    @Override
+<i>97</i>&nbsp;    public ContentBlockPressurePlate getContent()
+<i>98</i>&nbsp;    {
+<b class="nc"><i>99</i>&nbsp;        return content;</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    @Override
+<i>103</i>&nbsp;    public IBlockState getStateFromMeta(int meta)
+<i>104</i>&nbsp;    {
+<b class="nc"><i>105</i>&nbsp;        return this.getDefaultState().withProperty(POWERED, meta == 1);</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    @Override
+<i>109</i>&nbsp;    public int getMetaFromState(IBlockState state)
+<i>110</i>&nbsp;    {
+<b class="nc"><i>111</i>&nbsp;        return state.getValue(POWERED) ? 1 : 0;</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    @Override
+<i>115</i>&nbsp;    protected BlockStateContainer createBlockState()
+<i>116</i>&nbsp;    {
+<b class="nc"><i>117</i>&nbsp;        return new BlockStateContainer(this, POWERED);</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

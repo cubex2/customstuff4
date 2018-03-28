@@ -1,0 +1,149 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LengthDeserializer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LengthDeserializer (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LengthDeserializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,9%
+  </span>
+  <span class="absValue">
+    (20/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.primitives.Floats;
+<i>4</i>&nbsp;import com.google.gson.*;
+<i>5</i>&nbsp;import cubex2.cs4.api.Length;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.lang.reflect.Type;
+<i>8</i>&nbsp;
+<b class="fc"><i>9</i>&nbsp;class LengthDeserializer implements JsonDeserializer&lt;Length&gt;</b>
+<i>10</i>&nbsp;{
+<i>11</i>&nbsp;    @Override
+<i>12</i>&nbsp;    public Length deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+<i>13</i>&nbsp;    {
+<b class="fc"><i>14</i>&nbsp;        if (json.isJsonArray())</b>
+<i>15</i>&nbsp;        {
+<b class="fc"><i>16</i>&nbsp;            JsonArray array = json.getAsJsonArray();</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;            Length left = deserializeSingleElement(array.get(0));</b>
+<b class="fc"><i>19</i>&nbsp;            Length right = deserializeSingleElement(array.get(1));</b>
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;            return sum(left, right);</b>
+<i>22</i>&nbsp;        } else
+<i>23</i>&nbsp;        {
+<b class="fc"><i>24</i>&nbsp;            return deserializeSingleElement(json);</b>
+<i>25</i>&nbsp;        }
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private Length deserializeSingleElement(JsonElement json)
+<i>29</i>&nbsp;    {
+<b class="fc"><i>30</i>&nbsp;        if (json.isJsonPrimitive())</b>
+<i>31</i>&nbsp;        {
+<b class="fc"><i>32</i>&nbsp;            JsonPrimitive primitive = json.getAsJsonPrimitive();</b>
+<b class="fc"><i>33</i>&nbsp;            if (primitive.isString())</b>
+<i>34</i>&nbsp;            {
+<b class="fc"><i>35</i>&nbsp;                String value = primitive.getAsString();</b>
+<b class="fc"><i>36</i>&nbsp;                if (value.endsWith(&quot;%&quot;))</b>
+<i>37</i>&nbsp;                {
+<b class="fc"><i>38</i>&nbsp;                    value = value.substring(0, value.length() - 1);</b>
+<b class="fc"><i>39</i>&nbsp;                    Float percentValue = Floats.tryParse(value);</b>
+<b class="fc"><i>40</i>&nbsp;                    if (percentValue != null)</b>
+<b class="fc"><i>41</i>&nbsp;                        return relative(percentValue / 100f);</b>
+<i>42</i>&nbsp;                }
+<b class="nc"><i>43</i>&nbsp;            } else</b>
+<i>44</i>&nbsp;            {
+<b class="fc"><i>45</i>&nbsp;                return absolute(json.getAsInt());</b>
+<i>46</i>&nbsp;            }
+<i>47</i>&nbsp;        }
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        return Length.ZERO;</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    private static Length sum(Length left, Length right)
+<i>53</i>&nbsp;    {
+<b class="fc"><i>54</i>&nbsp;        return parent -&gt; left.getLength(parent) + right.getLength(parent);</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    private static Length relative(float relValue)
+<i>58</i>&nbsp;    {
+<b class="fc"><i>59</i>&nbsp;        return parent -&gt; (int) (relValue * parent);</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    private static Length absolute(int value)
+<i>63</i>&nbsp;    {
+<b class="fc"><i>64</i>&nbsp;        return parent -&gt; value;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ContentBlockPressurePlate</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ContentBlockPressurePlate (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ContentBlockPressurePlate</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,9%
+  </span>
+  <span class="absValue">
+    (10/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.EntitySelector;
+<i>4</i>&nbsp;import cubex2.cs4.plugins.vanilla.block.BlockFactory;
+<i>5</i>&nbsp;import cubex2.cs4.plugins.vanilla.block.ItemBlock;
+<i>6</i>&nbsp;import net.minecraft.block.Block;
+<i>7</i>&nbsp;import net.minecraft.init.SoundEvents;
+<i>8</i>&nbsp;import net.minecraft.item.Item;
+<i>9</i>&nbsp;import net.minecraft.util.SoundEvent;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.util.Optional;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class ContentBlockPressurePlate extends ContentBlockBaseNoSubtypes
+<i>14</i>&nbsp;{
+<b class="fc"><i>15</i>&nbsp;    public int pressedTicks = 20;</b>
+<b class="fc"><i>16</i>&nbsp;    public EntitySelector selector = EntitySelector.EVERYTHING;</b>
+<b class="fc"><i>17</i>&nbsp;    public SoundEvent onSound = SoundEvents.BLOCK_WOOD_PRESSPLATE_CLICK_ON;</b>
+<b class="fc"><i>18</i>&nbsp;    public SoundEvent offSound = SoundEvents.BLOCK_WOOD_PRESSPLATE_CLICK_OFF;</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public ContentBlockPressurePlate()
+<b class="fc"><i>21</i>&nbsp;    {</b>
+<b class="fc"><i>22</i>&nbsp;        isOpaqueCube = Attribute.constant(false);</b>
+<b class="fc"><i>23</i>&nbsp;        isFullCube = Attribute.constant(false);</b>
+<b class="fc"><i>24</i>&nbsp;        opacity = Attribute.constant(0);</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    protected Optional&lt;Item&gt; createItem()
+<i>29</i>&nbsp;    {
+<b class="nc"><i>30</i>&nbsp;        return Optional.of(new ItemBlock(block, this));</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public Block createBlock()
+<i>35</i>&nbsp;    {
+<b class="fc"><i>36</i>&nbsp;        return BlockFactory.createPressurePlate(this);</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

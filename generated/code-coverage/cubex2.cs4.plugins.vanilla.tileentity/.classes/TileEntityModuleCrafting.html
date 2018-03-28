@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TileEntityModuleCrafting</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.tileentity</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TileEntityModuleCrafting (cubex2.cs4.plugins.vanilla.tileentity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TileEntityModuleCrafting</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TileEntityModuleCrafting$Supplier</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 18)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.tileentity;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.TileEntityModule;
+<i>4</i>&nbsp;import cubex2.cs4.api.TileEntityModuleSupplier;
+<i>5</i>&nbsp;import cubex2.cs4.plugins.vanilla.crafting.ItemHandlerCrafting;
+<i>6</i>&nbsp;import net.minecraft.nbt.NBTTagCompound;
+<i>7</i>&nbsp;import net.minecraft.tileentity.TileEntity;
+<i>8</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>9</i>&nbsp;import net.minecraft.util.ResourceLocation;
+<i>10</i>&nbsp;import net.minecraft.world.World;
+<i>11</i>&nbsp;import net.minecraftforge.common.capabilities.Capability;
+<i>12</i>&nbsp;import net.minecraftforge.items.CapabilityItemHandler;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import javax.annotation.Nullable;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;public class TileEntityModuleCrafting implements TileEntityModule
+<i>17</i>&nbsp;{
+<i>18</i>&nbsp;    private final ItemHandlerCrafting invHandler;
+<i>19</i>&nbsp;    private final Supplier supplier;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public TileEntityModuleCrafting(TileEntity tile, Supplier supplier)
+<b class="nc"><i>22</i>&nbsp;    {</b>
+<b class="nc"><i>23</i>&nbsp;        this.invHandler = new ItemHandlerCrafting(tile, supplier.rows, supplier.columns, supplier.recipeList);</b>
+<b class="nc"><i>24</i>&nbsp;        this.supplier = supplier;</b>
+<b class="nc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public void readFromNBT(NBTTagCompound compound)
+<i>29</i>&nbsp;    {
+<b class="nc"><i>30</i>&nbsp;        invHandler.deserializeNBT(compound);</b>
+<b class="nc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public NBTTagCompound writeToNBT(NBTTagCompound compound)
+<i>35</i>&nbsp;    {
+<b class="nc"><i>36</i>&nbsp;        return invHandler.serializeNBT();</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @Override
+<i>40</i>&nbsp;    public void setWorld(World world)
+<i>41</i>&nbsp;    {
+<b class="nc"><i>42</i>&nbsp;        invHandler.setWorld(world);</b>
+<b class="nc"><i>43</i>&nbsp;    }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public boolean hasCapability(Capability&lt;?&gt; capability, @Nullable EnumFacing facing)
+<i>47</i>&nbsp;    {
+<b class="nc"><i>48</i>&nbsp;        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &amp;&amp;</b>
+<i>49</i>&nbsp;               (facing == null);
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    @Nullable
+<i>53</i>&nbsp;    @Override
+<i>54</i>&nbsp;    public &lt;T&gt; T getCapability(Capability&lt;T&gt; capability, @Nullable EnumFacing facing)
+<i>55</i>&nbsp;    {
+<b class="nc"><i>56</i>&nbsp;        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &amp;&amp;</b>
+<i>57</i>&nbsp;            (facing == null))
+<i>58</i>&nbsp;        {
+<b class="nc"><i>59</i>&nbsp;            return (T) invHandler;</b>
+<i>60</i>&nbsp;        }
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;        return null;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<b class="nc"><i>65</i>&nbsp;    public static class Supplier implements TileEntityModuleSupplier</b>
+<i>66</i>&nbsp;    {
+<b class="nc"><i>67</i>&nbsp;        public int rows = 3;</b>
+<b class="nc"><i>68</i>&nbsp;        public int columns = 3;</b>
+<b class="nc"><i>69</i>&nbsp;        public ResourceLocation recipeList = new ResourceLocation(&quot;minecraft&quot;, &quot;vanilla&quot;);</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;        @Override
+<i>72</i>&nbsp;        public TileEntityModule createModule(TileEntity tileEntity)
+<i>73</i>&nbsp;        {
+<b class="nc"><i>74</i>&nbsp;            return new TileEntityModuleCrafting(tileEntity, this);</b>
+<i>75</i>&nbsp;        }
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

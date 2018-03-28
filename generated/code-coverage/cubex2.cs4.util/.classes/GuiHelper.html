@@ -1,0 +1,117 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GuiHelper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GuiHelper (cubex2.cs4.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GuiHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72,7%
+  </span>
+  <span class="absValue">
+    (8/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.util;
+<i>2</i>&nbsp;
+<b class="nc"><i>3</i>&nbsp;public class GuiHelper</b>
+<i>4</i>&nbsp;{
+<i>5</i>&nbsp;    public static int calculateLeft(String alignment, int offset, int elemWidth, int guiWidth)
+<i>6</i>&nbsp;    {
+<b class="fc"><i>7</i>&nbsp;        switch (alignment.toLowerCase())</b>
+<i>8</i>&nbsp;        {
+<i>9</i>&nbsp;            case &quot;left&quot;:
+<b class="fc"><i>10</i>&nbsp;                return offset;</b>
+<i>11</i>&nbsp;            case &quot;right&quot;:
+<b class="fc"><i>12</i>&nbsp;                return guiWidth - elemWidth + offset;</b>
+<i>13</i>&nbsp;            case &quot;center&quot;:
+<b class="fc"><i>14</i>&nbsp;                return (guiWidth - elemWidth) / 2 + offset;</b>
+<i>15</i>&nbsp;            default:
+<b class="nc"><i>16</i>&nbsp;                return 0;</b>
+<i>17</i>&nbsp;        }
+<i>18</i>&nbsp;    }
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public static int calculateTop(String alignment, int offset, int elemHeight, int guiHeight)
+<i>21</i>&nbsp;    {
+<b class="fc"><i>22</i>&nbsp;        switch (alignment.toLowerCase())</b>
+<i>23</i>&nbsp;        {
+<i>24</i>&nbsp;            case &quot;top&quot;:
+<b class="fc"><i>25</i>&nbsp;                return offset;</b>
+<i>26</i>&nbsp;            case &quot;bottom&quot;:
+<b class="fc"><i>27</i>&nbsp;                return guiHeight - elemHeight + offset;</b>
+<i>28</i>&nbsp;            case &quot;center&quot;:
+<b class="fc"><i>29</i>&nbsp;                return (guiHeight - elemHeight) / 2 + offset;</b>
+<i>30</i>&nbsp;            default:
+<b class="nc"><i>31</i>&nbsp;                return 0;</b>
+<i>32</i>&nbsp;        }
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

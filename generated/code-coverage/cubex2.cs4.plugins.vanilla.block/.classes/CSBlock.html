@@ -1,0 +1,109 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CSBlock</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CSBlock (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CSBlock</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentBlockBase;
+<i>4</i>&nbsp;import net.minecraft.block.properties.IProperty;
+<i>5</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public interface CSBlock&lt;T extends ContentBlockBase&gt;
+<i>8</i>&nbsp;{
+<i>9</i>&nbsp;    int getSubtype(IBlockState state);
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    T getContent();
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    default int[] getSubtypes()
+<i>14</i>&nbsp;    {
+<b class="nc"><i>15</i>&nbsp;        return new int[] {0};</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * Gets all properties that this block is using except for the subtype property. If using with BlockMixin, this must
+<i>20</i>&nbsp;     * also not include the properties of the superclass.
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    default IProperty&lt;?&gt;[] getProperties()
+<i>23</i>&nbsp;    {
+<b class="fc"><i>24</i>&nbsp;        return new IProperty[0];</b>
+<i>25</i>&nbsp;    }
+<i>26</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

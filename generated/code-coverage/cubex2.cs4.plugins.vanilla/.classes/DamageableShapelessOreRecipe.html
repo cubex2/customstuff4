@@ -1,0 +1,270 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DamageableShapelessOreRecipe</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DamageableShapelessOreRecipe (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DamageableShapelessOreRecipe</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (3/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89,4%
+  </span>
+  <span class="absValue">
+    (42/ 47)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DamageableShapelessOreRecipe$1</td>
+  </tr>
+  <tr>
+    <td class="name">DamageableShapelessOreRecipe$Factory</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 19)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (3/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63,6%
+  </span>
+  <span class="absValue">
+    (42/ 66)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import com.google.gson.*;
+<i>5</i>&nbsp;import net.minecraft.inventory.InventoryCrafting;
+<i>6</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>7</i>&nbsp;import net.minecraft.item.crafting.IRecipe;
+<i>8</i>&nbsp;import net.minecraft.item.crafting.Ingredient;
+<i>9</i>&nbsp;import net.minecraft.util.JsonUtils;
+<i>10</i>&nbsp;import net.minecraft.util.NonNullList;
+<i>11</i>&nbsp;import net.minecraft.util.ResourceLocation;
+<i>12</i>&nbsp;import net.minecraft.world.World;
+<i>13</i>&nbsp;import net.minecraftforge.common.ForgeHooks;
+<i>14</i>&nbsp;import net.minecraftforge.common.crafting.CraftingHelper;
+<i>15</i>&nbsp;import net.minecraftforge.common.crafting.IRecipeFactory;
+<i>16</i>&nbsp;import net.minecraftforge.common.crafting.JsonContext;
+<i>17</i>&nbsp;import net.minecraftforge.oredict.ShapelessOreRecipe;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import javax.annotation.Nonnull;
+<i>20</i>&nbsp;import javax.annotation.Nullable;
+<i>21</i>&nbsp;import java.util.Iterator;
+<i>22</i>&nbsp;import java.util.Map;
+<i>23</i>&nbsp;
+<b class="nc"><i>24</i>&nbsp;public class DamageableShapelessOreRecipe extends ShapelessOreRecipe</b>
+<i>25</i>&nbsp;{
+<i>26</i>&nbsp;    private final int[] damageAmounts;
+<i>27</i>&nbsp;    private final int[] invSlots;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public DamageableShapelessOreRecipe(@Nullable ResourceLocation group, int[] damageAmounts, @Nonnull ItemStack result, Object... recipe)
+<i>30</i>&nbsp;    {
+<b class="fc"><i>31</i>&nbsp;        super(group, result, recipe);</b>
+<b class="fc"><i>32</i>&nbsp;        this.damageAmounts = damageAmounts;</b>
+<b class="fc"><i>33</i>&nbsp;        invSlots = new int[damageAmounts.length];</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private DamageableShapelessOreRecipe(@Nullable ResourceLocation group, int[] damageAmounts, NonNullList&lt;Ingredient&gt; input, @Nonnull ItemStack result)
+<i>37</i>&nbsp;    {
+<b class="nc"><i>38</i>&nbsp;        super(group, input, result);</b>
+<b class="nc"><i>39</i>&nbsp;        this.damageAmounts = damageAmounts;</b>
+<b class="nc"><i>40</i>&nbsp;        invSlots = new int[damageAmounts.length];</b>
+<b class="nc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Nonnull
+<i>44</i>&nbsp;    @Override
+<i>45</i>&nbsp;    public NonNullList&lt;ItemStack&gt; getRemainingItems(InventoryCrafting inv)
+<i>46</i>&nbsp;    {
+<b class="fc"><i>47</i>&nbsp;        NonNullList&lt;ItemStack&gt; items = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;        matches(inv, null);</b>
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;        for (int i = 0; i &lt; invSlots.length; i++)</b>
+<i>52</i>&nbsp;        {
+<b class="fc"><i>53</i>&nbsp;            int amount = damageAmounts[i];</b>
+<b class="fc"><i>54</i>&nbsp;            int invIndex = invSlots[i];</b>
+<b class="fc"><i>55</i>&nbsp;            if (amount &gt; 0)</b>
+<i>56</i>&nbsp;            {
+<b class="fc"><i>57</i>&nbsp;                ItemStack stack = inv.getStackInSlot(invIndex).copy();</b>
+<b class="fc"><i>58</i>&nbsp;                stack.setItemDamage(stack.getItemDamage() + amount);</b>
+<b class="fc"><i>59</i>&nbsp;                if (stack.getItemDamage() &gt; stack.getMaxDamage())</b>
+<i>60</i>&nbsp;                {
+<b class="fc"><i>61</i>&nbsp;                    stack = ForgeHooks.getContainerItem(stack);</b>
+<i>62</i>&nbsp;                }
+<b class="fc"><i>63</i>&nbsp;                items.set(invIndex, stack);</b>
+<b class="fc"><i>64</i>&nbsp;            } else</b>
+<i>65</i>&nbsp;            {
+<b class="fc"><i>66</i>&nbsp;                items.set(invIndex, ForgeHooks.getContainerItem(inv.getStackInSlot(invIndex)));</b>
+<i>67</i>&nbsp;            }
+<i>68</i>&nbsp;        }
+<i>69</i>&nbsp;
+<b class="fc"><i>70</i>&nbsp;        return items;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+<i>74</i>&nbsp;    @Override
+<i>75</i>&nbsp;    public boolean matches(InventoryCrafting var1, @Nullable World world)
+<i>76</i>&nbsp;    {
+<b class="fc"><i>77</i>&nbsp;        Map&lt;Integer, Ingredient&gt; required = Maps.newLinkedHashMap();</b>
+<b class="fc"><i>78</i>&nbsp;        for (int i = 0; i &lt; input.size(); i++)</b>
+<i>79</i>&nbsp;        {
+<b class="fc"><i>80</i>&nbsp;            required.put(i, input.get(i));</b>
+<i>81</i>&nbsp;        }
+<i>82</i>&nbsp;
+<b class="fc"><i>83</i>&nbsp;        for (int x = 0; x &lt; var1.getSizeInventory(); x++)</b>
+<i>84</i>&nbsp;        {
+<b class="fc"><i>85</i>&nbsp;            ItemStack slot = var1.getStackInSlot(x);</b>
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;            if (!slot.isEmpty())</b>
+<i>88</i>&nbsp;            {
+<b class="fc"><i>89</i>&nbsp;                boolean inRecipe = false;</b>
+<b class="fc"><i>90</i>&nbsp;                Iterator&lt;Map.Entry&lt;Integer, Ingredient&gt;&gt; req = required.entrySet().iterator();</b>
+<i>91</i>&nbsp;
+<b class="fc"><i>92</i>&nbsp;                while (req.hasNext())</b>
+<i>93</i>&nbsp;                {
+<b class="fc"><i>94</i>&nbsp;                    boolean match = false;</b>
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;                    Map.Entry&lt;Integer, Ingredient&gt; nextEntry = req.next();</b>
+<b class="fc"><i>97</i>&nbsp;                    Ingredient next = nextEntry.getValue();</b>
+<b class="fc"><i>98</i>&nbsp;                    int index = nextEntry.getKey();</b>
+<b class="fc"><i>99</i>&nbsp;                    int damage = damageAmounts[index];</b>
+<i>100</i>&nbsp;
+<b class="fc"><i>101</i>&nbsp;                    match = next.apply(slot) &amp;&amp; damage &lt;= slot.getMaxDamage() - slot.getItemDamage() + 1;</b>
+<i>102</i>&nbsp;
+<b class="fc"><i>103</i>&nbsp;                    if (match)</b>
+<i>104</i>&nbsp;                    {
+<b class="fc"><i>105</i>&nbsp;                        invSlots[index] = x;</b>
+<b class="fc"><i>106</i>&nbsp;                        inRecipe = true;</b>
+<b class="fc"><i>107</i>&nbsp;                        required.remove(index);</b>
+<b class="fc"><i>108</i>&nbsp;                        break;</b>
+<i>109</i>&nbsp;                    }
+<b class="fc"><i>110</i>&nbsp;                }</b>
+<i>111</i>&nbsp;
+<b class="fc"><i>112</i>&nbsp;                if (!inRecipe)</b>
+<i>113</i>&nbsp;                {
+<b class="fc"><i>114</i>&nbsp;                    return false;</b>
+<i>115</i>&nbsp;                }
+<i>116</i>&nbsp;            }
+<i>117</i>&nbsp;        }
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;        return required.isEmpty();</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    @SuppressWarnings(&quot;unused&quot;)
+<b class="nc"><i>123</i>&nbsp;    public static class Factory implements IRecipeFactory</b>
+<i>124</i>&nbsp;    {
+<i>125</i>&nbsp;        @Override
+<i>126</i>&nbsp;        public IRecipe parse(JsonContext context, JsonObject json)
+<i>127</i>&nbsp;        {
+<b class="nc"><i>128</i>&nbsp;            String group = JsonUtils.getString(json, &quot;group&quot;, &quot;&quot;);</b>
+<i>129</i>&nbsp;
+<b class="nc"><i>130</i>&nbsp;            NonNullList&lt;Ingredient&gt; ings = NonNullList.create();</b>
+<b class="nc"><i>131</i>&nbsp;            for (JsonElement ele : JsonUtils.getJsonArray(json, &quot;ingredients&quot;))</b>
+<b class="nc"><i>132</i>&nbsp;                ings.add(CraftingHelper.getIngredient(ele, context));</b>
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;            if (ings.isEmpty())</b>
+<b class="nc"><i>135</i>&nbsp;                throw new JsonParseException(&quot;No ingredients for shapeless recipe&quot;);</b>
+<i>136</i>&nbsp;
+<b class="nc"><i>137</i>&nbsp;            ItemStack itemstack = CraftingHelper.getItemStack(JsonUtils.getJsonObject(json, &quot;result&quot;), context);</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;            int[] damage = new int[ings.size()];</b>
+<b class="nc"><i>140</i>&nbsp;            if (JsonUtils.hasField(json, &quot;damage&quot;))</b>
+<i>141</i>&nbsp;            {
+<b class="nc"><i>142</i>&nbsp;                JsonArray array = JsonUtils.getJsonArray(json, &quot;damage&quot;);</b>
+<b class="nc"><i>143</i>&nbsp;                if (array.size() &gt; damage.length)</b>
+<b class="nc"><i>144</i>&nbsp;                    throw new JsonParseException(&quot;Too many values for damage array: got &quot; + array.size() + &quot;, expected &quot; + damage.length);</b>
+<i>145</i>&nbsp;
+<b class="nc"><i>146</i>&nbsp;                for (int i = 0; i &lt; array.size(); i++)</b>
+<i>147</i>&nbsp;                {
+<b class="nc"><i>148</i>&nbsp;                    JsonElement element = array.get(i);</b>
+<b class="nc"><i>149</i>&nbsp;                    if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isNumber())</b>
+<b class="nc"><i>150</i>&nbsp;                        throw new JsonSyntaxException(&quot;Entry in damage array is not a number, got &quot; + element);</b>
+<i>151</i>&nbsp;
+<b class="nc"><i>152</i>&nbsp;                    damage[i] = element.getAsJsonPrimitive().getAsInt();</b>
+<i>153</i>&nbsp;                }
+<i>154</i>&nbsp;            }
+<b class="nc"><i>155</i>&nbsp;            return new DamageableShapelessOreRecipe(group.isEmpty() ? null : new ResourceLocation(group), damage, ings, itemstack);</b>
+<i>156</i>&nbsp;        }
+<i>157</i>&nbsp;    }
+<i>158</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

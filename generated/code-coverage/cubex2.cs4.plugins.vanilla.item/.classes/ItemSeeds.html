@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemSeeds</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.item</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemSeeds (cubex2.cs4.plugins.vanilla.item)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemSeeds</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    21,4%
+  </span>
+  <span class="absValue">
+    (3/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.item;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentItemSeeds;
+<i>4</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentItemWithSubtypes;
+<i>5</i>&nbsp;import net.minecraft.advancements.CriteriaTriggers;
+<i>6</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>7</i>&nbsp;import net.minecraft.entity.player.EntityPlayer;
+<i>8</i>&nbsp;import net.minecraft.entity.player.EntityPlayerMP;
+<i>9</i>&nbsp;import net.minecraft.item.Item;
+<i>10</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>11</i>&nbsp;import net.minecraft.util.EnumActionResult;
+<i>12</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>13</i>&nbsp;import net.minecraft.util.EnumHand;
+<i>14</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>15</i>&nbsp;import net.minecraft.world.IBlockAccess;
+<i>16</i>&nbsp;import net.minecraft.world.World;
+<i>17</i>&nbsp;import net.minecraftforge.common.EnumPlantType;
+<i>18</i>&nbsp;import net.minecraftforge.common.IPlantable;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;public class ItemSeeds extends Item implements IPlantable
+<i>21</i>&nbsp;{
+<i>22</i>&nbsp;    private final ContentItemSeeds content;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public ItemSeeds(ContentItemSeeds content)
+<b class="fc"><i>25</i>&nbsp;    {</b>
+<b class="fc"><i>26</i>&nbsp;        this.content = content;</b>
+<b class="fc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+<i>30</i>&nbsp;    {
+<b class="nc"><i>31</i>&nbsp;        ItemStack itemstack = player.getHeldItem(hand);</b>
+<b class="nc"><i>32</i>&nbsp;        IBlockState state = worldIn.getBlockState(pos);</b>
+<b class="nc"><i>33</i>&nbsp;        if (facing == EnumFacing.UP &amp;&amp; player.canPlayerEdit(pos.offset(facing), facing, itemstack) &amp;&amp; state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this) &amp;&amp; worldIn.isAirBlock(pos.up()))</b>
+<i>34</i>&nbsp;        {
+<b class="nc"><i>35</i>&nbsp;            worldIn.setBlockState(pos.up(), content.plant.createState());</b>
+<i>36</i>&nbsp;
+<b class="nc"><i>37</i>&nbsp;            if (player instanceof EntityPlayerMP)</b>
+<i>38</i>&nbsp;            {
+<b class="nc"><i>39</i>&nbsp;                CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos.up(), itemstack);</b>
+<i>40</i>&nbsp;            }
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;            itemstack.shrink(1);</b>
+<b class="nc"><i>43</i>&nbsp;            return EnumActionResult.SUCCESS;</b>
+<i>44</i>&nbsp;        } else
+<i>45</i>&nbsp;        {
+<b class="nc"><i>46</i>&nbsp;            return EnumActionResult.FAIL;</b>
+<i>47</i>&nbsp;        }
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos)
+<i>52</i>&nbsp;    {
+<b class="nc"><i>53</i>&nbsp;        return EnumPlantType.Crop;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @Override
+<i>57</i>&nbsp;    public IBlockState getPlant(IBlockAccess world, BlockPos pos)
+<i>58</i>&nbsp;    {
+<b class="nc"><i>59</i>&nbsp;        return content.plant.createState();</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AsmHelper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AsmHelper (cubex2.cs4.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AsmHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,5%
+  </span>
+  <span class="absValue">
+    (7/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82,7%
+  </span>
+  <span class="absValue">
+    (43/ 52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.objectweb.asm.*;
+<i>4</i>&nbsp;import org.objectweb.asm.tree.ClassNode;
+<i>5</i>&nbsp;import org.objectweb.asm.tree.MethodNode;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;import java.lang.reflect.Method;
+<i>9</i>&nbsp;
+<b class="nc"><i>10</i>&nbsp;public class AsmHelper implements Opcodes</b>
+<i>11</i>&nbsp;{
+<i>12</i>&nbsp;    private static Method defineClass;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public static Class&lt;?&gt; createClass(ClassNode node)
+<i>15</i>&nbsp;    {
+<b class="fc"><i>16</i>&nbsp;        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);</b>
+<b class="fc"><i>17</i>&nbsp;        node.accept(writer);</b>
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;        byte[] bytes = writer.toByteArray();</b>
+<b class="fc"><i>20</i>&nbsp;        return createClassFromBytes(node.name.replace(&#39;/&#39;, &#39;.&#39;), bytes);</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public static Class&lt;?&gt; createClassFromBytes(String name, byte[] bytes)
+<i>24</i>&nbsp;    {
+<b class="fc"><i>25</i>&nbsp;        if (defineClass == null)</b>
+<i>26</i>&nbsp;        {
+<b class="fc"><i>27</i>&nbsp;            defineClass = getDefineClassMethod();</b>
+<i>28</i>&nbsp;        }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;        try
+<i>31</i>&nbsp;        {
+<b class="fc"><i>32</i>&nbsp;            return (Class&lt;?&gt;) defineClass.invoke(AsmHelper.class.getClassLoader(), name.replace(&#39;/&#39;, &#39;.&#39;), bytes, 0, bytes.length);</b>
+<b class="nc"><i>33</i>&nbsp;        } catch (Exception e)</b>
+<i>34</i>&nbsp;        {
+<b class="nc"><i>35</i>&nbsp;            throw new RuntimeException(e);</b>
+<i>36</i>&nbsp;        }
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    private static Method getDefineClassMethod()
+<i>40</i>&nbsp;    {
+<b class="fc"><i>41</i>&nbsp;        Method defineClass = null;</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;        try
+<i>44</i>&nbsp;        {
+<b class="fc"><i>45</i>&nbsp;            defineClass = ClassLoader.class.getDeclaredMethod(&quot;defineClass&quot;, String.class, byte[].class, int.class, int.class);</b>
+<b class="fc"><i>46</i>&nbsp;            defineClass.setAccessible(true);</b>
+<b class="nc"><i>47</i>&nbsp;        } catch (NoSuchMethodException e)</b>
+<i>48</i>&nbsp;        {
+<b class="nc"><i>49</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i>50</i>&nbsp;        }</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        return defineClass;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public static &lt;T&gt; Class&lt;? extends T&gt; createSubClass(Class&lt;T&gt; superClass, String nameSuffix, int constructorParams)
+<i>56</i>&nbsp;    {
+<b class="fc"><i>57</i>&nbsp;        ClassNode superNode = createClassNode(superClass);</b>
+<b class="fc"><i>58</i>&nbsp;        MethodNode constructor = findConstructor(superNode, constructorParams);</b>
+<b class="fc"><i>59</i>&nbsp;        String className = superClass.getName().replace(&#39;.&#39;, &#39;/&#39;) + &quot;_&quot; + nameSuffix.replace(&quot;:&quot;, &quot;_&quot;);</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;        ClassWriter cw = new ClassWriter(0);</b>
+<b class="fc"><i>62</i>&nbsp;        cw.visit(V1_7, ACC_PUBLIC + ACC_SUPER, className, null, Type.getInternalName(superClass), null);</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;        // Constructor
+<b class="fc"><i>65</i>&nbsp;        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, constructor.name, constructor.desc, null, null);</b>
+<b class="fc"><i>66</i>&nbsp;        int[] opcodes = createLoadOpcodes(constructor);</b>
+<b class="fc"><i>67</i>&nbsp;        for (int i = 0; i &lt; opcodes.length; i++)</b>
+<i>68</i>&nbsp;        {
+<b class="fc"><i>69</i>&nbsp;            mv.visitVarInsn(opcodes[i], i);</b>
+<i>70</i>&nbsp;        }
+<b class="fc"><i>71</i>&nbsp;        mv.visitMethodInsn(INVOKESPECIAL, Type.getInternalName(superClass), constructor.name, constructor.desc, false);</b>
+<b class="fc"><i>72</i>&nbsp;        mv.visitInsn(RETURN);</b>
+<b class="fc"><i>73</i>&nbsp;        mv.visitMaxs(constructorParams + 1, constructorParams + 1);</b>
+<b class="fc"><i>74</i>&nbsp;        mv.visitEnd();</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;        byte[] byteCode = cw.toByteArray();</b>
+<i>77</i>&nbsp;
+<b class="fc"><i>78</i>&nbsp;        return (Class&lt;? extends T&gt;) createClassFromBytes(className, byteCode);</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    static int[] createLoadOpcodes(MethodNode method)
+<i>82</i>&nbsp;    {
+<b class="fc"><i>83</i>&nbsp;        Type[] argumentTypes = Type.getArgumentTypes(method.desc);</b>
+<i>84</i>&nbsp;
+<b class="fc"><i>85</i>&nbsp;        int[] opcodes = new int[argumentTypes.length + 1];</b>
+<b class="fc"><i>86</i>&nbsp;        opcodes[0] = ALOAD;</b>
+<i>87</i>&nbsp;
+<b class="fc"><i>88</i>&nbsp;        for (int i = 0; i &lt; argumentTypes.length; i++)</b>
+<i>89</i>&nbsp;        {
+<b class="fc"><i>90</i>&nbsp;            opcodes[i + 1] = argumentTypes[i].getOpcode(ILOAD);</b>
+<i>91</i>&nbsp;        }
+<i>92</i>&nbsp;
+<b class="fc"><i>93</i>&nbsp;        return opcodes;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    static MethodNode findConstructor(ClassNode node, int numParams)
+<i>97</i>&nbsp;    {
+<b class="fc"><i>98</i>&nbsp;        for (MethodNode method : node.methods)</b>
+<i>99</i>&nbsp;        {
+<b class="fc"><i>100</i>&nbsp;            Type[] argumentTypes = Type.getArgumentTypes(method.desc);</b>
+<b class="fc"><i>101</i>&nbsp;            if (method.name.equals(&quot;&lt;init&gt;&quot;) &amp;&amp; argumentTypes.length == numParams)</b>
+<i>102</i>&nbsp;            {
+<b class="fc"><i>103</i>&nbsp;                return method;</b>
+<i>104</i>&nbsp;            }
+<b class="fc"><i>105</i>&nbsp;        }</b>
+<i>106</i>&nbsp;
+<b class="nc"><i>107</i>&nbsp;        return null;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    public static ClassNode createClassNode(Class&lt;?&gt; clazz)
+<i>111</i>&nbsp;    {
+<b class="fc"><i>112</i>&nbsp;        ClassNode node = new ClassNode();</b>
+<i>113</i>&nbsp;        try
+<i>114</i>&nbsp;        {
+<b class="fc"><i>115</i>&nbsp;            String fileName = clazz.getName().replace(&#39;.&#39;, &#39;/&#39;) + &quot;.class&quot;;</b>
+<b class="fc"><i>116</i>&nbsp;            ClassReader reader = new ClassReader(clazz.getClassLoader().getResourceAsStream(fileName));</b>
+<b class="fc"><i>117</i>&nbsp;            reader.accept(node, 0);</b>
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;            return node;</b>
+<b class="nc"><i>120</i>&nbsp;        } catch (IOException e)</b>
+<i>121</i>&nbsp;        {
+<b class="nc"><i>122</i>&nbsp;            e.printStackTrace();</b>
+<i>123</i>&nbsp;        }
+<i>124</i>&nbsp;
+<b class="nc"><i>125</i>&nbsp;        throw new RuntimeException(&quot;Couldn&#39;t create ClassNode for class &quot; + clazz.getName());</b>
+<i>126</i>&nbsp;    }
+<i>127</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

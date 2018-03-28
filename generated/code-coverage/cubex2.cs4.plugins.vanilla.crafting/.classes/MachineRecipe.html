@@ -1,0 +1,129 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MachineRecipe</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.crafting</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MachineRecipe (cubex2.cs4.plugins.vanilla.crafting)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MachineRecipe</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.crafting;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.RecipeInput;
+<i>4</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>5</i>&nbsp;import net.minecraft.util.NonNullList;
+<i>6</i>&nbsp;import net.minecraft.world.World;
+<i>7</i>&nbsp;import net.minecraftforge.fluids.FluidStack;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public interface MachineRecipe
+<i>12</i>&nbsp;{
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Checks if the given items and fluids match this recipe. The lists are guaranteed to have the size returned by getInputStacks and getInputFluids.
+<i>15</i>&nbsp;     */
+<i>16</i>&nbsp;    boolean matches(NonNullList&lt;ItemStack&gt; input, List&lt;FluidStack&gt; inputFluid, World world);
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    List&lt;RecipeInput&gt; getRecipeInput();
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    List&lt;FluidStack&gt; getFluidRecipeInput();
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * Get all possible outputs for this recipe. The output that is being used is randomly chosen according to its weight.
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    NonNullList&lt;MachineRecipeOutput&gt; getOutputs();
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Gets the number of input stacks
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    int getInputStacks();
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Gets the number of input fluids
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    int getFluidStacks();
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Get the amount of ticks that this recipe takes to finish. Return 0 to use the default cook time of the machine.
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    default int getCookTime()
+<i>41</i>&nbsp;    {
+<b class="nc"><i>42</i>&nbsp;        return 0;</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;    MachineRecipe EMPTY = new EmptyRecipe();</b>
+<i>46</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

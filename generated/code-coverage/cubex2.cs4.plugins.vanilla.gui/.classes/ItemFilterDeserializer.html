@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemFilterDeserializer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemFilterDeserializer (cubex2.cs4.plugins.vanilla.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemFilterDeserializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,8%
+  </span>
+  <span class="absValue">
+    (23/ 24)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ItemFilterDeserializer$StackFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,6%
+  </span>
+  <span class="absValue">
+    (28/ 29)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Lists;
+<i>4</i>&nbsp;import com.google.gson.*;
+<i>5</i>&nbsp;import cubex2.cs4.api.WrappedItemStack;
+<i>6</i>&nbsp;import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
+<i>7</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>8</i>&nbsp;import net.minecraft.util.ResourceLocation;
+<i>9</i>&nbsp;import net.minecraftforge.oredict.OreDictionary;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.lang.reflect.Type;
+<i>12</i>&nbsp;import java.util.List;
+<i>13</i>&nbsp;
+<b class="fc"><i>14</i>&nbsp;public class ItemFilterDeserializer implements JsonDeserializer&lt;ItemFilter&gt;</b>
+<i>15</i>&nbsp;{
+<i>16</i>&nbsp;    @Override
+<i>17</i>&nbsp;    public ItemFilter deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+<i>18</i>&nbsp;    {
+<b class="fc"><i>19</i>&nbsp;        if (json.isJsonPrimitive() &amp;&amp; json.getAsJsonPrimitive().isString())</b>
+<i>20</i>&nbsp;        {
+<b class="fc"><i>21</i>&nbsp;            return fromString(json.getAsString(), context);</b>
+<i>22</i>&nbsp;        }
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;        if (json.isJsonArray())</b>
+<i>25</i>&nbsp;        {
+<b class="fc"><i>26</i>&nbsp;            return combinedFilterOr(json.getAsJsonArray(), context);</b>
+<i>27</i>&nbsp;        }
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;        if (json.isJsonObject())</b>
+<i>30</i>&nbsp;        {
+<b class="fc"><i>31</i>&nbsp;            return new StackFilter(context.deserialize(json, WrappedItemStack.class));</b>
+<i>32</i>&nbsp;        }
+<i>33</i>&nbsp;
+<b class="nc"><i>34</i>&nbsp;        throw new JsonParseException(&quot;Invalid item filter: &quot; + json.toString());</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    private ItemFilter fromString(String input, JsonDeserializationContext context)
+<i>38</i>&nbsp;    {
+<b class="fc"><i>39</i>&nbsp;        if (input.startsWith(&quot;machineInput:&quot;))</b>
+<i>40</i>&nbsp;        {
+<b class="fc"><i>41</i>&nbsp;            ResourceLocation recipeList = context.deserialize(new JsonPrimitive(input.substring(&quot;machineInput:&quot;.length())), ResourceLocation.class);</b>
+<i>42</i>&nbsp;
+<b class="fc"><i>43</i>&nbsp;            return stack -&gt; MachineManager.isPartOfRecipe(recipeList, stack);</b>
+<i>44</i>&nbsp;        }
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;        if (input.startsWith(&quot;machineFuel:&quot;))</b>
+<i>47</i>&nbsp;        {
+<b class="fc"><i>48</i>&nbsp;            ResourceLocation recipeList = context.deserialize(new JsonPrimitive(input.substring(&quot;machineFuel:&quot;.length())), ResourceLocation.class);</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;            return stack -&gt; MachineManager.isPartOfFuel(recipeList, stack);</b>
+<i>51</i>&nbsp;        }
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;        if (input.startsWith(&quot;ore:&quot;))</b>
+<i>54</i>&nbsp;        {
+<b class="fc"><i>55</i>&nbsp;            String oreName = input.substring(&quot;ore:&quot;.length());</b>
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;            return stack -&gt; OreDictionary.containsMatch(false, OreDictionary.getOres(oreName), stack);</b>
+<i>58</i>&nbsp;        }
+<i>59</i>&nbsp;
+<b class="fc"><i>60</i>&nbsp;        WrappedItemStack wrappedStack = context.deserialize(new JsonPrimitive(input), WrappedItemStack.class);</b>
+<b class="fc"><i>61</i>&nbsp;        return new StackFilter(wrappedStack);</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    private ItemFilter combinedFilterOr(JsonArray array, JsonDeserializationContext context)
+<i>65</i>&nbsp;    {
+<b class="fc"><i>66</i>&nbsp;        List&lt;ItemFilter&gt; filters = Lists.newArrayList();</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;        for (int i = 0; i &lt; array.size(); i++)</b>
+<i>69</i>&nbsp;        {
+<b class="fc"><i>70</i>&nbsp;            ItemFilter filter = context.deserialize(array.get(i), ItemFilter.class);</b>
+<b class="fc"><i>71</i>&nbsp;            filters.add(filter);</b>
+<i>72</i>&nbsp;        }
+<i>73</i>&nbsp;
+<b class="fc"><i>74</i>&nbsp;        return stack -&gt; filters.stream().anyMatch(f -&gt; f.accepts(stack));</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    static class StackFilter implements ItemFilter
+<i>78</i>&nbsp;    {
+<i>79</i>&nbsp;        private final WrappedItemStack wrappedStack;
+<b class="fc"><i>80</i>&nbsp;        private ItemStack itemStack = ItemStack.EMPTY;</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;        StackFilter(WrappedItemStack wrappedStack) {this.wrappedStack = wrappedStack;}</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;        @Override
+<i>85</i>&nbsp;        public boolean accepts(ItemStack stack)
+<i>86</i>&nbsp;        {
+<b class="fc"><i>87</i>&nbsp;            if (itemStack == ItemStack.EMPTY)</b>
+<i>88</i>&nbsp;            {
+<b class="fc"><i>89</i>&nbsp;                itemStack = wrappedStack.getItemStack();</b>
+<i>90</i>&nbsp;            }
+<b class="fc"><i>91</i>&nbsp;            return !itemStack.isEmpty() &amp;&amp; OreDictionary.itemMatches(itemStack, stack, false);</b>
+<i>92</i>&nbsp;        }
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

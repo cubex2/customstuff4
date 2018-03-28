@@ -1,0 +1,364 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DamageableShapedOreRecipe</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DamageableShapedOreRecipe (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DamageableShapedOreRecipe</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,7%
+  </span>
+  <span class="absValue">
+    (55/ 62)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DamageableShapedOreRecipe$1</td>
+  </tr>
+  <tr>
+    <td class="name">DamageableShapedOreRecipe$Factory</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 50)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    49,1%
+  </span>
+  <span class="absValue">
+    (55/ 112)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import com.google.common.collect.Sets;
+<i>5</i>&nbsp;import com.google.gson.JsonArray;
+<i>6</i>&nbsp;import com.google.gson.JsonElement;
+<i>7</i>&nbsp;import com.google.gson.JsonObject;
+<i>8</i>&nbsp;import com.google.gson.JsonSyntaxException;
+<i>9</i>&nbsp;import net.minecraft.inventory.InventoryCrafting;
+<i>10</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>11</i>&nbsp;import net.minecraft.item.crafting.IRecipe;
+<i>12</i>&nbsp;import net.minecraft.item.crafting.Ingredient;
+<i>13</i>&nbsp;import net.minecraft.util.JsonUtils;
+<i>14</i>&nbsp;import net.minecraft.util.NonNullList;
+<i>15</i>&nbsp;import net.minecraft.util.ResourceLocation;
+<i>16</i>&nbsp;import net.minecraftforge.common.ForgeHooks;
+<i>17</i>&nbsp;import net.minecraftforge.common.crafting.CraftingHelper;
+<i>18</i>&nbsp;import net.minecraftforge.common.crafting.IRecipeFactory;
+<i>19</i>&nbsp;import net.minecraftforge.common.crafting.JsonContext;
+<i>20</i>&nbsp;import net.minecraftforge.oredict.ShapedOreRecipe;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import javax.annotation.Nonnull;
+<i>23</i>&nbsp;import javax.annotation.Nullable;
+<i>24</i>&nbsp;import java.util.Map;
+<i>25</i>&nbsp;import java.util.Set;
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;public class DamageableShapedOreRecipe extends ShapedOreRecipe</b>
+<i>28</i>&nbsp;{
+<i>29</i>&nbsp;    private final int[] damageAmounts;
+<i>30</i>&nbsp;    private final int[] mirroredDamageAmounts;
+<i>31</i>&nbsp;    private int matchX;
+<i>32</i>&nbsp;    private int matchY;
+<i>33</i>&nbsp;    private boolean wasMirrored;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public DamageableShapedOreRecipe(@Nullable ResourceLocation group, int[] damageAmounts, @Nonnull ItemStack result, Object... recipe)
+<i>36</i>&nbsp;    {
+<b class="fc"><i>37</i>&nbsp;        super(group, result, recipe);</b>
+<b class="fc"><i>38</i>&nbsp;        this.damageAmounts = damageAmounts;</b>
+<b class="fc"><i>39</i>&nbsp;        mirroredDamageAmounts = mirror(damageAmounts);</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    private DamageableShapedOreRecipe(@Nullable ResourceLocation group, int[] damageAmounts, @Nonnull ItemStack result, CraftingHelper.ShapedPrimer primer)
+<i>43</i>&nbsp;    {
+<b class="nc"><i>44</i>&nbsp;        super(group, result, primer);</b>
+<b class="nc"><i>45</i>&nbsp;        this.damageAmounts = damageAmounts;</b>
+<b class="nc"><i>46</i>&nbsp;        mirroredDamageAmounts = mirror(damageAmounts);</b>
+<b class="nc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    private int[] mirror(int[] array)
+<i>50</i>&nbsp;    {
+<b class="fc"><i>51</i>&nbsp;        int[] result = new int[array.length];</b>
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;        for (int col = 0; col &lt; getWidth(); col++)</b>
+<i>54</i>&nbsp;        {
+<b class="fc"><i>55</i>&nbsp;            for (int row = 0; row &lt; getHeight(); row++)</b>
+<i>56</i>&nbsp;            {
+<b class="fc"><i>57</i>&nbsp;                result[getWidth() - 1 - col + row * getWidth()] = array[col + row * getWidth()];</b>
+<i>58</i>&nbsp;            }
+<i>59</i>&nbsp;        }
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;        return result;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public NonNullList&lt;ItemStack&gt; getRemainingItems(InventoryCrafting inv)
+<i>66</i>&nbsp;    {
+<b class="fc"><i>67</i>&nbsp;        NonNullList&lt;ItemStack&gt; items = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);</b>
+<i>68</i>&nbsp;
+<b class="fc"><i>69</i>&nbsp;        getMatch(inv);</b>
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;        int[] amounts = getAmounts(wasMirrored);</b>
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;        for (int col = 0; col &lt; getWidth(); col++)</b>
+<i>74</i>&nbsp;        {
+<b class="fc"><i>75</i>&nbsp;            for (int row = 0; row &lt; getHeight(); row++)</b>
+<i>76</i>&nbsp;            {
+<b class="fc"><i>77</i>&nbsp;                int amountIndex = col + row * getWidth();</b>
+<b class="fc"><i>78</i>&nbsp;                int invIndex = matchX + col + (row + matchY) * inv.getWidth();</b>
+<b class="fc"><i>79</i>&nbsp;                int amount = amounts[amountIndex];</b>
+<b class="fc"><i>80</i>&nbsp;                if (amount &gt; 0)</b>
+<i>81</i>&nbsp;                {
+<b class="fc"><i>82</i>&nbsp;                    ItemStack stack = inv.getStackInSlot(invIndex).copy();</b>
+<b class="fc"><i>83</i>&nbsp;                    stack.setItemDamage(stack.getItemDamage() + amount);</b>
+<b class="fc"><i>84</i>&nbsp;                    if (stack.getItemDamage() &gt; stack.getMaxDamage())</b>
+<i>85</i>&nbsp;                    {
+<b class="fc"><i>86</i>&nbsp;                        stack = ForgeHooks.getContainerItem(stack);</b>
+<i>87</i>&nbsp;                    }
+<b class="fc"><i>88</i>&nbsp;                    items.set(invIndex, stack);</b>
+<b class="fc"><i>89</i>&nbsp;                } else</b>
+<i>90</i>&nbsp;                {
+<b class="fc"><i>91</i>&nbsp;                    items.set(invIndex, ForgeHooks.getContainerItem(inv.getStackInSlot(invIndex)));</b>
+<i>92</i>&nbsp;                }
+<i>93</i>&nbsp;            }
+<i>94</i>&nbsp;        }
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;        return items;</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    private int[] getAmounts(boolean mirror)
+<i>100</i>&nbsp;    {
+<b class="fc"><i>101</i>&nbsp;        return mirror ? mirroredDamageAmounts</b>
+<i>102</i>&nbsp;                      : damageAmounts;
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    private void getMatch(InventoryCrafting inv)
+<i>106</i>&nbsp;    {
+<b class="fc"><i>107</i>&nbsp;        for (int x = 0; x &lt;= MAX_CRAFT_GRID_WIDTH - width; x++)</b>
+<i>108</i>&nbsp;        {
+<b class="fc"><i>109</i>&nbsp;            for (int y = 0; y &lt;= MAX_CRAFT_GRID_HEIGHT - height; ++y)</b>
+<i>110</i>&nbsp;            {
+<b class="fc"><i>111</i>&nbsp;                if (checkMatch(inv, x, y, false))</b>
+<i>112</i>&nbsp;                {
+<b class="fc"><i>113</i>&nbsp;                    matchX = x;</b>
+<b class="fc"><i>114</i>&nbsp;                    matchY = y;</b>
+<b class="fc"><i>115</i>&nbsp;                    wasMirrored = false;</b>
+<b class="fc"><i>116</i>&nbsp;                    return;</b>
+<i>117</i>&nbsp;                }
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;                if (mirrored &amp;&amp; checkMatch(inv, x, y, true))</b>
+<i>120</i>&nbsp;                {
+<b class="fc"><i>121</i>&nbsp;                    matchX = x;</b>
+<b class="fc"><i>122</i>&nbsp;                    matchY = y;</b>
+<b class="fc"><i>123</i>&nbsp;                    wasMirrored = true;</b>
+<b class="fc"><i>124</i>&nbsp;                    return;</b>
+<i>125</i>&nbsp;                }
+<i>126</i>&nbsp;            }
+<i>127</i>&nbsp;        }
+<i>128</i>&nbsp;
+<b class="nc"><i>129</i>&nbsp;        matchX = matchY = -1;</b>
+<b class="nc"><i>130</i>&nbsp;    }</b>
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;    @Override
+<i>133</i>&nbsp;    protected boolean checkMatch(InventoryCrafting inv, int startX, int startY, boolean mirror)
+<i>134</i>&nbsp;    {
+<b class="fc"><i>135</i>&nbsp;        int[] amounts = getAmounts(mirror);</b>
+<i>136</i>&nbsp;
+<b class="fc"><i>137</i>&nbsp;        for (int x = 0; x &lt; MAX_CRAFT_GRID_WIDTH; x++)</b>
+<i>138</i>&nbsp;        {
+<b class="fc"><i>139</i>&nbsp;            for (int y = 0; y &lt; MAX_CRAFT_GRID_HEIGHT; y++)</b>
+<i>140</i>&nbsp;            {
+<b class="fc"><i>141</i>&nbsp;                int subX = x - startX;</b>
+<b class="fc"><i>142</i>&nbsp;                int subY = y - startY;</b>
+<b class="fc"><i>143</i>&nbsp;                int damage = 0;</b>
+<b class="fc"><i>144</i>&nbsp;                Ingredient target = Ingredient.EMPTY;</b>
+<i>145</i>&nbsp;
+<b class="fc"><i>146</i>&nbsp;                if (subX &gt;= 0 &amp;&amp; subY &gt;= 0 &amp;&amp; subX &lt; width &amp;&amp; subY &lt; height)</b>
+<i>147</i>&nbsp;                {
+<b class="fc"><i>148</i>&nbsp;                    damage = amounts[subX + width * subY];</b>
+<i>149</i>&nbsp;
+<b class="fc"><i>150</i>&nbsp;                    if (mirror)</b>
+<i>151</i>&nbsp;                    {
+<b class="fc"><i>152</i>&nbsp;                        target = input.get(width - subX - 1 + subY * width);</b>
+<i>153</i>&nbsp;                    } else
+<i>154</i>&nbsp;                    {
+<b class="fc"><i>155</i>&nbsp;                        target = input.get(subX + subY * width);</b>
+<i>156</i>&nbsp;                    }
+<i>157</i>&nbsp;                }
+<i>158</i>&nbsp;
+<b class="fc"><i>159</i>&nbsp;                ItemStack slot = inv.getStackInRowAndColumn(x, y);</b>
+<i>160</i>&nbsp;
+<b class="fc"><i>161</i>&nbsp;                if (!target.apply(slot) || damage &gt; slot.getMaxDamage() - slot.getItemDamage() + 1)</b>
+<i>162</i>&nbsp;                {
+<b class="fc"><i>163</i>&nbsp;                    return false;</b>
+<i>164</i>&nbsp;                }
+<i>165</i>&nbsp;            }
+<i>166</i>&nbsp;        }
+<i>167</i>&nbsp;
+<b class="fc"><i>168</i>&nbsp;        return true;</b>
+<i>169</i>&nbsp;    }
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    @SuppressWarnings(&quot;unused&quot;)
+<b class="nc"><i>172</i>&nbsp;    public static class Factory implements IRecipeFactory</b>
+<i>173</i>&nbsp;    {
+<i>174</i>&nbsp;        @Override
+<i>175</i>&nbsp;        public IRecipe parse(JsonContext context, JsonObject json)
+<i>176</i>&nbsp;        {
+<b class="nc"><i>177</i>&nbsp;            String group = JsonUtils.getString(json, &quot;group&quot;, &quot;&quot;);</b>
+<i>178</i>&nbsp;            //if (!group.isEmpty() &amp;&amp; group.indexOf(&#39;:&#39;) == -1)
+<i>179</i>&nbsp;            //    group = context.getModId() + &quot;:&quot; + group;
+<i>180</i>&nbsp;
+<b class="nc"><i>181</i>&nbsp;            Map&lt;Character, Ingredient&gt; ingMap = Maps.newHashMap();</b>
+<b class="nc"><i>182</i>&nbsp;            for (Map.Entry&lt;String, JsonElement&gt; entry : JsonUtils.getJsonObject(json, &quot;key&quot;).entrySet())</b>
+<i>183</i>&nbsp;            {
+<b class="nc"><i>184</i>&nbsp;                if (entry.getKey().length() != 1)</b>
+<b class="nc"><i>185</i>&nbsp;                    throw new JsonSyntaxException(&quot;Invalid key entry: &#39;&quot; + entry.getKey() + &quot;&#39; is an invalid symbol (must be 1 character only).&quot;);</b>
+<b class="nc"><i>186</i>&nbsp;                if (&quot; &quot;.equals(entry.getKey()))</b>
+<b class="nc"><i>187</i>&nbsp;                    throw new JsonSyntaxException(&quot;Invalid key entry: &#39; &#39; is a reserved symbol.&quot;);</b>
+<i>188</i>&nbsp;
+<b class="nc"><i>189</i>&nbsp;                ingMap.put(entry.getKey().toCharArray()[0], CraftingHelper.getIngredient(entry.getValue(), context));</b>
+<b class="nc"><i>190</i>&nbsp;            }</b>
+<i>191</i>&nbsp;
+<b class="nc"><i>192</i>&nbsp;            ingMap.put(&#39; &#39;, Ingredient.EMPTY);</b>
+<i>193</i>&nbsp;
+<b class="nc"><i>194</i>&nbsp;            JsonArray patternJ = JsonUtils.getJsonArray(json, &quot;pattern&quot;);</b>
+<i>195</i>&nbsp;
+<b class="nc"><i>196</i>&nbsp;            if (patternJ.size() == 0)</b>
+<b class="nc"><i>197</i>&nbsp;                throw new JsonSyntaxException(&quot;Invalid pattern: empty pattern not allowed&quot;);</b>
+<i>198</i>&nbsp;
+<b class="nc"><i>199</i>&nbsp;            String[] pattern = new String[patternJ.size()];</b>
+<b class="nc"><i>200</i>&nbsp;            for (int x = 0; x &lt; pattern.length; ++x)</b>
+<i>201</i>&nbsp;            {
+<b class="nc"><i>202</i>&nbsp;                String line = JsonUtils.getString(patternJ.get(x), &quot;pattern[&quot; + x + &quot;]&quot;);</b>
+<b class="nc"><i>203</i>&nbsp;                if (x &gt; 0 &amp;&amp; pattern[0].length() != line.length())</b>
+<b class="nc"><i>204</i>&nbsp;                    throw new JsonSyntaxException(&quot;Invalid pattern: each row must  be the same width&quot;);</b>
+<b class="nc"><i>205</i>&nbsp;                pattern[x] = line;</b>
+<i>206</i>&nbsp;            }
+<i>207</i>&nbsp;
+<b class="nc"><i>208</i>&nbsp;            CraftingHelper.ShapedPrimer primer = new CraftingHelper.ShapedPrimer();</b>
+<b class="nc"><i>209</i>&nbsp;            primer.width = pattern[0].length();</b>
+<b class="nc"><i>210</i>&nbsp;            primer.height = pattern.length;</b>
+<b class="nc"><i>211</i>&nbsp;            primer.mirrored = JsonUtils.getBoolean(json, &quot;mirrored&quot;, true);</b>
+<b class="nc"><i>212</i>&nbsp;            primer.input = NonNullList.withSize(primer.width * primer.height, Ingredient.EMPTY);</b>
+<i>213</i>&nbsp;
+<b class="nc"><i>214</i>&nbsp;            Set&lt;Character&gt; keys = Sets.newHashSet(ingMap.keySet());</b>
+<b class="nc"><i>215</i>&nbsp;            keys.remove(&#39; &#39;);</b>
+<i>216</i>&nbsp;
+<b class="nc"><i>217</i>&nbsp;            int x = 0;</b>
+<b class="nc"><i>218</i>&nbsp;            for (String line : pattern)</b>
+<i>219</i>&nbsp;            {
+<b class="nc"><i>220</i>&nbsp;                for (char chr : line.toCharArray())</b>
+<i>221</i>&nbsp;                {
+<b class="nc"><i>222</i>&nbsp;                    Ingredient ing = ingMap.get(chr);</b>
+<b class="nc"><i>223</i>&nbsp;                    if (ing == null)</b>
+<b class="nc"><i>224</i>&nbsp;                        throw new JsonSyntaxException(&quot;Pattern references symbol &#39;&quot; + chr + &quot;&#39; but it&#39;s not defined in the key&quot;);</b>
+<b class="nc"><i>225</i>&nbsp;                    primer.input.set(x++, ing);</b>
+<b class="nc"><i>226</i>&nbsp;                    keys.remove(chr);</b>
+<i>227</i>&nbsp;                }
+<i>228</i>&nbsp;            }
+<i>229</i>&nbsp;
+<b class="nc"><i>230</i>&nbsp;            if (!keys.isEmpty())</b>
+<b class="nc"><i>231</i>&nbsp;                throw new JsonSyntaxException(&quot;Key defines symbols that aren&#39;t used in pattern: &quot; + keys);</b>
+<i>232</i>&nbsp;
+<b class="nc"><i>233</i>&nbsp;            ItemStack result = CraftingHelper.getItemStack(JsonUtils.getJsonObject(json, &quot;result&quot;), context);</b>
+<i>234</i>&nbsp;
+<b class="nc"><i>235</i>&nbsp;            Map&lt;Character, Integer&gt; damageMap = Maps.newHashMap();</b>
+<b class="nc"><i>236</i>&nbsp;            for (Map.Entry&lt;String, JsonElement&gt; entry : JsonUtils.getJsonObject(json, &quot;damage&quot;).entrySet())</b>
+<i>237</i>&nbsp;            {
+<b class="nc"><i>238</i>&nbsp;                if (entry.getKey().length() != 1)</b>
+<b class="nc"><i>239</i>&nbsp;                    throw new JsonSyntaxException(&quot;Invalid key entry: &#39;&quot; + entry.getKey() + &quot;&#39; is an invalid symbol (must be 1 character only).&quot;);</b>
+<b class="nc"><i>240</i>&nbsp;                if (&quot; &quot;.equals(entry.getKey()))</b>
+<b class="nc"><i>241</i>&nbsp;                    throw new JsonSyntaxException(&quot;Invalid key entry: &#39; &#39; is a reserved symbol.&quot;);</b>
+<b class="nc"><i>242</i>&nbsp;                if (!entry.getValue().isJsonPrimitive() || !entry.getValue().getAsJsonPrimitive().isNumber())</b>
+<b class="nc"><i>243</i>&nbsp;                    throw new JsonSyntaxException(&quot;Invalid key value: &#39;&quot; + entry.getValue() + &quot;&#39; is not a number.&quot;);</b>
+<i>244</i>&nbsp;
+<b class="nc"><i>245</i>&nbsp;                damageMap.put(entry.getKey().toCharArray()[0], entry.getValue().getAsInt());</b>
+<b class="nc"><i>246</i>&nbsp;            }</b>
+<i>247</i>&nbsp;
+<b class="nc"><i>248</i>&nbsp;            int[] damageAmounts = ShapedRecipe.createDamageAmounts(primer.width, primer.height, pattern, damageMap);</b>
+<b class="nc"><i>249</i>&nbsp;            return new DamageableShapedOreRecipe(group.isEmpty() ? null : new ResourceLocation(group), damageAmounts, result, primer);</b>
+<i>250</i>&nbsp;        }
+<i>251</i>&nbsp;    }
+<i>252</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

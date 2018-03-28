@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemFood</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.item</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemFood (cubex2.cs4.plugins.vanilla.item)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemFood</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.item;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.WrappedItemStack;
+<i>4</i>&nbsp;import cubex2.cs4.api.WrappedPotionEffect;
+<i>5</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentItemFood;
+<i>6</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentItemWithSubtypes;
+<i>7</i>&nbsp;import net.minecraft.entity.EntityLivingBase;
+<i>8</i>&nbsp;import net.minecraft.entity.player.EntityPlayer;
+<i>9</i>&nbsp;import net.minecraft.item.EnumAction;
+<i>10</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>11</i>&nbsp;import net.minecraft.potion.PotionEffect;
+<i>12</i>&nbsp;import net.minecraft.util.ActionResult;
+<i>13</i>&nbsp;import net.minecraft.util.EnumActionResult;
+<i>14</i>&nbsp;import net.minecraft.util.EnumHand;
+<i>15</i>&nbsp;import net.minecraft.world.World;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.util.Optional;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;public class ItemFood extends net.minecraft.item.ItemFood implements ItemWithSubtypes
+<i>20</i>&nbsp;{
+<i>21</i>&nbsp;    private final ContentItemFood content;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public ItemFood(ContentItemFood content)
+<i>24</i>&nbsp;    {
+<b class="nc"><i>25</i>&nbsp;        super(content.healAmount.get(0).orElse(2),</b>
+<b class="nc"><i>26</i>&nbsp;              content.saturation.get(0).orElse(0.6F),</b>
+<i>27</i>&nbsp;              content.isWolfFood);
+<i>28</i>&nbsp;
+<b class="nc"><i>29</i>&nbsp;        this.content = content;</b>
+<b class="nc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public int getHealAmount(ItemStack stack)
+<i>34</i>&nbsp;    {
+<b class="nc"><i>35</i>&nbsp;        return content.healAmount.get(stack.getMetadata()).orElse(2);</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @Override
+<i>39</i>&nbsp;    public float getSaturationModifier(ItemStack stack)
+<i>40</i>&nbsp;    {
+<b class="nc"><i>41</i>&nbsp;        return content.saturation.get(stack.getMetadata()).orElse(0.6F);</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @Override
+<i>45</i>&nbsp;    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+<i>46</i>&nbsp;    {
+<b class="nc"><i>47</i>&nbsp;        ItemStack stack = playerIn.getHeldItem(handIn);</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        if (playerIn.canEat(content.alwaysEdible.get(stack.getMetadata()).orElse(false)))</b>
+<i>50</i>&nbsp;        {
+<b class="nc"><i>51</i>&nbsp;            playerIn.setActiveHand(handIn);</b>
+<b class="nc"><i>52</i>&nbsp;            return new ActionResult&lt;&gt;(EnumActionResult.SUCCESS, stack);</b>
+<i>53</i>&nbsp;        } else
+<i>54</i>&nbsp;        {
+<b class="nc"><i>55</i>&nbsp;            return new ActionResult&lt;&gt;(EnumActionResult.FAIL, stack);</b>
+<i>56</i>&nbsp;        }
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    @Override
+<i>60</i>&nbsp;    protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
+<i>61</i>&nbsp;    {
+<b class="nc"><i>62</i>&nbsp;        WrappedPotionEffect effect = content.potionEffect.get(stack.getMetadata()).orElse(WrappedPotionEffect.of(null));</b>
+<b class="nc"><i>63</i>&nbsp;        float probability = content.potionEffectProbability.get(stack.getMetadata()).orElse(1f);</b>
+<b class="nc"><i>64</i>&nbsp;        PotionEffect potion = effect.getPotionEffect();</b>
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;        if (!worldIn.isRemote &amp;&amp; potion != null &amp;&amp; worldIn.rand.nextFloat() &lt; probability)</b>
+<i>67</i>&nbsp;        {
+<b class="nc"><i>68</i>&nbsp;            player.addPotionEffect(new PotionEffect(potion));</b>
+<i>69</i>&nbsp;        }
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Override
+<i>73</i>&nbsp;    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+<i>74</i>&nbsp;    {
+<b class="nc"><i>75</i>&nbsp;        stack = super.onItemUseFinish(stack, worldIn, entityLiving);</b>
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;        Optional&lt;WrappedItemStack&gt; result = content.result.get(stack.getMetadata());</b>
+<b class="nc"><i>78</i>&nbsp;        if (result.isPresent())</b>
+<i>79</i>&nbsp;        {
+<b class="nc"><i>80</i>&nbsp;            if (stack.isEmpty())</b>
+<i>81</i>&nbsp;            {
+<b class="nc"><i>82</i>&nbsp;                return result.get().getItemStack().copy();</b>
+<i>83</i>&nbsp;            }
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;            EntityPlayer player = entityLiving instanceof EntityPlayer ? (EntityPlayer) entityLiving : null;</b>
+<i>86</i>&nbsp;
+<b class="nc"><i>87</i>&nbsp;            if (player != null)</b>
+<i>88</i>&nbsp;            {
+<b class="nc"><i>89</i>&nbsp;                player.inventory.addItemStackToInventory(result.get().getItemStack().copy());</b>
+<i>90</i>&nbsp;            }
+<i>91</i>&nbsp;        }
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        return stack;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    @Override
+<i>97</i>&nbsp;    public EnumAction getItemUseAction(ItemStack stack)
+<i>98</i>&nbsp;    {
+<b class="nc"><i>99</i>&nbsp;        return content.useAction.get(stack.getMetadata()).orElse(EnumAction.EAT);</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    @Override
+<i>103</i>&nbsp;    public ContentItemWithSubtypes&lt;?&gt; getContent()
+<i>104</i>&nbsp;    {
+<b class="nc"><i>105</i>&nbsp;        return content;</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>
