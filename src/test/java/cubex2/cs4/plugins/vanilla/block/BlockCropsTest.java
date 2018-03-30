@@ -7,22 +7,25 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.util.math.AxisAlignedBB;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+@DisplayName("Crop block")
 public class BlockCropsTest
 {
-    @BeforeClass
+    @BeforeAll
     public static void setUp()
     {
         Bootstrap.register();
     }
 
+    //todo how is it different from getting its age?
     @Test
     public void testProperties()
     {
@@ -36,6 +39,7 @@ public class BlockCropsTest
         assertSame(properties.iterator().next(), BlockHelper.getCropAgeProperty(9));
     }
 
+    //todo what it does
     @Test
     public void test_getSubtype()
     {
@@ -56,6 +60,7 @@ public class BlockCropsTest
     }
 
     @Test
+    @DisplayName("Test age property")
     public void test_ageProperty()
     {
         ContentBlockCrops content = new ContentBlockCrops();
@@ -68,6 +73,7 @@ public class BlockCropsTest
     }
 
     @Test
+    @DisplayName("Test default bounding box size")
     public void test_defaultBounds()
     {
         ContentBlockCrops content = new ContentBlockCrops();

@@ -19,6 +19,7 @@ public class BlockFenceGateTest
         Bootstrap.register();
     }
 
+    //todo what is beng tested?
     @Test
     @SuppressWarnings("unchecked")
     public void testProperties()

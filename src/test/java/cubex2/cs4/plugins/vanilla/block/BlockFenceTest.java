@@ -5,16 +5,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Bootstrap;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
+@DisplayName("Fence block")
 public class BlockFenceTest
 {
-    @BeforeClass
+    @BeforeAll
     public static void setUp()
     {
         Bootstrap.register();
@@ -34,6 +36,7 @@ public class BlockFenceTest
 
     @Test
     @SuppressWarnings("unchecked")
+    @DisplayName("fence subtypes (connections) work")
     public void test_getSubtype()
     {
         ContentBlockFence content = new ContentBlockFence();

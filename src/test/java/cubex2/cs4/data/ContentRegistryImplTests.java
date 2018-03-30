@@ -2,24 +2,26 @@ package cubex2.cs4.data;
 
 import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ContentRegistryImplTests
-{
-    @Test(expected = IllegalArgumentException.class)
-    public void testRegister_duplicateType_shouldThrow()
-    {
+public class ContentRegistryImplTests {
+    @Test
+    @DisplayName("registering duplicate types throws IllegalArgumentException")
+    public void testRegister_duplicateType_shouldThrow() {
         ContentRegistryImpl registry = new ContentRegistryImpl();
         registry.registerContentType("type", TestContent.class);
-        registry.registerContentType("type", TestContent.class);
+        assertThrows(IllegalArgumentException.class, () ->
+                registry.registerContentType("type", TestContent.class));
     }
 
     @Test
-    public void testRegister_sameClassDifferentNames()
-    {
+    @DisplayName("Can register the same type multiple times")
+    public void testRegister_sameClassDifferentNames() {
         ContentRegistryImpl registry = new ContentRegistryImpl();
         registry.registerContentType("type1", TestContent.class);
         registry.registerContentType("type2", TestContent.class);
@@ -31,16 +33,15 @@ public class ContentRegistryImplTests
         assertSame(class1, class2);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testRegisterPredicate_duplicateType_shouldThrow()
-    {
+    @Test
+    @DisplayName("registering duplicate predicate types throws IllegalArgumentException")
+    public void testRegisterPredicate_duplicateType_shouldThrow() {
         ContentRegistryImpl registry = new ContentRegistryImpl();
         registry.registerLoaderPredicate("type", arguments -> false);
-        registry.registerLoaderPredicate("type", arguments -> true);
+        assertThrows(IllegalArgumentException.class,()->registry.registerLoaderPredicate("type", arguments -> true));
     }
 
-    public static class TestContent extends BlankContent
-    {
+    public static class TestContent extends BlankContent {
 
     }
 }

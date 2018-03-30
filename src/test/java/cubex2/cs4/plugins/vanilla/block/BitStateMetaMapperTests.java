@@ -9,11 +9,14 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.util.EnumFacing;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DisplayName("Bit state mapper")
 public class BitStateMetaMapperTests
 {
     private static final PropertyEnum<EnumSubtype> SUBTYPE = PropertyEnum.create("subtype", EnumSubtype.class);
@@ -22,7 +25,7 @@ public class BitStateMetaMapperTests
 
     private static Block BLOCK;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         Bootstrap.register();
@@ -30,13 +33,15 @@ public class BitStateMetaMapperTests
         BLOCK = new TestBlock();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    @DisplayName("should throw IllegalArgumentException if the input contains too many bits")
     public void test_tooManyBits_shouldThrow()
     {
-        BitStateMetaMapper mapper = new BitStateMetaMapper<>(SUBTYPE, DIRECTION);
+        assertThrows(IllegalArgumentException.class,()->new BitStateMetaMapper<>(SUBTYPE, DIRECTION));
     }
 
     @Test
+    @DisplayName("can get the metadata from state")
     public void test_getMetaFromState()
     {
         BitStateMetaMapper mapper = new BitStateMetaMapper<>(DIRECTION, DIRECTION2);
@@ -51,6 +56,7 @@ public class BitStateMetaMapperTests
     }
 
     @Test
+    @DisplayName("can get the state from the metadata")
     public void test_getStateFromMeta()
     {
         BitStateMetaMapper<Block> mapper = new BitStateMetaMapper<>(DIRECTION, DIRECTION2);
@@ -61,7 +67,9 @@ public class BitStateMetaMapperTests
         assertEquals(EnumFacing.SOUTH, state.getValue(DIRECTION2));
     }
 
+    //Todo write down what it is used for
     @Test
+    @DisplayName("can get the bit count")
     public void test_getBitCount()
     {
         assertEquals(0, BitStateMetaMapper.getBitCount(0));
