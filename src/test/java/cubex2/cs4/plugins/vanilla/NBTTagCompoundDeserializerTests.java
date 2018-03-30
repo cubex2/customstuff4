@@ -5,18 +5,18 @@ import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NBTTagCompoundDeserializerTests
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();

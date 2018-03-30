@@ -1,13 +1,13 @@
 package cubex2.cs4.util;
 
 import com.google.common.collect.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CollectionHelperTest
 {
@@ -30,14 +30,14 @@ public class CollectionHelperTest
         assertSame(input, output);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void transposeNonRectangular()
     {
         List<List<Integer>> input = Lists.newArrayList();
         input.add(Lists.newArrayList(1));
         input.add(Lists.newArrayList(1, 2));
 
-        CollectionHelper.transpose(input);
+        assertThrows(IllegalArgumentException.class, () -> CollectionHelper.transpose(input));
     }
 
     @Test

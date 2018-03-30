@@ -5,16 +5,16 @@ import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.WrappedPotionEffect;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PotionEffectDeserializerTests
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();

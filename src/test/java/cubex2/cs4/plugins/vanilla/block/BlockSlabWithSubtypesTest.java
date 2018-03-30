@@ -6,22 +6,22 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Bootstrap;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BlockSlabWithSubtypesTest
 {
-    @BeforeClass
-    public static void setUp() throws Exception
+    @BeforeAll
+    public static void setUp()
     {
         Bootstrap.register();
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void test_getSubtype() throws Exception
+    public void test_getSubtype()
     {
         ContentBlockSlab content = new ContentBlockSlab();
         content.subtypes = new int[] {0, 1, 2, 3, 4, 5, 6, 7};

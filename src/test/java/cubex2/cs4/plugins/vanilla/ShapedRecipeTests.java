@@ -15,18 +15,18 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ShapedRecipeTests
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();
@@ -82,7 +82,7 @@ public class ShapedRecipeTests
     }
 
     @Test
-    public void test_addRecipe() throws Exception
+    public void test_addRecipe()
     {
         ShapedRecipe recipe = new ShapedRecipe();
         recipe.recipeList = new ResourceLocation("testmod:recipes");

@@ -1,6 +1,6 @@
 package cubex2.cs4.plugins.vanilla.block;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BlockFactoryTest
 {

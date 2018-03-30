@@ -4,19 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.RecipeInput;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RecipeInputDeserializerTests
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();
@@ -79,21 +78,21 @@ public class RecipeInputDeserializerTests
         assertTrue(input.isItemStack());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void test_getOreClassWhenIsStack_ShouldThrow()
     {
         RecipeInput input = gson.fromJson("{\"item\":\"minecraft:air\"}", RecipeInput.class);
 
-        input.getOreClass();
+        assertThrows(IllegalStateException.class, input::getOreClass);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void test_getStackWhenIsoreClass_ShouldThrow()
     {
         Map<String, RecipeInput> map = gson.fromJson("{\"input\":\"oreclass:air\"}", new TypeToken<Map<String, RecipeInput>>() {}.getType());
 
         RecipeInput input = map.get("input");
 
-        input.getStack();
+        assertThrows(IllegalStateException.class, input::getStack);
     }
 }

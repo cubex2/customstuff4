@@ -9,10 +9,11 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.util.EnumFacing;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BitStateMetaMapperTests
 {
@@ -22,7 +23,7 @@ public class BitStateMetaMapperTests
 
     private static Block BLOCK;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         Bootstrap.register();
@@ -30,10 +31,10 @@ public class BitStateMetaMapperTests
         BLOCK = new TestBlock();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void test_tooManyBits_shouldThrow()
     {
-        BitStateMetaMapper mapper = new BitStateMetaMapper<>(SUBTYPE, DIRECTION);
+        assertThrows(IllegalArgumentException.class, () -> new BitStateMetaMapper<>(SUBTYPE, DIRECTION));
     }
 
     @Test

@@ -6,24 +6,27 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CraftingManagerCS4Test
 {
-    @BeforeClass
-    public static void setUp() throws Exception
+    @BeforeAll
+    public static void setUp()
     {
         Bootstrap.register();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void test_addRecipe_vanilla() throws Exception
+    @Test
+    public void test_addRecipe_vanilla()
     {
-        CraftingManagerCS4.addRecipe(new ResourceLocation("minecraft:vanilla"),
-                                     new DamageableShapelessOreRecipe(new ResourceLocation("group"),
-                                                                      new int[] {1},
-                                                                      new ItemStack(Items.APPLE),
-                                                                      Ingredient.fromItem(Items.APPLE)));
+        assertThrows(IllegalArgumentException.class, () ->
+                CraftingManagerCS4.addRecipe(new ResourceLocation("minecraft:vanilla"),
+                                             new DamageableShapelessOreRecipe(new ResourceLocation("group"),
+                                                                              new int[] {1},
+                                                                              new ItemStack(Items.APPLE),
+                                                                              Ingredient.fromItem(Items.APPLE))));
     }
 }

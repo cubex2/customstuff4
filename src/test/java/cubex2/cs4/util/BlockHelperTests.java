@@ -3,11 +3,11 @@ package cubex2.cs4.util;
 import cubex2.cs4.plugins.vanilla.block.EnumSubtype;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BlockHelperTests
 {

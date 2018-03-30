@@ -5,18 +5,18 @@ import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.api.WrappedArmorMaterial;
 import net.minecraft.item.ItemArmor;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class WrappedArmorMaterialDeserializerTest
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();

@@ -9,19 +9,19 @@ import cubex2.cs4.api.BlankContent;
 import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ContentLoaderTests
 {
     private static Gson gson;
 
-    @BeforeClass
-    public static void setUp() throws Exception
+    @BeforeAll
+    public static void setUp()
     {
         gson = ContentLoader.registerAdapters(new GsonBuilder(), new TestDeserializationRegistry()).create();
     }

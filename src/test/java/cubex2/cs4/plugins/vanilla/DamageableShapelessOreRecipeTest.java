@@ -9,15 +9,15 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DamageableShapelessOreRecipeTest
 {
-    @Before
-    public void setUp() throws Exception
+    @BeforeEach
+    public void setUp()
     {
         Bootstrap.register();
     }

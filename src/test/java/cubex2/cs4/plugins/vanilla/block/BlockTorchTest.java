@@ -4,16 +4,16 @@ import cubex2.cs4.plugins.vanilla.ContentBlockTorch;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.init.Bootstrap;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BlockTorchTest
 {
-    @BeforeClass
+    @BeforeAll
     public static void setUp()
     {
         Bootstrap.register();

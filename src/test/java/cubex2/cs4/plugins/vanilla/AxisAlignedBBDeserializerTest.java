@@ -5,18 +5,18 @@ import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.plugins.vanilla.block.BlockMixin;
 import net.minecraft.util.math.AxisAlignedBB;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AxisAlignedBBDeserializerTest
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();

@@ -3,14 +3,14 @@ package cubex2.cs4.plugins.vanilla.block;
 import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
 import net.minecraft.block.Block;
 import net.minecraft.init.Bootstrap;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class BlockMixinTest
 {
-    @BeforeClass
+    @BeforeAll
     public static void setUp()
     {
         Bootstrap.register();

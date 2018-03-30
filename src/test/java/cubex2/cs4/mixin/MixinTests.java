@@ -2,12 +2,12 @@ package cubex2.cs4.mixin;
 
 import cubex2.cs4.util.AsmHelper;
 import net.minecraft.util.NonNullList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.objectweb.asm.tree.ClassNode;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MixinTests
 {

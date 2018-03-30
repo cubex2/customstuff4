@@ -2,15 +2,15 @@ package cubex2.cs4.plugins.vanilla;
 
 import net.minecraft.init.Bootstrap;
 import net.minecraft.util.ResourceLocation;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WrappedItemStackImplTests
 {
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         Bootstrap.register();

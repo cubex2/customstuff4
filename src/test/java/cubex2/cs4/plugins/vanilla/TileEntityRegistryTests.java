@@ -2,9 +2,9 @@ package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.plugins.vanilla.tileentity.CSTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TileEntityRegistryTests
 {

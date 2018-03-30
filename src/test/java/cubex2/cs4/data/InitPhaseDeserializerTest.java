@@ -3,9 +3,9 @@ package cubex2.cs4.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cubex2.cs4.api.InitPhase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class InitPhaseDeserializerTest
 {

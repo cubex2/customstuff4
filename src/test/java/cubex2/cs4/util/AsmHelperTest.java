@@ -1,11 +1,11 @@
 package cubex2.cs4.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AsmHelperTest implements Opcodes
 {

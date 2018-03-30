@@ -4,25 +4,25 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.TestUtil;
 import net.minecraftforge.common.EnumPlantType;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class EnumPlantTypeDeserializerTest
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();
     }
 
     @Test
-    public void test() throws Exception
+    public void test()
     {
         Map<String, EnumPlantType> map = gson.fromJson("{ \"plant\": \"Crop\" }", new TypeToken<Map<String, EnumPlantType>>() {}.getType());
 
