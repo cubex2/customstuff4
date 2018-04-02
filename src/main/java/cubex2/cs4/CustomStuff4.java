@@ -6,6 +6,7 @@ import cubex2.cs4.plugins.vanilla.EventHandler;
 import cubex2.cs4.plugins.vanilla.GuiHandler;
 import cubex2.cs4.plugins.vanilla.gui.CapabilityItemHandlerSupplier;
 import cubex2.cs4.plugins.vanilla.network.PacketSyncContainerFluid;
+import cubex2.cs4.script.ScriptHandler;
 import cubex2.cs4.util.PluginHelper;
 import net.minecraft.init.Bootstrap;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,7 +21,9 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
+import javax.script.ScriptException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,13 +44,14 @@ public class CustomStuff4
     @Mod.Instance(ID)
     public static CustomStuff4 INSTANCE;
 
+    public static ScriptHandler scriptHandler;
+
     private List<CustomStuffPlugin> plugins;
 
     public static SimpleNetworkWrapper network = new SimpleNetworkWrapper("customstuff4");
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) throws ScriptException, FileNotFoundException {
         CapabilityItemHandlerSupplier.register();
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
 
@@ -60,6 +64,8 @@ public class CustomStuff4
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         ModLoader.initMods(modsDir);
+        if(Configuration.ScriptEnabled)
+        scriptHandler = new ScriptHandler();
     }
 
     @Mod.EventHandler
