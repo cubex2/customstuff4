@@ -76,7 +76,7 @@ public abstract class BlockCarpet extends Block implements CSBlock<ContentBlockC
             return true;
         } else
         {
-            return blockAccess.getBlockState(pos.offset(side)).getBlock() == this ? true : super.shouldSideBeRendered(state, blockAccess, pos, side);
+            return blockAccess.getBlockState(pos.offset(side)).getBlock() == this || super.shouldSideBeRendered(state, blockAccess, pos, side);
         }
     }
 

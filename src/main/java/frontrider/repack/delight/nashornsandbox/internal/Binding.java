@@ -1,5 +1,6 @@
-package cubex2.cs4.script;
+package frontrider.repack.delight.nashornsandbox.internal;
 
+import frontrider.repack.delight.nashornsandbox.exceptions.NotScriptedException;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -11,8 +12,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static cubex2.cs4.script.ScriptHandler.forbiddenNames;
-
 /**
  * This object is used to give greater control over the evaluation environment.
  * Duties:
@@ -21,9 +20,10 @@ import static cubex2.cs4.script.ScriptHandler.forbiddenNames;
 public class Binding implements Bindings {
 
     private final Bindings core;
-
-    public Binding(Bindings core) {
+    private String[] forbiddenNames;
+    public Binding(Bindings core, String[] forbiddenNames) {
         this.core = core;
+        this.forbiddenNames = forbiddenNames;
     }
 
     public Object put(String name, Object value, boolean override) {
@@ -32,6 +32,10 @@ public class Binding implements Bindings {
                 return false;
             }
         return core.put(name, value);
+    }
+
+    public void addBlackListedName(String name){
+        forbiddenNames = ArrayUtils.add(forbiddenNames,name);
     }
 
     @Override
@@ -204,8 +208,7 @@ public class Binding implements Bindings {
             if (splitPath == null) {
                 return fun;
             } else {
-                ScriptObjectMirror mirror = getMember(splitPath, path, global);
-                return fun;
+                return getMember(splitPath, path, global);
             }
         } else {
             throw new NotScriptedException(path + " is not scripted!");
@@ -223,7 +226,7 @@ public class Binding implements Bindings {
                 return getMember(newPath, originalPath, (ScriptObjectMirror) obj);
             }
         } else
-            throw new NotScriptedException(path[0] + " on path " + originalPath + " is nor scripted!");
+            throw new NotScriptedException(path[0] + " on path " + originalPath + " is not scripted!");
     }
 
 

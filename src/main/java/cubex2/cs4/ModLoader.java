@@ -32,8 +32,6 @@ public class ModLoader {
                         ModClassGenerator.createModClass(folder, info);
                         createDirectories(folder, info);
                     }
-                    if (Configuration.ScriptEnabled)
-                        CustomStuff4.scriptHandler.load(folder);
                 }
             }
         }

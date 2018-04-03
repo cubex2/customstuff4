@@ -1,9 +1,9 @@
 package cubex2.cs4.scripts;
 
-import cubex2.cs4.script.Binding;
-import cubex2.cs4.script.IncludeFunction;
-import delight.nashornsandbox.NashornSandbox;
-import delight.nashornsandbox.NashornSandboxes;
+import frontrider.repack.delight.nashornsandbox.internal.Binding;
+import cubex2.cs4.script.runtime.IncludeFunction;
+import frontrider.repack.delight.nashornsandbox.NashornSandbox;
+import frontrider.repack.delight.nashornsandbox.NashornSandboxes;
 import org.junit.jupiter.api.*;
 
 import javax.script.ScriptException;
@@ -39,7 +39,7 @@ public class BindingTest {
     void setup() throws ScriptException {
         sandbox = NashornSandboxes.create();
         sandbox.allowGlobalsObjects(false);
-        binding = new Binding(sandbox.createBindings());
+        binding = new Binding(sandbox.createBindings(), new String[]{});
 
         includeFunction = mock(IncludeFunction.class);
         binding.put("includer", includeFunction, true);
@@ -92,7 +92,7 @@ public class BindingTest {
             @DisplayName("include can be called")
             void include() throws ScriptException {
                 sandbox.eval("include(\"asd\")", binding);
-                verify(includeFunction, times(1)).include("asd");
+                verify(includeFunction, times(1)).includeMethod("asd");
             }
 
             @Nested
@@ -102,14 +102,14 @@ public class BindingTest {
 
                 @BeforeEach
                 void setup() throws ScriptException {
-                    when(includeFunction.require("asd")).thenReturn("required");
+                    when(includeFunction.requireMethod("asd")).thenReturn("required");
                     result = sandbox.eval("require(\"asd\")", binding);
                 }
 
                 @Test
                 @DisplayName("can be called")
                 void require() {
-                    verify(includeFunction, times(1)).require("asd");
+                    verify(includeFunction, times(1)).requireMethod("asd");
                 }
 
                 @Test

@@ -1,6 +1,7 @@
-package cubex2.cs4.script;
+package cubex2.cs4.script.runtime;
 
-import delight.nashornsandbox.NashornSandbox;
+import frontrider.repack.delight.nashornsandbox.NashornSandbox;
+import frontrider.repack.delight.nashornsandbox.internal.Binding;
 
 import javax.script.Bindings;
 import javax.script.ScriptException;
@@ -31,7 +32,7 @@ public class IncludeFunction {
     }
 
     //includes the file, by running required script when called.
-    public void include(String file) {
+    public void includeMethod(String file) {
         if (!file.endsWith(".js"))
             file = file + ".js";
         file = root + folder + file;
@@ -46,7 +47,7 @@ public class IncludeFunction {
         }
     }
 
-    public Object require(String file) {
+    public Object requireMethod(String file) {
         bindings.clear();
         Object exported = null;
         if (!file.endsWith(".js"))

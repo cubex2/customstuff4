@@ -76,10 +76,7 @@ public class Mixin implements Opcodes
     {
         if (hasField(node, field.name))
             return false;
-        if ((field.access & Opcodes.ACC_STATIC) != 0)
-            return false;
-
-        return true;
+        return (field.access & Opcodes.ACC_STATIC) == 0;
     }
 
     static boolean hasField(ClassNode node, String name)
@@ -151,10 +148,7 @@ public class Mixin implements Opcodes
             return false;
         if (method.name.equals("<init>"))
             return false;
-        if (method.name.equals("<clinit>"))
-            return false;
-
-        return true;
+        return !method.name.equals("<clinit>");
     }
 
     static boolean hasMethod(ClassNode node, String name)

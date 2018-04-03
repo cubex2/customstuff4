@@ -63,9 +63,7 @@ dependencies {
     testCompile("org.junit.platform:junit-platform-runner:1.0.0-M4")
 
 
-    //nashorn sandbox, to secure our javascript execution.
-    //updated sandbox
-    compile files('delight-nashorn-sandbox-0.1.14-SNAPSHOT.jar')
+    //requirement for nashorn sandbox
     compile group: 'org.webjars.bower', name:"js-beautify",version: "1.6.12"
 
     // compile against the JEI API
