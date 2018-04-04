@@ -2,11 +2,11 @@ package cubex2.cs4.plugins.vanilla;
 
 import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ToolTipTests
 {

@@ -3,16 +3,16 @@ package cubex2.cs4.plugins.vanilla;
 import com.google.gson.Gson;
 import cubex2.cs4.TestUtil;
 import net.minecraft.init.Items;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IMCDeserializerTest
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();

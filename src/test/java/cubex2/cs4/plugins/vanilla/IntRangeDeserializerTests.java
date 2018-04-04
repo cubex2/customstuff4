@@ -5,20 +5,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import cubex2.cs4.TestUtil;
 import cubex2.cs4.util.IntRange;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IntRangeDeserializerTests
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();
@@ -46,9 +44,10 @@ public class IntRangeDeserializerTests
         assertEquals(5, range.getMax());
     }
 
-    @Test(expected = JsonParseException.class)
+    @Test
     public void test_withArraySingleElement()
     {
-        Map<String, IntRange> map = gson.fromJson("{ \"range\": [1] }", new TypeToken<Map<String, IntRange>>() {}.getType());
+        assertThrows(JsonParseException.class,
+                     () -> gson.fromJson("{ \"range\": [1] }", new TypeToken<Map<String, IntRange>>() {}.getType()));
     }
 }

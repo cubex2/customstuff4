@@ -3,21 +3,21 @@ package cubex2.cs4.plugins.vanilla.gui;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ShiftClickRuleTest
 {
-    @Before
-    public void setUp() throws Exception
+    @BeforeEach
+    public void setUp()
     {
         Bootstrap.register();
     }
 
     @Test
-    public void test_canApply() throws Exception
+    public void test_canApply()
     {
         ShiftClickRule rule = new ShiftClickRule();
         rule.from = new int[] {0, 3};
@@ -36,7 +36,7 @@ public class ShiftClickRuleTest
     }
 
     @Test
-    public void test_canApplyWithFilter() throws Exception
+    public void test_canApplyWithFilter()
     {
         ShiftClickRule rule = new ShiftClickRule();
         rule.from = new int[] {0, 3};

@@ -5,18 +5,19 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import cubex2.cs4.TestUtil;
 import net.minecraft.pathfinding.PathNodeType;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PathNodeTypeDeserializerTest
 {
     private static Gson gson;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         gson = TestUtil.createGson();
@@ -32,9 +33,10 @@ public class PathNodeTypeDeserializerTest
         assertSame(PathNodeType.BLOCKED, nodeType);
     }
 
-    @Test(expected = JsonParseException.class)
+    @Test
     public void test_non_existing()
     {
-        Map<String, PathNodeType> map = gson.fromJson("{ \"pathNodeType\":\"unknownnodetype\" }", new TypeToken<Map<String, PathNodeType>>() {}.getType());
+        assertThrows(JsonParseException.class,
+                     () -> gson.fromJson("{ \"pathNodeType\":\"unknownnodetype\" }", new TypeToken<Map<String, PathNodeType>>() {}.getType()));
     }
 }
