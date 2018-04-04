@@ -1,0 +1,133 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SimpleMachineRecipeOutput</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.crafting</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SimpleMachineRecipeOutput (cubex2.cs4.plugins.vanilla.crafting)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleMachineRecipeOutput</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (2/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55,6%
+  </span>
+  <span class="absValue">
+    (5/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.crafting;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>4</i>&nbsp;import net.minecraft.util.NonNullList;
+<i>5</i>&nbsp;import net.minecraftforge.fluids.FluidStack;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.Collections;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class SimpleMachineRecipeOutput implements MachineRecipeOutput
+<i>11</i>&nbsp;{
+<i>12</i>&nbsp;    private final ItemStack result;
+<i>13</i>&nbsp;    private final NonNullList&lt;ItemStack&gt; resultList;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    public SimpleMachineRecipeOutput(ItemStack result)
+<b class="fc"><i>16</i>&nbsp;    {</b>
+<b class="fc"><i>17</i>&nbsp;        this.result = result;</b>
+<b class="fc"><i>18</i>&nbsp;        resultList = NonNullList.withSize(1, result);</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @Override
+<i>22</i>&nbsp;    public NonNullList&lt;ItemStack&gt; getOutputItems()
+<i>23</i>&nbsp;    {
+<b class="fc"><i>24</i>&nbsp;        return resultList;</b>
+<i>25</i>&nbsp;    }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public NonNullList&lt;ItemStack&gt; getResultItems()
+<i>29</i>&nbsp;    {
+<b class="nc"><i>30</i>&nbsp;        return NonNullList.withSize(1, result.copy());</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public List&lt;FluidStack&gt; getOutputFluids()
+<i>35</i>&nbsp;    {
+<b class="nc"><i>36</i>&nbsp;        return Collections.emptyList();</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @Override
+<i>40</i>&nbsp;    public List&lt;FluidStack&gt; getResultFluids()
+<i>41</i>&nbsp;    {
+<b class="nc"><i>42</i>&nbsp;        return Collections.emptyList();</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public int getWeight()
+<i>47</i>&nbsp;    {
+<b class="nc"><i>48</i>&nbsp;        return 1;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CustomStuff4</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CustomStuff4 (cubex2.cs4)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CustomStuff4</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (2/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    24%
+  </span>
+  <span class="absValue">
+    (6/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.CustomStuffPlugin;
+<i>4</i>&nbsp;import cubex2.cs4.data.ContentRegistryImpl;
+<i>5</i>&nbsp;import cubex2.cs4.plugins.vanilla.EventHandler;
+<i>6</i>&nbsp;import cubex2.cs4.plugins.vanilla.GuiHandler;
+<i>7</i>&nbsp;import cubex2.cs4.plugins.vanilla.gui.CapabilityItemHandlerSupplier;
+<i>8</i>&nbsp;import cubex2.cs4.plugins.vanilla.network.PacketSyncContainerFluid;
+<i>9</i>&nbsp;import cubex2.cs4.util.PluginHelper;
+<i>10</i>&nbsp;import net.minecraft.init.Bootstrap;
+<i>11</i>&nbsp;import net.minecraftforge.common.MinecraftForge;
+<i>12</i>&nbsp;import net.minecraftforge.fluids.FluidRegistry;
+<i>13</i>&nbsp;import net.minecraftforge.fml.common.Mod;
+<i>14</i>&nbsp;import net.minecraftforge.fml.common.SidedProxy;
+<i>15</i>&nbsp;import net.minecraftforge.fml.common.discovery.ASMDataTable;
+<i>16</i>&nbsp;import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+<i>17</i>&nbsp;import net.minecraftforge.fml.common.event.FMLInterModComms;
+<i>18</i>&nbsp;import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+<i>19</i>&nbsp;import net.minecraftforge.fml.common.network.NetworkRegistry;
+<i>20</i>&nbsp;import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+<i>21</i>&nbsp;import net.minecraftforge.fml.relauncher.Side;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;import java.io.File;
+<i>24</i>&nbsp;import java.util.List;
+<i>25</i>&nbsp;import java.util.Optional;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;@Mod(modid = CustomStuff4.ID, name = CustomStuff4.NAME, version = CustomStuff4.VERSION,
+<i>28</i>&nbsp;        acceptedMinecraftVersions = CustomStuff4.MC_VERSION)
+<b class="nc"><i>29</i>&nbsp;public class CustomStuff4</b>
+<i>30</i>&nbsp;{
+<i>31</i>&nbsp;    public static final String ID = &quot;customstuff4&quot;;
+<i>32</i>&nbsp;    public static final String NAME = &quot;Custom Stuff 4&quot;;
+<i>33</i>&nbsp;    public static final String VERSION = &quot;0.5.1&quot;;
+<i>34</i>&nbsp;    public static final String MC_VERSION = &quot;[1.12,)&quot;;
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;    public static final ContentRegistryImpl contentRegistry = new ContentRegistryImpl();</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @SidedProxy(clientSide = &quot;cubex2.cs4.ClientProxy&quot;, serverSide = &quot;cubex2.cs4.CommonProxy&quot;)
+<i>39</i>&nbsp;    public static CommonProxy proxy;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Mod.Instance(ID)
+<i>42</i>&nbsp;    public static CustomStuff4 INSTANCE;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    private List&lt;CustomStuffPlugin&gt; plugins;
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;    public static SimpleNetworkWrapper network = new SimpleNetworkWrapper(&quot;customstuff4&quot;);</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Mod.EventHandler
+<i>49</i>&nbsp;    public void preInit(FMLPreInitializationEvent event)
+<i>50</i>&nbsp;    {
+<b class="nc"><i>51</i>&nbsp;        CapabilityItemHandlerSupplier.register();</b>
+<b class="nc"><i>52</i>&nbsp;        MinecraftForge.EVENT_BUS.register(EventHandler.class);</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;        initPlugins(event.getAsmData());</b>
+<i>55</i>&nbsp;
+<b class="nc"><i>56</i>&nbsp;        File configDir = event.getModConfigurationDirectory();</b>
+<b class="nc"><i>57</i>&nbsp;        File modsDir = new File(configDir.getParent(), &quot;mods&quot;);</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;        registerPackets();</b>
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());</b>
+<b class="nc"><i>62</i>&nbsp;        ModLoader.initMods(modsDir);</b>
+<b class="nc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @Mod.EventHandler
+<i>66</i>&nbsp;    public void init(FMLInitializationEvent event)
+<i>67</i>&nbsp;    {
+<b class="nc"><i>68</i>&nbsp;        sendIMCs();</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    private void sendIMCs()
+<i>72</i>&nbsp;    {
+<b class="nc"><i>73</i>&nbsp;        FMLInterModComms.sendMessage(&quot;waila&quot;, &quot;register&quot;, &quot;cubex2.cs4.compat.waila.CompatWaila.callbackRegister&quot;);</b>
+<b class="nc"><i>74</i>&nbsp;    }</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    private void initPlugins(ASMDataTable asmDataTable)
+<i>77</i>&nbsp;    {
+<b class="nc"><i>78</i>&nbsp;        plugins = PluginHelper.getPluginInstances(asmDataTable);</b>
+<b class="nc"><i>79</i>&nbsp;        plugins.forEach(plugin -&gt; plugin.registerContent(contentRegistry));</b>
+<b class="nc"><i>80</i>&nbsp;    }</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    private void registerPackets()
+<i>83</i>&nbsp;    {
+<b class="nc"><i>84</i>&nbsp;        network.registerMessage(PacketSyncContainerFluid.Handler.class, PacketSyncContainerFluid.class, 0, Side.CLIENT);</b>
+<b class="nc"><i>85</i>&nbsp;    }</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    static
+<i>88</i>&nbsp;    {
+<b class="fc"><i>89</i>&nbsp;        if (Bootstrap.isRegistered()) // Tests will fail otherwise</b>
+<b class="fc"><i>90</i>&nbsp;            FluidRegistry.enableUniversalBucket();</b>
+<b class="fc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    public static Optional&lt;CommonProxy&gt; getProxy()
+<i>94</i>&nbsp;    {
+<b class="fc"><i>95</i>&nbsp;        return Optional.ofNullable(proxy);</b>
+<i>96</i>&nbsp;    }
+<i>97</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

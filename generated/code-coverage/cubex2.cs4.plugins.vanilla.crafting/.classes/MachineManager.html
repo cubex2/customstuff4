@@ -1,0 +1,268 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MachineManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.crafting</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MachineManager (cubex2.cs4.plugins.vanilla.crafting)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MachineManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (8/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    52,5%
+  </span>
+  <span class="absValue">
+    (32/ 61)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.crafting;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Lists;
+<i>4</i>&nbsp;import com.google.common.collect.Maps;
+<i>5</i>&nbsp;import cubex2.cs4.util.ItemHelper;
+<i>6</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>7</i>&nbsp;import net.minecraft.item.crafting.FurnaceRecipes;
+<i>8</i>&nbsp;import net.minecraft.tileentity.TileEntityFurnace;
+<i>9</i>&nbsp;import net.minecraft.util.NonNullList;
+<i>10</i>&nbsp;import net.minecraft.util.ResourceLocation;
+<i>11</i>&nbsp;import net.minecraft.world.World;
+<i>12</i>&nbsp;import net.minecraftforge.fluids.FluidStack;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.util.List;
+<i>15</i>&nbsp;import java.util.Map;
+<i>16</i>&nbsp;
+<b class="fc"><i>17</i>&nbsp;public class MachineManager</b>
+<i>18</i>&nbsp;{
+<b class="fc"><i>19</i>&nbsp;    private static final Map&lt;ResourceLocation, MachineManager&gt; instances = Maps.newHashMap();</b>
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;    private final List&lt;MachineRecipe&gt; recipes = Lists.newArrayList();</b>
+<b class="fc"><i>22</i>&nbsp;    private final List&lt;MachineFuel&gt; fuels = Lists.newArrayList();</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public static MachineManager getInstance(ResourceLocation list)
+<i>25</i>&nbsp;    {
+<b class="fc"><i>26</i>&nbsp;        if (!instances.containsKey(list))</b>
+<i>27</i>&nbsp;        {
+<b class="fc"><i>28</i>&nbsp;            instances.put(list, new MachineManager());</b>
+<i>29</i>&nbsp;        }
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        return instances.get(list);</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public static List&lt;MachineRecipe&gt; getRecipes(ResourceLocation list)
+<i>35</i>&nbsp;    {
+<b class="fc"><i>36</i>&nbsp;        if (list.toString().equals(&quot;minecraft:vanilla&quot;))</b>
+<i>37</i>&nbsp;        {
+<b class="nc"><i>38</i>&nbsp;            throw new UnsupportedOperationException();</b>
+<i>39</i>&nbsp;        } else
+<i>40</i>&nbsp;        {
+<b class="fc"><i>41</i>&nbsp;            return getInstance(list).recipes;</b>
+<i>42</i>&nbsp;        }
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public static void addRecipe(ResourceLocation list, MachineRecipe recipe)
+<i>46</i>&nbsp;    {
+<b class="fc"><i>47</i>&nbsp;        getRecipes(list).add(recipe);</b>
+<b class="fc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public static boolean isPartOfRecipe(ResourceLocation list, ItemStack stack)
+<i>51</i>&nbsp;    {
+<b class="fc"><i>52</i>&nbsp;        if (stack.isEmpty())</b>
+<b class="nc"><i>53</i>&nbsp;            return false;</b>
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;        if (list.toString().equals(&quot;minecraft:vanilla&quot;))</b>
+<i>56</i>&nbsp;        {
+<b class="fc"><i>57</i>&nbsp;            return !FurnaceRecipes.instance().getSmeltingResult(stack).isEmpty();</b>
+<i>58</i>&nbsp;        }
+<i>59</i>&nbsp;
+<b class="fc"><i>60</i>&nbsp;        for (MachineRecipe recipe : getInstance(list).recipes)</b>
+<i>61</i>&nbsp;        {
+<b class="fc"><i>62</i>&nbsp;            if (recipe.getRecipeInput().stream()</b>
+<b class="fc"><i>63</i>&nbsp;                      .anyMatch(input -&gt; ItemHelper.stackMatchesRecipeInput(stack, input, false)))</b>
+<b class="fc"><i>64</i>&nbsp;                return true;</b>
+<b class="fc"><i>65</i>&nbsp;        }</b>
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;        return false;</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    public static MachineRecipe findMatchingRecipe(ResourceLocation list, NonNullList&lt;ItemStack&gt; input, List&lt;FluidStack&gt; inputFluid, World worldIn)
+<i>71</i>&nbsp;    {
+<b class="nc"><i>72</i>&nbsp;        if (list.toString().equals(&quot;minecraft:vanilla&quot;))</b>
+<i>73</i>&nbsp;        {
+<b class="nc"><i>74</i>&nbsp;            if (input.size() == 1 &amp;&amp; !input.get(0).isEmpty())</b>
+<i>75</i>&nbsp;            {
+<b class="nc"><i>76</i>&nbsp;                return new VanillaFurnaceRecipe(FurnaceRecipes.instance().getSmeltingResult(input.get(0)));</b>
+<i>77</i>&nbsp;            } else
+<i>78</i>&nbsp;            {
+<b class="nc"><i>79</i>&nbsp;                return MachineRecipe.EMPTY;</b>
+<i>80</i>&nbsp;            }
+<i>81</i>&nbsp;        }
+<i>82</i>&nbsp;
+<b class="nc"><i>83</i>&nbsp;        return findMatchingRecipe(getRecipes(list), input, inputFluid, worldIn);</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public static MachineRecipe findMatchingRecipe(List&lt;MachineRecipe&gt; recipes, NonNullList&lt;ItemStack&gt; input, List&lt;FluidStack&gt; inputFluid, World worldIn)
+<i>87</i>&nbsp;    {
+<b class="nc"><i>88</i>&nbsp;        for (MachineRecipe recipe : recipes)</b>
+<i>89</i>&nbsp;        {
+<b class="nc"><i>90</i>&nbsp;            if (input.size() == recipe.getInputStacks()</b>
+<b class="nc"><i>91</i>&nbsp;                &amp;&amp; inputFluid.size() == recipe.getFluidStacks()</b>
+<b class="nc"><i>92</i>&nbsp;                &amp;&amp; recipe.matches(input, inputFluid, worldIn))</b>
+<i>93</i>&nbsp;            {
+<b class="nc"><i>94</i>&nbsp;                return recipe;</b>
+<i>95</i>&nbsp;            }
+<b class="nc"><i>96</i>&nbsp;        }</b>
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;        return MachineRecipe.EMPTY;</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    public static void addFuel(ResourceLocation list, MachineFuel fuel)
+<i>102</i>&nbsp;    {
+<b class="fc"><i>103</i>&nbsp;        if (list.toString().equals(&quot;minecraft:vanilla&quot;))</b>
+<i>104</i>&nbsp;        {
+<b class="nc"><i>105</i>&nbsp;            throw new UnsupportedOperationException();</b>
+<i>106</i>&nbsp;        } else
+<i>107</i>&nbsp;        {
+<b class="fc"><i>108</i>&nbsp;            getInstance(list).fuels.add(fuel);</b>
+<i>109</i>&nbsp;        }
+<b class="fc"><i>110</i>&nbsp;    }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    public static MachineFuel findMatchingFuel(ResourceLocation list, NonNullList&lt;ItemStack&gt; input)
+<i>113</i>&nbsp;    {
+<b class="nc"><i>114</i>&nbsp;        if (list.toString().equals(&quot;minecraft:vanilla&quot;))</b>
+<i>115</i>&nbsp;        {
+<b class="nc"><i>116</i>&nbsp;            if (input.size() == 1 &amp;&amp; !input.get(0).isEmpty())</b>
+<i>117</i>&nbsp;            {
+<b class="nc"><i>118</i>&nbsp;                ItemStack stack = input.get(0);</b>
+<b class="nc"><i>119</i>&nbsp;                int burnTime = TileEntityFurnace.getItemBurnTime(stack);</b>
+<b class="nc"><i>120</i>&nbsp;                if (burnTime &gt; 0)</b>
+<b class="nc"><i>121</i>&nbsp;                    return new VanillaFurnaceFuel(stack, burnTime);</b>
+<i>122</i>&nbsp;            }
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;            return MachineFuel.EMPTY;</b>
+<i>125</i>&nbsp;        }
+<i>126</i>&nbsp;
+<b class="nc"><i>127</i>&nbsp;        return findMatchingFuel(getInstance(list).fuels, input);</b>
+<i>128</i>&nbsp;    }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    public static MachineFuel findMatchingFuel(List&lt;MachineFuel&gt; fuels, NonNullList&lt;ItemStack&gt; input)
+<i>131</i>&nbsp;    {
+<b class="nc"><i>132</i>&nbsp;        for (MachineFuel fuel : fuels)</b>
+<i>133</i>&nbsp;        {
+<b class="nc"><i>134</i>&nbsp;            if (input.size() == fuel.getFuelInput().size() &amp;&amp; fuel.matches(input))</b>
+<i>135</i>&nbsp;            {
+<b class="nc"><i>136</i>&nbsp;                return fuel;</b>
+<i>137</i>&nbsp;            }
+<b class="nc"><i>138</i>&nbsp;        }</b>
+<i>139</i>&nbsp;
+<b class="nc"><i>140</i>&nbsp;        return MachineFuel.EMPTY;</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /*public static int getBurnTime(ResourceLocation list, NonNullList&lt;ItemStack&gt; items)
+<i>144</i>&nbsp;    {
+<i>145</i>&nbsp;        if (list.toString().equals(&quot;minecraft:vanilla&quot;))
+<i>146</i>&nbsp;        {
+<i>147</i>&nbsp;            if (items.size() == 1)
+<i>148</i>&nbsp;            {
+<i>149</i>&nbsp;                return TileEntityFurnace.getItemBurnTime(items.get(0));
+<i>150</i>&nbsp;            } else
+<i>151</i>&nbsp;            {
+<i>152</i>&nbsp;                return 0;
+<i>153</i>&nbsp;            }
+<i>154</i>&nbsp;        }
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;        for (MachineFuel fuel : getInstance(list).fuels)
+<i>157</i>&nbsp;        {
+<i>158</i>&nbsp;            int burnTime = fuel.getBurnTime(items);
+<i>159</i>&nbsp;            if (burnTime &gt; 0)
+<i>160</i>&nbsp;                return burnTime;
+<i>161</i>&nbsp;        }
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;        return 0;
+<i>164</i>&nbsp;    }*/
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    public static boolean isPartOfFuel(ResourceLocation list, ItemStack stack)
+<i>167</i>&nbsp;    {
+<b class="fc"><i>168</i>&nbsp;        if (stack.isEmpty())</b>
+<b class="nc"><i>169</i>&nbsp;            return false;</b>
+<i>170</i>&nbsp;
+<b class="fc"><i>171</i>&nbsp;        if (list.toString().equals(&quot;minecraft:vanilla&quot;))</b>
+<i>172</i>&nbsp;        {
+<b class="fc"><i>173</i>&nbsp;            return TileEntityFurnace.getItemBurnTime(stack) &gt; 0;</b>
+<i>174</i>&nbsp;        }
+<i>175</i>&nbsp;
+<b class="fc"><i>176</i>&nbsp;        for (MachineFuel fuel : getInstance(list).fuels)</b>
+<i>177</i>&nbsp;        {
+<b class="fc"><i>178</i>&nbsp;            if (fuel.getFuelInput().stream()</b>
+<b class="fc"><i>179</i>&nbsp;                    .anyMatch(input -&gt; ItemHelper.stackMatchesRecipeInput(stack, input, false)))</b>
+<b class="fc"><i>180</i>&nbsp;                return true;</b>
+<b class="fc"><i>181</i>&nbsp;        }</b>
+<i>182</i>&nbsp;
+<b class="fc"><i>183</i>&nbsp;        return false;</b>
+<i>184</i>&nbsp;    }
+<i>185</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

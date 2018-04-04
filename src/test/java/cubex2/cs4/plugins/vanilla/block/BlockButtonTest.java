@@ -5,12 +5,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.init.Bootstrap;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
+@DisplayName("Button Block Test")
 public class BlockButtonTest
 {
     @BeforeAll
@@ -19,8 +21,8 @@ public class BlockButtonTest
         Bootstrap.register();
     }
 
+    //todo describe what its supposed to do
     @Test
-    @SuppressWarnings("unchecked")
     public void testProperties()
     {
         ContentBlockButton content = new ContentBlockButton();

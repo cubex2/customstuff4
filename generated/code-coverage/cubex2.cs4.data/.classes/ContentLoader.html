@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ContentLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.data</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ContentLoader (cubex2.cs4.data)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ContentLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (70/ 70)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ContentLoader$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ContentLoader$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (72/ 72)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.data;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Lists;
+<i>4</i>&nbsp;import com.google.common.collect.Maps;
+<i>5</i>&nbsp;import com.google.common.reflect.TypeToken;
+<i>6</i>&nbsp;import com.google.gson.*;
+<i>7</i>&nbsp;import cubex2.cs4.CustomStuff4;
+<i>8</i>&nbsp;import cubex2.cs4.api.Content;
+<i>9</i>&nbsp;import cubex2.cs4.api.ContentHelper;
+<i>10</i>&nbsp;import cubex2.cs4.api.InitPhase;
+<i>11</i>&nbsp;import cubex2.cs4.api.LoaderPredicate;
+<i>12</i>&nbsp;import org.apache.commons.lang3.tuple.Pair;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import javax.annotation.Nullable;
+<i>15</i>&nbsp;import java.lang.reflect.Type;
+<i>16</i>&nbsp;import java.util.List;
+<i>17</i>&nbsp;import java.util.Map;
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;public final class ContentLoader implements Content</b>
+<i>20</i>&nbsp;{
+<b class="fc"><i>21</i>&nbsp;    public String type = &quot;contentLoader&quot;;</b>
+<b class="fc"><i>22</i>&nbsp;    public String file = &quot;&quot;;</b>
+<b class="fc"><i>23</i>&nbsp;    String entries = null;</b>
+<b class="fc"><i>24</i>&nbsp;    public Map&lt;String, List&lt;String&gt;&gt; predicateMap = Maps.newHashMap();</b>
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;    private final List&lt;Content&gt; contents = Lists.newArrayList();</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    List&lt;Content&gt; getContents()
+<i>29</i>&nbsp;    {
+<b class="fc"><i>30</i>&nbsp;        return contents;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public void init(InitPhase phase, ContentHelper helper)
+<i>35</i>&nbsp;    {
+<b class="fc"><i>36</i>&nbsp;        contents.forEach(content -&gt; content.init(phase, helper));</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public void deserializeContent(ContentHelper helper)
+<i>40</i>&nbsp;    {
+<b class="fc"><i>41</i>&nbsp;        if (shouldInit())</b>
+<i>42</i>&nbsp;        {
+<b class="fc"><i>43</i>&nbsp;            String json = entries != null ? entries : helper.readJson(file);</b>
+<b class="fc"><i>44</i>&nbsp;            deserializeContent(json, helper);</b>
+<i>45</i>&nbsp;        }
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    private void deserializeContent(@Nullable String json, ContentHelper helper)
+<i>49</i>&nbsp;    {
+<b class="fc"><i>50</i>&nbsp;        Class&lt;? extends Content&gt; contentClass = helper.getContentClass(type);</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        if (json != null &amp;&amp; contentClass != null)</b>
+<i>53</i>&nbsp;        {
+<b class="fc"><i>54</i>&nbsp;            List&lt;? extends Content&gt; contents = loadContent(json, contentClass, CustomStuff4.contentRegistry);</b>
+<b class="fc"><i>55</i>&nbsp;            this.contents.addAll(contents);</b>
+<b class="fc"><i>56</i>&nbsp;            for (Content content : this.contents)</b>
+<i>57</i>&nbsp;            {
+<b class="fc"><i>58</i>&nbsp;                if (content instanceof ContentLoader)</b>
+<i>59</i>&nbsp;                {
+<b class="fc"><i>60</i>&nbsp;                    ((ContentLoader) content).deserializeContent(helper);</b>
+<i>61</i>&nbsp;                }
+<b class="fc"><i>62</i>&nbsp;            }</b>
+<i>63</i>&nbsp;        }
+<b class="fc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    boolean shouldInit()
+<i>67</i>&nbsp;    {
+<b class="fc"><i>68</i>&nbsp;        if (type == null || file == null)</b>
+<b class="fc"><i>69</i>&nbsp;            return false;</b>
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;        return checkPredicates(CustomStuff4.contentRegistry);</b>
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    boolean checkPredicates(LoaderPredicateRegistry registry)
+<i>75</i>&nbsp;    {
+<b class="fc"><i>76</i>&nbsp;        return predicateMap.entrySet().stream()</b>
+<b class="fc"><i>77</i>&nbsp;                           .allMatch(e -&gt;</b>
+<i>78</i>&nbsp;                                     {
+<b class="fc"><i>79</i>&nbsp;                                         LoaderPredicate predicate = registry.getPredicate(e.getKey());</b>
+<b class="fc"><i>80</i>&nbsp;                                         return predicate != null &amp;&amp; predicate.getResult(e.getValue());</b>
+<i>81</i>&nbsp;                                     });
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    public static &lt;T extends Content&gt; List&lt;T&gt; loadContent(String json, Class&lt;T&gt; contentClass, DeserializationRegistry registry)
+<i>86</i>&nbsp;    {
+<b class="fc"><i>87</i>&nbsp;        Gson gson = registerAdapters(new GsonBuilder(), registry)</b>
+<b class="fc"><i>88</i>&nbsp;                .registerTypeAdapter(new TypeToken&lt;List&lt;T&gt;&gt;() {}.getType(), deserializer(contentClass))</b>
+<b class="fc"><i>89</i>&nbsp;                .create();</b>
+<i>90</i>&nbsp;
+<b class="fc"><i>91</i>&nbsp;        List&lt;T&gt; result = Lists.newArrayList();</b>
+<i>92</i>&nbsp;
+<b class="fc"><i>93</i>&nbsp;        Map&lt;String, List&lt;T&gt;&gt; map = gson.fromJson(json, new TypeToken&lt;Map&lt;String, List&lt;T&gt;&gt;&gt;() {}.getType());</b>
+<i>94</i>&nbsp;
+<b class="fc"><i>95</i>&nbsp;        map.values().forEach(result::addAll);</b>
+<i>96</i>&nbsp;
+<b class="fc"><i>97</i>&nbsp;        return result;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    static GsonBuilder registerAdapters(GsonBuilder builder, DeserializationRegistry registry)
+<i>101</i>&nbsp;    {
+<b class="fc"><i>102</i>&nbsp;        for (Pair&lt;Type, JsonDeserializer&lt;?&gt;&gt; pair : registry.getDeserializers())</b>
+<i>103</i>&nbsp;        {
+<b class="fc"><i>104</i>&nbsp;            builder = builder.registerTypeAdapter(pair.getLeft(), pair.getRight());</b>
+<b class="fc"><i>105</i>&nbsp;        }</b>
+<b class="fc"><i>106</i>&nbsp;        return builder;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    private static &lt;T extends Content&gt; JsonDeserializer&lt;List&lt;T&gt;&gt; deserializer(Class&lt;T&gt; contentClass)
+<i>110</i>&nbsp;    {
+<b class="fc"><i>111</i>&nbsp;        return (json, typeOfT, context) -&gt;</b>
+<i>112</i>&nbsp;        {
+<b class="fc"><i>113</i>&nbsp;            List&lt;T&gt; result = Lists.newArrayList();</b>
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;            if (json.isJsonArray())</b>
+<i>116</i>&nbsp;            {
+<b class="fc"><i>117</i>&nbsp;                JsonArray array = json.getAsJsonArray();</b>
+<b class="fc"><i>118</i>&nbsp;                for (int i = 0; i &lt; array.size(); i++)</b>
+<i>119</i>&nbsp;                {
+<b class="fc"><i>120</i>&nbsp;                    result.add(context.deserialize(array.get(i), contentClass));</b>
+<i>121</i>&nbsp;                }
+<b class="fc"><i>122</i>&nbsp;            } else if (json.isJsonObject())</b>
+<i>123</i>&nbsp;            {
+<b class="fc"><i>124</i>&nbsp;                result.add(context.deserialize(json, contentClass));</b>
+<i>125</i>&nbsp;            }
+<i>126</i>&nbsp;
+<b class="fc"><i>127</i>&nbsp;            return result;</b>
+<i>128</i>&nbsp;        };
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<b class="fc"><i>131</i>&nbsp;    public static final JsonDeserializer&lt;ContentLoader&gt; DESERIALIZER = (json, typeOfT, context) -&gt;</b>
+<i>132</i>&nbsp;    {
+<b class="fc"><i>133</i>&nbsp;        ContentLoader loader = new ContentLoader();</b>
+<i>134</i>&nbsp;
+<b class="fc"><i>135</i>&nbsp;        JsonObject jsonObject = json.getAsJsonObject();</b>
+<b class="fc"><i>136</i>&nbsp;        for (Map.Entry&lt;String, JsonElement&gt; entry : jsonObject.entrySet())</b>
+<i>137</i>&nbsp;        {
+<b class="fc"><i>138</i>&nbsp;            String key = entry.getKey();</b>
+<b class="fc"><i>139</i>&nbsp;            JsonElement value = entry.getValue();</b>
+<i>140</i>&nbsp;
+<b class="fc"><i>141</i>&nbsp;            if (key.equals(&quot;type&quot;))</b>
+<i>142</i>&nbsp;            {
+<b class="fc"><i>143</i>&nbsp;                loader.type = value.getAsString();</b>
+<b class="fc"><i>144</i>&nbsp;            } else if (key.equals(&quot;file&quot;))</b>
+<i>145</i>&nbsp;            {
+<b class="fc"><i>146</i>&nbsp;                loader.file = value.getAsString();</b>
+<b class="fc"><i>147</i>&nbsp;            } else if (key.equals(&quot;entries&quot;))</b>
+<i>148</i>&nbsp;            {
+<b class="fc"><i>149</i>&nbsp;                loader.entries = &quot;{ \&quot;list\&quot;: &quot; + value.toString() + &quot;}&quot;;</b>
+<i>150</i>&nbsp;            } else
+<i>151</i>&nbsp;            {
+<b class="fc"><i>152</i>&nbsp;                List&lt;String&gt; predicateValues = Lists.newArrayList();</b>
+<i>153</i>&nbsp;
+<b class="fc"><i>154</i>&nbsp;                if (value.isJsonArray())</b>
+<i>155</i>&nbsp;                {
+<b class="fc"><i>156</i>&nbsp;                    JsonArray jsonArray = value.getAsJsonArray();</b>
+<b class="fc"><i>157</i>&nbsp;                    jsonArray.forEach(element -&gt; predicateValues.add(element.getAsString()));</b>
+<b class="fc"><i>158</i>&nbsp;                } else</b>
+<i>159</i>&nbsp;                {
+<b class="fc"><i>160</i>&nbsp;                    predicateValues.add(value.getAsString());</b>
+<i>161</i>&nbsp;                }
+<i>162</i>&nbsp;
+<b class="fc"><i>163</i>&nbsp;                loader.predicateMap.put(key, predicateValues);</b>
+<i>164</i>&nbsp;            }
+<b class="fc"><i>165</i>&nbsp;        }</b>
+<i>166</i>&nbsp;
+<b class="fc"><i>167</i>&nbsp;        return loader;</b>
+<i>168</i>&nbsp;    };
+<i>169</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

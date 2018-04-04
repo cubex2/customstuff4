@@ -1,0 +1,236 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Attribute</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Attribute (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Attribute</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,9%
+  </span>
+  <span class="absValue">
+    (13/ 14)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Attribute$Constant</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Attribute$FromMap</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    93,3%
+  </span>
+  <span class="absValue">
+    (14/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,3%
+  </span>
+  <span class="absValue">
+    (26/ 27)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import com.google.gson.JsonDeserializer;
+<i>5</i>&nbsp;import com.google.gson.JsonElement;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import javax.annotation.Nullable;
+<i>8</i>&nbsp;import java.lang.reflect.Type;
+<i>9</i>&nbsp;import java.util.Map;
+<i>10</i>&nbsp;import java.util.Optional;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public interface Attribute&lt;T&gt;
+<i>13</i>&nbsp;{
+<i>14</i>&nbsp;    Optional&lt;T&gt; get(int meta);
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    boolean hasEntry(int meta);
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    class FromMap&lt;T&gt; implements Attribute&lt;T&gt;</b>
+<i>19</i>&nbsp;    {
+<i>20</i>&nbsp;        private final Map&lt;Integer, T&gt; map;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;        FromMap()
+<i>23</i>&nbsp;        {
+<b class="fc"><i>24</i>&nbsp;            this(Maps.newHashMap());</b>
+<b class="fc"><i>25</i>&nbsp;        }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;        FromMap(Map&lt;Integer, T&gt; map)
+<b class="fc"><i>28</i>&nbsp;        {</b>
+<b class="fc"><i>29</i>&nbsp;            this.map = map;</b>
+<b class="fc"><i>30</i>&nbsp;        }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;        public Optional&lt;T&gt; get(int meta)
+<i>33</i>&nbsp;        {
+<b class="fc"><i>34</i>&nbsp;            return Optional.ofNullable(map.get(meta));</b>
+<i>35</i>&nbsp;        }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;        public boolean hasEntry(int meta)
+<i>38</i>&nbsp;        {
+<b class="fc"><i>39</i>&nbsp;            return map.containsKey(meta);</b>
+<i>40</i>&nbsp;        }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;        private void addEntry(int meta, T value)
+<i>43</i>&nbsp;        {
+<b class="fc"><i>44</i>&nbsp;            map.put(meta, value);</b>
+<b class="fc"><i>45</i>&nbsp;        }</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    class Constant&lt;T&gt; implements Attribute&lt;T&gt;
+<i>49</i>&nbsp;    {
+<i>50</i>&nbsp;        private final T value;
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        Constant(@Nullable T value) {this.value = value;}</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;        @Override
+<i>55</i>&nbsp;        public Optional&lt;T&gt; get(int meta)
+<i>56</i>&nbsp;        {
+<b class="fc"><i>57</i>&nbsp;            return Optional.ofNullable(value);</b>
+<i>58</i>&nbsp;        }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;        @Override
+<i>61</i>&nbsp;        public boolean hasEntry(int meta)
+<i>62</i>&nbsp;        {
+<b class="fc"><i>63</i>&nbsp;            return true;</b>
+<i>64</i>&nbsp;        }
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    static &lt;T&gt; Attribute&lt;T&gt; map()
+<i>68</i>&nbsp;    {
+<b class="nc"><i>69</i>&nbsp;        return new FromMap&lt;&gt;();</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    static &lt;T&gt; Attribute&lt;T&gt; map(Map&lt;Integer, T&gt; map)
+<i>73</i>&nbsp;    {
+<b class="fc"><i>74</i>&nbsp;        return new FromMap&lt;&gt;(map);</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    static &lt;T&gt; Attribute&lt;T&gt; constant(@Nullable T value)
+<i>78</i>&nbsp;    {
+<b class="fc"><i>79</i>&nbsp;        return new Constant&lt;&gt;(value);</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    static &lt;T&gt; JsonDeserializer&lt;Attribute&lt;T&gt;&gt; deserializer(Type elementType)
+<i>83</i>&nbsp;    {
+<b class="fc"><i>84</i>&nbsp;        return (json, typeOfT, context) -&gt;</b>
+<i>85</i>&nbsp;        {
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;
+<b class="fc"><i>88</i>&nbsp;            if (isMetaMap(json))</b>
+<i>89</i>&nbsp;            {
+<b class="fc"><i>90</i>&nbsp;                FromMap&lt;T&gt; map = new FromMap&lt;&gt;();</b>
+<b class="fc"><i>91</i>&nbsp;                json.getAsJsonObject().entrySet()</b>
+<b class="fc"><i>92</i>&nbsp;                    .forEach(e -&gt; map.addEntry(Integer.parseInt(e.getKey()), context.deserialize(e.getValue(), elementType)));</b>
+<b class="fc"><i>93</i>&nbsp;                return map;</b>
+<i>94</i>&nbsp;            } else
+<i>95</i>&nbsp;            {
+<b class="fc"><i>96</i>&nbsp;                return constant(context.deserialize(json, elementType));</b>
+<i>97</i>&nbsp;            }
+<i>98</i>&nbsp;        };
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    static boolean isMetaMap(JsonElement json)
+<i>102</i>&nbsp;    {
+<b class="fc"><i>103</i>&nbsp;        return json.isJsonObject() &amp;&amp; json.getAsJsonObject()</b>
+<b class="fc"><i>104</i>&nbsp;                                          .entrySet()</b>
+<b class="fc"><i>105</i>&nbsp;                                          .stream()</b>
+<b class="fc"><i>106</i>&nbsp;                                          .allMatch(e -&gt; e.getKey().matches(&quot;[0-9]+&quot;));</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

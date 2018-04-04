@@ -47,15 +47,9 @@ public class CollectionHelper
                         break;
                     }
                 }
-                if (cfst.isEmpty())
-                { //both temporary lists have the same size
-                    return true;
-                }
+                return cfst.isEmpty();
             }
-        } else if (fst == null && snd == null)
-        {
-            return true;
-        }
+        } else return fst == null && snd == null;
         return false;
     }
 

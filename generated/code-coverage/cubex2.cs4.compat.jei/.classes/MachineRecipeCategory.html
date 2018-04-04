@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MachineRecipeCategory</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.compat.jei</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MachineRecipeCategory (cubex2.cs4.compat.jei)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MachineRecipeCategory</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.compat.jei;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.jei.JEIMachineRecipe;
+<i>4</i>&nbsp;import cubex2.cs4.plugins.vanilla.tileentity.TileEntityModuleMachine;
+<i>5</i>&nbsp;import mezz.jei.api.IGuiHelper;
+<i>6</i>&nbsp;import mezz.jei.api.gui.IGuiFluidStackGroup;
+<i>7</i>&nbsp;import mezz.jei.api.gui.IGuiItemStackGroup;
+<i>8</i>&nbsp;import mezz.jei.api.gui.IRecipeLayout;
+<i>9</i>&nbsp;import mezz.jei.api.ingredients.IIngredients;
+<i>10</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>11</i>&nbsp;import net.minecraftforge.fluids.FluidStack;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.util.List;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;public class MachineRecipeCategory extends BaseRecipeCategory&lt;JEIMachineRecipe, MachineRecipeWrapper, TileEntityModuleMachine.Supplier&gt;
+<i>16</i>&nbsp;{
+<i>17</i>&nbsp;    public MachineRecipeCategory(JEIMachineRecipe recipe, IGuiHelper guiHelper)
+<i>18</i>&nbsp;    {
+<b class="nc"><i>19</i>&nbsp;        super(recipe, guiHelper, TileEntityModuleMachine.Supplier.class);</b>
+<b class="nc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    @Override
+<i>23</i>&nbsp;    public void setRecipe(IRecipeLayout recipeLayout, MachineRecipeWrapper recipeWrapper, IIngredients ingredients)
+<i>24</i>&nbsp;    {
+<b class="nc"><i>25</i>&nbsp;        super.setRecipe(recipeLayout, recipeWrapper, ingredients);</b>
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;        IGuiItemStackGroup stacks = recipeLayout.getItemStacks();</b>
+<b class="nc"><i>28</i>&nbsp;        IGuiFluidStackGroup fluids = recipeLayout.getFluidStacks();</b>
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;        List&lt;List&lt;ItemStack&gt;&gt; inputItems = ingredients.getInputs(ItemStack.class);</b>
+<b class="nc"><i>31</i>&nbsp;        List&lt;List&lt;FluidStack&gt;&gt; inputFluids = ingredients.getInputs(FluidStack.class);</b>
+<b class="nc"><i>32</i>&nbsp;        List&lt;List&lt;ItemStack&gt;&gt; outputItems = ingredients.getOutputs(ItemStack.class);</b>
+<b class="nc"><i>33</i>&nbsp;        List&lt;List&lt;FluidStack&gt;&gt; outputFluids = ingredients.getOutputs(FluidStack.class);</b>
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;        initItems(stacks, true, module.inputSlots, 0);</b>
+<b class="nc"><i>36</i>&nbsp;        initItems(stacks, false, module.outputSlots, module.inputSlots);</b>
+<i>37</i>&nbsp;
+<b class="nc"><i>38</i>&nbsp;        initFluids(fluids, true, module.inputTanks, 0);</b>
+<b class="nc"><i>39</i>&nbsp;        initFluids(fluids, false, module.outputTanks, module.inputTanks.length);</b>
+<i>40</i>&nbsp;
+<b class="nc"><i>41</i>&nbsp;        for (int i = 0; i &lt; inputItems.size(); i++)</b>
+<i>42</i>&nbsp;        {
+<b class="nc"><i>43</i>&nbsp;            stacks.set(i, inputItems.get(i));</b>
+<i>44</i>&nbsp;        }
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;        for (int i = 0; i &lt; outputItems.size(); i++)</b>
+<i>47</i>&nbsp;        {
+<b class="nc"><i>48</i>&nbsp;            stacks.set(module.inputSlots + i, outputItems.get(i));</b>
+<i>49</i>&nbsp;        }
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;        for (int i = 0; i &lt; inputFluids.size(); i++)</b>
+<i>52</i>&nbsp;        {
+<b class="nc"><i>53</i>&nbsp;            fluids.set(i, inputFluids.get(i));</b>
+<i>54</i>&nbsp;        }
+<i>55</i>&nbsp;
+<b class="nc"><i>56</i>&nbsp;        for (int i = 0; i &lt; outputFluids.size(); i++)</b>
+<i>57</i>&nbsp;        {
+<b class="nc"><i>58</i>&nbsp;            fluids.set(module.inputTanks.length + i, outputFluids.get(i));</b>
+<i>59</i>&nbsp;        }
+<b class="nc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

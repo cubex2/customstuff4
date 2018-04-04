@@ -1,0 +1,521 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TileEntityModuleMachine</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.tileentity</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TileEntityModuleMachine (cubex2.cs4.plugins.vanilla.tileentity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TileEntityModuleMachine</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 149)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TileEntityModuleMachine$Supplier</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 162)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.tileentity;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Lists;
+<i>4</i>&nbsp;import com.google.common.collect.Maps;
+<i>5</i>&nbsp;import cubex2.cs4.api.TileEntityModule;
+<i>6</i>&nbsp;import cubex2.cs4.api.TileEntityModuleSupplier;
+<i>7</i>&nbsp;import cubex2.cs4.plugins.vanilla.crafting.*;
+<i>8</i>&nbsp;import cubex2.cs4.plugins.vanilla.gui.FluidSource;
+<i>9</i>&nbsp;import cubex2.cs4.plugins.vanilla.gui.ProgressBarSource;
+<i>10</i>&nbsp;import cubex2.cs4.util.CollectionHelper;
+<i>11</i>&nbsp;import cubex2.cs4.util.ItemHelper;
+<i>12</i>&nbsp;import net.minecraft.init.Blocks;
+<i>13</i>&nbsp;import net.minecraft.init.Items;
+<i>14</i>&nbsp;import net.minecraft.item.Item;
+<i>15</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>16</i>&nbsp;import net.minecraft.nbt.NBTTagCompound;
+<i>17</i>&nbsp;import net.minecraft.tileentity.TileEntity;
+<i>18</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>19</i>&nbsp;import net.minecraft.util.NonNullList;
+<i>20</i>&nbsp;import net.minecraft.util.ResourceLocation;
+<i>21</i>&nbsp;import net.minecraftforge.common.capabilities.Capability;
+<i>22</i>&nbsp;import net.minecraftforge.fluids.FluidStack;
+<i>23</i>&nbsp;import net.minecraftforge.fluids.IFluidTank;
+<i>24</i>&nbsp;import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+<i>25</i>&nbsp;import net.minecraftforge.items.CapabilityItemHandler;
+<i>26</i>&nbsp;import net.minecraftforge.items.IItemHandler;
+<i>27</i>&nbsp;import net.minecraftforge.items.IItemHandlerModifiable;
+<i>28</i>&nbsp;import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+<i>29</i>&nbsp;import org.apache.commons.lang3.ArrayUtils;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;import javax.annotation.Nullable;
+<i>32</i>&nbsp;import java.util.*;
+<i>33</i>&nbsp;import java.util.stream.Collectors;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;public class TileEntityModuleMachine implements TileEntityModule, ProgressBarSource
+<i>36</i>&nbsp;{
+<i>37</i>&nbsp;    private final ItemHandlerMachine invHandler;
+<i>38</i>&nbsp;    private final Supplier supplier;
+<i>39</i>&nbsp;    private final TileEntity tile;
+<i>40</i>&nbsp;    private final FluidSource fluidSource;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    private int burnTime;
+<i>43</i>&nbsp;    private int currentItemBurnTime;
+<i>44</i>&nbsp;    private int cookTime;
+<i>45</i>&nbsp;    private int totalCookTime;
+<i>46</i>&nbsp;
+<b class="nc"><i>47</i>&nbsp;    private final Map&lt;EnumFacing, IItemHandler&gt; itemHandlers = Maps.newHashMap();</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    public TileEntityModuleMachine(TileEntity tile, Supplier supplier)
+<b class="nc"><i>50</i>&nbsp;    {</b>
+<b class="nc"><i>51</i>&nbsp;        this.invHandler = new ItemHandlerMachine(supplier.inputSlots, supplier.outputSlots, supplier.fuelSlots, tile);</b>
+<b class="nc"><i>52</i>&nbsp;        this.tile = tile;</b>
+<b class="nc"><i>53</i>&nbsp;        this.supplier = supplier;</b>
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;        fluidSource = tile instanceof FluidSource</b>
+<b class="nc"><i>56</i>&nbsp;                      ? n -&gt; Optional.ofNullable(((FluidSource) tile).getFluidTank(n)).orElse(EmptyFluidHandler.INSTANCE)</b>
+<b class="nc"><i>57</i>&nbsp;                      : n -&gt; EmptyFluidHandler.INSTANCE;</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;        for (EnumFacing facing : EnumFacing.values())</b>
+<i>60</i>&nbsp;        {
+<b class="nc"><i>61</i>&nbsp;            handlerForSide(facing).ifPresent(h -&gt; itemHandlers.put(facing, h));</b>
+<i>62</i>&nbsp;        }
+<b class="nc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    private Optional&lt;IItemHandler&gt; handlerForSide(EnumFacing facing)
+<i>66</i>&nbsp;    {
+<b class="nc"><i>67</i>&nbsp;        List&lt;IItemHandlerModifiable&gt; handlers = Lists.newArrayList();</b>
+<b class="nc"><i>68</i>&nbsp;        if (ArrayUtils.contains(supplier.sidesInput, facing))</b>
+<b class="nc"><i>69</i>&nbsp;            handlers.add(invHandler.getInputHandler());</b>
+<b class="nc"><i>70</i>&nbsp;        if (ArrayUtils.contains(supplier.sidesOutput, facing))</b>
+<b class="nc"><i>71</i>&nbsp;            handlers.add(invHandler.getOutputHandler());</b>
+<b class="nc"><i>72</i>&nbsp;        if (ArrayUtils.contains(supplier.sidesFuel, facing))</b>
+<b class="nc"><i>73</i>&nbsp;            handlers.add(invHandler.getFuelHandler());</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        return Optional.ofNullable(handlers.isEmpty() ? null : new CombinedInvWrapper(handlers.toArray(new IItemHandlerModifiable[handlers.size()])));</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    @Override
+<i>79</i>&nbsp;    public void readFromNBT(NBTTagCompound compound)
+<i>80</i>&nbsp;    {
+<b class="nc"><i>81</i>&nbsp;        invHandler.deserializeNBT(compound);</b>
+<b class="nc"><i>82</i>&nbsp;        burnTime = compound.getInteger(&quot;BurnTime&quot;);</b>
+<b class="nc"><i>83</i>&nbsp;        cookTime = compound.getInteger(&quot;CookTime&quot;);</b>
+<b class="nc"><i>84</i>&nbsp;        totalCookTime = compound.getInteger(&quot;TotalCookTime&quot;);</b>
+<b class="nc"><i>85</i>&nbsp;        currentItemBurnTime = getActiveFuel().getBurnTime();</b>
+<b class="nc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    @Override
+<i>89</i>&nbsp;    public NBTTagCompound writeToNBT(NBTTagCompound compound)
+<i>90</i>&nbsp;    {
+<b class="nc"><i>91</i>&nbsp;        compound = invHandler.serializeNBT();</b>
+<b class="nc"><i>92</i>&nbsp;        compound.setInteger(&quot;BurnTime&quot;, burnTime);</b>
+<b class="nc"><i>93</i>&nbsp;        compound.setInteger(&quot;CookTime&quot;, cookTime);</b>
+<b class="nc"><i>94</i>&nbsp;        compound.setInteger(&quot;TotalCookTime&quot;, totalCookTime);</b>
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;        return compound;</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    @Override
+<i>100</i>&nbsp;    public void update()
+<i>101</i>&nbsp;    {
+<b class="nc"><i>102</i>&nbsp;        if (!tile.getWorld().isRemote)</b>
+<i>103</i>&nbsp;        {
+<b class="nc"><i>104</i>&nbsp;            if (isBurning() &amp;&amp; needsFuel())</b>
+<i>105</i>&nbsp;            {
+<b class="nc"><i>106</i>&nbsp;                burnTime--;</b>
+<i>107</i>&nbsp;            }
+<i>108</i>&nbsp;
+<b class="nc"><i>109</i>&nbsp;            if (!isBurning() &amp;&amp; canSmelt() &amp;&amp; needsFuel())</b>
+<i>110</i>&nbsp;            {
+<b class="nc"><i>111</i>&nbsp;                burnFuel();</b>
+<i>112</i>&nbsp;            }
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;            if ((isBurning() || !needsFuel()) &amp;&amp; canSmelt())</b>
+<i>115</i>&nbsp;            {
+<b class="nc"><i>116</i>&nbsp;                ++cookTime;</b>
+<i>117</i>&nbsp;
+<b class="nc"><i>118</i>&nbsp;                if (totalCookTime == 0)</b>
+<b class="nc"><i>119</i>&nbsp;                    totalCookTime = getCookTime();</b>
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;                if (cookTime &gt;= totalCookTime)</b>
+<i>122</i>&nbsp;                {
+<b class="nc"><i>123</i>&nbsp;                    cookTime = 0;</b>
+<b class="nc"><i>124</i>&nbsp;                    totalCookTime = getCookTime();</b>
+<b class="nc"><i>125</i>&nbsp;                    smelt();</b>
+<i>126</i>&nbsp;                }
+<i>127</i>&nbsp;            } else
+<i>128</i>&nbsp;            {
+<b class="nc"><i>129</i>&nbsp;                cookTime = 0;</b>
+<i>130</i>&nbsp;            }
+<i>131</i>&nbsp;        }
+<b class="nc"><i>132</i>&nbsp;    }</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    private void smelt()
+<i>135</i>&nbsp;    {
+<b class="nc"><i>136</i>&nbsp;        if (canSmelt())</b>
+<i>137</i>&nbsp;        {
+<b class="nc"><i>138</i>&nbsp;            MachineRecipe recipe = getActiveRecipe();</b>
+<b class="nc"><i>139</i>&nbsp;            MachineRecipeOutput output = selectRecipeOutput(recipe);</b>
+<b class="nc"><i>140</i>&nbsp;            smeltItems(recipe, output);</b>
+<b class="nc"><i>141</i>&nbsp;            smeltFluids(recipe, output);</b>
+<i>142</i>&nbsp;        }
+<b class="nc"><i>143</i>&nbsp;    }</b>
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;    private MachineRecipeOutput selectRecipeOutput(MachineRecipe recipe)
+<i>146</i>&nbsp;    {
+<b class="nc"><i>147</i>&nbsp;        List&lt;MachineRecipeOutput&gt; available = recipe.getOutputs().stream()</b>
+<b class="nc"><i>148</i>&nbsp;                                                    .filter(this::doesRecipeOutputFitInMachine)</b>
+<b class="nc"><i>149</i>&nbsp;                                                    .collect(Collectors.toList());</b>
+<i>150</i>&nbsp;
+<b class="nc"><i>151</i>&nbsp;        Optional&lt;MachineRecipeOutput&gt; output = CollectionHelper.randomElement(available, MachineRecipeOutput::getWeight);</b>
+<b class="nc"><i>152</i>&nbsp;        return output.orElse(MachineRecipeOutput.EMPTY);</b>
+<i>153</i>&nbsp;    }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    private void smeltFluids(MachineRecipe recipe, MachineRecipeOutput output)
+<i>156</i>&nbsp;    {
+<b class="nc"><i>157</i>&nbsp;        List&lt;FluidStack&gt; resultFluids = output.getResultFluids();</b>
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;        for (int i = 0; i &lt; resultFluids.size(); i++)</b>
+<i>160</i>&nbsp;        {
+<b class="nc"><i>161</i>&nbsp;            FluidStack stack = resultFluids.get(i);</b>
+<b class="nc"><i>162</i>&nbsp;            fluidSource.getFluidTank(supplier.outputTanks[i]).fill(stack, true);</b>
+<i>163</i>&nbsp;        }
+<i>164</i>&nbsp;
+<b class="nc"><i>165</i>&nbsp;        extractInputFluids(recipe);</b>
+<b class="nc"><i>166</i>&nbsp;    }</b>
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;    private void extractInputFluids(MachineRecipe recipe)
+<i>169</i>&nbsp;    {
+<b class="nc"><i>170</i>&nbsp;        List&lt;IFluidTank&gt; remaining = Arrays.stream(supplier.inputTanks)</b>
+<b class="nc"><i>171</i>&nbsp;                                           .map(fluidSource::getFluidTank)</b>
+<b class="nc"><i>172</i>&nbsp;                                           .collect(Collectors.toCollection(LinkedList::new));</b>
+<i>173</i>&nbsp;
+<b class="nc"><i>174</i>&nbsp;        ItemHelper.extractFluidsFromTanks(remaining, recipe.getFluidRecipeInput());</b>
+<b class="nc"><i>175</i>&nbsp;    }</b>
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    private void smeltItems(MachineRecipe recipe, MachineRecipeOutput output)
+<i>178</i>&nbsp;    {
+<b class="nc"><i>179</i>&nbsp;        NonNullList&lt;ItemStack&gt; resultItems = output.getResultItems();</b>
+<b class="nc"><i>180</i>&nbsp;        for (int i = 0; i &lt; resultItems.size(); i++)</b>
+<i>181</i>&nbsp;        {
+<b class="nc"><i>182</i>&nbsp;            ItemStack stack = resultItems.get(i);</b>
+<b class="nc"><i>183</i>&nbsp;            invHandler.insertOutput(i, stack, false);</b>
+<i>184</i>&nbsp;        }
+<i>185</i>&nbsp;
+<b class="nc"><i>186</i>&nbsp;        for (ItemStack stack : invHandler.getInputStacks())</b>
+<i>187</i>&nbsp;        {
+<b class="nc"><i>188</i>&nbsp;            if (isWetSponge(stack))</b>
+<i>189</i>&nbsp;            {
+<b class="nc"><i>190</i>&nbsp;                fillBucketWithWater();</b>
+<i>191</i>&nbsp;            }
+<b class="nc"><i>192</i>&nbsp;        }</b>
+<i>193</i>&nbsp;
+<b class="nc"><i>194</i>&nbsp;        invHandler.removeInputsFromInput(recipe.getRecipeInput());</b>
+<b class="nc"><i>195</i>&nbsp;    }</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    private void fillBucketWithWater()
+<i>198</i>&nbsp;    {
+<b class="nc"><i>199</i>&nbsp;        for (int i = 0; i &lt; supplier.fuelSlots; i++)</b>
+<i>200</i>&nbsp;        {
+<b class="nc"><i>201</i>&nbsp;            ItemStack extracted = invHandler.getFuelHandler().extractItem(i, 1, true);</b>
+<b class="nc"><i>202</i>&nbsp;            if (!extracted.isEmpty() &amp;&amp; extracted.getItem() == Items.BUCKET)</b>
+<i>203</i>&nbsp;            {
+<b class="nc"><i>204</i>&nbsp;                invHandler.getFuelHandler().setStackInSlot(i, new ItemStack(Items.WATER_BUCKET));</b>
+<i>205</i>&nbsp;            }
+<i>206</i>&nbsp;        }
+<b class="nc"><i>207</i>&nbsp;    }</b>
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;    private boolean isWetSponge(ItemStack stack)
+<i>210</i>&nbsp;    {
+<b class="nc"><i>211</i>&nbsp;        return stack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) &amp;&amp; stack.getMetadata() == 1;</b>
+<i>212</i>&nbsp;    }
+<i>213</i>&nbsp;
+<i>214</i>&nbsp;    private boolean needsFuel()
+<i>215</i>&nbsp;    {
+<b class="nc"><i>216</i>&nbsp;        return supplier.fuelSlots &gt; 0;</b>
+<i>217</i>&nbsp;    }
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;    private void burnFuel()
+<i>220</i>&nbsp;    {
+<b class="nc"><i>221</i>&nbsp;        MachineFuel fuel = getActiveFuel();</b>
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;        burnTime = fuel.getBurnTime();</b>
+<b class="nc"><i>224</i>&nbsp;        currentItemBurnTime = burnTime;</b>
+<i>225</i>&nbsp;
+<b class="nc"><i>226</i>&nbsp;        if (isBurning())</b>
+<i>227</i>&nbsp;        {
+<b class="nc"><i>228</i>&nbsp;            invHandler.removeInputsFromFuel(fuel.getFuelInput());</b>
+<i>229</i>&nbsp;        }
+<b class="nc"><i>230</i>&nbsp;    }</b>
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;    private MachineFuel getActiveFuel()
+<i>233</i>&nbsp;    {
+<b class="nc"><i>234</i>&nbsp;        return MachineManager.findMatchingFuel(supplier.fuelList, invHandler.getFuelStacks());</b>
+<i>235</i>&nbsp;    }
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;    private boolean canSmelt()
+<i>238</i>&nbsp;    {
+<b class="nc"><i>239</i>&nbsp;        MachineRecipe recipe = getActiveRecipe();</b>
+<b class="nc"><i>240</i>&nbsp;        NonNullList&lt;MachineRecipeOutput&gt; outputs = recipe.getOutputs();</b>
+<i>241</i>&nbsp;
+<b class="nc"><i>242</i>&nbsp;        return outputs.stream().anyMatch(this::doesRecipeOutputFitInMachine);</b>
+<i>243</i>&nbsp;    }
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    private boolean doesRecipeOutputFitInMachine(MachineRecipeOutput output)
+<i>246</i>&nbsp;    {
+<b class="nc"><i>247</i>&nbsp;        NonNullList&lt;ItemStack&gt; recipeItems = output.getOutputItems();</b>
+<b class="nc"><i>248</i>&nbsp;        List&lt;FluidStack&gt; recipeFluids = output.getOutputFluids();</b>
+<i>249</i>&nbsp;
+<b class="nc"><i>250</i>&nbsp;        if (recipeItems.isEmpty() &amp;&amp; recipeFluids.isEmpty())</b>
+<i>251</i>&nbsp;        {
+<b class="nc"><i>252</i>&nbsp;            return false;</b>
+<i>253</i>&nbsp;        } else
+<i>254</i>&nbsp;        {
+<b class="nc"><i>255</i>&nbsp;            for (int i = 0; i &lt; recipeItems.size(); i++)</b>
+<i>256</i>&nbsp;            {
+<b class="nc"><i>257</i>&nbsp;                ItemStack stack = recipeItems.get(i);</b>
+<b class="nc"><i>258</i>&nbsp;                ItemStack inserted = invHandler.insertOutput(i, stack, true);</b>
+<b class="nc"><i>259</i>&nbsp;                if (!inserted.isEmpty())</b>
+<b class="nc"><i>260</i>&nbsp;                    return false;</b>
+<i>261</i>&nbsp;            }
+<i>262</i>&nbsp;
+<b class="nc"><i>263</i>&nbsp;            for (int i = 0; i &lt; recipeFluids.size(); i++)</b>
+<i>264</i>&nbsp;            {
+<b class="nc"><i>265</i>&nbsp;                FluidStack stack = recipeFluids.get(i);</b>
+<b class="nc"><i>266</i>&nbsp;                if (stack != null)</b>
+<i>267</i>&nbsp;                {
+<b class="nc"><i>268</i>&nbsp;                    int inserted = fluidSource.getFluidTank(supplier.outputTanks[i]).fill(stack, false);</b>
+<b class="nc"><i>269</i>&nbsp;                    if (inserted != stack.amount)</b>
+<b class="nc"><i>270</i>&nbsp;                        return false;</b>
+<i>271</i>&nbsp;                }
+<i>272</i>&nbsp;            }
+<i>273</i>&nbsp;
+<b class="nc"><i>274</i>&nbsp;            return true;</b>
+<i>275</i>&nbsp;        }
+<i>276</i>&nbsp;    }
+<i>277</i>&nbsp;
+<i>278</i>&nbsp;    private MachineRecipe getActiveRecipe()
+<i>279</i>&nbsp;    {
+<b class="nc"><i>280</i>&nbsp;        NonNullList&lt;ItemStack&gt; input = invHandler.getInputStacks();</b>
+<b class="nc"><i>281</i>&nbsp;        List&lt;FluidStack&gt; inputFluid = Arrays.stream(supplier.inputTanks)</b>
+<b class="nc"><i>282</i>&nbsp;                                            .map(fluidSource::getFluidTank)</b>
+<b class="nc"><i>283</i>&nbsp;                                            .map(IFluidTank::getFluid)</b>
+<b class="nc"><i>284</i>&nbsp;                                            .collect(Collectors.toList());</b>
+<i>285</i>&nbsp;
+<b class="nc"><i>286</i>&nbsp;        return MachineManager.findMatchingRecipe(supplier.recipeList, input, inputFluid, tile.getWorld());</b>
+<i>287</i>&nbsp;    }
+<i>288</i>&nbsp;
+<i>289</i>&nbsp;    private boolean isBurning()
+<i>290</i>&nbsp;    {
+<b class="nc"><i>291</i>&nbsp;        return burnTime &gt; 0;</b>
+<i>292</i>&nbsp;    }
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;    private int getCookTime()
+<i>295</i>&nbsp;    {
+<b class="nc"><i>296</i>&nbsp;        int recipeTime = getActiveRecipe().getCookTime();</b>
+<b class="nc"><i>297</i>&nbsp;        return recipeTime &lt;= 0 ? supplier.cookTime : recipeTime;</b>
+<i>298</i>&nbsp;    }
+<i>299</i>&nbsp;
+<i>300</i>&nbsp;    @Override
+<i>301</i>&nbsp;    public int getFieldCount()
+<i>302</i>&nbsp;    {
+<b class="nc"><i>303</i>&nbsp;        return 4;</b>
+<i>304</i>&nbsp;    }
+<i>305</i>&nbsp;
+<i>306</i>&nbsp;    @Override
+<i>307</i>&nbsp;    public int getField(int id)
+<i>308</i>&nbsp;    {
+<b class="nc"><i>309</i>&nbsp;        switch (id)</b>
+<i>310</i>&nbsp;        {
+<i>311</i>&nbsp;            case 0:
+<b class="nc"><i>312</i>&nbsp;                return this.burnTime;</b>
+<i>313</i>&nbsp;            case 1:
+<b class="nc"><i>314</i>&nbsp;                return this.currentItemBurnTime;</b>
+<i>315</i>&nbsp;            case 2:
+<b class="nc"><i>316</i>&nbsp;                return this.cookTime;</b>
+<i>317</i>&nbsp;            case 3:
+<b class="nc"><i>318</i>&nbsp;                return this.totalCookTime;</b>
+<i>319</i>&nbsp;            default:
+<b class="nc"><i>320</i>&nbsp;                return 0;</b>
+<i>321</i>&nbsp;        }
+<i>322</i>&nbsp;    }
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;    @Override
+<i>325</i>&nbsp;    public void setField(int id, int value)
+<i>326</i>&nbsp;    {
+<b class="nc"><i>327</i>&nbsp;        switch (id)</b>
+<i>328</i>&nbsp;        {
+<i>329</i>&nbsp;            case 0:
+<b class="nc"><i>330</i>&nbsp;                this.burnTime = value;</b>
+<b class="nc"><i>331</i>&nbsp;                break;</b>
+<i>332</i>&nbsp;            case 1:
+<b class="nc"><i>333</i>&nbsp;                this.currentItemBurnTime = value;</b>
+<b class="nc"><i>334</i>&nbsp;                break;</b>
+<i>335</i>&nbsp;            case 2:
+<b class="nc"><i>336</i>&nbsp;                this.cookTime = value;</b>
+<b class="nc"><i>337</i>&nbsp;                break;</b>
+<i>338</i>&nbsp;            case 3:
+<b class="nc"><i>339</i>&nbsp;                this.totalCookTime = value;</b>
+<i>340</i>&nbsp;        }
+<b class="nc"><i>341</i>&nbsp;    }</b>
+<i>342</i>&nbsp;
+<i>343</i>&nbsp;    @Override
+<i>344</i>&nbsp;    public float getProgress(String name)
+<i>345</i>&nbsp;    {
+<b class="nc"><i>346</i>&nbsp;        if (name.equals(&quot;cookTime&quot;))</b>
+<i>347</i>&nbsp;        {
+<b class="nc"><i>348</i>&nbsp;            if (totalCookTime &gt; 0)</b>
+<i>349</i>&nbsp;            {
+<b class="nc"><i>350</i>&nbsp;                return cookTime / (float) totalCookTime;</b>
+<i>351</i>&nbsp;            }
+<b class="nc"><i>352</i>&nbsp;        } else if (name.equals(&quot;burnTime&quot;))</b>
+<i>353</i>&nbsp;        {
+<b class="nc"><i>354</i>&nbsp;            if (currentItemBurnTime &gt; 0)</b>
+<i>355</i>&nbsp;            {
+<b class="nc"><i>356</i>&nbsp;                return burnTime / (float) currentItemBurnTime;</b>
+<i>357</i>&nbsp;            }
+<i>358</i>&nbsp;        }
+<i>359</i>&nbsp;
+<b class="nc"><i>360</i>&nbsp;        return 0;</b>
+<i>361</i>&nbsp;    }
+<i>362</i>&nbsp;
+<i>363</i>&nbsp;    @Override
+<i>364</i>&nbsp;    public boolean hasCapability(Capability&lt;?&gt; capability, @Nullable EnumFacing facing)
+<i>365</i>&nbsp;    {
+<b class="nc"><i>366</i>&nbsp;        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY &amp;&amp;</b>
+<b class="nc"><i>367</i>&nbsp;               (facing == null || itemHandlers.containsKey(facing));</b>
+<i>368</i>&nbsp;    }
+<i>369</i>&nbsp;
+<i>370</i>&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+<i>371</i>&nbsp;    @Nullable
+<i>372</i>&nbsp;    @Override
+<i>373</i>&nbsp;    public &lt;T&gt; T getCapability(Capability&lt;T&gt; capability, @Nullable EnumFacing facing)
+<i>374</i>&nbsp;    {
+<b class="nc"><i>375</i>&nbsp;        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)</b>
+<i>376</i>&nbsp;        {
+<b class="nc"><i>377</i>&nbsp;            if (facing == null)</b>
+<i>378</i>&nbsp;            {
+<b class="nc"><i>379</i>&nbsp;                return (T) invHandler;</b>
+<i>380</i>&nbsp;            } else
+<i>381</i>&nbsp;            {
+<b class="nc"><i>382</i>&nbsp;                return (T) itemHandlers.get(facing);</b>
+<i>383</i>&nbsp;            }
+<i>384</i>&nbsp;        }
+<i>385</i>&nbsp;
+<b class="nc"><i>386</i>&nbsp;        return null;</b>
+<i>387</i>&nbsp;    }
+<i>388</i>&nbsp;
+<b class="nc"><i>389</i>&nbsp;    public static class Supplier implements TileEntityModuleSupplier</b>
+<i>390</i>&nbsp;    {
+<b class="nc"><i>391</i>&nbsp;        public int inputSlots = 1;</b>
+<b class="nc"><i>392</i>&nbsp;        public int outputSlots = 1;</b>
+<b class="nc"><i>393</i>&nbsp;        public int fuelSlots = 1;</b>
+<b class="nc"><i>394</i>&nbsp;        public int cookTime = 200;</b>
+<i>395</i>&nbsp;
+<b class="nc"><i>396</i>&nbsp;        public String[] inputTanks = new String[0];</b>
+<b class="nc"><i>397</i>&nbsp;        public String[] outputTanks = new String[0];</b>
+<i>398</i>&nbsp;
+<b class="nc"><i>399</i>&nbsp;        public ResourceLocation recipeList = new ResourceLocation(&quot;minecraft&quot;, &quot;vanilla&quot;);</b>
+<b class="nc"><i>400</i>&nbsp;        public ResourceLocation fuelList = new ResourceLocation(&quot;minecraft&quot;, &quot;vanilla&quot;);</b>
+<i>401</i>&nbsp;
+<b class="nc"><i>402</i>&nbsp;        public EnumFacing[] sidesInput = new EnumFacing[] {EnumFacing.UP};</b>
+<b class="nc"><i>403</i>&nbsp;        public EnumFacing[] sidesOutput = new EnumFacing[] {EnumFacing.DOWN};</b>
+<b class="nc"><i>404</i>&nbsp;        public EnumFacing[] sidesFuel = new EnumFacing[] {EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.EAST, EnumFacing.WEST};</b>
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;        @Override
+<i>407</i>&nbsp;        public TileEntityModule createModule(TileEntity tileEntity)
+<i>408</i>&nbsp;        {
+<b class="nc"><i>409</i>&nbsp;            return new TileEntityModuleMachine(tileEntity, this);</b>
+<i>410</i>&nbsp;        }
+<i>411</i>&nbsp;    }
+<i>412</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

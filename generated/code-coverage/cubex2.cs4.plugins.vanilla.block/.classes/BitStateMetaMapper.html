@@ -1,0 +1,233 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BitStateMetaMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BitStateMetaMapper (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BitStateMetaMapper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (29/ 29)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">BitStateMetaMapper$Entry</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,3%
+  </span>
+  <span class="absValue">
+    (14/ 15)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,7%
+  </span>
+  <span class="absValue">
+    (43/ 44)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.ImmutableList;
+<i>4</i>&nbsp;import com.google.common.collect.Lists;
+<i>5</i>&nbsp;import net.minecraft.block.Block;
+<i>6</i>&nbsp;import net.minecraft.block.properties.IProperty;
+<i>7</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.Collection;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static com.google.common.base.Preconditions.checkArgument;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class BitStateMetaMapper&lt;B extends Block&gt; implements StateMetaMapper&lt;B&gt;
+<i>15</i>&nbsp;{
+<i>16</i>&nbsp;    private static final int MAX_BITS = 4;
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    private final List&lt;Entry&lt;?&gt;&gt; entries = Lists.newArrayList();</b>
+<b class="fc"><i>19</i>&nbsp;    private int totalBits = 0;</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public BitStateMetaMapper(Collection&lt;IProperty&lt;?&gt;&gt; properties)
+<b class="fc"><i>22</i>&nbsp;    {</b>
+<b class="fc"><i>23</i>&nbsp;        properties.forEach(this::addProperty);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public BitStateMetaMapper(IProperty&lt;?&gt;... properties)
+<b class="fc"><i>27</i>&nbsp;    {</b>
+<b class="fc"><i>28</i>&nbsp;        for (IProperty&lt;?&gt; property : properties)</b>
+<i>29</i>&nbsp;        {
+<b class="fc"><i>30</i>&nbsp;            addProperty(property);</b>
+<i>31</i>&nbsp;        }
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    private &lt;T extends Comparable&lt;T&gt;&gt; void addProperty(IProperty&lt;T&gt; property)
+<i>35</i>&nbsp;    {
+<b class="fc"><i>36</i>&nbsp;        int numBits = getBitCount(property.getAllowedValues().size());</b>
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;        checkArgument(totalBits + numBits &lt;= MAX_BITS, &quot;Not enough bits left for &quot; + property.getAllowedValues().size() + &quot; values from property &quot; + property.getName());</b>
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;        entries.add(new Entry&lt;&gt;(property, numBits, totalBits));</b>
+<b class="fc"><i>41</i>&nbsp;        totalBits += numBits;</b>
+<b class="fc"><i>42</i>&nbsp;    }</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    static int getBitCount(int n)
+<i>45</i>&nbsp;    {
+<b class="fc"><i>46</i>&nbsp;        if (n == 1) return 1;</b>
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;        int bits = 0;</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;        while(n &gt; (1 &lt;&lt; bits))</b>
+<i>51</i>&nbsp;        {
+<b class="fc"><i>52</i>&nbsp;            bits++;</b>
+<i>53</i>&nbsp;        }
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;        return bits;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Override
+<i>59</i>&nbsp;    public IBlockState getStateFromMeta(B block, int meta)
+<i>60</i>&nbsp;    {
+<b class="fc"><i>61</i>&nbsp;        IBlockState state = block.getDefaultState();</b>
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;        for (Entry&lt;?&gt; entry : entries)</b>
+<i>64</i>&nbsp;        {
+<b class="fc"><i>65</i>&nbsp;            state = entry.addToState(state, meta);</b>
+<b class="fc"><i>66</i>&nbsp;        }</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;        return state;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    @Override
+<i>72</i>&nbsp;    public int getMetaFromState(IBlockState state)
+<i>73</i>&nbsp;    {
+<b class="fc"><i>74</i>&nbsp;        int meta = 0;</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;        for (Entry&lt;?&gt; entry : entries)</b>
+<i>77</i>&nbsp;        {
+<b class="fc"><i>78</i>&nbsp;            meta = meta | entry.getMetaBits(state);</b>
+<b class="fc"><i>79</i>&nbsp;        }</b>
+<i>80</i>&nbsp;
+<b class="fc"><i>81</i>&nbsp;        return meta;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    private static class Entry&lt;T extends Comparable&lt;T&gt;&gt;
+<i>85</i>&nbsp;    {
+<i>86</i>&nbsp;        final IProperty&lt;T&gt; property;
+<i>87</i>&nbsp;        final int bitOffset;
+<i>88</i>&nbsp;        final int numBits;
+<i>89</i>&nbsp;        final int bitMask;
+<i>90</i>&nbsp;        final List&lt;T&gt; values;
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;        Entry(IProperty&lt;T&gt; property, int numBits, int bitOffset)
+<b class="fc"><i>93</i>&nbsp;        {</b>
+<b class="fc"><i>94</i>&nbsp;            checkArgument(numBits * 2 &lt;= property.getAllowedValues().size(), &quot;Too many values for &quot; + numBits + &quot; bits&quot;);</b>
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;            this.property = property;</b>
+<b class="fc"><i>97</i>&nbsp;            this.bitOffset = bitOffset;</b>
+<b class="fc"><i>98</i>&nbsp;            this.numBits = numBits;</b>
+<b class="fc"><i>99</i>&nbsp;            this.bitMask = ((1 &lt;&lt; numBits) - 1) &lt;&lt; bitOffset;</b>
+<b class="fc"><i>100</i>&nbsp;            this.values = ImmutableList.copyOf(property.getAllowedValues());</b>
+<b class="fc"><i>101</i>&nbsp;        }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;        IBlockState addToState(IBlockState state, int meta)
+<i>104</i>&nbsp;        {
+<b class="fc"><i>105</i>&nbsp;            int index = (meta &amp; bitMask) &gt;&gt; bitOffset;</b>
+<i>106</i>&nbsp;
+<b class="fc"><i>107</i>&nbsp;            return state.withProperty(property, values.get(index));</b>
+<i>108</i>&nbsp;        }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;        int getMetaBits(IBlockState state)
+<i>111</i>&nbsp;        {
+<b class="fc"><i>112</i>&nbsp;            T value = state.getValue(property);</b>
+<b class="fc"><i>113</i>&nbsp;            int index = values.indexOf(value);</b>
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;            if (index &gt;= 0)</b>
+<i>116</i>&nbsp;            {
+<b class="fc"><i>117</i>&nbsp;                return index &lt;&lt; bitOffset;</b>
+<i>118</i>&nbsp;            } else
+<i>119</i>&nbsp;            {
+<b class="nc"><i>120</i>&nbsp;                return 0;</b>
+<i>121</i>&nbsp;            }
+<i>122</i>&nbsp;        }
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

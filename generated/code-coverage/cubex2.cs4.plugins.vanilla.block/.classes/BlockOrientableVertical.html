@@ -1,0 +1,116 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BlockOrientableVertical</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BlockOrientableVertical (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlockOrientableVertical</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentBlockOrientableVertical;
+<i>4</i>&nbsp;import net.minecraft.block.material.Material;
+<i>5</i>&nbsp;import net.minecraft.block.properties.PropertyDirection;
+<i>6</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>7</i>&nbsp;import net.minecraft.entity.EntityLivingBase;
+<i>8</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>9</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>10</i>&nbsp;import net.minecraft.world.World;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public abstract class BlockOrientableVertical extends BlockOrientable
+<i>13</i>&nbsp;{
+<b class="fc"><i>14</i>&nbsp;    public static final PropertyDirection FACING = PropertyDirection.create(&quot;facing&quot;, EnumFacing.Plane.VERTICAL);</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    public BlockOrientableVertical(Material material, ContentBlockOrientableVertical content)
+<i>17</i>&nbsp;    {
+<b class="nc"><i>18</i>&nbsp;        super(material, content);</b>
+<i>19</i>&nbsp;
+<b class="nc"><i>20</i>&nbsp;        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.UP));</b>
+<b class="nc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    protected PropertyDirection getFacingProperty()
+<i>25</i>&nbsp;    {
+<b class="nc"><i>26</i>&nbsp;        return FACING;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+<i>30</i>&nbsp;    {
+<b class="nc"><i>31</i>&nbsp;        return this.getDefaultState().withProperty(FACING, getVerticalFacingForPlacement(pos, facing, meta, placer));</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

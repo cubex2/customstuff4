@@ -1,0 +1,135 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PathNodeTypeDeserializer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PathNodeTypeDeserializer (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PathNodeTypeDeserializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,2%
+  </span>
+  <span class="absValue">
+    (25/ 26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Maps;
+<i>4</i>&nbsp;import com.google.gson.JsonDeserializationContext;
+<i>5</i>&nbsp;import com.google.gson.JsonDeserializer;
+<i>6</i>&nbsp;import com.google.gson.JsonElement;
+<i>7</i>&nbsp;import com.google.gson.JsonParseException;
+<i>8</i>&nbsp;import net.minecraft.pathfinding.PathNodeType;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.lang.reflect.Type;
+<i>11</i>&nbsp;import java.util.Map;
+<i>12</i>&nbsp;
+<b class="fc"><i>13</i>&nbsp;public class PathNodeTypeDeserializer implements JsonDeserializer&lt;PathNodeType&gt;</b>
+<i>14</i>&nbsp;{
+<b class="fc"><i>15</i>&nbsp;    private static final Map&lt;String, PathNodeType&gt; pathNodeTypes = Maps.newHashMap();</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    @Override
+<i>18</i>&nbsp;    public PathNodeType deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+<i>19</i>&nbsp;    {
+<b class="fc"><i>20</i>&nbsp;        if (json.isJsonPrimitive() &amp;&amp; json.getAsJsonPrimitive().isString())</b>
+<i>21</i>&nbsp;        {
+<b class="fc"><i>22</i>&nbsp;            String key = json.getAsString();</b>
+<b class="fc"><i>23</i>&nbsp;            if (!pathNodeTypes.containsKey(key))</b>
+<b class="fc"><i>24</i>&nbsp;                throw new JsonParseException(&quot;Invalid path node type: &quot; + key);</b>
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;            return pathNodeTypes.get(key);</b>
+<i>27</i>&nbsp;        }
+<i>28</i>&nbsp;
+<b class="nc"><i>29</i>&nbsp;        throw new JsonParseException(&quot;Invalid path node type: &quot; + json.toString());</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    static
+<i>33</i>&nbsp;    {
+<b class="fc"><i>34</i>&nbsp;        pathNodeTypes.put(&quot;blocked&quot;, PathNodeType.BLOCKED);</b>
+<b class="fc"><i>35</i>&nbsp;        pathNodeTypes.put(&quot;open&quot;, PathNodeType.OPEN);</b>
+<b class="fc"><i>36</i>&nbsp;        pathNodeTypes.put(&quot;walkable&quot;, PathNodeType.WALKABLE);</b>
+<b class="fc"><i>37</i>&nbsp;        pathNodeTypes.put(&quot;trapdoor&quot;, PathNodeType.TRAPDOOR);</b>
+<b class="fc"><i>38</i>&nbsp;        pathNodeTypes.put(&quot;fence&quot;, PathNodeType.FENCE);</b>
+<b class="fc"><i>39</i>&nbsp;        pathNodeTypes.put(&quot;lava&quot;, PathNodeType.LAVA);</b>
+<b class="fc"><i>40</i>&nbsp;        pathNodeTypes.put(&quot;water&quot;, PathNodeType.WATER);</b>
+<b class="fc"><i>41</i>&nbsp;        pathNodeTypes.put(&quot;rail&quot;, PathNodeType.RAIL);</b>
+<b class="fc"><i>42</i>&nbsp;        pathNodeTypes.put(&quot;dangerFire&quot;, PathNodeType.DANGER_FIRE);</b>
+<b class="fc"><i>43</i>&nbsp;        pathNodeTypes.put(&quot;damageFire&quot;, PathNodeType.DAMAGE_FIRE);</b>
+<b class="fc"><i>44</i>&nbsp;        pathNodeTypes.put(&quot;dangerCactus&quot;, PathNodeType.DANGER_CACTUS);</b>
+<b class="fc"><i>45</i>&nbsp;        pathNodeTypes.put(&quot;damageCactus&quot;, PathNodeType.DAMAGE_CACTUS);</b>
+<b class="fc"><i>46</i>&nbsp;        pathNodeTypes.put(&quot;dangerOther&quot;, PathNodeType.DANGER_OTHER);</b>
+<b class="fc"><i>47</i>&nbsp;        pathNodeTypes.put(&quot;damageOther&quot;, PathNodeType.DAMAGE_OTHER);</b>
+<b class="fc"><i>48</i>&nbsp;        pathNodeTypes.put(&quot;doorOpen&quot;, PathNodeType.DOOR_OPEN);</b>
+<b class="fc"><i>49</i>&nbsp;        pathNodeTypes.put(&quot;doorWoodClosed&quot;, PathNodeType.DOOR_WOOD_CLOSED);</b>
+<b class="fc"><i>50</i>&nbsp;        pathNodeTypes.put(&quot;doorIronClosed&quot;, PathNodeType.DOOR_IRON_CLOSED);</b>
+<b class="fc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

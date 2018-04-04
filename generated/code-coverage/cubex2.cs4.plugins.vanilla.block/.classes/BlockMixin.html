@@ -1,0 +1,557 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BlockMixin</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BlockMixin (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlockMixin</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2,3%
+  </span>
+  <span class="absValue">
+    (1/ 44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0,7%
+  </span>
+  <span class="absValue">
+    (1/ 140)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Lists;
+<i>4</i>&nbsp;import cubex2.cs4.CustomStuff4;
+<i>5</i>&nbsp;import cubex2.cs4.plugins.vanilla.*;
+<i>6</i>&nbsp;import cubex2.cs4.util.IntRange;
+<i>7</i>&nbsp;import cubex2.cs4.util.ItemHelper;
+<i>8</i>&nbsp;import net.minecraft.block.Block;
+<i>9</i>&nbsp;import net.minecraft.block.SoundType;
+<i>10</i>&nbsp;import net.minecraft.block.material.MapColor;
+<i>11</i>&nbsp;import net.minecraft.block.material.Material;
+<i>12</i>&nbsp;import net.minecraft.block.properties.IProperty;
+<i>13</i>&nbsp;import net.minecraft.block.state.BlockStateContainer;
+<i>14</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>15</i>&nbsp;import net.minecraft.client.util.ITooltipFlag;
+<i>16</i>&nbsp;import net.minecraft.creativetab.CreativeTabs;
+<i>17</i>&nbsp;import net.minecraft.entity.Entity;
+<i>18</i>&nbsp;import net.minecraft.entity.player.EntityPlayer;
+<i>19</i>&nbsp;import net.minecraft.inventory.InventoryHelper;
+<i>20</i>&nbsp;import net.minecraft.item.Item;
+<i>21</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>22</i>&nbsp;import net.minecraft.pathfinding.PathNodeType;
+<i>23</i>&nbsp;import net.minecraft.tileentity.TileEntity;
+<i>24</i>&nbsp;import net.minecraft.util.*;
+<i>25</i>&nbsp;import net.minecraft.util.math.AxisAlignedBB;
+<i>26</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>27</i>&nbsp;import net.minecraft.world.Explosion;
+<i>28</i>&nbsp;import net.minecraft.world.IBlockAccess;
+<i>29</i>&nbsp;import net.minecraft.world.World;
+<i>30</i>&nbsp;import net.minecraftforge.common.EnumPlantType;
+<i>31</i>&nbsp;import net.minecraftforge.common.IPlantable;
+<i>32</i>&nbsp;import net.minecraftforge.common.property.ExtendedBlockState;
+<i>33</i>&nbsp;import net.minecraftforge.common.property.IUnlistedProperty;
+<i>34</i>&nbsp;import net.minecraftforge.fluids.FluidUtil;
+<i>35</i>&nbsp;import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+<i>36</i>&nbsp;import net.minecraftforge.fml.common.FMLLog;
+<i>37</i>&nbsp;import net.minecraftforge.items.CapabilityItemHandler;
+<i>38</i>&nbsp;import net.minecraftforge.items.IItemHandler;
+<i>39</i>&nbsp;import org.apache.commons.lang3.ArrayUtils;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;import javax.annotation.Nullable;
+<i>42</i>&nbsp;import java.util.Arrays;
+<i>43</i>&nbsp;import java.util.List;
+<i>44</i>&nbsp;import java.util.Optional;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;public abstract class BlockMixin extends Block implements CSBlock&lt;ContentBlockBase&gt;
+<i>47</i>&nbsp;{
+<b class="fc"><i>48</i>&nbsp;    public static final AxisAlignedBB DEFAULT_AABB_MARKER = new AxisAlignedBB(0, 0, 0, 0, 0, 0);</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public BlockMixin(Material materialIn)
+<i>51</i>&nbsp;    {
+<b class="nc"><i>52</i>&nbsp;        super(materialIn);</b>
+<b class="nc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    @Override
+<i>56</i>&nbsp;    public float getSlipperiness(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable Entity entity)
+<i>57</i>&nbsp;    {
+<b class="nc"><i>58</i>&nbsp;        return getContent().slipperiness.get(getSubtype(state)).orElse(0.6f);</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Override
+<i>62</i>&nbsp;    public int damageDropped(IBlockState state)
+<i>63</i>&nbsp;    {
+<b class="nc"><i>64</i>&nbsp;        return getSubtype(state);</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    @Override
+<i>68</i>&nbsp;    public void getDrops(NonNullList&lt;ItemStack&gt; drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+<i>69</i>&nbsp;    {
+<b class="nc"><i>70</i>&nbsp;        Optional&lt;BlockDrop[]&gt; blockDrops = getContent().drop.get(getSubtype(state));</b>
+<b class="nc"><i>71</i>&nbsp;        if (blockDrops.isPresent())</b>
+<i>72</i>&nbsp;        {
+<b class="nc"><i>73</i>&nbsp;            drops.addAll(ItemHelper.getDroppedStacks(blockDrops.get(), fortune));</b>
+<i>74</i>&nbsp;        } else
+<i>75</i>&nbsp;        {
+<b class="nc"><i>76</i>&nbsp;            super.getDrops(drops, world, pos, state, fortune);</b>
+<i>77</i>&nbsp;        }
+<b class="nc"><i>78</i>&nbsp;    }</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    @Override
+<i>81</i>&nbsp;    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+<i>82</i>&nbsp;    {
+<b class="nc"><i>83</i>&nbsp;        return getContent().canSilkHarvest.get(getSubtype(state)).orElse(true);</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Override
+<i>87</i>&nbsp;    protected ItemStack getSilkTouchDrop(IBlockState state)
+<i>88</i>&nbsp;    {
+<b class="nc"><i>89</i>&nbsp;        Item item = Item.getItemFromBlock(this);</b>
+<b class="nc"><i>90</i>&nbsp;        int subtype = 0;</b>
+<i>91</i>&nbsp;
+<b class="nc"><i>92</i>&nbsp;        if (item.getHasSubtypes())</b>
+<i>93</i>&nbsp;        {
+<b class="nc"><i>94</i>&nbsp;            subtype = getSubtype(state);</b>
+<i>95</i>&nbsp;        }
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        return new ItemStack(item, 1, subtype);</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @Nullable
+<i>101</i>&nbsp;    @Override
+<i>102</i>&nbsp;    public String getHarvestTool(IBlockState state)
+<i>103</i>&nbsp;    {
+<b class="nc"><i>104</i>&nbsp;        return getContent().harvestTool.get(getSubtype(state)).orElse(null);</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    @Override
+<i>108</i>&nbsp;    public int getHarvestLevel(IBlockState state)
+<i>109</i>&nbsp;    {
+<b class="nc"><i>110</i>&nbsp;        return getContent().harvestLevel.get(getSubtype(state)).orElse(-1);</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    @Override
+<i>114</i>&nbsp;    public boolean isFullCube(IBlockState state)
+<i>115</i>&nbsp;    {
+<b class="nc"><i>116</i>&nbsp;        return getContent().isFullCube.get(getSubtype(state)).orElse(true);</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    @Override
+<i>120</i>&nbsp;    public boolean isOpaqueCube(IBlockState state)
+<i>121</i>&nbsp;    {
+<i>122</i>&nbsp;        // Block is calling this in the constructor...
+<b class="nc"><i>123</i>&nbsp;        if (getContent() == null)</b>
+<b class="nc"><i>124</i>&nbsp;            return true;</b>
+<i>125</i>&nbsp;
+<b class="nc"><i>126</i>&nbsp;        return getContent().isOpaqueCube.get(getSubtype(state)).orElse(true);</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    @Override
+<i>130</i>&nbsp;    public BlockRenderLayer getBlockLayer()
+<i>131</i>&nbsp;    {
+<b class="nc"><i>132</i>&nbsp;        BlockRenderLayer layer = getContent().renderLayer;</b>
+<b class="nc"><i>133</i>&nbsp;        return layer != null ? layer : super.getBlockLayer();</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    @Override
+<i>137</i>&nbsp;    public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
+<i>138</i>&nbsp;    {
+<b class="nc"><i>139</i>&nbsp;        return getContent().hardness.get(getSubtype(blockState)).orElse(1f);</b>
+<i>140</i>&nbsp;    }
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    @Override
+<i>143</i>&nbsp;    public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion)
+<i>144</i>&nbsp;    {
+<b class="nc"><i>145</i>&nbsp;        IBlockState blockState = world.getBlockState(pos);</b>
+<b class="nc"><i>146</i>&nbsp;        return getContent().resistance.get(getSubtype(blockState)).orElse(0f) / 5f;</b>
+<i>147</i>&nbsp;    }
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    @Override
+<i>150</i>&nbsp;    public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity)
+<i>151</i>&nbsp;    {
+<b class="nc"><i>152</i>&nbsp;        return getContent().soundType.get(getSubtype(state)).orElse(SoundType.STONE);</b>
+<i>153</i>&nbsp;    }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    @Override
+<i>156</i>&nbsp;    public int getLightOpacity(IBlockState state)
+<i>157</i>&nbsp;    {
+<b class="nc"><i>158</i>&nbsp;        return getContent().opacity.get(getSubtype(state)).orElse(255);</b>
+<i>159</i>&nbsp;    }
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    @Override
+<i>162</i>&nbsp;    public int getLightValue(IBlockState state)
+<i>163</i>&nbsp;    {
+<b class="nc"><i>164</i>&nbsp;        return getContent().light.get(getSubtype(state)).orElse(0);</b>
+<i>165</i>&nbsp;    }
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    @Override
+<i>168</i>&nbsp;    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
+<i>169</i>&nbsp;    {
+<b class="nc"><i>170</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>171</i>&nbsp;        return getContent().flammability.get(getSubtype(state)).orElse(0) * 3; // 300 is 100%</b>
+<i>172</i>&nbsp;    }
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;    @Override
+<i>175</i>&nbsp;    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
+<i>176</i>&nbsp;    {
+<b class="nc"><i>177</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>178</i>&nbsp;        return getContent().fireSpreadSpeed.get(getSubtype(state)).orElse(0);</b>
+<i>179</i>&nbsp;    }
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;    @Override
+<i>182</i>&nbsp;    public boolean isFireSource(World world, BlockPos pos, EnumFacing side)
+<i>183</i>&nbsp;    {
+<b class="nc"><i>184</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>185</i>&nbsp;        return getContent().isFireSource.get(getSubtype(state)).orElse(false);</b>
+<i>186</i>&nbsp;    }
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;    @Override
+<i>189</i>&nbsp;    public boolean isWood(IBlockAccess world, BlockPos pos)
+<i>190</i>&nbsp;    {
+<b class="nc"><i>191</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>192</i>&nbsp;        return getContent().isWood.get(getSubtype(state)).orElse(false);</b>
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    @Override
+<i>196</i>&nbsp;    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
+<i>197</i>&nbsp;    {
+<b class="nc"><i>198</i>&nbsp;        return getContent().canSustainLeaves.get(getSubtype(state)).orElse(false);</b>
+<i>199</i>&nbsp;    }
+<i>200</i>&nbsp;
+<i>201</i>&nbsp;    @Override
+<i>202</i>&nbsp;    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable)
+<i>203</i>&nbsp;    {
+<b class="nc"><i>204</i>&nbsp;        EnumPlantType type = plantable.getPlantType(world, pos.offset(direction));</b>
+<i>205</i>&nbsp;
+<b class="nc"><i>206</i>&nbsp;        EnumPlantType[] sustainedPlants = getContent().sustainedPlants.get(getSubtype(state)).orElse(null);</b>
+<b class="nc"><i>207</i>&nbsp;        if (sustainedPlants != null)</b>
+<i>208</i>&nbsp;        {
+<b class="nc"><i>209</i>&nbsp;            return ArrayUtils.contains(sustainedPlants, type);</b>
+<i>210</i>&nbsp;        } else
+<i>211</i>&nbsp;        {
+<b class="nc"><i>212</i>&nbsp;            return super.canSustainPlant(state, world, pos, direction, plantable);</b>
+<i>213</i>&nbsp;        }
+<i>214</i>&nbsp;    }
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    @Override
+<i>217</i>&nbsp;    public boolean isBeaconBase(IBlockAccess world, BlockPos pos, BlockPos beacon)
+<i>218</i>&nbsp;    {
+<b class="nc"><i>219</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>220</i>&nbsp;        return getContent().isBeaconBase.get(getSubtype(state)).orElse(false);</b>
+<i>221</i>&nbsp;    }
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;    @Override
+<i>224</i>&nbsp;    public float getEnchantPowerBonus(World world, BlockPos pos)
+<i>225</i>&nbsp;    {
+<b class="nc"><i>226</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>227</i>&nbsp;        return getContent().enchantPowerBonus.get(getSubtype(state)).orElse(0f);</b>
+<i>228</i>&nbsp;    }
+<i>229</i>&nbsp;
+<i>230</i>&nbsp;    @Override
+<i>231</i>&nbsp;    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+<i>232</i>&nbsp;    {
+<b class="nc"><i>233</i>&nbsp;        return getContent().expDrop.get(getSubtype(state)).orElse(IntRange.ZERO).getRandomValue();</b>
+<i>234</i>&nbsp;    }
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    @Override
+<i>237</i>&nbsp;    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+<i>238</i>&nbsp;    {
+<b class="nc"><i>239</i>&nbsp;        return getContent().mapColor.get(getSubtype(state)).orElse(getMaterial(state).getMaterialMapColor());</b>
+<i>240</i>&nbsp;    }
+<i>241</i>&nbsp;
+<i>242</i>&nbsp;    @Override
+<i>243</i>&nbsp;    public boolean isBurning(IBlockAccess world, BlockPos pos)
+<i>244</i>&nbsp;    {
+<b class="nc"><i>245</i>&nbsp;        IBlockState state = world.getBlockState(pos);</b>
+<b class="nc"><i>246</i>&nbsp;        return getContent().isBurning.get(getSubtype(state)).orElse(false);</b>
+<i>247</i>&nbsp;    }
+<i>248</i>&nbsp;
+<i>249</i>&nbsp;    @Override
+<i>250</i>&nbsp;    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
+<i>251</i>&nbsp;    {
+<b class="nc"><i>252</i>&nbsp;        if (side == EnumFacing.DOWN &amp;&amp; !getContent().canPlaceOnCeiling)</b>
+<b class="nc"><i>253</i>&nbsp;            return false;</b>
+<b class="nc"><i>254</i>&nbsp;        if (side == EnumFacing.UP &amp;&amp; !getContent().canPlaceOnFloor)</b>
+<b class="nc"><i>255</i>&nbsp;            return false;</b>
+<b class="nc"><i>256</i>&nbsp;        if (side.getAxis().isHorizontal() &amp;&amp; !getContent().canPlaceOnSides)</b>
+<b class="nc"><i>257</i>&nbsp;            return false;</b>
+<i>258</i>&nbsp;
+<b class="nc"><i>259</i>&nbsp;        return super.canPlaceBlockOnSide(worldIn, pos, side);</b>
+<i>260</i>&nbsp;    }
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;    @Override
+<i>263</i>&nbsp;    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+<i>264</i>&nbsp;    {
+<b class="nc"><i>265</i>&nbsp;        AxisAlignedBB bounds = getContent().bounds.get(getSubtype(state)).orElse(DEFAULT_AABB_MARKER);</b>
+<b class="nc"><i>266</i>&nbsp;        return bounds == DEFAULT_AABB_MARKER ? super.getBoundingBox(state, source, pos) : bounds;</b>
+<i>267</i>&nbsp;    }
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;    @Nullable
+<i>270</i>&nbsp;    @Override
+<i>271</i>&nbsp;    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+<i>272</i>&nbsp;    {
+<b class="nc"><i>273</i>&nbsp;        AxisAlignedBB bounds = getContent().selectionBounds.get(getSubtype(state)).orElse(null);</b>
+<b class="nc"><i>274</i>&nbsp;        if (bounds == DEFAULT_AABB_MARKER)</b>
+<b class="nc"><i>275</i>&nbsp;            return super.getSelectedBoundingBox(state, worldIn, pos);</b>
+<i>276</i>&nbsp;        else
+<b class="nc"><i>277</i>&nbsp;            return bounds != null ? bounds.offset(pos) : null;</b>
+<i>278</i>&nbsp;    }
+<i>279</i>&nbsp;
+<i>280</i>&nbsp;    @Nullable
+<i>281</i>&nbsp;    @Override
+<i>282</i>&nbsp;    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+<i>283</i>&nbsp;    {
+<b class="nc"><i>284</i>&nbsp;        if (getContent().collisionBounds == null)</b>
+<b class="nc"><i>285</i>&nbsp;            return null;</b>
+<i>286</i>&nbsp;
+<b class="nc"><i>287</i>&nbsp;        AxisAlignedBB bounds = getContent().collisionBounds.get(getSubtype(state)).orElse(null);</b>
+<b class="nc"><i>288</i>&nbsp;        if (bounds == DEFAULT_AABB_MARKER)</b>
+<b class="nc"><i>289</i>&nbsp;            return super.getCollisionBoundingBox(state, worldIn, pos);</b>
+<i>290</i>&nbsp;        else
+<b class="nc"><i>291</i>&nbsp;            return bounds;</b>
+<i>292</i>&nbsp;    }
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;    @Override
+<i>295</i>&nbsp;    public void addInformation(ItemStack stack, @Nullable World world, List&lt;String&gt; tooltip, ITooltipFlag advanced)
+<i>296</i>&nbsp;    {
+<b class="nc"><i>297</i>&nbsp;        String[] lines = getContent().information.get(stack.getMetadata()).orElse(new String[0]);</b>
+<b class="nc"><i>298</i>&nbsp;        tooltip.addAll(Arrays.asList(lines));</b>
+<b class="nc"><i>299</i>&nbsp;    }</b>
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;    @Override
+<i>302</i>&nbsp;    public void getSubBlocks(CreativeTabs tab, NonNullList&lt;ItemStack&gt; list)
+<i>303</i>&nbsp;    {
+<b class="nc"><i>304</i>&nbsp;        list.addAll(ItemHelper.createSubItems(Item.getItemFromBlock(this), tab, getContent().creativeTab, getSubtypes()));</b>
+<b class="nc"><i>305</i>&nbsp;    }</b>
+<i>306</i>&nbsp;
+<i>307</i>&nbsp;    @Nullable
+<i>308</i>&nbsp;    @Override
+<i>309</i>&nbsp;    public PathNodeType getAiPathNodeType(IBlockState state, IBlockAccess world, BlockPos pos)
+<i>310</i>&nbsp;    {
+<b class="nc"><i>311</i>&nbsp;        PathNodeType nodeType = getContent().pathNodeType.get(getSubtype(state)).orElse(null);</b>
+<b class="nc"><i>312</i>&nbsp;        if (nodeType == null)</b>
+<i>313</i>&nbsp;        {
+<b class="nc"><i>314</i>&nbsp;            return super.getAiPathNodeType(state, world, pos);</b>
+<i>315</i>&nbsp;        } else
+<i>316</i>&nbsp;        {
+<b class="nc"><i>317</i>&nbsp;            return nodeType;</b>
+<i>318</i>&nbsp;        }
+<i>319</i>&nbsp;    }
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;    @Override
+<i>322</i>&nbsp;    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
+<i>323</i>&nbsp;    {
+<b class="nc"><i>324</i>&nbsp;        Boolean isWeb = getContent().isWeb.get(getSubtype(state)).orElse(false);</b>
+<b class="nc"><i>325</i>&nbsp;        if (isWeb)</b>
+<i>326</i>&nbsp;        {
+<b class="nc"><i>327</i>&nbsp;            entityIn.setInWeb();</b>
+<i>328</i>&nbsp;        }
+<i>329</i>&nbsp;
+<b class="nc"><i>330</i>&nbsp;        super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);</b>
+<b class="nc"><i>331</i>&nbsp;    }</b>
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;    @Override
+<i>334</i>&nbsp;    public boolean hasTileEntity(IBlockState state)
+<i>335</i>&nbsp;    {
+<b class="nc"><i>336</i>&nbsp;        int subtype = getSubtype(state);</b>
+<b class="nc"><i>337</i>&nbsp;        return getContent().tileEntity.hasEntry(subtype)</b>
+<b class="nc"><i>338</i>&nbsp;               &amp;&amp; getContent().tileEntity.get(subtype).isPresent();</b>
+<i>339</i>&nbsp;    }
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;    @Nullable
+<i>342</i>&nbsp;    @Override
+<i>343</i>&nbsp;    public TileEntity createTileEntity(World world, IBlockState state)
+<i>344</i>&nbsp;    {
+<b class="nc"><i>345</i>&nbsp;        if (hasTileEntity(state))</b>
+<i>346</i>&nbsp;        {
+<b class="nc"><i>347</i>&nbsp;            Optional&lt;ResourceLocation&gt; optional = getContent().tileEntity.get(getSubtype(state));</b>
+<b class="nc"><i>348</i>&nbsp;            if (optional.isPresent())</b>
+<i>349</i>&nbsp;            {
+<b class="nc"><i>350</i>&nbsp;                return TileEntityRegistry.createTileEntity(optional.get());</b>
+<i>351</i>&nbsp;            } else
+<i>352</i>&nbsp;            {
+<b class="nc"><i>353</i>&nbsp;                return null;</b>
+<i>354</i>&nbsp;            }
+<i>355</i>&nbsp;        }
+<b class="nc"><i>356</i>&nbsp;        return null;</b>
+<i>357</i>&nbsp;    }
+<i>358</i>&nbsp;
+<i>359</i>&nbsp;    @Override
+<i>360</i>&nbsp;    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+<i>361</i>&nbsp;    {
+<b class="nc"><i>362</i>&nbsp;        if (playerIn.isSneaking())</b>
+<i>363</i>&nbsp;        {
+<b class="nc"><i>364</i>&nbsp;            if (interactWithFluidItem(worldIn, pos, state, playerIn, hand, facing)) return true;</b>
+<b class="nc"><i>365</i>&nbsp;            if (openGui(worldIn, pos, state, playerIn)) return true;</b>
+<i>366</i>&nbsp;        } else
+<i>367</i>&nbsp;        {
+<b class="nc"><i>368</i>&nbsp;            if (openGui(worldIn, pos, state, playerIn)) return true;</b>
+<b class="nc"><i>369</i>&nbsp;            if (interactWithFluidItem(worldIn, pos, state, playerIn, hand, facing)) return true;</b>
+<i>370</i>&nbsp;        }
+<i>371</i>&nbsp;
+<b class="nc"><i>372</i>&nbsp;        return false;</b>
+<i>373</i>&nbsp;    }
+<i>374</i>&nbsp;
+<i>375</i>&nbsp;    private boolean interactWithFluidItem(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing)
+<i>376</i>&nbsp;    {
+<b class="nc"><i>377</i>&nbsp;        if (getContent().canInteractWithFluidItem.get(getSubtype(state)).orElse(true))</b>
+<i>378</i>&nbsp;        {
+<b class="nc"><i>379</i>&nbsp;            TileEntity tile = worldIn.getTileEntity(pos);</b>
+<b class="nc"><i>380</i>&nbsp;            if (tile != null &amp;&amp; tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing))</b>
+<i>381</i>&nbsp;            {
+<b class="nc"><i>382</i>&nbsp;                if (worldIn.isRemote)</b>
+<i>383</i>&nbsp;                {
+<b class="nc"><i>384</i>&nbsp;                    return true;</b>
+<i>385</i>&nbsp;                }
+<i>386</i>&nbsp;
+<b class="nc"><i>387</i>&nbsp;                if (FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, facing))</b>
+<i>388</i>&nbsp;                {
+<b class="nc"><i>389</i>&nbsp;                    playerIn.inventoryContainer.detectAndSendChanges();</b>
+<b class="nc"><i>390</i>&nbsp;                    return true;</b>
+<i>391</i>&nbsp;                }
+<i>392</i>&nbsp;            }
+<i>393</i>&nbsp;        }
+<b class="nc"><i>394</i>&nbsp;        return false;</b>
+<i>395</i>&nbsp;    }
+<i>396</i>&nbsp;
+<i>397</i>&nbsp;    @Override
+<i>398</i>&nbsp;    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+<i>399</i>&nbsp;    {
+<b class="nc"><i>400</i>&nbsp;        TileEntity tile = worldIn.getTileEntity(pos);</b>
+<i>401</i>&nbsp;
+<b class="nc"><i>402</i>&nbsp;        if (tile != null)</b>
+<i>403</i>&nbsp;        {
+<b class="nc"><i>404</i>&nbsp;            IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);</b>
+<b class="nc"><i>405</i>&nbsp;            if (itemHandler != null)</b>
+<i>406</i>&nbsp;            {
+<b class="nc"><i>407</i>&nbsp;                for (int i = 0; i &lt; itemHandler.getSlots(); i++)</b>
+<i>408</i>&nbsp;                {
+<b class="nc"><i>409</i>&nbsp;                    ItemStack stack = itemHandler.getStackInSlot(i);</b>
+<b class="nc"><i>410</i>&nbsp;                    if (!stack.isEmpty())</b>
+<i>411</i>&nbsp;                    {
+<b class="nc"><i>412</i>&nbsp;                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);</b>
+<i>413</i>&nbsp;                    }
+<i>414</i>&nbsp;                }
+<i>415</i>&nbsp;            }
+<i>416</i>&nbsp;        }
+<i>417</i>&nbsp;
+<b class="nc"><i>418</i>&nbsp;        super.breakBlock(worldIn, pos, state);</b>
+<b class="nc"><i>419</i>&nbsp;    }</b>
+<i>420</i>&nbsp;
+<i>421</i>&nbsp;    private boolean openGui(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn)
+<i>422</i>&nbsp;    {
+<b class="nc"><i>423</i>&nbsp;        Optional&lt;ContentGuiBase&gt; gui = getGui(state);</b>
+<i>424</i>&nbsp;
+<b class="nc"><i>425</i>&nbsp;        if (gui.isPresent())</b>
+<i>426</i>&nbsp;        {
+<b class="nc"><i>427</i>&nbsp;            if (worldIn.isRemote)</b>
+<i>428</i>&nbsp;            {
+<b class="nc"><i>429</i>&nbsp;                return true;</b>
+<i>430</i>&nbsp;            } else
+<i>431</i>&nbsp;            {
+<b class="nc"><i>432</i>&nbsp;                playerIn.openGui(CustomStuff4.INSTANCE, gui.get().getGuiId(), worldIn, pos.getX(), pos.getY(), pos.getZ());</b>
+<i>433</i>&nbsp;
+<b class="nc"><i>434</i>&nbsp;                return true;</b>
+<i>435</i>&nbsp;            }
+<i>436</i>&nbsp;        }
+<i>437</i>&nbsp;
+<b class="nc"><i>438</i>&nbsp;        return false;</b>
+<i>439</i>&nbsp;    }
+<i>440</i>&nbsp;
+<i>441</i>&nbsp;
+<i>442</i>&nbsp;    private Optional&lt;ContentGuiBase&gt; getGui(IBlockState state)
+<i>443</i>&nbsp;    {
+<b class="nc"><i>444</i>&nbsp;        Optional&lt;ResourceLocation&gt; location = getContent().gui.get(getSubtype(state));</b>
+<b class="nc"><i>445</i>&nbsp;        if (location.isPresent())</b>
+<i>446</i>&nbsp;        {
+<b class="nc"><i>447</i>&nbsp;            ContentGuiBase gui = GuiRegistry.get(location.get());</b>
+<b class="nc"><i>448</i>&nbsp;            if (gui == null)</b>
+<i>449</i>&nbsp;            {
+<b class="nc"><i>450</i>&nbsp;                FMLLog.warning(&quot;Missing GUI %s&quot;, location.get());</b>
+<i>451</i>&nbsp;            }
+<b class="nc"><i>452</i>&nbsp;            return Optional.ofNullable(gui);</b>
+<i>453</i>&nbsp;        }
+<b class="nc"><i>454</i>&nbsp;        return Optional.empty();</b>
+<i>455</i>&nbsp;    }
+<i>456</i>&nbsp;
+<i>457</i>&nbsp;    @Override
+<i>458</i>&nbsp;    protected BlockStateContainer createBlockState()
+<i>459</i>&nbsp;    {
+<b class="nc"><i>460</i>&nbsp;        BlockStateContainer superState = super.createBlockState();</b>
+<b class="nc"><i>461</i>&nbsp;        List&lt;IProperty&lt;?&gt;&gt; superProperties = Lists.newArrayList(superState.getProperties());</b>
+<b class="nc"><i>462</i>&nbsp;        superProperties.addAll(Arrays.asList(getProperties()));</b>
+<i>463</i>&nbsp;
+<b class="nc"><i>464</i>&nbsp;        if (superState instanceof ExtendedBlockState)</b>
+<i>465</i>&nbsp;        {
+<b class="nc"><i>466</i>&nbsp;            IUnlistedProperty&lt;?&gt;[] unlistedProperties = ((ExtendedBlockState) superState).getUnlistedProperties().toArray(new IUnlistedProperty&lt;?&gt;[0]);</b>
+<i>467</i>&nbsp;
+<b class="nc"><i>468</i>&nbsp;            return new ExtendedBlockState(this, ContentBlockBaseWithSubtypes.insertSubtype(superProperties), unlistedProperties);</b>
+<i>469</i>&nbsp;        } else
+<i>470</i>&nbsp;        {
+<b class="nc"><i>471</i>&nbsp;            return new BlockStateContainer(this, ContentBlockBaseWithSubtypes.insertSubtype(superProperties));</b>
+<i>472</i>&nbsp;        }
+<i>473</i>&nbsp;    }
+<i>474</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

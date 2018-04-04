@@ -1,0 +1,108 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TileEntityModuleSupplierDeserializer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TileEntityModuleSupplierDeserializer (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TileEntityModuleSupplierDeserializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.*;
+<i>4</i>&nbsp;import cubex2.cs4.api.TileEntityModuleSupplier;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.lang.reflect.Type;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;class TileEntityModuleSupplierDeserializer implements JsonDeserializer&lt;TileEntityModuleSupplier&gt;
+<i>9</i>&nbsp;{
+<i>10</i>&nbsp;    private final TileEntityModuleRegistry registry;
+<i>11</i>&nbsp;
+<b class="fc"><i>12</i>&nbsp;    TileEntityModuleSupplierDeserializer(TileEntityModuleRegistry registry) {this.registry = registry;}</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    @Override
+<i>15</i>&nbsp;    public TileEntityModuleSupplier deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+<i>16</i>&nbsp;    {
+<b class="fc"><i>17</i>&nbsp;        JsonObject jsonObject = json.getAsJsonObject();</b>
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;        String type = jsonObject.get(&quot;type&quot;).getAsString();</b>
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;        Class&lt;? extends TileEntityModuleSupplier&gt; clazz = registry.getTileEntityModuleClass(type);</b>
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;        return context.deserialize(json, clazz);</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

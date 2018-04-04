@@ -1,0 +1,69 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WrappedItemStack</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.api</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WrappedItemStack (cubex2.cs4.api)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">WrappedItemStack</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.api;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Contains the data to construct an ItemStack. Necessary as deserialization happens during preInit while items can be
+<i>7</i>&nbsp; * registered later.
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public interface WrappedItemStack
+<i>10</i>&nbsp;{
+<i>11</i>&nbsp;    /**
+<i>12</i>&nbsp;     * Tries to create the ItemStack. This returns ItemStack.EMPTY if the item for the stack does not exist or hasn&#39;t been loaded
+<i>13</i>&nbsp;     * yet. The returned stack must not be modified.
+<i>14</i>&nbsp;     */
+<i>15</i>&nbsp;    ItemStack getItemStack();
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Returns true if the item for stack has been loaded. Allows to distinguish between empty stacks due to missing items
+<i>19</i>&nbsp;     * or due to an explicit empty stack defined in json.
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    boolean isItemLoaded();
+<i>22</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

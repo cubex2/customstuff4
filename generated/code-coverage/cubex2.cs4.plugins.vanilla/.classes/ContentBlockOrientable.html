@@ -1,0 +1,100 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ContentBlockOrientable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ContentBlockOrientable (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ContentBlockOrientable</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.block.ItemBlockWithSubtypes;
+<i>4</i>&nbsp;import net.minecraft.item.Item;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.Optional;
+<i>7</i>&nbsp;
+<b class="fc"><i>8</i>&nbsp;public abstract class ContentBlockOrientable extends ContentBlockSimple</b>
+<i>9</i>&nbsp;{
+<b class="fc"><i>10</i>&nbsp;    public Attribute&lt;Boolean&gt; faceBySide = Attribute.constant(false);</b>
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    @Override
+<i>13</i>&nbsp;    protected Optional&lt;Item&gt; createItem(boolean hasSubtypes)
+<i>14</i>&nbsp;    {
+<b class="nc"><i>15</i>&nbsp;        return Optional.of(new ItemBlockWithSubtypes(block, this));</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

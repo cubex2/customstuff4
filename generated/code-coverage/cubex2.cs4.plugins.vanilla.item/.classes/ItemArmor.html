@@ -1,0 +1,112 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemArmor</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.item</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemArmor (cubex2.cs4.plugins.vanilla.item)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemArmor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.item;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentItemArmor;
+<i>4</i>&nbsp;import net.minecraft.entity.Entity;
+<i>5</i>&nbsp;import net.minecraft.inventory.EntityEquipmentSlot;
+<i>6</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import javax.annotation.Nullable;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class ItemArmor extends net.minecraft.item.ItemArmor
+<i>11</i>&nbsp;{
+<i>12</i>&nbsp;    private final ContentItemArmor content;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public ItemArmor(ContentItemArmor content, EntityEquipmentSlot equipmentSlotIn)
+<i>15</i>&nbsp;    {
+<b class="fc"><i>16</i>&nbsp;        super(content.material.getArmorMaterial(), 0, equipmentSlotIn);</b>
+<b class="fc"><i>17</i>&nbsp;        this.content = content;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Nullable
+<i>21</i>&nbsp;    @Override
+<i>22</i>&nbsp;    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
+<i>23</i>&nbsp;    {
+<b class="nc"><i>24</i>&nbsp;        if (content.armorTexture != null)</b>
+<b class="nc"><i>25</i>&nbsp;            return content.armorTexture.toString();</b>
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;        return null;</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

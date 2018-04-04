@@ -1,0 +1,115 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ContentItemTool</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ContentItemTool (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ContentItemTool</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.WrappedToolMaterial;
+<i>4</i>&nbsp;import cubex2.cs4.plugins.vanilla.item.ItemTool;
+<i>5</i>&nbsp;import net.minecraft.item.Item;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public abstract class ContentItemTool&lt;T extends Item &amp; ItemTool&gt; extends ContentItemNoSubtypes&lt;T&gt;
+<i>8</i>&nbsp;{
+<b class="nc"><i>9</i>&nbsp;    Float damage = null;</b>
+<b class="nc"><i>10</i>&nbsp;    Float attackSpeed = null;</b>
+<b class="nc"><i>11</i>&nbsp;    Integer durability = null;</b>
+<i>12</i>&nbsp;
+<b class="nc"><i>13</i>&nbsp;    WrappedToolMaterial material = WrappedToolMaterial.of(Item.ToolMaterial.WOOD);</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    public ContentItemTool()
+<b class="nc"><i>16</i>&nbsp;    {</b>
+<b class="nc"><i>17</i>&nbsp;        creativeTab = &quot;tools&quot;;</b>
+<b class="nc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Override
+<i>21</i>&nbsp;    protected void initItem()
+<i>22</i>&nbsp;    {
+<b class="nc"><i>23</i>&nbsp;        if (damage != null)</b>
+<b class="nc"><i>24</i>&nbsp;            item.setDamage(damage);</b>
+<b class="nc"><i>25</i>&nbsp;        if (attackSpeed != null)</b>
+<b class="nc"><i>26</i>&nbsp;            item.setAttackSpeed(attackSpeed);</b>
+<b class="nc"><i>27</i>&nbsp;        if (durability != null)</b>
+<b class="nc"><i>28</i>&nbsp;            item.setMaxDamage(durability);</b>
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;        super.initItem();</b>
+<b class="nc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SimpleStateMetaMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SimpleStateMetaMapper (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleStateMetaMapper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.ImmutableList;
+<i>4</i>&nbsp;import net.minecraft.block.Block;
+<i>5</i>&nbsp;import net.minecraft.block.properties.IProperty;
+<i>6</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class SimpleStateMetaMapper&lt;T extends Comparable&lt;T&gt;, B extends Block&gt; implements StateMetaMapper&lt;B&gt;
+<i>9</i>&nbsp;{
+<i>10</i>&nbsp;    final IProperty&lt;T&gt; property;
+<i>11</i>&nbsp;    private final ImmutableList&lt;T&gt; values;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    public SimpleStateMetaMapper(IProperty&lt;T&gt; property)
+<b class="fc"><i>14</i>&nbsp;    {</b>
+<b class="fc"><i>15</i>&nbsp;        this.property = property;</b>
+<b class="fc"><i>16</i>&nbsp;        values = ImmutableList.copyOf(property.getAllowedValues());</b>
+<b class="fc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @Override
+<i>20</i>&nbsp;    public IBlockState getStateFromMeta(B block, int meta)
+<i>21</i>&nbsp;    {
+<b class="nc"><i>22</i>&nbsp;        return block.getDefaultState().withProperty(property, values.get(meta));</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @Override
+<i>26</i>&nbsp;    public int getMetaFromState(IBlockState state)
+<i>27</i>&nbsp;    {
+<b class="fc"><i>28</i>&nbsp;        return Math.max(values.indexOf(state.getValue(property)), 0);</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

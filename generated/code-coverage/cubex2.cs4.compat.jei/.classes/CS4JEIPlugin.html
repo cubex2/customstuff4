@@ -1,0 +1,221 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CS4JEIPlugin</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.compat.jei</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CS4JEIPlugin (cubex2.cs4.compat.jei)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CS4JEIPlugin</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 63)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.compat.jei;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.collect.Lists;
+<i>4</i>&nbsp;import cubex2.cs4.api.WrappedItemStack;
+<i>5</i>&nbsp;import cubex2.cs4.plugins.jei.*;
+<i>6</i>&nbsp;import cubex2.cs4.plugins.vanilla.DamageableShapedOreRecipe;
+<i>7</i>&nbsp;import cubex2.cs4.plugins.vanilla.DamageableShapelessOreRecipe;
+<i>8</i>&nbsp;import cubex2.cs4.plugins.vanilla.crafting.CraftingManagerCS4;
+<i>9</i>&nbsp;import cubex2.cs4.plugins.vanilla.crafting.MachineManager;
+<i>10</i>&nbsp;import cubex2.cs4.plugins.vanilla.crafting.MachineRecipe;
+<i>11</i>&nbsp;import cubex2.cs4.plugins.vanilla.crafting.MachineRecipeOutput;
+<i>12</i>&nbsp;import cubex2.cs4.util.ReflectionHelper;
+<i>13</i>&nbsp;import mezz.jei.api.IJeiHelpers;
+<i>14</i>&nbsp;import mezz.jei.api.IModPlugin;
+<i>15</i>&nbsp;import mezz.jei.api.IModRegistry;
+<i>16</i>&nbsp;import mezz.jei.api.JEIPlugin;
+<i>17</i>&nbsp;import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+<i>18</i>&nbsp;import mezz.jei.api.recipe.IRecipeWrapperFactory;
+<i>19</i>&nbsp;import net.minecraft.item.ItemStack;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import java.util.Collections;
+<i>22</i>&nbsp;import java.util.List;
+<i>23</i>&nbsp;import java.util.stream.Collectors;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;@JEIPlugin
+<b class="nc"><i>26</i>&nbsp;public class CS4JEIPlugin implements IModPlugin</b>
+<i>27</i>&nbsp;{
+<b class="nc"><i>28</i>&nbsp;    private List&lt;CraftingRecipeCategory&gt; craftingCategories = Lists.newArrayList();</b>
+<b class="nc"><i>29</i>&nbsp;    private List&lt;MachineRecipeCategory&gt; machineCategories = Lists.newArrayList();</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    @Override
+<i>32</i>&nbsp;    public void register(IModRegistry registry)
+<i>33</i>&nbsp;    {
+<b class="nc"><i>34</i>&nbsp;        IJeiHelpers jeiHelpers = registry.getJeiHelpers();</b>
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;        addMachineRecipes(registry, jeiHelpers);</b>
+<b class="nc"><i>37</i>&nbsp;        addCraftingRecipes(registry, jeiHelpers);</b>
+<b class="nc"><i>38</i>&nbsp;        addDescriptions(registry);</b>
+<b class="nc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Override
+<i>42</i>&nbsp;    public void registerCategories(IRecipeCategoryRegistration registry)
+<i>43</i>&nbsp;    {
+<b class="nc"><i>44</i>&nbsp;        IJeiHelpers jeiHelpers = registry.getJeiHelpers();</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;        for (JEICraftingRecipe recipe : JEICompatRegistry.craftingRecipes)</b>
+<i>47</i>&nbsp;        {
+<b class="nc"><i>48</i>&nbsp;            CraftingRecipeCategory category = new CraftingRecipeCategory(recipe, jeiHelpers.getGuiHelper());</b>
+<b class="nc"><i>49</i>&nbsp;            registry.addRecipeCategories(category);</b>
+<b class="nc"><i>50</i>&nbsp;            craftingCategories.add(category);</b>
+<b class="nc"><i>51</i>&nbsp;        }</b>
+<i>52</i>&nbsp;
+<b class="nc"><i>53</i>&nbsp;        for (JEIMachineRecipe recipe : JEICompatRegistry.machineRecipes)</b>
+<i>54</i>&nbsp;        {
+<b class="nc"><i>55</i>&nbsp;            MachineRecipeCategory category = new MachineRecipeCategory(recipe, jeiHelpers.getGuiHelper());</b>
+<b class="nc"><i>56</i>&nbsp;            registry.addRecipeCategories(category);</b>
+<b class="nc"><i>57</i>&nbsp;            machineCategories.add(category);</b>
+<b class="nc"><i>58</i>&nbsp;        }</b>
+<b class="nc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+<i>62</i>&nbsp;    private void addCraftingRecipes(IModRegistry registry, IJeiHelpers jeiHelpers)
+<i>63</i>&nbsp;    {
+<b class="nc"><i>64</i>&nbsp;        IRecipeWrapperFactory&lt;DamageableShapedOreRecipe&gt; shapedFactory = recipe -&gt; new ShapedRecipeWrapper(recipe, jeiHelpers);</b>
+<b class="nc"><i>65</i>&nbsp;        IRecipeWrapperFactory&lt;DamageableShapelessOreRecipe&gt; shapelessFactory = recipe -&gt; new ShapelessRecipeWrapper(recipe, jeiHelpers);</b>
+<b class="nc"><i>66</i>&nbsp;        for (CraftingRecipeCategory category : craftingCategories)</b>
+<i>67</i>&nbsp;        {
+<b class="nc"><i>68</i>&nbsp;            JEICraftingRecipe recipe = category.getRecipe();</b>
+<b class="nc"><i>69</i>&nbsp;            String uid = recipe.getUid();</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;            registry.handleRecipes(JEICompatRegistry.getShapedCraftingRecipeClass(recipe.recipeList), shapedFactory, uid);</b>
+<b class="nc"><i>72</i>&nbsp;            registry.handleRecipes(JEICompatRegistry.getShapelessCraftingRecipeClass(recipe.recipeList), shapelessFactory, uid);</b>
+<b class="nc"><i>73</i>&nbsp;            registry.addRecipes(CraftingManagerCS4.getRecipes(recipe.recipeList), uid);</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;            addCommonEntries(registry, recipe, category.getModuleName(), category.getModule().rows * category.getModule().columns);</b>
+<b class="nc"><i>76</i>&nbsp;        }</b>
+<b class="nc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+<i>80</i>&nbsp;    private void addMachineRecipes(IModRegistry registry, IJeiHelpers jeiHelpers)
+<i>81</i>&nbsp;    {
+<b class="nc"><i>82</i>&nbsp;        IRecipeWrapperFactory&lt;DelegatedMachineRecipe&gt; factory = recipe -&gt; new MachineRecipeWrapper(recipe.recipe, recipe.usedOutput, jeiHelpers);</b>
+<i>83</i>&nbsp;
+<b class="nc"><i>84</i>&nbsp;        for (MachineRecipeCategory category : machineCategories)</b>
+<i>85</i>&nbsp;        {
+<b class="nc"><i>86</i>&nbsp;            JEIMachineRecipe recipe = category.getRecipe();</b>
+<b class="nc"><i>87</i>&nbsp;            String uid = recipe.getUid();</b>
+<i>88</i>&nbsp;
+<b class="nc"><i>89</i>&nbsp;            Class&lt;DelegatedMachineRecipe&gt; delegatedRecipeClass = (Class&lt;DelegatedMachineRecipe&gt;) JEICompatRegistry.getDelegatedMachineRecipeClass(recipe.recipeList);</b>
+<b class="nc"><i>90</i>&nbsp;            registry.handleRecipes(delegatedRecipeClass, factory, uid);</b>
+<b class="nc"><i>91</i>&nbsp;            for (MachineRecipe machineRecipe : MachineManager.getRecipes(recipe.recipeList))</b>
+<i>92</i>&nbsp;            {
+<i>93</i>&nbsp;                // We want each output to show as its own recipe
+<b class="nc"><i>94</i>&nbsp;                for (MachineRecipeOutput output : machineRecipe.getOutputs())</b>
+<i>95</i>&nbsp;                {
+<b class="nc"><i>96</i>&nbsp;                    DelegatedMachineRecipe delegatedRecipe = ReflectionHelper.newInstance(delegatedRecipeClass);</b>
+<b class="nc"><i>97</i>&nbsp;                    delegatedRecipe.recipe = machineRecipe;</b>
+<b class="nc"><i>98</i>&nbsp;                    delegatedRecipe.usedOutput = output;</b>
+<b class="nc"><i>99</i>&nbsp;                    registry.addRecipes(Collections.singletonList(delegatedRecipe), uid);</b>
+<b class="nc"><i>100</i>&nbsp;                }</b>
+<b class="nc"><i>101</i>&nbsp;            }</b>
+<i>102</i>&nbsp;
+<b class="nc"><i>103</i>&nbsp;            addCommonEntries(registry, recipe, category.getModuleName(), category.getModule().inputSlots);</b>
+<b class="nc"><i>104</i>&nbsp;        }</b>
+<b class="nc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    private void addCommonEntries(IModRegistry registry, JEIRecipe recipe, String moduleName, int inputSlots)
+<i>108</i>&nbsp;    {
+<b class="nc"><i>109</i>&nbsp;        if (recipe.icon != null)</b>
+<i>110</i>&nbsp;        {
+<b class="nc"><i>111</i>&nbsp;            registry.addRecipeCatalyst(recipe.icon.getItemStack(), recipe.getUid());</b>
+<i>112</i>&nbsp;        }
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;        if (recipe.recipeAreaWidth &gt; 0 &amp;&amp; recipe.recipeAreaHeight &gt; 0)</b>
+<i>115</i>&nbsp;        {
+<b class="nc"><i>116</i>&nbsp;            registry.addRecipeClickArea(recipe.getGui().getGuiClass(),</b>
+<i>117</i>&nbsp;                                        recipe.recipeAreaX,
+<i>118</i>&nbsp;                                        recipe.recipeAreaY,
+<i>119</i>&nbsp;                                        recipe.recipeAreaWidth,
+<i>120</i>&nbsp;                                        recipe.recipeAreaHeight,
+<b class="nc"><i>121</i>&nbsp;                                        recipe.getUid());</b>
+<i>122</i>&nbsp;        }
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;        registry.getRecipeTransferRegistry().addRecipeTransferHandler(new TransferInfo(recipe.getUid(), moduleName, inputSlots));</b>
+<b class="nc"><i>125</i>&nbsp;    }</b>
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    private void addDescriptions(IModRegistry registry)
+<i>128</i>&nbsp;    {
+<b class="nc"><i>129</i>&nbsp;        for (JEIDescription description : JEICompatRegistry.descriptions)</b>
+<i>130</i>&nbsp;        {
+<b class="nc"><i>131</i>&nbsp;            List&lt;ItemStack&gt; items = description.items.stream()</b>
+<b class="nc"><i>132</i>&nbsp;                                                     .map(WrappedItemStack::getItemStack)</b>
+<b class="nc"><i>133</i>&nbsp;                                                     .map(ItemStack::copy)</b>
+<b class="nc"><i>134</i>&nbsp;                                                     .collect(Collectors.toList());</b>
+<b class="nc"><i>135</i>&nbsp;            registry.addIngredientInfo(items, ItemStack.class, description.desc);</b>
+<b class="nc"><i>136</i>&nbsp;        }</b>
+<b class="nc"><i>137</i>&nbsp;    }</b>
+<i>138</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

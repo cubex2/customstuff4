@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ArmorMaterial</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ArmorMaterial (cubex2.cs4.plugins.vanilla)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArmorMaterial</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.api.ContentHelper;
+<i>4</i>&nbsp;import cubex2.cs4.api.InitPhase;
+<i>5</i>&nbsp;import cubex2.cs4.api.WrappedItemStack;
+<i>6</i>&nbsp;import cubex2.cs4.data.SimpleContent;
+<i>7</i>&nbsp;import net.minecraft.init.SoundEvents;
+<i>8</i>&nbsp;import net.minecraft.item.ItemArmor;
+<i>9</i>&nbsp;import net.minecraft.util.SoundEvent;
+<i>10</i>&nbsp;import net.minecraftforge.common.util.EnumHelper;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static com.google.common.base.Preconditions.checkState;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;class ArmorMaterial extends SimpleContent</b>
+<i>15</i>&nbsp;{
+<i>16</i>&nbsp;    String id;
+<b class="nc"><i>17</i>&nbsp;    String textureName = &quot;leather&quot;;</b>
+<b class="nc"><i>18</i>&nbsp;    int durability = 5;</b>
+<b class="nc"><i>19</i>&nbsp;    int enchantability = 15;</b>
+<b class="nc"><i>20</i>&nbsp;    int armorHelmet = 1;</b>
+<b class="nc"><i>21</i>&nbsp;    int armorChest = 3;</b>
+<b class="nc"><i>22</i>&nbsp;    int armorLegs = 2;</b>
+<b class="nc"><i>23</i>&nbsp;    int armorBoots = 1;</b>
+<b class="nc"><i>24</i>&nbsp;    SoundEvent equipSound = SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;</b>
+<b class="nc"><i>25</i>&nbsp;    float toughness = 0f;</b>
+<i>26</i>&nbsp;    WrappedItemStack repairItem;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private transient ItemArmor.ArmorMaterial material;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Override
+<i>31</i>&nbsp;    protected void doInit(InitPhase phase, ContentHelper helper)
+<i>32</i>&nbsp;    {
+<b class="nc"><i>33</i>&nbsp;        checkState(id != null &amp;&amp; id.matches(&quot;[_a-zA-Z][_a-zA-Z0-9]*&quot;), &quot;Invalid id: &quot; + id);</b>
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;        int[] damageReduction = new int[] {</b>
+<i>36</i>&nbsp;                armorBoots,
+<i>37</i>&nbsp;                armorLegs,
+<i>38</i>&nbsp;                armorChest,
+<i>39</i>&nbsp;                armorHelmet
+<i>40</i>&nbsp;        };
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;        material = EnumHelper.addArmorMaterial(id, textureName, durability, damageReduction, enchantability, equipSound, toughness);</b>
+<b class="nc"><i>43</i>&nbsp;        if (repairItem != null)</b>
+<i>44</i>&nbsp;        {
+<b class="nc"><i>45</i>&nbsp;            material.setRepairItem(repairItem.getItemStack().copy());</b>
+<i>46</i>&nbsp;        }
+<b class="nc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @Override
+<i>50</i>&nbsp;    protected boolean isReady()
+<i>51</i>&nbsp;    {
+<b class="nc"><i>52</i>&nbsp;        return repairItem == null || repairItem.isItemLoaded();</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

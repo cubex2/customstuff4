@@ -53,10 +53,29 @@ dependencies {
 
 	testRuntime "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
 
+    //mockito, because we do not want to use actual classes for testing.
+    //also using mockito 2 for bugfixes.
+    testCompile 'org.mockito:mockito-core:2.8.0'
+    testCompile 'org.powermock:powermock-api-mockito2:1.7.0RC2'
+    testCompile 'org.powermock:powermock-module-junit4:1.7.0'
+    testCompile 'org.powermock:powermock-core:1.7.0'
+    testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0'
+    //junit 5, because we want good tests.
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.0.0-M4")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M4")
+    // Enable use of the JUnitPlatform Runner within the IDE
+    testCompile("org.junit.platform:junit-platform-runner:1.0.0-M4")
+
+
+    //requirement for nashorn sandbox
+    //todo shadow it, I don't know how.
+    compile group: 'org.webjars.bower', name:"js-beautify",version: "1.6.12"
+
     // compile against the JEI API
     deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    //
 
     if ("${waila_version}".endsWith("${mc_version}"))
         compile "mcp.mobius.waila:Waila:${waila_version}:dev"

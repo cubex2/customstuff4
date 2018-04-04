@@ -28,7 +28,7 @@ public class BlockTrapDoor extends net.minecraft.block.BlockTrapDoor implements 
 
         state = state.cycleProperty(OPEN);
         worldIn.setBlockState(pos, state, 2);
-        this.playSound(playerIn, worldIn, pos, ((Boolean) state.getValue(OPEN)).booleanValue());
+        this.playSound(playerIn, worldIn, pos, state.getValue(OPEN).booleanValue());
         return true;
     }
 

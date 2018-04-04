@@ -1,0 +1,228 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BlockSlab</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BlockSlab (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlockSlab</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    26,7%
+  </span>
+  <span class="absValue">
+    (4/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    27%
+  </span>
+  <span class="absValue">
+    (10/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentBlockSlab;
+<i>4</i>&nbsp;import net.minecraft.block.Block;
+<i>5</i>&nbsp;import net.minecraft.block.material.MapColor;
+<i>6</i>&nbsp;import net.minecraft.block.material.Material;
+<i>7</i>&nbsp;import net.minecraft.block.properties.IProperty;
+<i>8</i>&nbsp;import net.minecraft.block.properties.PropertyEnum;
+<i>9</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>10</i>&nbsp;import net.minecraft.entity.EntityLivingBase;
+<i>11</i>&nbsp;import net.minecraft.util.EnumFacing;
+<i>12</i>&nbsp;import net.minecraft.util.math.AxisAlignedBB;
+<i>13</i>&nbsp;import net.minecraft.util.math.BlockPos;
+<i>14</i>&nbsp;import net.minecraft.world.IBlockAccess;
+<i>15</i>&nbsp;import net.minecraft.world.World;
+<i>16</i>&nbsp;import net.minecraftforge.fml.relauncher.Side;
+<i>17</i>&nbsp;import net.minecraftforge.fml.relauncher.SideOnly;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import java.util.Collections;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;public abstract class BlockSlab extends Block implements CSBlock&lt;ContentBlockSlab&gt;
+<i>22</i>&nbsp;{
+<b class="fc"><i>23</i>&nbsp;    public static final PropertyEnum&lt;net.minecraft.block.BlockSlab.EnumBlockHalf&gt; HALF = PropertyEnum.&lt;net.minecraft.block.BlockSlab.EnumBlockHalf&gt;create(&quot;half&quot;, net.minecraft.block.BlockSlab.EnumBlockHalf.class);</b>
+<b class="fc"><i>24</i>&nbsp;    protected static final AxisAlignedBB AABB_BOTTOM_HALF = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);</b>
+<b class="fc"><i>25</i>&nbsp;    protected static final AxisAlignedBB AABB_TOP_HALF = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    private final ContentBlockSlab content;
+<i>28</i>&nbsp;    protected StateMetaMapper&lt;BlockSlab&gt; mapper;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public BlockSlab(Material material, ContentBlockSlab content)
+<i>31</i>&nbsp;    {
+<b class="fc"><i>32</i>&nbsp;        super(material, MapColor.AIR); // that map color is being overridden</b>
+<i>33</i>&nbsp;
+<b class="fc"><i>34</i>&nbsp;        this.content = content;</b>
+<b class="fc"><i>35</i>&nbsp;        mapper = StateMetaMapper.create(Collections.singleton(HALF));</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        useNeighborBrightness = true;</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public int getMetaFromState(IBlockState state)
+<i>42</i>&nbsp;    {
+<b class="nc"><i>43</i>&nbsp;        return mapper.getMetaFromState(state);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @Override
+<i>47</i>&nbsp;    public IBlockState getStateFromMeta(int meta)
+<i>48</i>&nbsp;    {
+<b class="nc"><i>49</i>&nbsp;        return mapper.getStateFromMeta(this, meta);</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+<i>53</i>&nbsp;    {
+<b class="nc"><i>54</i>&nbsp;        return (state.getValue(HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP ? AABB_TOP_HALF : AABB_BOTTOM_HALF);</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Checks if an IBlockState represents a block that is opaque and a full cube.
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    public boolean isFullyOpaque(IBlockState state)
+<i>61</i>&nbsp;    {
+<b class="nc"><i>62</i>&nbsp;        return state.getValue(HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @Override
+<i>66</i>&nbsp;    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+<i>67</i>&nbsp;    {
+<b class="nc"><i>68</i>&nbsp;        if (net.minecraftforge.common.ForgeModContainer.disableStairSlabCulling)</b>
+<b class="nc"><i>69</i>&nbsp;            return super.doesSideBlockRendering(state, world, pos, face);</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;        if (state.isOpaqueCube())</b>
+<b class="nc"><i>72</i>&nbsp;            return true;</b>
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;        net.minecraft.block.BlockSlab.EnumBlockHalf side = state.getValue(HALF);</b>
+<b class="nc"><i>75</i>&nbsp;        return (side == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP &amp;&amp; face == EnumFacing.UP) || (side == net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM &amp;&amp; face == EnumFacing.DOWN);</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    @Override
+<i>79</i>&nbsp;    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+<i>80</i>&nbsp;    {
+<b class="nc"><i>81</i>&nbsp;        IBlockState iblockstate = getDefaultState().withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM);</b>
+<b class="nc"><i>82</i>&nbsp;        return (facing != EnumFacing.DOWN &amp;&amp; (facing == EnumFacing.UP || (double) hitY &lt;= 0.5D) ? iblockstate : iblockstate.withProperty(HALF, net.minecraft.block.BlockSlab.EnumBlockHalf.TOP));</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    @SideOnly(Side.CLIENT)
+<i>86</i>&nbsp;    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+<i>87</i>&nbsp;    {
+<b class="nc"><i>88</i>&nbsp;        if (side != EnumFacing.UP &amp;&amp; side != EnumFacing.DOWN &amp;&amp; !super.shouldSideBeRendered(blockState, blockAccess, pos, side))</b>
+<i>89</i>&nbsp;        {
+<b class="nc"><i>90</i>&nbsp;            return false;</b>
+<i>91</i>&nbsp;        }
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        return super.shouldSideBeRendered(blockState, blockAccess, pos, side);</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    @Deprecated
+<i>97</i>&nbsp;    @SideOnly(Side.CLIENT)
+<i>98</i>&nbsp;    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, BlockPos pos)
+<i>99</i>&nbsp;    {
+<b class="nc"><i>100</i>&nbsp;        int i = source.getCombinedLight(pos, state.getLightValue(source, pos));</b>
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        if (i == 0 &amp;&amp; (state.getBlock() instanceof net.minecraft.block.BlockSlab || state.getBlock() instanceof BlockSlab))</b>
+<i>103</i>&nbsp;        {
+<b class="nc"><i>104</i>&nbsp;            pos = pos.down();</b>
+<b class="nc"><i>105</i>&nbsp;            state = source.getBlockState(pos);</b>
+<b class="nc"><i>106</i>&nbsp;            return source.getCombinedLight(pos, state.getLightValue(source, pos));</b>
+<i>107</i>&nbsp;        } else
+<i>108</i>&nbsp;        {
+<b class="nc"><i>109</i>&nbsp;            return i;</b>
+<i>110</i>&nbsp;        }
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    @Override
+<i>114</i>&nbsp;    public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side)
+<i>115</i>&nbsp;    {
+<b class="nc"><i>116</i>&nbsp;        IBlockState state = this.getActualState(base_state, world, pos);</b>
+<b class="nc"><i>117</i>&nbsp;        return base_state.isFullBlock()</b>
+<b class="nc"><i>118</i>&nbsp;               || (state.getValue(net.minecraft.block.BlockSlab.HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.TOP &amp;&amp; side == EnumFacing.UP)</b>
+<b class="nc"><i>119</i>&nbsp;               || (state.getValue(net.minecraft.block.BlockSlab.HALF) == net.minecraft.block.BlockSlab.EnumBlockHalf.BOTTOM &amp;&amp; side == EnumFacing.DOWN);</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    @Override
+<i>123</i>&nbsp;    public int getSubtype(IBlockState state)
+<i>124</i>&nbsp;    {
+<b class="nc"><i>125</i>&nbsp;        return 0;</b>
+<i>126</i>&nbsp;    }
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    @Override
+<i>129</i>&nbsp;    public ContentBlockSlab getContent()
+<i>130</i>&nbsp;    {
+<b class="fc"><i>131</i>&nbsp;        return content;</b>
+<i>132</i>&nbsp;    }
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    @Override
+<i>135</i>&nbsp;    public int[] getSubtypes()
+<i>136</i>&nbsp;    {
+<b class="nc"><i>137</i>&nbsp;        return content.subtypes;</b>
+<i>138</i>&nbsp;    }
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    @Override
+<i>141</i>&nbsp;    public IProperty&lt;?&gt;[] getProperties()
+<i>142</i>&nbsp;    {
+<b class="fc"><i>143</i>&nbsp;        return new IProperty[] {HALF};</b>
+<i>144</i>&nbsp;    }
+<i>145</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

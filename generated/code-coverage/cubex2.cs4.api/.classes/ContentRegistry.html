@@ -1,0 +1,124 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ContentRegistry</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.api</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ContentRegistry (cubex2.cs4.api)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ContentRegistry</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.api;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.JsonDeserializer;
+<i>4</i>&nbsp;import net.minecraftforge.fml.relauncher.Side;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.lang.reflect.Type;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public interface ContentRegistry
+<i>9</i>&nbsp;{
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * Register a new type of content. You may register the same class using different names.
+<i>12</i>&nbsp;     *
+<i>13</i>&nbsp;     * @param typeName The name of the content. This is the value that is being used for the &#39;type&#39; attribute in json files.
+<i>14</i>&nbsp;     * @param clazz    The class to register. The class MUST be public and have a default constructor.
+<i>15</i>&nbsp;     */
+<i>16</i>&nbsp;    &lt;T extends Content&gt; void registerContentType(String typeName, Class&lt;T&gt; clazz);
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * Register a new type of content. You may register the same class using different names.
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     * @param typeName The name of the content. This is the value that is being used for the &#39;type&#39; attribute in json files.
+<i>22</i>&nbsp;     * @param clazz    The class to register. The class MUST be public and have a default constructor.
+<i>23</i>&nbsp;     * @param side     The side on which the content should be loaded.
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    &lt;T extends Content&gt; void registerContentType(String typeName, Class&lt;T&gt; clazz, Side side);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    &lt;T&gt; void registerDeserializer(Type type, JsonDeserializer&lt;T&gt; deserializer);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Register a loader predicate. The predicate is used to determine whether specific content should be loaded.
+<i>31</i>&nbsp;     *
+<i>32</i>&nbsp;     * @param name The name of the predicate. This is the name used in the json file.
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    void registerLoaderPredicate(String name, LoaderPredicate predicate);
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * Register a new tile entity module type. You may register the same class using different names.
+<i>38</i>&nbsp;     *
+<i>39</i>&nbsp;     * @param typeName The name of the module. This is the value that is being used for the &#39;type&#39; attribute in json files.
+<i>40</i>&nbsp;     * @param clazz    The class to register. If you don&#39;t register a custom deserializer for the module, the class must
+<i>41</i>&nbsp;     *                 have a default constructor
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    &lt;T extends TileEntityModuleSupplier&gt; void registerTileEntityModule(String typeName, Class&lt;T&gt; clazz);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Register a new item module type. You may register the same class using different names.
+<i>47</i>&nbsp;     *
+<i>48</i>&nbsp;     * @param typeName The name of the module. This is the value that is being used for the &#39;type&#39; attribute in json files.
+<i>49</i>&nbsp;     * @param clazz    The class to register. If you don&#39;t register a custom deserializer for the module, the class must
+<i>50</i>&nbsp;     *                 have a default constructor
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    &lt;T extends ItemModuleSupplier&gt; void registerItemModule(String typeName, Class&lt;T&gt; clazz);
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Register a block tint function. You may register the same function using different names.
+<i>56</i>&nbsp;     *
+<i>57</i>&nbsp;     * @param name The name of the function. This is the value that is used in json files to reference the function.
+<i>58</i>&nbsp;     * @param tint The tint function to register.
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    void registerBlockTint(String name, BlockTint tint);
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Register a named color. The name can be used in json files instead of specifying the color value there.
+<i>64</i>&nbsp;     *
+<i>65</i>&nbsp;     * @param name The name of the color.
+<i>66</i>&nbsp;     * @param rgba The rgba color value.
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    void registerColor(String name, int rgba);
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    /**
+<i>71</i>&nbsp;     * Register a named entity selector. You may register the same selector using different names.
+<i>72</i>&nbsp;     *
+<i>73</i>&nbsp;     * @param name     The name of the selector. This is the name used in the json file.
+<i>74</i>&nbsp;     * @param selector The selector to register.
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    void registerEntitySelector(String name, EntitySelector selector);
+<i>77</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

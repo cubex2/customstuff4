@@ -137,16 +137,13 @@ public class ItemHelper
         if (input.isItemStack())
         {
             ItemStack inputStack = input.getStack().getItemStack();
-            if (OreDictionary.itemMatches(inputStack, stack, false)
-                && (!checkCount || inputStack.getCount() <= stack.getCount()))
-                return true;
+            return OreDictionary.itemMatches(inputStack, stack, false)
+                    && (!checkCount || inputStack.getCount() <= stack.getCount());
         } else
         {
-            if (OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass().getOreName()), stack))
-                return true;
+            return OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass().getOreName()), stack);
         }
 
-        return false;
     }
 
     public static void removeInputsFromInventory(List<RecipeInput> inputs, IItemHandlerModifiable inv, int start, int numSlots)

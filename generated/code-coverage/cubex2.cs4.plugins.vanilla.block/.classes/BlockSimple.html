@@ -1,0 +1,133 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BlockSimple</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">cubex2.cs4.plugins.vanilla.block</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BlockSimple (cubex2.cs4.plugins.vanilla.block)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BlockSimple</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (2/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55,6%
+  </span>
+  <span class="absValue">
+    (5/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package cubex2.cs4.plugins.vanilla.block;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import cubex2.cs4.plugins.vanilla.ContentBlockSimple;
+<i>4</i>&nbsp;import net.minecraft.block.Block;
+<i>5</i>&nbsp;import net.minecraft.block.material.Material;
+<i>6</i>&nbsp;import net.minecraft.block.state.IBlockState;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public abstract class BlockSimple extends Block implements CSBlock&lt;ContentBlockSimple&gt;
+<i>9</i>&nbsp;{
+<i>10</i>&nbsp;    private final ContentBlockSimple content;
+<i>11</i>&nbsp;    private final StateMetaMapper&lt;Block&gt; mapper;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    public BlockSimple(Material material, ContentBlockSimple content)
+<i>14</i>&nbsp;    {
+<b class="fc"><i>15</i>&nbsp;        super(material);</b>
+<i>16</i>&nbsp;
+<b class="fc"><i>17</i>&nbsp;        this.content = content;</b>
+<b class="fc"><i>18</i>&nbsp;        this.mapper = StateMetaMapper.create(blockState.getProperties());</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @Override
+<i>22</i>&nbsp;    public int getSubtype(IBlockState state)
+<i>23</i>&nbsp;    {
+<b class="nc"><i>24</i>&nbsp;        return getMetaFromState(state);</b>
+<i>25</i>&nbsp;    }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public int[] getSubtypes()
+<i>29</i>&nbsp;    {
+<b class="nc"><i>30</i>&nbsp;        return content.subtypes;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public ContentBlockSimple getContent()
+<i>35</i>&nbsp;    {
+<b class="fc"><i>36</i>&nbsp;        return content;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @Override
+<i>40</i>&nbsp;    public final IBlockState getStateFromMeta(int meta)
+<i>41</i>&nbsp;    {
+<b class="nc"><i>42</i>&nbsp;        return mapper.getStateFromMeta(this, meta);</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public final int getMetaFromState(IBlockState state)
+<i>47</i>&nbsp;    {
+<b class="nc"><i>48</i>&nbsp;        return mapper.getMetaFromState(state);</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-03-28 20:26</div>
+</div>
+</body>
+</html>

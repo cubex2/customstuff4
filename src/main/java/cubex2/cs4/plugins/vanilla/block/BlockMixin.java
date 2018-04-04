@@ -362,14 +362,13 @@ public abstract class BlockMixin extends Block implements CSBlock<ContentBlockBa
         if (playerIn.isSneaking())
         {
             if (interactWithFluidItem(worldIn, pos, state, playerIn, hand, facing)) return true;
-            if (openGui(worldIn, pos, state, playerIn)) return true;
+            return openGui(worldIn, pos, state, playerIn);
         } else
         {
             if (openGui(worldIn, pos, state, playerIn)) return true;
-            if (interactWithFluidItem(worldIn, pos, state, playerIn, hand, facing)) return true;
+            return interactWithFluidItem(worldIn, pos, state, playerIn, hand, facing);
         }
 
-        return false;
     }
 
     private boolean interactWithFluidItem(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing)
