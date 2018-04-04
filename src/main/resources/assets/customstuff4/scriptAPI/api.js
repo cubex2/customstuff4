@@ -4,10 +4,6 @@ function include(name){
     includer.includeMethod(name);
 }
 
-function require(name){
-    return includer.requireMethod(name);
-}
-
 //exporting is done by setting a variable named "export".
 
 var EventHandlerObject = function(){

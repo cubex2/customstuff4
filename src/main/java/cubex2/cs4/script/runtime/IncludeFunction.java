@@ -1,9 +1,9 @@
 package cubex2.cs4.script.runtime;
 
+import cubex2.cs4.CustomStuff4;
 import frontrider.repack.delight.nashornsandbox.NashornSandbox;
 import frontrider.repack.delight.nashornsandbox.internal.Binding;
 
-import javax.script.Bindings;
 import javax.script.ScriptException;
 import java.io.File;
 import java.io.IOException;
@@ -17,52 +17,48 @@ public class IncludeFunction {
 
     private static final String root = "./mods/";
     private final NashornSandbox sandbox;
-    private final Bindings bindings;
+    private Binding bindings;
     private final Binding binding;
-    private String folder;
+    private File folder;
 
-    public IncludeFunction(NashornSandbox sandbox,Binding binding) {
+    public IncludeFunction(NashornSandbox sandbox, Binding binding) {
         this.sandbox = sandbox;
-        bindings = sandbox.createBindings();
+        bindings = new Binding(sandbox.createBindings(),ScriptHandler.forbiddenNames);
         this.binding = binding;
     }
 
-    void setFolder(String folder) {
-        this.folder = root + folder;
+    void setFolder(File folder) {
+        this.folder = folder;
     }
 
     //includes the file, by running required script when called.
     public void includeMethod(String file) {
-        if (!file.endsWith(".js"))
-            file = file + ".js";
-        file = root + folder + file;
-        try {
-
-            File readFile = new File(file);
-            String script = new Scanner(readFile).useDelimiter("\n").next();
-            sandbox.eval(script,binding);
-
-        } catch (IOException | ScriptException e) {
-            e.printStackTrace();
-        }
+        loadFile(file,CustomStuff4.scriptHandler.binding);
     }
 
     public Object requireMethod(String file) {
-        bindings.clear();
-        Object exported = null;
+        try {
+            bindings = CustomStuff4.scriptHandler.setupBindings();
+            loadFile(file,bindings);
+
+            return bindings.getOnPath("export");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void loadFile(String file,Binding bindings) {
         if (!file.endsWith(".js"))
             file = file + ".js";
-        file = root + folder + file;
-        bindings.clear();
         try {
-            File readFile = new File(file);
+            File readFile = new File(folder,file);
             String script = new Scanner(readFile).useDelimiter("\n").next();
             sandbox.eval(script, bindings);
-            exported = bindings.get("export");
 
         } catch (IOException | ScriptException e) {
             e.printStackTrace();
         }
-        return exported;
+
     }
 }

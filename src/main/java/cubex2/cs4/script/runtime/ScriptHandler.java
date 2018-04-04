@@ -46,6 +46,7 @@ public class ScriptHandler {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(ASSETS_CUSTOMSTUFF4_SCRIPT_API_API_JS).getFile());
         api = new Scanner(new FileInputStream(file)).useDelimiter("\\A").next();
+
         initSandbox();
     }
 
@@ -53,24 +54,10 @@ public class ScriptHandler {
         sandbox = NashornSandboxes.create();
         sandbox.disallowAllClasses();
         setupSandbox(sandbox);
-        //used for the non-standard "include" function.
-        //should not be called directly, so the name is random.
-        String includeID = "includer";
-        binding = new Binding(sandbox.createBindings(), new String[]{});
-        includeFunction = new IncludeFunction(sandbox, binding);
-        binding.put(includeID, includeFunction, true);
-        binding.put("console", new ScriptConsole(), true);
-
-        //dirty hack at the javascript sandbox library.
-        binding.put("__it", new InterruptTest(), true);
-        String extrajs = "function __if(){}";
-        sandbox.eval(extrajs, binding);
-        binding.addBlackListedName("__if");
-        //remove above this line after the initial testing phase finished
-
+        binding = setupBindings();
         sandbox.eval(api, binding);
-        for (String s : forbiddenNames) {
-            binding.addBlackListedName(s);
+        for (String forbiddenName : forbiddenNames) {
+            binding.addBlackListedName(forbiddenName);
         }
         this.eventHandler = (ScriptObjectMirror) binding.getOnPath("EventHandler");
     }
@@ -98,6 +85,7 @@ public class ScriptHandler {
                                     while (scanner.hasNext()) {
                                         script = script + scanner.next();
                                     }
+                                    includeFunction.setFolder(scriptDir);
                                     sandbox.eval(script, binding);
                                 }
                             } catch (FileNotFoundException | ScriptException e1) {
@@ -112,6 +100,23 @@ public class ScriptHandler {
 
     private void setupSandbox(NashornSandbox sandbox) {
         sandbox.allow(TextComponentString.class);
+    }
+
+    public Binding setupBindings() throws ScriptException {
+        //used for the non-standard "include" function.
+        String includeID = "includer";
+        Binding localBinding = new Binding(sandbox.createBindings(), new String[]{});
+        includeFunction = new IncludeFunction(sandbox, binding);
+        localBinding.put(includeID, includeFunction, true);
+        localBinding.put("console", new ScriptConsole(), true);
+
+        //dirty hack at the javascript sandbox library.
+        localBinding.put("__it", new InterruptTest(), true);
+        String extrajs = "function __if(){}";
+        sandbox.eval(extrajs, binding);
+        localBinding.addBlackListedName("__if");
+        return localBinding;
+        //remove above this line after the initial testing phase finished
     }
 
     public void reload() {
