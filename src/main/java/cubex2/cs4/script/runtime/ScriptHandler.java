@@ -86,18 +86,20 @@ public class ScriptHandler {
                     if (info != null) {
                         if (CustomStuffConfiguration.ScriptEnabled) {
                             try {
-                                File scriptDir = new File(modsDir, "script");
+                                File scriptDir = new File(folder, "script");
                                 if (!scriptDir.exists())
                                     scriptDir.mkdir();
 
                                 String script = "";
                                 File mainFile = new File(folder, "script/main.js");
-                                Scanner scanner = new Scanner(mainFile).useDelimiter("\n");
+                                if (mainFile.exists()) {
+                                    Scanner scanner = new Scanner(mainFile).useDelimiter("\n");
 
-                                while (scanner.hasNext()) {
-                                    script = script + scanner.next();
+                                    while (scanner.hasNext()) {
+                                        script = script + scanner.next();
+                                    }
+                                    sandbox.eval(script, binding);
                                 }
-                                sandbox.eval(script, binding);
                             } catch (FileNotFoundException | ScriptException e1) {
                                 e1.printStackTrace();
                             }
