@@ -68,6 +68,7 @@ dependencies {
 
 
     //requirement for nashorn sandbox
+    //todo shadow it, I don't know how.
     compile group: 'org.webjars.bower', name:"js-beautify",version: "1.6.12"
 
     // compile against the JEI API

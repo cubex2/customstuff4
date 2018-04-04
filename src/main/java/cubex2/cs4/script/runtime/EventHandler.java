@@ -24,27 +24,32 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void EntityItemPickupEvent(EntityItemPickupEvent event) {
-        runEvent("entityItemPickupEvent", event);
+        if (event.getEntity().world.isRemote)
+            runEvent("entityItemPickupEvent", event);
     }
 
     @SubscribeEvent
     public static void rightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        runEvent("rightClickBlock", event);
+        if (event.getWorld().isRemote)
+            runEvent("rightClickBlock", event);
     }
 
     @SubscribeEvent
     public static void rightClickItem(PlayerInteractEvent.RightClickItem event) {
+        if (event.getWorld().isRemote)
         runEvent("rightClickItem", event);
     }
 
     @SubscribeEvent
     public static void rightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
+        if (event.getWorld().isRemote)
         runEvent("rightClickEmpty", event);
     }
 
     @SubscribeEvent
-    public static void useItem(LivingEntityUseItemEvent entityUseItemEvent) {
-        runEvent("livingUseItem", entityUseItemEvent);
+    public static void useItem(LivingEntityUseItemEvent event) {
+        if (event.getEntity().world.isRemote)
+        runEvent("livingUseItem", event);
     }
 
 

@@ -29,7 +29,8 @@ public class ScriptHandler {
     public NashornSandbox sandbox;
     public Binding binding;
     private IncludeFunction includeFunction;
-    public static String api = "assets/customstuff4/scriptAPI/api.js";
+    private final String ASSETS_CUSTOMSTUFF4_SCRIPT_API_API_JS = "assets/customstuff4/scriptAPI/api.js";
+    private final String api;
     public static final String[] forbiddenNames = {
             "EventHander",
             "EventHandlerObject",
@@ -41,13 +42,14 @@ public class ScriptHandler {
             //,"__if"
     };
 
-    /**
-     */
     public ScriptHandler() throws IOException, ScriptException, NotScriptedException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(ASSETS_CUSTOMSTUFF4_SCRIPT_API_API_JS).getFile());
+        api = new Scanner(new FileInputStream(file)).useDelimiter("\\A").next();
         initSandbox();
     }
 
-    private void initSandbox() throws ScriptException, FileNotFoundException, NotScriptedException {
+    private void initSandbox() throws ScriptException, NotScriptedException {
         sandbox = NashornSandboxes.create();
         sandbox.disallowAllClasses();
         setupSandbox(sandbox);
@@ -59,17 +61,17 @@ public class ScriptHandler {
         binding.put(includeID, includeFunction, true);
         binding.put("console", new ScriptConsole(), true);
 
-        //dirty hack at the javascript sandbox library is located here.
+        //dirty hack at the javascript sandbox library.
         binding.put("__it", new InterruptTest(), true);
         String extrajs = "function __if(){}";
         sandbox.eval(extrajs, binding);
         binding.addBlackListedName("__if");
         //remove above this line after the initial testing phase finished
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(api).getFile());
-        api = new Scanner(new FileInputStream(file)).useDelimiter("\\A").next();
         sandbox.eval(api, binding);
+        for (String s : forbiddenNames) {
+            binding.addBlackListedName(s);
+        }
         this.eventHandler = (ScriptObjectMirror) binding.getOnPath("EventHandler");
     }
 
