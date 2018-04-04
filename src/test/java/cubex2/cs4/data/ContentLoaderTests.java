@@ -10,25 +10,26 @@ import cubex2.cs4.api.Content;
 import cubex2.cs4.api.ContentHelper;
 import cubex2.cs4.api.InitPhase;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-public class ContentLoaderTests
-{
+@DisplayName("Content loading works properly")
+public class ContentLoaderTests {
+
     private static Gson gson;
 
     @BeforeAll
-    public static void setUp()
-    {
+    public static void setUp() throws Exception {
         gson = ContentLoader.registerAdapters(new GsonBuilder(), new TestDeserializationRegistry()).create();
     }
 
     @Test
-    public void testDeserializer()
-    {
+    @DisplayName("deserialization gives the expected results")
+    public void testDeserializer() {
         ContentLoader loader = gson.fromJson("{\"type\":\"theType\",\"file\":\"theFile\"}", ContentLoader.class);
 
         assertEquals("theType", loader.type);
@@ -36,8 +37,8 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testLoadContent()
-    {
+    @DisplayName("loads properly")
+    public void testLoadContent() {
         List<TestContent> list = loadContent("{\"list1\": [ {\"name\":\"a\"},{\"name\":\"b\"} ], \"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
 
         assertEquals(4, list.size());
@@ -48,24 +49,23 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testLoadContent_empty()
-    {
+    @DisplayName("empty content loads properly")
+    public void testLoadContent_empty() {
         List<TestContent> list = loadContent("{ }", TestContent.class);
 
         assertEquals(0, list.size());
     }
 
     @Test
-    public void testLoadContent_emptyList()
-    {
+    @DisplayName("loads empty lists")
+    public void testLoadContent_emptyList() {
         List<TestContent> list = loadContent("{\"list\":[] }", TestContent.class);
 
         assertEquals(0, list.size());
     }
 
     @Test
-    public void testLoadContent_emptyListAndNonEmptyList()
-    {
+    public void testLoadContent_emptyListAndNonEmptyList() {
         List<TestContent> list = loadContent("{\"list1\":[],\"list2\": [ {\"name\":\"c\"},{\"name\":\"d\"} ] }", TestContent.class);
 
         assertEquals(2, list.size());
@@ -74,22 +74,19 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testLoadContent_objectInsteadOfList()
-    {
+    public void testLoadContent_objectInsteadOfList() {
         List<TestContent> list = loadContent("{\"list\": { \"name\":\"a\" } }", TestContent.class);
 
         assertEquals(1, list.size());
         assertEquals("a", list.get(0).name);
     }
 
-    private <T extends Content> List<T> loadContent(String json, Class<T> contentClass)
-    {
+    private <T extends Content> List<T> loadContent(String json, Class<T> contentClass) {
         return ContentLoader.loadContent(json, contentClass, new TestDeserializationRegistry());
     }
 
     @Test
-    public void testPredicateDeserialization()
-    {
+    public void testPredicateDeserialization() {
         Gson gson = ContentLoader.registerAdapters(new GsonBuilder(), new TestDeserializationRegistry()).create();
         ContentLoader loader = gson.fromJson("{\"singleValue\":\"theValue\",\"multiValue\":[\"value1\",\"value2\"]}", ContentLoader.class);
 
@@ -104,8 +101,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testShouldInit_nullType()
-    {
+    public void testShouldInit_nullType() {
         ContentLoader loader = new ContentLoader();
         loader.type = null;
         loader.file = "";
@@ -114,8 +110,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testShouldInit_nullFile()
-    {
+    public void testShouldInit_nullFile() {
         ContentLoader loader = new ContentLoader();
         loader.type = "";
         loader.file = null;
@@ -124,8 +119,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testCheckPredicates_falsePredicate()
-    {
+    public void testCheckPredicates_falsePredicate() {
         ContentLoader loader = new ContentLoader();
         loader.predicateMap.put("thePredicate", Lists.newArrayList("theValue"));
 
@@ -133,8 +127,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testCheckPredicates_truePredicate()
-    {
+    public void testCheckPredicates_truePredicate() {
         ContentLoader loader = new ContentLoader();
         loader.predicateMap.put("thePredicate", Lists.newArrayList("theValue"));
 
@@ -142,8 +135,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testCheckPredicates_trueAndFalsePredicates()
-    {
+    public void testCheckPredicates_trueAndFalsePredicates() {
         ContentLoader loader = new ContentLoader();
         loader.predicateMap.put("true", Lists.newArrayList("true"));
         loader.predicateMap.put("false", Lists.newArrayList("false"));
@@ -154,8 +146,7 @@ public class ContentLoaderTests
     private static List<TestContent> initializedContent;
 
     @Test
-    public void testInit()
-    {
+    public void testInit() {
         initializedContent = Lists.newArrayList();
 
         ContentLoader loader = new ContentLoader();
@@ -167,8 +158,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testInit_loaderLoadsLoader()
-    {
+    public void testInit_loaderLoadsLoader() {
         initializedContent = Lists.newArrayList();
 
         ContentLoader loader = new ContentLoader();
@@ -181,8 +171,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testDeserializeContent()
-    {
+    public void testDeserializeContent() {
         ContentLoader loader = new ContentLoader();
         loader.file = "loader";
         loader.type = "contentLoader";
@@ -196,8 +185,7 @@ public class ContentLoaderTests
     }
 
     @Test
-    public void testDeserializeWithEntries()
-    {
+    public void testDeserializeWithEntries() {
         ContentLoader loader = gson.fromJson("{ \"type\":\"test\", \"entries\": [ {\"name\":\"AA\" },{\"name\":\"BB\" } ] }", ContentLoader.class);
         loader.deserializeContent(createHelper());
 
@@ -208,20 +196,17 @@ public class ContentLoaderTests
         assertEquals("BB", ((TestContent) contents.get(1)).name);
     }
 
-    private static ContentHelper createHelper()
-    {
+    private static ContentHelper createHelper() {
         return new TestContentHelper("{\"list1\": [ {\"name\":\"a\"},{\"name\":\"b\"} ] }", TestContent.class)
                 .withJson("loader", "{\"list1\": [ {\"type\":\"test\", \"file\":\"someFile.json\"} ] }")
                 .withClass("contentLoader", ContentLoader.class);
     }
 
-    public static class TestContent extends BlankContent
-    {
+    public static class TestContent extends BlankContent {
         public String name;
 
         @Override
-        public void init(InitPhase phase, ContentHelper helper)
-        {
+        public void init(InitPhase phase, ContentHelper helper) {
             initializedContent.add(this);
         }
     }

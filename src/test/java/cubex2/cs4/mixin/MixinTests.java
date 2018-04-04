@@ -2,6 +2,7 @@ package cubex2.cs4.mixin;
 
 import cubex2.cs4.util.AsmHelper;
 import net.minecraft.util.NonNullList;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -9,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Testing mixin")
 public class MixinTests
 {
     @Test
