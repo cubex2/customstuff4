@@ -20,6 +20,7 @@ public class ModInfoTests {
         assertNotNull(info.name);
         assertNotNull(info.version);
         assertNotNull(info.dependencies);
+
     }
 
     @Nested
