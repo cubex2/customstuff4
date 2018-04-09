@@ -1,6 +1,7 @@
 package cubex2.cs4.plugins.vanilla.block;
 
 import com.google.common.collect.ImmutableList;
+import cubex2.cs4.util.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -11,6 +12,8 @@ import net.minecraft.init.Bootstrap;
 import net.minecraft.util.EnumFacing;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,6 +38,17 @@ public class BitStateMetaMapperTests
     public void test_tooManyBits_shouldThrow()
     {
         assertThrows(IllegalArgumentException.class, () -> new BitStateMetaMapper<>(SUBTYPE, DIRECTION));
+    }
+
+    @Test
+    void worksForPropertyWith1To16DifferentValues()
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            int[] subtypes = new int[i + 1];
+            Arrays.setAll(subtypes, index -> index);
+            new BitStateMetaMapper<>(BlockHelper.getSubtypeProperty(subtypes));
+        }
     }
 
     @Test

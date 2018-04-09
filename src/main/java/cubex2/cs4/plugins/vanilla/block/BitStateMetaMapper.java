@@ -47,7 +47,7 @@ public class BitStateMetaMapper<B extends Block> implements StateMetaMapper<B>
 
         int bits = 0;
 
-        while(n > (1 << bits))
+        while (n > (1 << bits))
         {
             bits++;
         }
@@ -91,7 +91,7 @@ public class BitStateMetaMapper<B extends Block> implements StateMetaMapper<B>
 
         Entry(IProperty<T> property, int numBits, int bitOffset)
         {
-            checkArgument(numBits * 2 <= property.getAllowedValues().size(), "Too many values for " + numBits + " bits");
+            checkArgument(numBits >= getBitCount(property.getAllowedValues().size()), "Too many values for " + numBits + " bits");
 
             this.property = property;
             this.bitOffset = bitOffset;
