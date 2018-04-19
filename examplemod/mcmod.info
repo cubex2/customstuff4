@@ -1,0 +1,15 @@
+[
+{
+  "modid": "cs4examplemod",
+  "name": "CS4 Example Mod",
+  "description": "Example mod for Custom Stuff 4",
+  "version": "1.0.0",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["CubeX2"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
