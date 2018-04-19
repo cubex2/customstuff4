@@ -40,7 +40,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.2.2611"
+    version = "1.12.2-14.23.3.2669"
     runDir = "run"
     mappings = "snapshot_20170624"
     makeObfSourceJar = false
@@ -85,6 +85,7 @@ processResources {
 
 task deleteExampleMod(type: Delete) {
     delete 'run/mods/examplemod'
+    delete 'run/mods/examplemod.zip'
 }
 
 task copyExampleModToRun(type: Copy) {
@@ -92,4 +93,12 @@ task copyExampleModToRun(type: Copy) {
     into 'run/mods/examplemod'
 }
 
+task zipExampleMod(type: Zip) {
+    archiveName = 'examplemod.zip'
+    destinationDir = file('run/mods')
+
+    from 'examplemod'
+}
+
 copyExampleModToRun.dependsOn deleteExampleMod
+zipExampleMod.dependsOn deleteExampleMod
