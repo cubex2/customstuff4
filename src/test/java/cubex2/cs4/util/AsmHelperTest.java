@@ -1,16 +1,19 @@
 package cubex2.cs4.util;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
+@DisplayName("ASM helper")
 public class AsmHelperTest implements Opcodes
 {
 
     @Test
+    @DisplayName("Finding constructors")
     public void test_findConstructor()
     {
         ClassNode node = AsmHelper.createClassNode(TestClass.class);
@@ -22,6 +25,7 @@ public class AsmHelperTest implements Opcodes
     }
 
     @Test
+    @DisplayName("Creating subclasses")
     public void test_createSubClass() throws NoSuchMethodException
     {
         Class<? extends TestClass> class0 = AsmHelper.createSubClass(TestClass.class, "a", 0);
@@ -35,6 +39,7 @@ public class AsmHelperTest implements Opcodes
     }
 
     @Test
+    @DisplayName("Creating loader op codes")
     public void test_createLoadOpcodes()
     {
         ClassNode node = AsmHelper.createClassNode(TestClass.class);

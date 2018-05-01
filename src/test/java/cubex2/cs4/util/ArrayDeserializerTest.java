@@ -4,19 +4,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
+@DisplayName("Array Deserializing")
 public class ArrayDeserializerTest
 {
     private static Gson gson;
 
     @BeforeAll
-    public static void setUp()
+    public static void setUp() throws Exception
     {
         gson = new GsonBuilder()
                 .registerTypeAdapter(String[].class, new ArrayDeserializer<>(String[]::new, String.class))
@@ -24,6 +26,7 @@ public class ArrayDeserializerTest
     }
 
     @Test
+    @DisplayName("having a single value")
     public void test_singleValue()
     {
         Map<String, String[]> map = gson.fromJson("{ \"array\": \"value\" }", new TypeToken<Map<String, String[]>>() {}.getType());
@@ -34,6 +37,7 @@ public class ArrayDeserializerTest
     }
 
     @Test
+    @DisplayName("having an array")
     public void test_array()
     {
         String[] array = gson.fromJson("[\"a\", \"b\"]", String[].class);
