@@ -16,6 +16,13 @@ public class TestContentHelper implements ContentHelper
     private final String defaultJson;
     private final Class<? extends Content> defaultClazz;
 
+    public TestContentHelper()
+    {
+        this.modId = "testmod";
+        defaultJson = null;
+        defaultClazz = null;
+    }
+
     public TestContentHelper(String defaultJson, Class<? extends Content> defaultClazz)
     {
         this("testmod", defaultJson, defaultClazz);

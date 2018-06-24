@@ -4,6 +4,7 @@ import cubex2.cs4.CustomStuff4;
 import cubex2.cs4.api.*;
 import cubex2.cs4.compat.waila.WailaData;
 import cubex2.cs4.plugins.vanilla.block.BlockMixin;
+import cubex2.cs4.plugins.vanilla.block.BlockRegistry;
 import cubex2.cs4.util.IntRange;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -84,17 +85,10 @@ public abstract class ContentBlockBase implements Content
     {
         if (phase == InitPhase.PRE_INIT)
         {
-            checkState(isReady());
-
-            block = createBlock();
-            block.setUnlocalizedName(helper.getModId() + "." + id);
-            block.setRegistryName(id);
-
-            initBlock();
-
-            createItem().ifPresent(i -> initItem(i, helper));
-
-            WailaData.registerStackProviderBlock(block.getClass());
+            if (isReady())
+            {
+                doBlockInit(helper);
+            }
         } else if (phase == InitPhase.REGISTER_MODELS)
         {
             registerModels();
@@ -103,6 +97,11 @@ public abstract class ContentBlockBase implements Content
         } else if (phase == InitPhase.REGISTER_BLOCKS)
         {
             checkState(isReady());
+
+            if (block == null)
+            {
+                doBlockInit(helper);
+            }
 
             ForgeRegistry<Block> registry = RegistryManager.ACTIVE.getRegistry(GameData.BLOCKS);
             registry.register(block);
@@ -125,6 +124,23 @@ public abstract class ContentBlockBase implements Content
                 CustomStuff4.proxy.setItemTint(item, subtype -> itemTint.get(subtype).orElse(new ColorImpl(0xffffffff)).getRGB());
             }
         }
+    }
+
+    private void doBlockInit(ContentHelper helper)
+    {
+        block = createBlock();
+        block.setUnlocalizedName(helper.getModId() + "." + id);
+        block.setRegistryName(id);
+
+        // We have our own registry so blocks can be referenced before they have been registered but are needed
+        // in preInit, e.g. stairs need a block to create the modelState
+        BlockRegistry.INSTANCE.register(block);
+
+        initBlock();
+
+        createItem().ifPresent(i -> initItem(i, helper));
+
+        WailaData.registerStackProviderBlock(block.getClass());
     }
 
     protected void initItem(Item item, ContentHelper helper)

@@ -1,12 +1,14 @@
 package cubex2.cs4.plugins.vanilla;
 
 import cubex2.cs4.api.WrappedBlockState;
+import cubex2.cs4.plugins.vanilla.block.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +27,9 @@ public class WrappedBlockStateImpl implements WrappedBlockState
     @SuppressWarnings("unchecked")
     public IBlockState createState()
     {
-        if (Block.REGISTRY.containsKey(block))
+        Block block = getBlock();
+        if (block != null)
         {
-            Block block = Block.REGISTRY.getObject(this.block);
-
             IBlockState state = block.getDefaultState();
 
             for (Tuple<String, String> tuple : properties)
@@ -44,6 +45,21 @@ public class WrappedBlockStateImpl implements WrappedBlockState
             }
 
             return state;
+        } else
+        {
+            return null;
+        }
+    }
+
+    @Nullable
+    private Block getBlock()
+    {
+        if (Block.REGISTRY.containsKey(block))
+        {
+            return Block.REGISTRY.getObject(block);
+        } else if (BlockRegistry.INSTANCE.contains(block))
+        {
+            return BlockRegistry.INSTANCE.get(block);
         } else
         {
             return null;

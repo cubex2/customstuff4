@@ -207,6 +207,16 @@
             }
           },
           "hardness": 1
+        },
+        {
+          "id": "stairs_someblock",
+          "creativeTab": "examplemod",
+          "material": "iron",
+          "itemModel": "cs4examplemod:stairs_someblock",
+          "modelState": {
+            "block": "cs4examplemod:someblock"
+          },
+          "hardness": 1
         }
       ]
     },
