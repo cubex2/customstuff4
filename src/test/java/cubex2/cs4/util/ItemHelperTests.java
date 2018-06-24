@@ -327,4 +327,77 @@ public class ItemHelperTests
 
         assertEquals(7, stack1.getCount());
     }
+
+    @Test
+    public void stackMatchesRecipeInput_withStack_returnsFalseIfWrongItem()
+    {
+        ItemStack stack = new ItemStack(Items.GOLD_INGOT);
+        RecipeInputImpl input = new RecipeInputImpl(new WrappedItemStackConstant(new ItemStack(Items.IRON_INGOT)));
+
+        assertFalse(ItemHelper.stackMatchesRecipeInput(stack, input, true));
+    }
+
+    @Test
+    public void stackMatchesRecipeInput_withStack_returnsTrueIfAmountIsEnough()
+    {
+        ItemStack stack = new ItemStack(Items.IRON_INGOT, 5);
+        RecipeInputImpl input = new RecipeInputImpl(new WrappedItemStackConstant(new ItemStack(Items.IRON_INGOT, 5)));
+
+        assertTrue(ItemHelper.stackMatchesRecipeInput(stack, input, true));
+    }
+
+    @Test
+    public void stackMatchesRecipeInput_withStack_returnsFalseIfAmountTooSmall()
+    {
+        ItemStack stack = new ItemStack(Items.IRON_INGOT);
+        RecipeInputImpl input = new RecipeInputImpl(new WrappedItemStackConstant(new ItemStack(Items.IRON_INGOT, 5)));
+
+        assertFalse(ItemHelper.stackMatchesRecipeInput(stack, input, true));
+    }
+
+    @Test
+    public void stackMatchesRecipeInput_withStack_ignoreCount_returnsTrueIfAmountTooSmall()
+    {
+        ItemStack stack = new ItemStack(Items.IRON_INGOT);
+        RecipeInputImpl input = new RecipeInputImpl(new WrappedItemStackConstant(new ItemStack(Items.IRON_INGOT, 5)));
+
+        assertTrue(ItemHelper.stackMatchesRecipeInput(stack, input, false));
+    }
+
+
+    @Test
+    public void stackMatchesRecipeInput_withOre_returnsFalseIfWrongItem()
+    {
+        ItemStack stack = new ItemStack(Items.GOLD_INGOT);
+        RecipeInputImpl input = new RecipeInputImpl("ingotIron");
+
+        assertFalse(ItemHelper.stackMatchesRecipeInput(stack, input, true));
+    }
+
+    @Test
+    public void stackMatchesRecipeInput_withOre_returnsTrueIfAmountIsEnough()
+    {
+        ItemStack stack = new ItemStack(Items.IRON_INGOT, 5);
+        RecipeInputImpl input = new RecipeInputImpl("ingotIron", 5);
+
+        assertTrue(ItemHelper.stackMatchesRecipeInput(stack, input, true));
+    }
+
+    @Test
+    public void stackMatchesRecipeInput_withOre_returnsFalseIfAmountTooSmall()
+    {
+        ItemStack stack = new ItemStack(Items.IRON_INGOT);
+        RecipeInputImpl input = new RecipeInputImpl("ingotIron", 5);
+
+        assertFalse(ItemHelper.stackMatchesRecipeInput(stack, input, true));
+    }
+
+    @Test
+    public void stackMatchesRecipeInput_withOre_ignoreCount_returnsTrueIfAmountTooSmall()
+    {
+        ItemStack stack = new ItemStack(Items.IRON_INGOT);
+        RecipeInputImpl input = new RecipeInputImpl("ingotIron", 5);
+
+        assertTrue(ItemHelper.stackMatchesRecipeInput(stack, input, false));
+    }
 }

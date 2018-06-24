@@ -1,6 +1,7 @@
 package cubex2.cs4.util;
 
 import com.google.common.collect.Lists;
+import cubex2.cs4.api.OreClass;
 import cubex2.cs4.api.RecipeInput;
 import cubex2.cs4.api.WrappedItemStack;
 import cubex2.cs4.plugins.vanilla.Attribute;
@@ -142,7 +143,9 @@ public class ItemHelper
                 return true;
         } else
         {
-            if (OreDictionary.containsMatch(false, OreDictionary.getOres(input.getOreClass().getOreName()), stack))
+            OreClass oreClass = input.getOreClass();
+            if (OreDictionary.containsMatch(false, OreDictionary.getOres(oreClass.getOreName()), stack)
+                && (!checkCount || oreClass.getAmount() <= stack.getCount()))
                 return true;
         }
 

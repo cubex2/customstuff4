@@ -158,6 +158,17 @@
             {"items": ["minecraft:air", "minecraft:gold_ingot"], "weight": 1}
           ],
           "cookTime": 10
+        },
+        {
+          "recipeList": "cs4examplemod:machine",
+          "input": [
+            {
+              "ore": "ingotIron",
+              "amount": 32
+            }
+          ],
+          "output": {"items": ["minecraft:stick"]},
+          "cookTime": 20
         }
       ]
     },

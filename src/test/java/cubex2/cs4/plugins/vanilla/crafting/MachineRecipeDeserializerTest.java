@@ -125,4 +125,23 @@ public class MachineRecipeDeserializerTest
 
         assertEquals(1, recipe.getInputStacks());
     }
+
+    @Test
+    public void inputAmountForOreIsSetCorrectly()
+    {
+        MachineRecipeImpl recipe = gson.fromJson("{\n" +
+                                                 "\"recipeList\": \"cs4examplemod:machine\",\n" +
+                                                 "\"input\": [\n" +
+                                                 "{\n" +
+                                                 "\"ore\": \"ingotIron\",\n" +
+                                                 "\"amount\": 32\n" +
+                                                 "}\n" +
+                                                 "],\n" +
+                                                 "\"output\": {\"items\": [\"minecraft:stick\"]},\n" +
+                                                 "\"cookTime\": 20\n" +
+                                                 "}", MachineRecipeImpl.class);
+        recipe.init(InitPhase.PRE_INIT, null);
+
+        assertEquals(32, recipe.getRecipeInput().get(0).getOreClass().getAmount());
+    }
 }
