@@ -30,7 +30,7 @@ public class CustomStuff4
 {
     public static final String ID = "customstuff4";
     public static final String NAME = "Custom Stuff 4";
-    public static final String VERSION = "0.5.2";
+    public static final String VERSION = "0.5.3";
     public static final String MC_VERSION = "[1.12,)";
 
     public static final ContentRegistryImpl contentRegistry = new ContentRegistryImpl();
