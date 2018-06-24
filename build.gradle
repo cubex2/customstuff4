@@ -40,9 +40,9 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.3.2669"
+    version = "1.12.2-14.23.4.2712"
     runDir = "run"
-    mappings = "snapshot_20170624"
+    mappings = "snapshot_20171003"
     makeObfSourceJar = false
 }
 

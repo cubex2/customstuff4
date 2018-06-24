@@ -23,7 +23,7 @@ public class ItemShovel extends ItemSpade implements ItemTool
     @Override
     public void setDamage(float damage)
     {
-        damageVsEntity = damage;
+        attackDamage = damage;
     }
 
     @Override

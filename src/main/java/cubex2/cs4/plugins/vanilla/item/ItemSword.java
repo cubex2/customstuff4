@@ -28,7 +28,7 @@ public class ItemSword extends net.minecraft.item.ItemSword implements ItemTool
         super(material);
         this.content = content;
 
-        defaultAttackDamage = 3.0F + material.getDamageVsEntity();
+        defaultAttackDamage = 3.0F + material.getAttackDamage();
     }
 
     @Override

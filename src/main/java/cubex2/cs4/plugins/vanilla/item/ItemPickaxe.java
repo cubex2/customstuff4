@@ -22,7 +22,7 @@ public class ItemPickaxe extends net.minecraft.item.ItemPickaxe implements ItemT
     @Override
     public void setDamage(float damage)
     {
-        damageVsEntity = damage;
+        attackDamage = damage;
     }
 
     @Override
